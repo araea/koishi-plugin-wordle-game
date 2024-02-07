@@ -90,10 +90,12 @@ npm install koishi-plugin-wordle-game
 
 ## 🍰 致谢
 
-- [Koishi](https：//koishi.chat/) - 机器人框架
-- [Akisa](https：//forum.koishi.xyz/u/akisa/summary) - Akisa 大人我爱你 💕
-- [Wordle](https：//www.nytimes.com/games/wordle/index.html) - 原版 Wordle 游戏网页样式
-- [nonebot-plugin-wordle](https：//github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典
+- [Koishi](https://koishi.chat/) - 机器人框架
+- [Akisa](https://forum.koishi.xyz/u/akisa/summary) - Akisa 大人我爱你 💕
+- [Wordle](https://www.nytimes.com/games/wordle/index.html) - 原版 Wordle 游戏网页样式
+- [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle) - Wordle 经典模式词典
+- [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典
+- [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT) - 英汉语词典数据库
 
 ## ✨ License
 

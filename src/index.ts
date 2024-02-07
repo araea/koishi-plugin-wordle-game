@@ -364,7 +364,7 @@ export function apply(ctx: Context, config: Config) {
       // 判断 userInput 是否为有效输入
       const selectedExam = isNaN(parseInt(userInput)) ? userInput.toUpperCase() : exams[parseInt(userInput) - 1];
       if (exams.includes(selectedExam)) {
-        if (config.shouldPromptWordLengthInput) {
+        if (config.shouldPromptWordLengthInput && selectedExam !== '经典') {
           await sendMessage(session, `【@${username}】\n请输入猜单词的长度：`);
           const userInput = await session.prompt();
           if (!userInput) return await sendMessage(session, `【@${username}】\n输入超时！`);
@@ -946,7 +946,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
 // hs*
 function generateLetterTilesHtml(wordGuess: string, inputWord: string): string {
-  const wordHtml: string[] = [];
+  const wordHtml: string[] = new Array(inputWord.length);
   const letterCountMap: { [key: string]: number } = {};
 
   for (const letter of wordGuess) {
@@ -959,33 +959,41 @@ function generateLetterTilesHtml(wordGuess: string, inputWord: string): string {
 
   const lowercaseInputWord = inputWord.toLowerCase();
 
+  // 处理 "correct"
+  let htmlIndex = 0;
   for (let i = 0; i < inputWord.length; i++) {
     const letter = lowercaseInputWord[i];
-    if (wordGuess.includes(letter)) {
-      if (wordGuess[i] === letter) {
-        wordHtml.push(`<div><div class="Tile-module_tile__UWEHN" data-state="correct">${letter}</div></div>`);
-      } else {
-        if (letterCountMap[letter] > 0) {
-          wordHtml.push(`<div><div class="Tile-module_tile__UWEHN" data-state="present">${letter}</div></div>`);
-          letterCountMap[letter]--;
-        } else {
-          wordHtml.push(`<div><div class="Tile-module_tile__UWEHN" data-state="absent">${letter}</div></div>`);
-        }
-      }
+    if (wordGuess[i] === letter) {
+      wordHtml[htmlIndex] = `<div><div class="Tile-module_tile__UWEHN" data-state="correct">${letter}</div></div>`;
+      letterCountMap[letter]--;
     } else {
-      wordHtml.push(`<div><div class="Tile-module_tile__UWEHN" data-state="absent">${letter}</div></div>`);
+      wordHtml[htmlIndex] = `<div><div class="Tile-module_tile__UWEHN" data-state="unchecked">${letter}</div></div>`;
     }
+    htmlIndex++;
   }
 
-  // 处理多余的字母
-  // Object.keys(letterCountMap).forEach((key) => {
-  //   for (let i = 0; i < letterCountMap[key]; i++) {
-  //     wordHtml.push(`<div><div class="Tile-module_tile__UWEHN" data-state="absent">${key}</div></div>`);
-  //   }
-  // });
+  // 处理其他标记
+  htmlIndex = 0;
+  for (let i = 0; i < inputWord.length; i++) {
+    const letter = lowercaseInputWord[i];
+    if (wordHtml[htmlIndex].includes("data-state=\"unchecked\"")) {
+      if (wordGuess.includes(letter)) {
+        if (letterCountMap[letter] > 0) {
+          wordHtml[htmlIndex] = wordHtml[htmlIndex].replace("data-state=\"unchecked\"", "data-state=\"present\"");
+          letterCountMap[letter]--;
+        } else {
+          wordHtml[htmlIndex] = wordHtml[htmlIndex].replace("data-state=\"unchecked\"", "data-state=\"absent\"");
+        }
+      } else {
+        wordHtml[htmlIndex] = wordHtml[htmlIndex].replace("data-state=\"unchecked\"", "data-state=\"absent\"");
+      }
+    }
+    htmlIndex++;
+  }
 
   return wordHtml.join("\n");
 }
+
 
 function getRandomWordTranslation(command: string, guessWordLength: number): WordData {
   const fileData = getJsonFilePathAndWordCountByLength(command, guessWordLength);
