@@ -1,0 +1,3303 @@
+{
+  "atmosphere": {
+    "中释": "大气,空气,气氛",
+    "英释": "the feeling that an event or place gives you"
+  },
+  "themselves": {
+    "中释": "他(她、它)们自己",
+    "英释": "used to show that the people who do something are affected by their own action"
+  },
+  "experience": {
+    "中释": "经历,经验",
+    "英释": "knowledge or skill that you gain from doing a job or activity, or the process of doing this"
+  },
+  "researcher": {
+    "中释": "研究者,调查者"
+  },
+  "scientific": {
+    "中释": "科学的",
+    "英释": "about or related to science, or using its methods"
+  },
+  "importance": {
+    "中释": "重要(性)",
+    "英释": "the quality of being important"
+  },
+  "industrial": {
+    "中释": "工业的,产业的",
+    "英释": "relating to industry or the people working in it"
+  },
+  "experiment": {
+    "中释": "尝试,做实验",
+    "英释": "to try using various ideas, methods etc to find out how good or effective they are"
+  },
+  "instrument": {
+    "中释": "仪器,工具",
+    "英释": "a small tool used in work such as science or medicine"
+  },
+  "technology": {
+    "中释": "工艺,技术",
+    "英释": "new machines, equipment, and ways of doing things that are based on modern knowledge about science and computers"
+  },
+  "biological": {
+    "中释": "生物(学)的",
+    "英释": "relating to the natural processes performed by living things"
+  },
+  "expression": {
+    "中释": "措辞,表达",
+    "英释": "something you say, write, or do that shows what you think or feel"
+  },
+  "contribute": {
+    "中释": "捐助,贡献",
+    "英释": "to give money, help, ideas etc to something that a lot of other people are also involved in"
+  },
+  "especially": {
+    "中释": "特别,尤其",
+    "英释": "used to emphasize that something is more important or happens more with one particular thing than with others"
+  },
+  "successful": {
+    "中释": "成功的,圆满的",
+    "英释": "achieving what you wanted, or having the effect or result you intended"
+  },
+  "aggressive": {
+    "中释": "侵略的,进攻性的",
+    "英释": "an aggressive disease spreads quickly in the body"
+  },
+  "hypothesis": {
+    "中释": "假设",
+    "英释": "an idea that is suggested as an explanation for something, but that has not yet been proved to be true"
+  },
+  "illustrate": {
+    "中释": "说明,阐明",
+    "英释": "to make the meaning of something clearer by giving examples"
+  },
+  "throughout": {
+    "中释": "始终",
+    "英释": "Throughout is also an adverb"
+  },
+  "difficulty": {
+    "中释": "困难,难点",
+    "英释": "if you have difficulty doing something, it is difficult for you to do"
+  },
+  "revolution": {
+    "中释": "革命",
+    "英释": "a complete change in ways of thinking, methods of working etc"
+  },
+  "vegetation": {
+    "中释": "植物,草木",
+    "英释": "plants in general"
+  },
+  "eventually": {
+    "中释": "最后,终于",
+    "英释": "after a long time, or after a lot of things have happened"
+  },
+  "literature": {
+    "中释": "文学,文献",
+    "英释": "books, plays, poems etc that people think are important and good"
+  },
+  "cretaceous": {
+    "中释": "白垩纪(的)"
+  },
+  "accumulate": {
+    "中释": "积聚,堆积",
+    "英释": "to gradually get more and more money, possessions, knowledge etc over a period of time"
+  },
+  "generation": {
+    "中释": "一代人(或产品),产生,发生",
+    "英释": "all people of about the same age"
+  },
+  "commercial": {
+    "中释": "商业的,贸易的",
+    "英释": "related to business and the buying and selling of goods and services"
+  },
+  "irrigation": {
+    "中释": "灌溉"
+  },
+  "appearance": {
+    "中释": "出现,露面,外貌",
+    "英释": "when a famous person takes part in a film, concert, or other public event"
+  },
+  "aggression": {
+    "中释": "进攻,侵略",
+    "英释": "the act of attacking a country, especially when that country has not attacked first"
+  },
+  "additional": {
+    "中释": "另外的,附加的",
+    "英释": "more than what was agreed or expected"
+  },
+  "settlement": {
+    "中释": "解决,协议,居留地",
+    "英释": "an official agreement or decision that ends an argument, a court case, or a fight, or the action of making an agreement"
+  },
+  "eighteenth": {
+    "中释": "第十八,十八分之一"
+  },
+  "continuous": {
+    "中释": "连续的,持续的",
+    "英释": "continuing to happen or exist without stopping"
+  },
+  "inhabitant": {
+    "中释": "居民,居住者",
+    "英释": "one of the people who live in a particular place"
+  },
+  "television": {
+    "中释": "电视(机)",
+    "英释": "a piece of electronic equipment shaped like a box with a screen, on which you can watch programmes"
+  },
+  "sufficient": {
+    "中释": "足够的,充分的",
+    "英释": "as much as is needed for a particular purpose"
+  },
+  "photograph": {
+    "中释": "拍照",
+    "英释": "to take a photograph of someone or something"
+  },
+  "university": {
+    "中释": "(综合)大学",
+    "英释": "an educational institution at the highest level, where you study for a degree"
+  },
+  "electrical": {
+    "中释": "电的,与电有关的",
+    "英释": "relating to electricity"
+  },
+  "discussion": {
+    "中释": "讨论",
+    "英释": "when you discuss something"
+  },
+  "geological": {
+    "中释": "地质学的",
+    "英释": "Geological means relating to geology"
+  },
+  "reflection": {
+    "中释": "反映,考虑",
+    "英释": "careful thought, or an idea or opinion based on this"
+  },
+  "microscope": {
+    "中释": "显微镜",
+    "英释": "a scientific instrument that makes extremely small things look larger"
+  },
+  "comparison": {
+    "中释": "比较,对照",
+    "英释": "the process of comparing two or more people or things"
+  },
+  "California": {
+    "中释": "加利福尼亚,加州"
+  },
+  "proportion": {
+    "中释": "比例",
+    "英释": "The proportion of one kind of person or thing in a group is the number of people or things of that kind compared to the total number of people or things in the group"
+  },
+  "connection": {
+    "中释": "连接,关系",
+    "英释": "the way in which two facts, ideas, events etc are related to each other, and one is affected or caused by the other"
+  },
+  "phenomenon": {
+    "中释": "现象",
+    "英释": "something that happens or exists in society, science, or nature, especially something that is studied because it is difficult to understand"
+  },
+  "Washington": {
+    "中释": "华盛顿"
+  },
+  "specialize": {
+    "中释": "专攻",
+    "英释": "to limit all or most of your study, business etc to a particular subject or activity"
+  },
+  "innovation": {
+    "中释": "改革,创新",
+    "英释": "the introduction of new ideas or methods"
+  },
+  "depression": {
+    "中释": "沮丧,消沉",
+    "英释": "a feeling of sadness that makes you think there is no hope for the future"
+  },
+  "protection": {
+    "中释": "保护",
+    "英释": "when someone or something is protected"
+  },
+  "timberline": {
+    "中释": "树带界线",
+    "英释": "the northern or southern limit in the world beyond which trees will not grow"
+  },
+  "adaptation": {
+    "中释": "适应, 改编, 改写本",
+    "英释": "a film or television programme that is based on a book or play"
+  },
+  "succession": {
+    "中释": "连续,继承",
+    "英释": "happening one after the other without anything diffe-rent happening in between"
+  },
+  "ecological": {
+    "中释": "生态学的",
+    "英释": "connected with the way plants, animals, and people are related to each other and to their environment"
+  },
+  "complicate": {
+    "中释": "(使)变复杂"
+  },
+  "decorative": {
+    "中释": "装饰的",
+    "英释": "pretty or attractive, but not always necessary or useful"
+  },
+  "vocabulary": {
+    "中释": "词汇,词表",
+    "英释": "all the words that someone knows or uses"
+  },
+  "collection": {
+    "中释": "收藏(品)",
+    "英释": "the act of obtaining money that is owed to you"
+  },
+  "expedition": {
+    "中释": "远征,探险队",
+    "英释": "a long and carefully organized journey, especially to a dangerous or unfamiliar place, or the people that make this journey"
+  },
+  "convention": {
+    "中释": "习俗,惯例",
+    "英释": "behaviour and attitudes that most people in a society consider to be normal and right"
+  },
+  "remarkable": {
+    "中释": "非凡的,显著的",
+    "英释": "unusual or surprising and therefore deserving attention or praise"
+  },
+  "artificial": {
+    "中释": "人造的,虚伪的",
+    "英释": "not real or not made of natural things but made to be like something that is real or natural"
+  },
+  "decoration": {
+    "中释": "装饰(品)",
+    "英释": "something pretty that you put in a place or on top of something to make it look attractive"
+  },
+  "chimpanzee": {
+    "中释": "黑猩猩",
+    "英释": "an intelligent African animal that is like a large monkey without a tail"
+  },
+  "Australian": {
+    "中释": "澳大利亚(的)",
+    "英释": "someone from Australia"
+  },
+  "conclusion": {
+    "中释": "结束,结论",
+    "英释": "something you decide after considering all the information you have"
+  },
+  "projection": {
+    "中释": "发射",
+    "英释": "the act of projecting a film or picture onto a screen"
+  },
+  "investment": {
+    "中释": "投资,可获利的东西",
+    "英释": "the use of money to get a profit or to make a business activity successful, or the money that is used"
+  },
+  "reflective": {
+    "中释": "反射的,反映的,沉思的",
+    "英释": "a reflective surface reflects light"
+  },
+  "perception": {
+    "中释": "观念,洞察力,认识能力",
+    "英释": "Someone who has perception realizes or notices things that are not obvious"
+  },
+  "millennium": {
+    "中释": "太平盛世,一千年",
+    "英释": "a period of 1,000 years"
+  },
+  "antarctica": {
+    "中释": "南极洲"
+  },
+  "exhibition": {
+    "中释": "表现,展览会",
+    "英释": "a show of paintings, photographs, or other objects that people can go to see"
+  },
+  "competitor": {
+    "中释": "竞争者",
+    "英释": "a person, team, company etc that is competing with another"
+  },
+  "glaciation": {
+    "中释": "冻结成冰,冰河作用",
+    "英释": "the process in which land is covered by glaciers, or the effect this process has"
+  },
+  "prediction": {
+    "中释": "预言",
+    "英释": "a statement about what you think is going to happen, or the act of making this statement"
+  },
+  "widespread": {
+    "中释": "分布广泛的,普遍的",
+    "英释": "existing or happening in many places or situations, or among many people"
+  },
+  "distribute": {
+    "中释": "分发,分配",
+    "英释": "to share things among a group of people, especially in a planned way"
+  },
+  "challenger": {
+    "中释": "挑战者",
+    "英释": "A challenger is someone who competes with you for a position or title that you already have, for example being a sports champion or a political leader"
+  },
+  "definition": {
+    "中释": "定义,解说",
+    "英释": "a phrase or sentence that says exactly what a word, phrase, or idea means"
+  },
+  "consequent": {
+    "中释": "推论,结论"
+  },
+  "originally": {
+    "中释": "最初,原先",
+    "英释": "in the beginning, before other things happened or before other things changed"
+  },
+  "vertebrate": {
+    "中释": "脊椎动物",
+    "英释": "a living creature that has a backbone"
+  },
+  "discipline": {
+    "中释": "训练",
+    "英释": "to teach someone to obey rules and control their behaviour"
+  },
+  "wildebeest": {
+    "中释": "羚羊(其中一种)",
+    "英释": "a large Southern African animal with a tail and curved horns"
+  },
+  "resistance": {
+    "中释": "反抗,抵抗",
+    "英释": "a refusal to accept new ideas or changes"
+  },
+  "functional": {
+    "中释": "功能的",
+    "英释": "relating to the purpose of something"
+  },
+  "impossible": {
+    "中释": "不可能的",
+    "英释": "something that is impossible cannot happen or be done"
+  },
+  "apprentice": {
+    "中释": "当学徒"
+  },
+  "consistent": {
+    "中释": "一致的,调和的",
+    "英释": "always behaving in the same way or having the same attitudes, standards etc – usually used to show approval"
+  },
+  "transition": {
+    "中释": "转变,过渡",
+    "英释": "when something changes from one form or state to another"
+  },
+  "preference": {
+    "中释": "偏爱,优先选择",
+    "英释": "if you have a preference for something, you like it more than another thing and will choose it if you can"
+  },
+  "exaggerate": {
+    "中释": "夸大,夸张",
+    "英释": "to make something seem better, larger, worse etc than it really is"
+  },
+  "skyscraper": {
+    "中释": "摩天楼",
+    "英释": "a very tall modern city building"
+  },
+  "systematic": {
+    "中释": "系统的,体系的",
+    "英释": "organized carefully and done thoroughly"
+  },
+  "linguistic": {
+    "中释": "语言(学)上的",
+    "英释": "related to language, words, or linguistics"
+  },
+  "philosophy": {
+    "中释": "哲学",
+    "英释": "the study of the nature and meaning of existence, truth, good and evil, etc"
+  },
+  "indication": {
+    "中释": "指示,表示,迹象",
+    "英释": "a sign, remark, event etc that shows what is happening, what someone is thinking or feeling, or what is true"
+  },
+  "limitation": {
+    "中释": "限制,局限性",
+    "英释": "the act or process of controlling or reducing something"
+  },
+  "watercolor": {
+    "中释": "水彩颜料,水彩画(法)"
+  },
+  "streamline": {
+    "中释": "流线型的"
+  },
+  "subsequent": {
+    "中释": "后来的,并发的",
+    "英释": "happening or coming after something else"
+  },
+  "laboratory": {
+    "中释": "实验室",
+    "英释": "a special room or building in which a scientist does tests or prepares substances"
+  },
+  "everything": {
+    "中释": "每件事物",
+    "英释": "each thing or all things"
+  },
+  "theatrical": {
+    "中释": "戏剧性的",
+    "英释": "relating to the performing of plays"
+  },
+  "profession": {
+    "中释": "职业,专业",
+    "英释": "a job that needs a high level of education and training"
+  },
+  "dependence": {
+    "中释": "依靠,信任",
+    "英释": "when you depend on the help and support of someone or something else in order to exist or be successful"
+  },
+  "centimeter": {
+    "中释": "厘米"
+  },
+  "deficiency": {
+    "中释": "缺乏,不足",
+    "英释": "a lack of something that is necessary"
+  },
+  "politician": {
+    "中释": "政治家,政客",
+    "英释": "someone who works in politics, especially an elected member of the government"
+  },
+  "occurrence": {
+    "中释": "发生,出现",
+    "英释": "something that happens"
+  },
+  "mercantile": {
+    "中释": "贸易的,商业的",
+    "英释": "concerned with trade"
+  },
+  "hemisphere": {
+    "中释": "半球",
+    "英释": "a half of the Earth, especially one of the halves above and below the  equator "
+  },
+  "aboriginal": {
+    "中释": "土著的,原来的",
+    "英释": "relating to the Australian aborigines"
+  },
+  "separation": {
+    "中释": "分离,分开",
+    "英释": "when something separates or is separate"
+  },
+  "motivation": {
+    "中释": "动机",
+    "英释": "eagerness and willingness to do something without needing to be told or forced to do it"
+  },
+  "collective": {
+    "中释": "集体的,共同的",
+    "英释": "shared or made by every member of a group or society"
+  },
+  "constitute": {
+    "中释": "构成,组成,建立",
+    "英释": "if several people or things constitute something, they are the parts that form it"
+  },
+  "expressive": {
+    "中释": "表达的,意味深长的"
+  },
+  "discourage": {
+    "中释": "使气馁,阻碍",
+    "英释": "If someone or something discourages you, they cause you to lose your enthusiasm about your actions"
+  },
+  "tremendous": {
+    "中释": "巨大的,惊人的",
+    "英释": "very big, fast, powerful etc"
+  },
+  "astronomer": {
+    "中释": "天文学家",
+    "英释": "a scientist who studies the stars and  planet s "
+  },
+  "complexity": {
+    "中释": "复杂(性),复杂的事物",
+    "英释": "the state of being complicated"
+  },
+  "accelerate": {
+    "中释": "加速,促进",
+    "英释": "if a process accelerates or if something accelerates it, it happens faster than usual or sooner than you expect"
+  },
+  "regulation": {
+    "中释": "规则",
+    "英释": "an official rule or order"
+  },
+  "popularity": {
+    "中释": "普及,流行",
+    "英释": "when something or someone is liked or supported by a lot of people"
+  },
+  "assumption": {
+    "中释": "假定, 设想",
+    "英释": "something that you think is true although you have no definite proof"
+  },
+  "contradict": {
+    "中释": "同矛盾, 同抵触",
+    "英释": "if one statement, story etc contradicts another, the facts in it are different so that both statements cannot be true"
+  },
+  "supplement": {
+    "中释": "补充, 附录",
+    "英释": "something that you add to something else to improve it or make it complete"
+  },
+  "comparable": {
+    "中释": "可比较的, 比得上的",
+    "英释": "similar to something else in size, number, quality etc, so that you can make a comparison"
+  },
+  "freshwater": {
+    "中释": "淡水"
+  },
+  "successive": {
+    "中释": "连续的, 接连的",
+    "英释": "coming or following one after the other"
+  },
+  "appreciate": {
+    "中释": "赏识, 感激",
+    "英释": "used to thank someone in a polite way or to say that you are grateful for something they have done"
+  },
+  "periodical": {
+    "中释": "周期的, 定期的 n期刊, 杂志",
+    "英释": "Periodical events or situations happen occasionally, at fairly regular intervals"
+  },
+  "strengthen": {
+    "中释": "加强, 巩固",
+    "英释": "to become stronger or make something stronger"
+  },
+  "leadership": {
+    "中释": "领导能力,领导阶层",
+    "英释": "the position of being the leader of a group, organization, country etc"
+  },
+  "impression": {
+    "中释": "印象, 感想",
+    "英释": "the opinion or feeling you have about someone or something because of the way they seem"
+  },
+  "automobile": {
+    "中释": "汽车",
+    "英释": "a car"
+  },
+  "exposition": {
+    "中释": "展览会, 说明",
+    "英释": "a large public event at which you show or sell products, art etc"
+  },
+  "beneficial": {
+    "中释": "有利的, 有益的",
+    "英释": "having a good effect"
+  },
+  "fertilizer": {
+    "中释": "肥料",
+    "英释": "a substance that is put on the soil to make plants grow"
+  },
+  "impressive": {
+    "中释": "给人深刻印象的, 感人的",
+    "英释": "something that is impressive makes you admire it because it is very good, large, important etc"
+  },
+  "foundation": {
+    "中释": "基础, 根本",
+    "英释": "the solid layer of  cement  , bricks, stones etc that is put under a building to support it"
+  },
+  "prosperity": {
+    "中释": "繁荣",
+    "英释": "when people have money and everything that is needed for a good life"
+  },
+  "background": {
+    "中释": "背景,后台",
+    "英释": "someone’s family, education, previous work etc"
+  },
+  "facilitate": {
+    "中释": "促进, 帮助",
+    "英释": "To facilitate an action or process, especially one that you would like to happen, means to make it easier or more likely to happen"
+  },
+  "nutritious": {
+    "中释": "有营养的, 滋养的",
+    "英释": "food that is nutritious is full of the natural substances that your body needs to stay healthy or to grow properly"
+  },
+  "percentage": {
+    "中释": "百分数, 百分率",
+    "英释": "an amount expressed as if it is part of a total which is 100"
+  },
+  "occupation": {
+    "中释": "职业, 占有",
+    "英释": "a job or profession"
+  },
+  "disclaimer": {
+    "中释": "放弃, 弃权"
+  },
+  "insulation": {
+    "中释": "绝缘",
+    "英释": "when something is insulated or someone insulates something"
+  },
+  "department": {
+    "中释": "部, 局",
+    "英释": "one of the groups of people who work together in a particular part of a large organization such as a hospital, university, company, or government"
+  },
+  "naturalist": {
+    "中释": "自然主义者"
+  },
+  "perceptual": {
+    "中释": "感性的,知觉的",
+    "英释": "Perceptual means relating to the way people interpret and understand what they see or notice"
+  },
+  "regardless": {
+    "中释": "不管,不顾"
+  },
+  "earthquake": {
+    "中释": "地震, [喻]在震荡, 在变动",
+    "英释": "a sudden shaking of the earth’s surface that often causes a lot of damage"
+  },
+  "wavelength": {
+    "中释": "波长",
+    "英释": "the size of a radio wave used to broadcast a radio signal"
+  },
+  "equivalent": {
+    "中释": "相等的,相当的n等价物",
+    "英释": "having the same value, purpose, job etc as a person or thing of a different kind"
+  },
+  "everywhere": {
+    "中释": "到处, 无论何处",
+    "英释": "in or to every place"
+  },
+  "profitable": {
+    "中释": "有益的,有利可图的",
+    "英释": "producing a profit or a useful result"
+  },
+  "republican": {
+    "中释": "共和政体的,共和党人(的)",
+    "英释": "someone who believes in government by elected representatives only, with no king or queen"
+  },
+  "stationary": {
+    "中释": "固定的,静止不动的",
+    "英释": "standing still instead of moving"
+  },
+  "equatorial": {
+    "中释": "(近)赤道的",
+    "英释": "near the equator"
+  },
+  "illuminate": {
+    "中释": "照明,阐释, 说明",
+    "英释": "to make a light shine on something, or to fill a place with light"
+  },
+  "ceremonial": {
+    "中释": "正式的",
+    "英释": "used in a ceremony or done as part of a ceremony"
+  },
+  "accomplish": {
+    "中释": "完成,实现",
+    "英释": "to succeed in doing something, especially after trying very hard"
+  },
+  "ingredient": {
+    "中释": "成分, 因素",
+    "英释": "one of the foods that you use to make a particular food or dish"
+  },
+  "coordinate": {
+    "中释": "调节，协调",
+    "英释": "to organize an activity so that the people involved in it work well together and achieve a good result"
+  },
+  "substitute": {
+    "中释": "代替,替换",
+    "英释": "to use something new or diffe-rent instead of something else"
+  },
+  "meaningful": {
+    "中释": "意味深长的",
+    "英释": "a look that clearly expresses the way someone feels, even though nothing is said"
+  },
+  "correspond": {
+    "中释": "符合,相当",
+    "英释": "if two things or ideas correspond, the parts or information in one relate to the parts or information in the other"
+  },
+  "peripheral": {
+    "中释": "外围的,不重要的",
+    "英释": "in the outer area of something, or relating to this area"
+  },
+  "unexpected": {
+    "中释": "想不到的,意外的",
+    "英释": "used to describe something that is surprising because you were not expecting it"
+  },
+  "lighthouse": {
+    "中释": "灯塔",
+    "英释": "a tower with a powerful flashing light that guides ships away from danger"
+  },
+  "innovative": {
+    "中释": "创新的, 革新的",
+    "英释": "an innovative idea or way of doing something is new, different, and better than those that existed before"
+  },
+  "management": {
+    "中释": "经营,管理,处理",
+    "英释": "the activity of controlling and organizing the work that a company or organization does"
+  },
+  "navigation": {
+    "中释": "航海,航行",
+    "英释": "the science or job of planning which way you need to go when you are travelling from one place to another"
+  },
+  "assessment": {
+    "中释": "估计；评估",
+    "英释": "a process in which you make a judgment about a person or situation, or the judgment you make"
+  },
+  "inadequate": {
+    "中释": "不充分的,不适当的",
+    "英释": "not good enough, big enough, skilled enough etc for a particular purpose"
+  },
+  "geothermal": {
+    "中释": "地热的",
+    "英释": "relating to or coming from the heat inside the Earth"
+  },
+  "presumably": {
+    "中释": "大概,可能,据推测",
+    "英释": "used to say that you think something is probably true"
+  },
+  "metabolism": {
+    "中释": "新陈代谢",
+    "英释": "the chemical processes by which food is changed into energy in your body"
+  },
+  "transplant": {
+    "中释": "移栽,移植 n(器官)移植",
+    "英释": "to move an organ, piece of skin etc from one person’s body and put it into another as a form of medical treatment"
+  },
+  "inevitable": {
+    "中释": "不可避免的, 必然的",
+    "英释": "certain to happen and impossible to avoid"
+  },
+  "geographic": {
+    "中释": "地理(学)的"
+  },
+  "handedness": {
+    "中释": "用右手或左手的习惯",
+    "英释": "the tendency to use one hand more skilfully or in preference to the other "
+  },
+  "regularity": {
+    "中释": "规律性,规则性",
+    "英释": "when the same thing keeps happening often, especially with the same amount of time between each occasion when it happens"
+  },
+  "advertiser": {
+    "中释": "登广告者,广告客户",
+    "英释": "a person or company that advertises something"
+  },
+  "vulnerable": {
+    "中释": "易受伤的，脆弱的",
+    "英释": "someone who is vulnerable can be easily harmed or hurt"
+  },
+  "frontality": {
+    "中释": "正面描绘",
+    "英释": "a frontal view, as in a painting or other work of art "
+  },
+  "ultimately": {
+    "中释": "最后，最终",
+    "英释": "finally, after everything else has been done or considered"
+  },
+  "metropolis": {
+    "中释": "首都,大城市",
+    "英释": "a very large city that is the most important city in a country or area"
+  },
+  "commission": {
+    "中释": "委员会 vt委任,委托",
+    "英释": "a request for an artist, designer, or musician to make a piece of art or music, for which they are paid"
+  },
+  "democratic": {
+    "中释": "民主的,民主主义的",
+    "英释": "controlled by representatives who are elected by the people of a country"
+  },
+  "attachment": {
+    "中释": "附件,附加装置",
+    "英释": "a part that you can put onto a machine to make it do a particular job"
+  },
+  "prosperous": {
+    "中释": "繁荣的，兴旺的",
+    "英释": "rich and successful"
+  },
+  "monumental": {
+    "中释": "纪念碑的,不朽的",
+    "英释": "relating to a monument or built as a monument"
+  },
+  "compaction": {
+    "中释": "压紧,紧束之状态"
+  },
+  "altogether": {
+    "中释": "完全地, 总而言之"
+  },
+  "underwater": {
+    "中释": "在水中生长的",
+    "英释": "Underwater is also an adjective"
+  },
+  "horizontal": {
+    "中释": "地平线的, 水平的",
+    "英释": "flat and level"
+  },
+  "compensate": {
+    "中释": "偿还, 补偿",
+    "英释": "to replace or balance the effect of something bad"
+  },
+  "acceptance": {
+    "中释": "接受,接纳",
+    "英释": "when you officially agree to take something that you have been offered"
+  },
+  "plantation": {
+    "中释": "种植园,人工林",
+    "英释": "a large area of land in a hot country, where crops such as tea, cotton, and sugar are grown"
+  },
+  "propulsion": {
+    "中释": "推进(力)"
+  },
+  "reasonable": {
+    "中释": "合理的,通情达理的",
+    "英释": "fair and sensible"
+  },
+  "wilderness": {
+    "中释": "荒野",
+    "英释": "a large area of land that has never been developed or farmed"
+  },
+  "elliptical": {
+    "中释": "椭圆的,省略的",
+    "英释": "having the shape of an ellipse"
+  },
+  "angiosperm": {
+    "中释": "被子植物"
+  },
+  "Caledonian": {
+    "中释": "古苏格兰人(的), 苏格兰人（的）",
+    "英释": "a native or inhabitant of Scotland "
+  },
+  "hinterland": {
+    "中释": "内地, 穷乡僻壤",
+    "英释": "an area of land that is far from the coast, large rivers, or the places where people live"
+  },
+  "occasional": {
+    "中释": "偶然的,临时的",
+    "英释": "happening sometimes but not often or regularly"
+  },
+  "noticeable": {
+    "中释": "显而易见的",
+    "英释": "easy to notice"
+  },
+  "presidency": {
+    "中释": "任期",
+    "英释": "the position of being the president of a country or organization, or the period of time during which someone is president"
+  },
+  "repression": {
+    "中释": "镇压, 抑制",
+    "英释": "when someone does not allow themselves to express feelings or desires which they are ashamed of, especially sexual ones – used when you think someone should express these feelings"
+  },
+  "phonograph": {
+    "中释": "留声机, 电唱机",
+    "英释": "a  record player "
+  },
+  "extraction": {
+    "中释": "抽出,拔出"
+  },
+  "chemically": {
+    "中释": "用化学, 以化学方法"
+  },
+  "locomotive": {
+    "中释": "机车, 火车头",
+    "英释": "a railway engine"
+  },
+  "journeyman": {
+    "中释": "熟练工人",
+    "英释": "an experienced worker whose work is acceptable but not excellent"
+  },
+  "accessible": {
+    "中释": "可得到的,易接近的",
+    "英释": "a place, building, or object that is accessible is easy to reach or get into"
+  },
+  "incubation": {
+    "中释": "孵化, 熟虑"
+  },
+  "excavation": {
+    "中释": "挖掘, 发掘"
+  },
+  "behavioral": {
+    "中释": "行为的"
+  },
+  "blacksmith": {
+    "中释": "锻工, 铁匠",
+    "英释": "someone who makes and repairs things made of iron, especially  horseshoe s "
+  },
+  "electronic": {
+    "中释": "电子的",
+    "英释": "electronic equipment, such as computers and televisions, uses electricity that has passed through computer chips, transistors etc"
+  },
+  "repeatedly": {
+    "中释": "重复地, 再三地",
+    "英释": "If you do something repeatedly, you do it many times"
+  },
+  "simplicity": {
+    "中释": "简单, 朴素",
+    "英释": "the quality of being simple and not complicated, especially when this is attractive or useful"
+  },
+  "enthusiasm": {
+    "中释": "热情, 热衷",
+    "英释": "a strong feeling of interest and enjoyment about something and an eagerness to be involved in it"
+  },
+  "stagecoach": {
+    "中释": "公共马车",
+    "英释": "a vehicle pulled by horses that was used in past times for carrying passengers and letters"
+  },
+  "attraction": {
+    "中释": "吸引(力)；具有吸引力的事物(或人)",
+    "英释": "a feature or quality that makes something seem interesting or enjoyable"
+  },
+  "adjustment": {
+    "中释": "调整, 调节",
+    "英释": "a small change made to a machine, system, or calculation"
+  },
+  "figurative": {
+    "中释": "比喻的，借喻的",
+    "英释": "a figurative word or phrase is used in a different way from its usual meaning, to give you a particular idea or picture in your mind"
+  },
+  "remarkably": {
+    "中释": "非凡地；显著地"
+  },
+  "pollinator": {
+    "中释": "授花粉器",
+    "英释": "A pollinator is something that pollinates plants, especially a type of insect"
+  },
+  "descendant": {
+    "中释": "子孙, 后裔",
+    "英释": "someone who is related to a person who lived a long time ago, or to a family, group of people etc that existed in the past"
+  },
+  "forerunner": {
+    "中释": "先驱(者)",
+    "英释": "someone or something that existed before something similar that developed or came later"
+  },
+  "recurrence": {
+    "中释": "复发, 重现",
+    "英释": "an occasion when something that has happened before happens again"
+  },
+  "complement": {
+    "中释": "补足物",
+    "英释": "someone or something that emphasizes the good qualities of another person or thing"
+  },
+  "endogenous": {
+    "中释": "内生的, 内成的",
+    "英释": "developing or originating within an organism or part of an organism "
+  },
+  "enterprise": {
+    "中释": "企业, 事业",
+    "英释": "a company, organization, or business"
+  },
+  "simulation": {
+    "中释": "仿真, 假装",
+    "英释": "the activity of producing conditions which are similar to real ones, especially in order to test something, or the conditions that are produced"
+  },
+  "manipulate": {
+    "中释": "操纵,影响",
+    "英释": "to make someone think and behave exactly as you want them to, by skilfully deceiving or influencing them"
+  },
+  "compromise": {
+    "中释": "妥协, 让步",
+    "英释": "an agreement that is achieved after everyone involved accepts less than what they wanted at first, or the act of making this agreement"
+  },
+  "inequality": {
+    "中释": "不平等, 不平均",
+    "英释": "an unfair situation, in which some groups in society have more money, opportunities, power etc than others"
+  },
+  "assistance": {
+    "中释": "协助, 援助, 补助,",
+    "英释": "help or support"
+  },
+  "persistent": {
+    "中释": "持久稳固的"
+  },
+  "vaudeville": {
+    "中释": "歌舞杂耍",
+    "英释": "a type of theatre entertainment, popular from the 1880s to the 1950s, in which there were many short performances of different kinds, including singing, dancing, jokes etc"
+  },
+  "dependable": {
+    "中释": "可靠的, 可信赖的",
+    "英释": "able to be trusted to do what you need or expect"
+  },
+  "abundantly": {
+    "中释": "大量地, 丰富地",
+    "英释": "in large quantities"
+  },
+  "incomplete": {
+    "中释": "不完全的, 不完整的",
+    "英释": "not having everything that should be there, or not completely finished"
+  },
+  "unchanging": {
+    "中释": "不变的",
+    "英释": "always staying the same"
+  },
+  "millimeter": {
+    "中释": "毫米"
+  },
+  "absorption": {
+    "中释": "吸收",
+    "英释": "a process in which something takes in liquid, gas, or heat"
+  },
+  "inevitably": {
+    "中释": "不可避免地；必然地",
+    "英释": "used for saying that something is certain to happen and cannot be avoided"
+  },
+  "thoroughly": {
+    "中释": "十分地, 彻底地",
+    "英释": "carefully, so that nothing is forgotten"
+  },
+  "cannonball": {
+    "中释": "炮弹",
+    "英释": "a heavy iron ball fired from a cannon"
+  },
+  "subsurface": {
+    "中释": "地下的, 表面下的n地表下岩石"
+  },
+  "punishment": {
+    "中释": "惩罚, 处罚",
+    "英释": "Punishment is the act of punishing someone or of being punished"
+  },
+  "cottonwood": {
+    "中释": "[植]三叶杨",
+    "英释": "a North American tree with seeds that look like white cotton"
+  },
+  "resilience": {
+    "中释": "弹性，弹力",
+    "英释": "the ability of a substance such as rubber to return to its original shape after it has been pressed or bent"
+  },
+  "anticipate": {
+    "中释": "预期(料),期望",
+    "英释": "to expect that something will happen and be ready for it"
+  },
+  "unfamiliar": {
+    "中释": "不熟悉的",
+    "英释": "not known to you"
+  },
+  "conversion": {
+    "中释": "变换, 转化",
+    "英释": "when you change something from one form, purpose, or system to a different one"
+  },
+  "understory": {
+    "中释": "林下叶层"
+  },
+  "autonomous": {
+    "中释": "自治的",
+    "英释": "an autonomous place or organization is free to govern or control itself"
+  },
+  "membership": {
+    "中释": "成员资格,全体会员",
+    "英释": "when someone is a member of a club, group, or organization"
+  },
+  "internally": {
+    "中释": "内部地, 国内地"
+  },
+  "maturation": {
+    "中释": "化脓, 成熟",
+    "英释": "the period during which something grows and develops"
+  },
+  "efficiency": {
+    "中释": "效率, 功效",
+    "英释": "the quality of doing something well and effectively, without wasting time, money, or energy"
+  },
+  "Polynesian": {
+    "中释": "波利尼西亚人, 波利尼西亚语",
+    "英释": "a member of the people that inhabit Polynesia, generally of Caucasoid features with light skin and wavy hair "
+  },
+  "inaccurate": {
+    "中释": "不准确的, 错误的",
+    "英释": "not completely correct"
+  },
+  "employment": {
+    "中释": "雇用",
+    "英释": "the condition of having a paid job"
+  },
+  "antibiotic": {
+    "中释": "抗生素",
+    "英释": "a drug that is used to kill  bacteria  and cure infections"
+  },
+  "synthesize": {
+    "中释": "综合, 合成",
+    "英释": "to make something by combining different things or substances"
+  },
+  "bloodhound": {
+    "中释": "一种大侦探犬"
+  },
+  "conception": {
+    "中释": "观念, 概念",
+    "英释": "an idea about what something is like, or a general understanding of something"
+  },
+  "measurable": {
+    "中释": "可测量的",
+    "英释": "able to be measured"
+  },
+  "prehistory": {
+    "中释": "史前时代, 史前学",
+    "英释": "the time in history before anything was written down"
+  },
+  "centralize": {
+    "中释": "集聚, 集中",
+    "英释": "to organize the control of a country, organization, or system so that everything is done or decided in one place"
+  },
+  "rhetorical": {
+    "中释": "带修辞色彩的",
+    "英释": "using speech or writing in special ways in order to persuade people or to produce an impressive effect"
+  },
+  "mysterious": {
+    "中释": "神秘的",
+    "英释": "mysterious events or situations are difficult to explain or understand"
+  },
+  "rainforest": {
+    "中释": "雨林"
+  },
+  "deposition": {
+    "中释": "沉积, 免职",
+    "英释": "the natural process of depositing a substance on rocks or soil"
+  },
+  "reasonably": {
+    "中释": "有理地；合理地",
+    "英释": "in a way that is right or fair"
+  },
+  "parasitism": {
+    "中释": "寄生状态, 寄生病",
+    "英释": "the relationship between a parasite and its host "
+  },
+  "confidence": {
+    "中释": "信心",
+    "英释": "the feeling that you can trust someone or something to be good, work well, or produce good results"
+  },
+  "hereditary": {
+    "中释": "世袭的,遗传的",
+    "英释": "a quality or illness that is hereditary is passed from a parent to a child before the child is born"
+  },
+  "convenient": {
+    "中释": "便利的,方便的",
+    "英释": "useful to you because it saves you time, or does not spoil your plans or cause you problems"
+  },
+  "unpleasant": {
+    "中释": "不愉快的；不合意的",
+    "英释": "not pleasant or enjoyable"
+  },
+  "conclusive": {
+    "中释": "决定性的,结论性的",
+    "英释": "showing that something is definitely true"
+  },
+  "starvation": {
+    "中释": "饥饿, 饿死",
+    "英释": "suffering or death caused by lack of food"
+  },
+  "personally": {
+    "中释": "亲自；就个人来说",
+    "英释": "used to emphasize that you are only giving your own opinion about something"
+  },
+  "comprehend": {
+    "中释": "理解，领会",
+    "英释": "to understand something that is complicated or difficult"
+  },
+  "penicillin": {
+    "中释": "[微]青霉素（一种抗菌素，音译名为盘尼西林）",
+    "英释": "a type of medicine that is used to treat infections caused by  bacteria "
+  },
+  "underneath": {
+    "中释": "在下面 prep在的下面",
+    "英释": "Underneath is also an adverb"
+  },
+  "evaluation": {
+    "中释": "估价, 评价",
+    "英释": "a judgment about how good, useful, or successful something is"
+  },
+  "watercraft": {
+    "中释": "船只",
+    "英释": "a boat or ship or such vessels collectively "
+  },
+  "fellowship": {
+    "中释": "伙伴关系"
+  },
+  "vigorously": {
+    "中释": "精力旺盛地；健壮地"
+  },
+  "permanence": {
+    "中释": "永久, 持久"
+  },
+  "repetition": {
+    "中释": "重复，反复",
+    "英释": "doing or saying the same thing many times"
+  },
+  "opposition": {
+    "中释": "反对,相反",
+    "英释": "strong disagreement with, or protest against, something such as a plan, law, or system"
+  },
+  "mechanical": {
+    "中释": "机械的, 机械制的",
+    "英释": "affecting or involving a machine"
+  },
+  "metallurgy": {
+    "中释": "冶金, 冶金术",
+    "英释": "the scientific study of metals and their uses"
+  },
+  "camouflage": {
+    "中释": "伪装",
+    "英释": "a way of hiding something, especially soldiers and military equipment, by using paint, leaves etc to make it look like the things around it"
+  },
+  "waterpower": {
+    "中释": "水力(水力发电)"
+  },
+  "detectable": {
+    "中释": "可发现的,可察觉的",
+    "英释": "Something that is detectable can be noticed or discovered"
+  },
+  "reputation": {
+    "中释": "名誉, 名声",
+    "英释": "the opinion that people have about someone or something because of what has happened in the past"
+  },
+  "geographer": {
+    "中释": "地理学者",
+    "英释": "someone who has studied geography to a high level"
+  },
+  "continuity": {
+    "中释": "连续性, 连贯性",
+    "英释": "the state of continuing for a period of time, without problems, interruptions, or changes"
+  },
+  "fieldstone": {
+    "中释": "散石,大卵石",
+    "英释": "building stone found in fields "
+  },
+  "repetitive": {
+    "中释": "重复的,反复的",
+    "英释": "done many times in the same way, and boring"
+  },
+  "ordinarily": {
+    "中释": "平常地；普通地",
+    "英释": "usually"
+  },
+  "enormously": {
+    "中释": "极度,大量"
+  },
+  "fahrenheit": {
+    "中释": "华氏温度计",
+    "英释": "Fahrenheit is also a noun"
+  },
+  "brilliance": {
+    "中释": "光辉，辉煌",
+    "英释": "very great brightness"
+  },
+  "rhinoceros": {
+    "中释": "[动]犀牛",
+    "英释": "a large heavy African or Asian animal with thick skin and either one or two horns on its nose"
+  },
+  "externally": {
+    "中释": "外部地, 外面地"
+  },
+  "oppositely": {
+    "中释": "相反地, 相对地"
+  },
+  "biographer": {
+    "中释": "传记作者",
+    "英释": "someone who writes a biography of someone else"
+  },
+  "creativity": {
+    "中释": "创造(力)",
+    "英释": "the ability to use your imagination to produce new ideas, make things etc"
+  },
+  "curriculum": {
+    "中释": "课程",
+    "英释": "the subjects that are taught by a school, college etc, or the things that are studied in a particular subject"
+  },
+  "worthwhile": {
+    "中释": "值得做的",
+    "英释": "if something is worthwhile, it is important or useful, or you gain something from it"
+  },
+  "turbulence": {
+    "中释": "骚乱, 动荡",
+    "英释": "a political or emotional situation that is very confused"
+  },
+  "revitalize": {
+    "中释": "新生",
+    "英释": "to put new strength or power into something"
+  },
+  "discoverer": {
+    "中释": "发现者"
+  },
+  "critically": {
+    "中释": "批评性地, 危急地",
+    "英释": "in a way that shows you are criticizing someone or something"
+  },
+  "deliberate": {
+    "中释": "故意的,深思熟虑的",
+    "英释": "intended or planned"
+  },
+  "incredible": {
+    "中释": "不可信的；不可思议的",
+    "英释": "too strange to be believed, or very difficult to believe"
+  },
+  "photoflash": {
+    "中释": "（照相）闪光灯"
+  },
+  "virtuosity": {
+    "中释": "艺术鉴别力"
+  },
+  "perishable": {
+    "中释": "容易腐烂的",
+    "英释": "food that is perishable is likely to decay quickly"
+  },
+  "solidarity": {
+    "中释": "团结",
+    "英释": "loyalty and general agreement between all the people in a group, or between different groups, because they all have a shared aim"
+  },
+  "providence": {
+    "中释": "深谋远虑，远见"
+  },
+  "aristocrat": {
+    "中释": "贵族",
+    "英释": "someone who belongs to the highest social class"
+  },
+  "despondent": {
+    "中释": "失望的, 沮丧的",
+    "英释": "extremely unhappy and without hope"
+  },
+  "moderately": {
+    "中释": "适度地",
+    "英释": "in a way which is not extreme or stays within reasonable limits"
+  },
+  "unreliable": {
+    "中释": "不可靠的",
+    "英释": "unable to be trusted or depended on"
+  },
+  "woodworker": {
+    "中释": "木工",
+    "英释": "a person who works in wood, such as a carpenter, joiner, or cabinet-maker "
+  },
+  "possession": {
+    "中释": "财产, 所有",
+    "英释": "something that you own or have with you at a particular time"
+  },
+  "invariably": {
+    "中释": "不变地，始终如一地",
+    "英释": "if something invariably happens or is invariably true, it always happens or is true"
+  },
+  "Babylonian": {
+    "中释": "巴比伦人(的), 巴比伦语（的）",
+    "英释": "an inhabitant of ancient Babylon or Babylonia "
+  },
+  "officially": {
+    "中释": "职务上, 正式"
+  },
+  "capability": {
+    "中释": "能力，才能",
+    "英释": "the natural ability, skill, or power that makes a machine, person, or organization able to do something, especially something difficult"
+  },
+  "sculptural": {
+    "中释": "雕刻的",
+    "英释": "Sculptural means relating to sculpture"
+  },
+  "glassmaker": {
+    "中释": "玻璃工人"
+  },
+  "ubiquitous": {
+    "中释": "到处存在的",
+    "英释": "seeming to be everywhere – sometimes used humorously"
+  },
+  "fairground": {
+    "中释": "游乐场, 集市",
+    "英释": "an open space on which a  fair21  takes place"
+  },
+  "naturalism": {
+    "中释": "自然主义",
+    "英释": "a style of art or literature which tries to show the world and people exactly as they are"
+  },
+  "formidable": {
+    "中释": "可怕的；难以克服的",
+    "英释": "very powerful or impressive, and often frightening"
+  },
+  "acceptable": {
+    "中释": "可接受的, 合意的",
+    "英释": "good enough to be used for a particular purpose or to be considered satisfactory"
+  },
+  "noticeably": {
+    "中释": "显著地，显然"
+  },
+  "antecedent": {
+    "中释": "祖先",
+    "英释": "an event, organization, or thing that is similar to the one you have mentioned but existed earlier"
+  },
+  "disloyalty": {
+    "中释": "不忠实",
+    "英释": "Disloyalty is disloyal behaviour"
+  },
+  "prodigious": {
+    "中释": "巨大的, 惊人的",
+    "英释": "very large or great in a surprising or impressive way"
+  },
+  "shoemaking": {
+    "中释": "制鞋"
+  },
+  "likelihood": {
+    "中释": "可能(性)",
+    "英释": "the degree to which something can reasonably be expected to happen"
+  },
+  "farsighted": {
+    "中释": "有先见之明的, 远视的",
+    "英释": "If you describe someone as farsighted, you admire them because they understand what is likely to happen in the future, and therefore make wise decisions and plans"
+  },
+  "reelection": {
+    "中释": "再选, 改选"
+  },
+  "usefulness": {
+    "中释": "有用, 有效性",
+    "英释": "the state of being useful or the degree to which something is useful"
+  },
+  "friendship": {
+    "中释": "友谊, 友好",
+    "英释": "a relationship between friends"
+  },
+  "needlework": {
+    "中释": "刺绣, 缝纫",
+    "英释": "the activity or art of sewing, or things made by sewing"
+  },
+  "imposition": {
+    "中释": "强迫接受"
+  },
+  "motionless": {
+    "中释": "不动的, 静止的",
+    "英释": "not moving at all"
+  },
+  "ornamental": {
+    "中释": "装饰的  n装饰品",
+    "英释": "Something that is ornamental is attractive and decorative"
+  },
+  "connective": {
+    "中释": "连合的, 连接的"
+  },
+  "capitalist": {
+    "中释": "资本主义的 n资本家",
+    "英释": "using or supporting capitalism"
+  },
+  "suspicious": {
+    "中释": "可疑的,多疑的",
+    "英释": "thinking that someone might be guilty of doing something wrong or dishonest"
+  },
+  "prizefight": {
+    "中释": "职业拳击赛",
+    "英释": "a public  boxing  match in which two men fight each other without boxing gloves, in order to win money"
+  },
+  "inactivity": {
+    "中释": "不活动, 迟钝",
+    "英释": "the state of not doing anything, not moving, or not working"
+  },
+  "originator": {
+    "中释": "创始人, 发起人",
+    "英释": "the person who first has the idea for something and starts it"
+  },
+  "protective": {
+    "中释": "给予保护的, 保护的",
+    "英释": "used or intended for protection"
+  },
+  "incidental": {
+    "中释": "偶然的；附带的",
+    "英释": "happening or existing in connection with something else that is more important"
+  },
+  "immaturity": {
+    "中释": "不成熟",
+    "英释": "Immaturity is the state of being not yet completely grown or fully developed"
+  },
+  "hydrologic": {
+    "中释": "水文的"
+  },
+  "hydropower": {
+    "中释": "水力发出的电力",
+    "英释": "hydroelectric power "
+  },
+  "circumvent": {
+    "中释": "绕行,设法避开",
+    "英释": "to avoid something by changing the direction in which you are travelling"
+  },
+  "achondrite": {
+    "中释": "不含球粒陨石",
+    "英释": "a rare stony meteorite that consists mainly of silicate minerals and has the texture of igneous rock but contains no chondrules "
+  },
+  "retirement": {
+    "中释": "退休",
+    "英释": "when you stop working, usually because of your age"
+  },
+  "excitement": {
+    "中释": "刺激, 兴奋",
+    "英释": "the feeling of being excited"
+  },
+  "percussion": {
+    "中释": "碰撞, 打击乐器",
+    "英释": "musical instruments such as drums, bells etc which you play by hitting them"
+  },
+  "crisscross": {
+    "中释": "十字形"
+  },
+  "clavichord": {
+    "中释": "翼琴(钢琴的前身)",
+    "英释": "a musical instrument like a piano, that was played especially in the past"
+  },
+  "legitimate": {
+    "中释": "合法的",
+    "英释": "fair or reasonable"
+  },
+  "minimalist": {
+    "中释": "最低限要求者"
+  },
+  "storefront": {
+    "中释": "店头, 店面",
+    "英释": "the part of a store that faces the street"
+  },
+  "perpetuate": {
+    "中释": "使永存, 使不朽"
+  },
+  "handicraft": {
+    "中释": "手工艺(品)",
+    "英释": "an activity such as sewing or making baskets, in which you use your hands in a skilful way to make things"
+  },
+  "thoughtful": {
+    "中释": "深思的",
+    "英释": "serious and quiet because you are thinking a lot"
+  },
+  "fastidious": {
+    "中释": "过分讲究的, 挑剔的",
+    "英释": "very careful about small details in your appearance, work etc"
+  },
+  "overshadow": {
+    "中释": "遮蔽, 使失色",
+    "英释": "if a tall building, mountain etc overshadows a place, it is very close to it and much taller than it"
+  },
+  "corruption": {
+    "中释": "腐化；贪污",
+    "英释": "dishonest, illegal, or immoral behaviour, especially from someone with power"
+  },
+  "repertoire": {
+    "中释": "全部节目",
+    "英释": "all the plays, pieces of music etc that a performer or group knows and can perform"
+  },
+  "physically": {
+    "中释": "身体上地",
+    "英释": "in relation to your body rather than your mind or emotions"
+  },
+  "greenhouse": {
+    "中释": "温室, 花房",
+    "英释": "a glass building used for growing plants that need warmth, light, and protection"
+  },
+  "graduation": {
+    "中释": "毕业典礼",
+    "英释": "the time when you complete a university degree course or your education at an American  high school "
+  },
+  "subspecies": {
+    "中释": "[生]亚种",
+    "英释": "a group of similar plants or animals that is smaller than a  species "
+  },
+  "respondent": {
+    "中释": "应答者, 被告",
+    "英释": "someone who has to defend their own case in a law court, especially in a  divorce  case"
+  },
+  "adventurer": {
+    "中释": "冒险家",
+    "英释": "someone who enjoys adventure"
+  },
+  "herbaceous": {
+    "中释": "草本植物的",
+    "英释": "plants that are herbaceous have soft stems rather than hard stems made of wood"
+  },
+  "respective": {
+    "中释": "分别的, 各自的",
+    "英释": "used before a plural noun to refer to the different things that belong to each separate person or thing mentioned"
+  },
+  "primordial": {
+    "中释": "原始的,最初的",
+    "英释": "existing at the beginning of time or the beginning of the Earth"
+  },
+  "phosphorus": {
+    "中释": "磷",
+    "英释": "Phosphorus is a poisonous yellowish-white chemical element. It glows slightly, and burns when air touches it. "
+  },
+  "infrequent": {
+    "中释": "不频发的,不常见的",
+    "英释": "not happening often"
+  },
+  "accidental": {
+    "中释": "意外的，偶然(发生)的",
+    "英释": "happening without being planned or intended"
+  },
+  "disastrous": {
+    "中释": "灾难性的, 极糟的",
+    "英释": "very bad, or ending in failure"
+  },
+  "supersonic": {
+    "中释": "超声波(的)"
+  },
+  "indirectly": {
+    "中释": "间接地"
+  },
+  "absolutely": {
+    "中释": "完全地, 绝对地",
+    "英释": "completely and in every way"
+  },
+  "withdrawal": {
+    "中释": "收回, 撤退",
+    "英释": "the act of moving an army, weapons etc away from the area where they were fighting"
+  },
+  "regulatory": {
+    "中释": "管理的, 控制的",
+    "英释": "a regulatory authority has the official power to control an activity and to make sure that it is done in a satisfactory way"
+  },
+  "applicable": {
+    "中释": "合适的, 适用的,",
+    "英释": "if something is applicable to a particular person, group, or situation, it affects them or is related to them"
+  },
+  "locomotion": {
+    "中释": "运动, 移动",
+    "英释": "movement or the ability to move"
+  },
+  "disruption": {
+    "中释": "分裂"
+  },
+  "rigorously": {
+    "中释": "严格地"
+  },
+  "lithograph": {
+    "中释": "石版画, 平版印刷",
+    "英释": "a printed picture produced by lithography"
+  },
+  "durability": {
+    "中释": "经久, 耐久力"
+  },
+  "caledonian": {
+    "中释": "苏格兰人(的)",
+    "英释": "a native or inhabitant of Scotland "
+  },
+  "prospector": {
+    "中释": "探勘者, 采矿者",
+    "英释": "someone who looks for gold, minerals, oil etc"
+  },
+  "auditorium": {
+    "中释": "听众席,观众席,",
+    "英释": "the part of a theatre where people sit when watching a play, concert etc"
+  },
+  "battleship": {
+    "中释": "战舰",
+    "英释": "the largest type of ship used in war, with very big guns and heavy  armour "
+  },
+  "skepticism": {
+    "中释": "怀疑论"
+  },
+  "preferable": {
+    "中释": "更好的,更合意的",
+    "英释": "better or more suitable"
+  },
+  "inadequacy": {
+    "中释": "不充分"
+  },
+  "detachment": {
+    "中释": "冷漠, 脱离",
+    "英释": "when something becomes separated from something else"
+  },
+  "homemaking": {
+    "中释": "家政"
+  },
+  "supervisor": {
+    "中释": "管理人；监督人",
+    "英释": "someone who supervises a person or activity"
+  },
+  "visibility": {
+    "中释": "可见度",
+    "英释": "the distance it is possible to see, especially when this is affected by weather conditions"
+  },
+  "generalize": {
+    "中释": "归纳, 概括",
+    "英释": "to form a general principle or opinion after considering only a small number of facts or examples"
+  },
+  "antagonism": {
+    "中释": "对抗(状态), 对抗性",
+    "英释": "hatred between people or groups of people"
+  },
+  "conversely": {
+    "中释": "倒地,逆地"
+  },
+  "centigrade": {
+    "中释": "摄氏的",
+    "英释": "Centigrade is a scale for measuring temperature, in which water freezes at 0 degrees and boils at 100 degrees. It is represented by the symbol °C. "
+  },
+  "iridescent": {
+    "中释": "闪光的，现晕光的"
+  },
+  "technician": {
+    "中释": "技术员, 技师",
+    "英释": "someone whose job is to check equipment or machines and make sure that they are working properly"
+  },
+  "sanitation": {
+    "中释": "卫生(设施)",
+    "英释": "the protection of public health by removing and treating waste, dirty water etc"
+  },
+  "endotherms": {
+    "中释": "温血动物, 恒温动物"
+  },
+  "worshipper": {
+    "中释": "礼拜者"
+  },
+  "receptacle": {
+    "中释": "容器",
+    "英释": "a container for putting things in"
+  },
+  "motorcycle": {
+    "中释": "摩托车, 机车",
+    "英释": "a fast two-wheeled vehicle with an engine"
+  },
+  "recreation": {
+    "中释": "消遣, 娱乐",
+    "英释": "an activity that you do for pleasure or amusement"
+  },
+  "predispose": {
+    "中释": "(使)易罹患, (使)预先偏向于",
+    "英释": "to make someone more likely to suffer from a particular health problem"
+  },
+  "undisputed": {
+    "中释": "无可置辩的",
+    "英释": "known to be definitely true"
+  },
+  "speculator": {
+    "中释": "投机者",
+    "英释": "someone who buys goods, property,  shares  in a company etc, hoping that they will make a large profit when they sell them"
+  },
+  "skillfully": {
+    "中释": "巧妙地,技术好地"
+  },
+  "competence": {
+    "中释": "能力",
+    "英释": "the ability to do something well"
+  },
+  "supposedly": {
+    "中释": "推测地, 大概"
+  },
+  "eukaryotic": {
+    "中释": "真核状态的"
+  },
+  "indefinite": {
+    "中释": "不明确的，含糊的",
+    "英释": "not clear or exact"
+  },
+  "implicitly": {
+    "中释": "含蓄地,  暗中地"
+  },
+  "rhythmical": {
+    "中释": "节奏的, 合拍的",
+    "英释": "A rhythmic movement or sound is repeated at regular intervals, forming a regular pattern or beat"
+  },
+  "inspection": {
+    "中释": "检查, 视察",
+    "英释": "an official visit to a building or organization to check that everything is satisfactory and that rules are being obeyed"
+  },
+  "psychology": {
+    "中释": "心理学"
+  },
+  "neutralize": {
+    "中释": "压制"
+  },
+  "attainment": {
+    "中释": "达到",
+    "英释": "success in achieving something or reaching a particular level"
+  },
+  "speciality": {
+    "中释": "特性, 特质",
+    "英释": "A speciality of a particular place is a special food or product that is always very good there"
+  },
+  "waterfront": {
+    "中释": "水边地码头区, 滨水地区",
+    "英释": "the part of a town or an area of land next to the sea, a river etc"
+  },
+  "believable": {
+    "中释": "可信的",
+    "英释": "something that is believable can be believed because it seems possible, likely, or real"
+  },
+  "regularize": {
+    "中释": "使有规则, 使有秩序"
+  },
+  "serpentine": {
+    "中释": "蜿蜒的",
+    "英释": "winding like a snake"
+  },
+  "brightness": {
+    "中释": "光亮, 明亮"
+  },
+  "ridiculous": {
+    "中释": "荒谬的, 可笑的",
+    "英释": "very silly or unreasonable"
+  },
+  "resolution": {
+    "中释": "决心,决议",
+    "英释": "a formal decision or statement agreed on by a group of people, especially after a vote"
+  },
+  "unsuitable": {
+    "中释": "不适宜的, 不合适的",
+    "英释": "not having the right qualities for a particular person, purpose, or situation"
+  },
+  "hydroponic": {
+    "中释": "溶液培养的"
+  },
+  "synonymous": {
+    "中释": "同义的",
+    "英释": "something that is synonymous with something else is considered to be very closely connected with it"
+  },
+  "refractory": {
+    "中释": "难控制的,耐火的"
+  },
+  "journalism": {
+    "中释": "新闻业；新闻工作",
+    "英释": "the job or activity of writing news reports for newspapers, magazines, television, or radio"
+  },
+  "imperative": {
+    "中释": "命令的,强制的"
+  },
+  "assortment": {
+    "中释": "分类,混合物"
+  },
+  "precarious": {
+    "中释": "危险的,不确定的",
+    "英释": "a precarious situation or state is one which may very easily or quickly become worse"
+  },
+  "alteration": {
+    "中释": "变更, 改造",
+    "英释": "a small change that makes someone or something slightly different, or the process of this change"
+  },
+  "subjective": {
+    "中释": "主观的, 个人的",
+    "英释": "a state-ment, report, attitude etc that is subjective is influenced by personal opinion and can therefore be unfair"
+  },
+  "mineralize": {
+    "中释": "使矿物化,采集矿物",
+    "英释": "to convert (such matter) into a mineral; petrify "
+  },
+  "calcareous": {
+    "中释": "钙质的,石灰质的",
+    "英释": "of, containing, or resembling calcium carbonate; chalky "
+  },
+  "separately": {
+    "中释": "分别地,分离地",
+    "英释": "If people or things are dealt with separately or do something separately, they are dealt with or do something at different times or places, rather than together"
+  },
+  "orchestral": {
+    "中释": "管弦乐的,管弦乐队的",
+    "英释": "relating to or written for an orchestra"
+  },
+  "counteract": {
+    "中释": "抵消, 中和, 阻碍",
+    "英释": "to reduce or prevent the bad effect of something, by doing something that has the opposite effect"
+  },
+  "relaxation": {
+    "中释": "松弛, 放宽",
+    "英释": "a way of resting and enjoying yourself"
+  },
+  "needlefish": {
+    "中释": "[动] 颌针鱼(一种长嘴便鳞之海鱼)",
+    "英释": "any ferocious teleost fish of the family Belonidae of warm and tropical regions, having an elongated body and long toothed jaws "
+  },
+  "specialist": {
+    "中释": "专门医师, 专家",
+    "英释": "someone who knows a lot about a particular subject, or is very skilled at it"
+  },
+  "unexplored": {
+    "中释": "[地质] 未勘查过的",
+    "英释": "an unexplored place has not been examined or put on a map"
+  },
+  "playground": {
+    "中释": "运动场, 操场",
+    "英释": "an area for children to play, especially at a school or in a park, that often has special equipment for climbing on, riding on etc"
+  },
+  "woodpecker": {
+    "中释": "[鸟]啄木鸟",
+    "英释": "a bird with a long beak that it uses to make holes in trees"
+  },
+  "excellence": {
+    "中释": "优秀, 卓越",
+    "英释": "the quality of being excellent"
+  },
+  "loggerhead": {
+    "中释": "傻子,铁球棒"
+  },
+  "metabolize": {
+    "中释": "产生代谢变化",
+    "英释": "to change food in your body into energy and new cells, using chemical processes"
+  },
+  "administer": {
+    "中释": "管理, 给予, 执行",
+    "英释": "to manage the work or money of a company or organization"
+  },
+  "neurospora": {
+    "中释": "[微]脉孢菌"
+  },
+  "excitation": {
+    "中释": "刺激,兴奋, 激动",
+    "英释": "the act or process of exciting or state of being excited "
+  },
+  "sleepiness": {
+    "中释": "想睡,瞌睡"
+  },
+  "toolmaking": {
+    "中释": "工具(或刀具)制造,机床维修"
+  },
+  "morphology": {
+    "中释": "[生物]形态学, [语法]词法",
+    "英释": "the study of the  morpheme s  of a language and of the way in which they are joined together to make words"
+  },
+  "straighten": {
+    "中释": "(使)弄直, 伸直",
+    "英释": "to become straight, or to make something straight"
+  },
+  "nowcasting": {
+    "中释": "预告"
+  },
+  "readership": {
+    "中释": "读者的身分, 读者人数",
+    "英释": "all the people who read a particular newspaper or magazine regularly"
+  },
+  "impersonal": {
+    "中释": "客观的,没有人情味的",
+    "英释": "not showing any feelings of sympathy, friendliness etc"
+  },
+  "commitment": {
+    "中释": "委托事项,许诺",
+    "英释": "a promise to do something or to behave in a particular way"
+  },
+  "allocation": {
+    "中释": "分配,安置",
+    "英释": "the decision to allocate something, or the act of allocating it"
+  },
+  "monotonous": {
+    "中释": "单调的,无抑扬顿挫的",
+    "英释": "boring because of always being the same"
+  },
+  "suggestive": {
+    "中释": "提示的,暗示的",
+    "英释": "similar to something"
+  },
+  "lengthwise": {
+    "中释": "纵长地",
+    "英释": "in the direction or position of the longest side"
+  },
+  "prevalence": {
+    "中释": "流行,普遍"
+  },
+  "negligible": {
+    "中释": "可以忽略的, 不予重视的",
+    "英释": "too slight or unimportant to have any effect"
+  },
+  "nonfiction": {
+    "中释": "非小说的散文文学"
+  },
+  "cumulative": {
+    "中释": "累积的",
+    "英释": "increasing gradually as more of something is added or happens"
+  },
+  "obliterate": {
+    "中释": "涂去, 删除, 使湮没"
+  },
+  "aspiration": {
+    "中释": "热望, 渴望"
+  },
+  "popularize": {
+    "中释": "普及",
+    "英释": "to make a difficult subject or idea able to be easily understood by ordinary people who have no special knowledge about it"
+  },
+  "changeable": {
+    "中释": "可改变的,无常的",
+    "英释": "likely to change, or changing often"
+  },
+  "responsive": {
+    "中释": "响应的,应答的",
+    "英释": "reacting quickly, in a positive way"
+  },
+  "monopolize": {
+    "中释": "独占, 垄断",
+    "英释": "to have complete control over something so that other people cannot share it or take part in it"
+  },
+  "annihilate": {
+    "中释": "消灭,湮灭",
+    "英释": "to destroy something or someone completely"
+  },
+  "divergence": {
+    "中释": "分歧",
+    "英释": "A divergence is a difference between two or more things, attitudes, or opinions"
+  },
+  "comparably": {
+    "中释": "同等地,可比较地"
+  },
+  "capitalism": {
+    "中释": "资本主义",
+    "英释": "an economic and political system in which businesses belong mostly to private owners, not to the government"
+  },
+  "cumbersome": {
+    "中释": "笨重的,累赘的",
+    "英释": "a process or system that is cumbersome is slow and difficult"
+  },
+  "generalist": {
+    "中释": "多面手,通才",
+    "英释": "a person who knows about many different things and can do many things well"
+  },
+  "postmaster": {
+    "中释": "邮局局长",
+    "英释": "someone who is in charge of a post office"
+  },
+  "deplorable": {
+    "中释": "可叹的,凄惨的",
+    "英释": "very bad, unpleasant, and shocking"
+  },
+  "instructor": {
+    "中释": "教师,指导书",
+    "英释": "someone who teaches a sport or practical skill"
+  },
+  "loneliness": {
+    "中释": "孤独, 寂寞",
+    "英释": "Loneliness is the unhappiness that is felt by someone because they do not have any friends or do not have anyone to talk to"
+  },
+  "definitive": {
+    "中释": "最后的,确定的",
+    "英释": "a definitive book, description etc is considered to be the best and cannot be improved"
+  },
+  "exhaustion": {
+    "中释": "耗尽枯竭,疲惫,竭尽",
+    "英释": "extreme tiredness"
+  },
+  "compatible": {
+    "中释": "谐调的,兼容的",
+    "英释": "if two pieces of computer equipment are compatible, they can be used together, especially when they are made by different companies"
+  },
+  "paraphrase": {
+    "中释": "释义",
+    "英释": "a statement that expresses in a shorter, clearer, or different way what someone has said or written"
+  },
+  "concertina": {
+    "中释": "类似风琴的六角形的乐器",
+    "英释": "a musical instrument like a small  accordion  , that you hold in both hands and play by pressing in from each side"
+  },
+  "microscopy": {
+    "中释": "显微镜检查,显微镜使用",
+    "英释": "the study, design, and manufacture of microscopes "
+  },
+  "unemployed": {
+    "中释": "失业的, 未被利用的",
+    "英释": "without a job"
+  },
+  "immobility": {
+    "中释": "牢固,不动"
+  },
+  "understate": {
+    "中释": "打着折扣说,有意轻描淡写"
+  },
+  "exorbitant": {
+    "中释": "（要价等）过高的,（性格等）过分的",
+    "英释": "an exorbitant price, amount of money etc is much higher than it should be"
+  },
+  "uniformity": {
+    "中释": "一致,均匀",
+    "英释": "the quality of being or looking the same as all other members of a group"
+  },
+  "resentment": {
+    "中释": "怨恨,愤恨",
+    "英释": "a feeling of anger because something has happened that you think is unfair"
+  },
+  "livelihood": {
+    "中释": "生计,谋生",
+    "英释": "the way you earn money in order to live"
+  },
+  "impediment": {
+    "中释": "妨碍,口吃, 障碍物",
+    "英释": "a physical problem that makes speaking, hearing, or moving difficult"
+  },
+  "silhouette": {
+    "中释": "使…照出影子来"
+  },
+  "marketable": {
+    "中释": "市场的,可销售的",
+    "英释": "marketable goods, skills etc can be sold easily because people want them"
+  },
+  "meteoritic": {
+    "中释": "陨星的,陨石的"
+  },
+  "chondritic": {
+    "中释": "球粒状陨石的"
+  },
+  "unanswered": {
+    "中释": "未答复的,无反应的",
+    "英释": "an unanswered question has not been answered"
+  },
+  "misfortune": {
+    "中释": "不幸, 灾祸",
+    "英释": "very bad luck, or something that happens to you as a result of bad luck"
+  },
+  "journalist": {
+    "中释": "新闻记者,从事新闻杂志业的人",
+    "英释": "someone who writes news reports for newspapers, magazines, television, or radio"
+  },
+  "horsepower": {
+    "中释": "马力",
+    "英释": "a unit for measuring the power of an engine, or the power of an engine measured like this"
+  },
+  "afterwards": {
+    "中释": "然后, 后来地",
+    "英释": "after an event or time that has already been mentioned"
+  },
+  "contingent": {
+    "中释": "偶然的事情"
+  },
+  "homeotherm": {
+    "中释": "<主美>恒温动物"
+  },
+  "unschooled": {
+    "中释": "天生的,未受学校教育的",
+    "英释": "An unschooled person has had no formal education"
+  },
+  "henceforth": {
+    "中释": "今后,自此以后",
+    "英释": "from this time on"
+  },
+  "irrelevant": {
+    "中释": "不相干的,不切题的",
+    "英释": "not useful or not relating to a particular situation, and therefore not important"
+  },
+  "burdensome": {
+    "中释": "繁重的,难以承担的",
+    "英释": "If you describe something as burdensome, you mean it is worrying or hard to deal with"
+  },
+  "semimolten": {
+    "中释": "半熔的"
+  },
+  "incinerate": {
+    "中释": "把烧成灰,烧弃",
+    "英释": "to burn something completely in order to destroy it"
+  },
+  "passageway": {
+    "中释": "过道,出入口",
+    "英释": "a  passage 1 "
+  },
+  "dissatisfy": {
+    "中释": "使感觉不满, 不满足",
+    "英释": "to fail to satisfy; disappoint "
+  },
+  "distinctly": {
+    "中释": "清楚地, 显然",
+    "英释": "clearly"
+  },
+  "tourniquet": {
+    "中释": "止血带, 压脉器",
+    "英释": "a band of cloth that is twisted tightly around an injured arm or leg to stop it bleeding"
+  },
+  "attendance": {
+    "中释": "出席, 出席的人数",
+    "英释": "the number of people who attend a game, concert, meeting etc"
+  },
+  "eyewitness": {
+    "中释": "目击者, 见证人",
+    "英释": "someone who has seen something such as a crime happen, and is able to describe it afterwards"
+  },
+  "unresolved": {
+    "中释": "未解决的，未决定的",
+    "英释": "an unresolved problem or question has not been answered or solved"
+  },
+  "exhilarate": {
+    "中释": "使高兴, 使愉快",
+    "英释": "to make someone feel very excited and happy"
+  },
+  "sustenance": {
+    "中释": "食物, 生计, (受)支持",
+    "英释": "food that people or animals need in order to live"
+  },
+  "charitable": {
+    "中释": "慈善事业的,慷慨的,仁慈的",
+    "英释": "relating to giving help to the poor"
+  },
+  "perceptive": {
+    "中释": "感知的,知觉的"
+  },
+  "neutrality": {
+    "中释": "中立, 中性",
+    "英释": "the state of not supporting either side in an argument or war"
+  },
+  "convection": {
+    "中释": "传送, 对流",
+    "英释": "the movement in a gas or liquid caused by warm gas or liquid rising, and cold gas or liquid sinking"
+  },
+  "telescopic": {
+    "中释": "望远镜的,[眼科] 远视的",
+    "英释": "making distant things look bigger, like a telescope does"
+  },
+  "militarily": {
+    "中释": "以武力, 以军事行动"
+  },
+  "songwriter": {
+    "中释": "歌曲作家，歌曲作者",
+    "英释": "someone who writes the words and usually the music of songs"
+  },
+  "inducement": {
+    "中释": "诱因, 刺激物",
+    "英释": "a reason for doing something, especially something that you will get as a result"
+  },
+  "admiration": {
+    "中释": "钦佩, 赞美, 羡慕",
+    "英释": "a feeling of great respect and liking for something or someone"
+  },
+  "uncritical": {
+    "中释": "无批判力的,不加批判的",
+    "英释": "unable or unwilling to see faults in something or someone – used to show disapproval"
+  },
+  "pretension": {
+    "中释": "借口, 要求, 自负"
+  },
+  "pancreatic": {
+    "中释": "胰的,胰腺的",
+    "英释": "Pancreatic means relating to or involving the pancreas"
+  },
+  "intestinal": {
+    "中释": "肠的",
+    "英释": "Intestinal means relating to the intestines"
+  },
+  "crustacean": {
+    "中释": "甲壳纲动物",
+    "英释": "an animal such as a  lobster  or a  crab  that has a hard outer shell and several pairs of legs, and usually lives in water"
+  },
+  "consultant": {
+    "中释": "顾问, 商议者, 咨询者",
+    "英释": "someone whose job is to give advice on a particular subject"
+  },
+  "discontent": {
+    "中释": "不满a不满的vt使不满",
+    "英释": "a feeling of being unhappy and not satisfied with the situation you are in"
+  },
+  "restaurant": {
+    "中释": "餐馆, 饭店",
+    "英释": "a place where you can buy and eat a meal"
+  },
+  "federalist": {
+    "中释": "联邦党,联邦制拥护者",
+    "英释": "Federalist is also a noun"
+  },
+  "affordable": {
+    "中释": "负担得起的",
+    "英释": "If something is affordable, most people have enough money to buy it"
+  },
+  "congenital": {
+    "中释": "先天的,天生的,天赋的",
+    "英释": "a congenital medical condition or disease has affected someone since they were born"
+  },
+  "articulate": {
+    "中释": "有关节的, 发音清晰的 v用关节连接, 接合",
+    "英释": "writing or speech that is articulate is very clear and easy to understand even if the subject is difficult"
+  },
+  "outgassing": {
+    "中释": "除气 v除气 a释气的"
+  },
+  "Netherland": {
+    "中释": "荷兰"
+  },
+  "manageable": {
+    "中释": "易处理的，易管理的",
+    "英释": "easy to control or deal with"
+  },
+  "insistence": {
+    "中释": "坚持, 坚决主张",
+    "英释": "when you demand that something should happen and refuse to let anyone say no"
+  },
+  "fortuitous": {
+    "中释": "偶然的, 幸运的",
+    "英释": "happening by chance, especially in a way that has a good result"
+  },
+  "hieroglyph": {
+    "中释": "象形文字, 图画文字",
+    "英释": "a picture or symbol used to represent a word or part of a word, especially in the ancient Egyptian writing system"
+  },
+  "peacefully": {
+    "中释": "平静地,  和平地"
+  },
+  "inflection": {
+    "中释": "变形",
+    "英释": "the way in which a word changes its form to show a difference in its meaning or use"
+  },
+  "intonation": {
+    "中释": "语调, 声调",
+    "英释": "the way in which the level of your voice changes in order to add meaning to what you are saying, for example by going up at the end of a question"
+  },
+  "physiology": {
+    "中释": "生理学",
+    "英释": "the science that studies the way in which the bodies of living things work"
+  },
+  "eletricity": {
+    "中释": "电, 电学"
+  },
+  "underscore": {
+    "中释": "画底线",
+    "英释": "to draw a line under a word or phrase to show that it is important"
+  },
+  "tambourine": {
+    "中释": "小手鼓",
+    "英释": "a circular musical instrument consisting of a frame covered with skin or plastic and small pieces of metal that hang around the edge. You shake it or hit it with your hand."
+  },
+  "unhindered": {
+    "中释": "无阻的, 不受阻碍的",
+    "英释": "without hindrance "
+  },
+  "coniferous": {
+    "中释": "松类的,  结球果的"
+  },
+  "reorganize": {
+    "中释": "改组, 整顿",
+    "英释": "to arrange or organize something in a new way"
+  },
+  "leafcutter": {
+    "中释": "[昆]南美切叶蚁"
+  },
+  "topography": {
+    "中释": "地形学",
+    "英释": "the science of describing an area of land, or making maps of it"
+  },
+  "preferably": {
+    "中释": "更好地,宁愿"
+  },
+  "spacecraft": {
+    "中释": "太空船"
+  },
+  "landlocked": {
+    "中释": "陆地包围的, 内陆水域的",
+    "英释": "a landlocked country, state etc is surrounded by other countries, states etc and has no coast"
+  },
+  "monolithic": {
+    "中释": "单片电路, 单块集成电路"
+  },
+  "peculiarly": {
+    "中释": "古怪地,  特有地",
+    "英释": "in a strange or unusual way"
+  },
+  "congestion": {
+    "中释": "拥塞, 充血",
+    "英释": "If there is congestion in a place, the place is extremely crowded and blocked with traffic or people"
+  },
+  "meticulous": {
+    "中释": "一丝不苟的, 缜密的",
+    "英释": "very careful about small details, and always making sure that everything is done correctly"
+  },
+  "expendable": {
+    "中释": "消耗品, 可牺牲的"
+  },
+  "undeniable": {
+    "中释": "不可否认的, 无可辩驳的",
+    "英释": "definitely true or certain"
+  },
+  "classicism": {
+    "中释": "古典主义,古典风格",
+    "英释": "a style of art, literature etc that is simple, regular, and does not show strong emotions"
+  },
+  "stereotype": {
+    "中释": "老套，固定模式",
+    "英释": "a belief or idea of what a particular type of person or thing is like. Stereotypes are often unfair or untrue."
+  },
+  "distortion": {
+    "中释": "扭曲, 变形,曲解",
+    "英释": "Distortion is the changing of something into something that is not true or not acceptable"
+  },
+  "vegetative": {
+    "中释": "植物生长的,植物人状态的",
+    "英释": "relating to plants, and particularly to the way they grow or make new plants"
+  },
+  "tantamount": {
+    "中释": "同等的,相当于",
+    "英释": "If you say that one thing is tantamount to another, more serious thing, you are emphasizing how bad, unacceptable, or unfortunate the first thing is by comparing it to the second thing"
+  },
+  "southerner": {
+    "中释": "南方人, 居住在南方的人",
+    "英释": "someone from the southern part of a country"
+  },
+  "harmonious": {
+    "中释": "和谐的, 和睦的",
+    "英释": "harmonious relationships are ones in which people are friendly and helpful to one another"
+  },
+  "ironically": {
+    "中释": "具有讽刺意味地；嘲讽地",
+    "英释": "used when talking about a situation in which the opposite of what you expected happens or is true"
+  },
+  "breadfruit": {
+    "中释": "面包果树",
+    "英释": "a large tropical fruit that looks like bread when it is cooked"
+  },
+  "missionary": {
+    "中释": "传教士(的) ,传教的,",
+    "英释": "someone who has been sent to a foreign country to teach people about Christianity and persuade them to become Christians"
+  },
+  "pennycress": {
+    "中释": "[植]菥蓂"
+  },
+  "commentary": {
+    "中释": "注释, 解说词"
+  },
+  "handsomely": {
+    "中释": "漂亮地,慷慨地"
+  },
+  "emigration": {
+    "中释": "移民出境, 侨居"
+  },
+  "completion": {
+    "中释": "完成",
+    "英释": "the state of being finished"
+  },
+  "concentric": {
+    "中释": "同中心的, 同轴的",
+    "英释": "having the same centre"
+  },
+  "indigenous": {
+    "中释": "本地的, 天生的",
+    "英释": "indigenous people or things have always been in the place where they are, rather than being brought there from somewhere else"
+  },
+  "stagecraft": {
+    "中释": "编剧才能,演出技术",
+    "英释": "skill and experience in writing, or organizing the performance of, a play"
+  },
+  "voluminous": {
+    "中释": "卷数多的,大量的",
+    "英释": "a voluminous container is very large and can hold a lot of things"
+  },
+  "inhibition": {
+    "中释": "禁止, 阻止"
+  },
+  "disappoint": {
+    "中释": "使失望",
+    "英释": "to make someone feel unhappy because something they hoped for did not happen or was not as good as they expected"
+  },
+  "permafrost": {
+    "中释": "[地]永久冻结带",
+    "英释": "a layer of soil that is always frozen in countries where it is very cold"
+  },
+  "powerfully": {
+    "中释": "非常地,强有力地"
+  },
+  "monogamous": {
+    "中释": "一夫一妻的, 单配的"
+  },
+  "coloration": {
+    "中释": "染色, 着色"
+  },
+  "monochrome": {
+    "中释": "单色 单色的"
+  },
+  "polychrome": {
+    "中释": "彩饰的 n多彩艺术品",
+    "英释": "having various or changing colours; polychromatic "
+  },
+  "floodplain": {
+    "中释": "泛洪平原, 漫滩"
+  },
+  "insightful": {
+    "中释": "有深刻见解的, 富有洞察力的",
+    "英释": "able to understand, or showing that you understand, what a situation or person is really like"
+  },
+  "proficient": {
+    "中释": "精通"
+  },
+  "basketwork": {
+    "中释": "编织物"
+  },
+  "admittedly": {
+    "中释": "不可否认的, 公认地",
+    "英释": "used when you are admitting that something is true"
+  },
+  "wintertime": {
+    "中释": "冬, 冬季",
+    "英释": "the time when it is winter"
+  },
+  "illiterate": {
+    "中释": "文盲 a不识字的",
+    "英释": "someone who has not learned to read or write"
+  },
+  "proclivity": {
+    "中释": "倾向",
+    "英释": "a tendency to behave in a particular way, or to like a particular thing – used especially about something bad"
+  },
+  "contention": {
+    "中释": "争夺, 争论",
+    "英释": "argument and disagreement between people"
+  },
+  "escutcheon": {
+    "中释": "有花纹的盾, 锁眼盖, 孔罩",
+    "英释": "a shield, esp a heraldic one that displays a coat of arms "
+  },
+  "carelessly": {
+    "中释": "粗心地；疏忽地",
+    "英释": "If someone does something carelessly, they do it without much thought or effort"
+  },
+  "supermodel": {
+    "中释": "超级名模",
+    "英释": "a very famous fashion model"
+  },
+  "Philippine": {
+    "中释": "菲律宾的, 菲律宾人的",
+    "英释": "Philippine means belonging or relating to the Philippines, or to their people or culture"
+  },
+  "constraint": {
+    "中释": "约束, 强制",
+    "英释": "something that limits your freedom to do what you want"
+  },
+  "intertidal": {
+    "中释": "潮间带(的)"
+  },
+  "intertwine": {
+    "中释": "(使)纠缠,(使)缠绕",
+    "英释": "if two things intertwine, or if they are intertwined, they are twisted together（"
+  },
+  "assemblage": {
+    "中释": "集合, 集会",
+    "英释": "a group of things collected together"
+  },
+  "dedication": {
+    "中释": "贡献, 奉献",
+    "英释": "hard work or effort that someone puts into a particular activity because they care about it a lot"
+  },
+  "stabilizer": {
+    "中释": "稳定器, 安定装置",
+    "英释": "a chemical that helps something such as a food to stay in the same state, for example to prevent it from separating into different liquids"
+  },
+  "shipwright": {
+    "中释": "造船者",
+    "英释": "someone who builds or repairs ships"
+  },
+  "intolerant": {
+    "中释": "不宽容的, 偏狭的",
+    "英释": "not willing to accept ways of thinking and behaving that are different from your own"
+  },
+  "evanescent": {
+    "中释": "迅速消失的, 短暂的",
+    "英释": "something that is evanescent does not last very long"
+  },
+  "supportive": {
+    "中释": "支持的",
+    "英释": "giving help or encouragement, especially to someone who is in a difficult situation – used to show approval"
+  },
+  "mainstream": {
+    "中释": "主流",
+    "英释": "the most usual ideas or methods, or the people who have these ideas or methods"
+  },
+  "reportedly": {
+    "中释": "据传说, 据传闻",
+    "英释": "according to what some people say"
+  },
+  "inflexibly": {
+    "中释": "不弯曲地, 不屈地"
+  },
+  "stronghold": {
+    "中释": "要塞, 据点",
+    "英释": "an area where there is a lot of support for a particular way of life, political party etc"
+  },
+  "persuasive": {
+    "中释": "说服者a善说服的"
+  },
+  "invigorate": {
+    "中释": "鼓舞",
+    "英释": "to make the people in an organization or group feel excited again, so that they want to make something successful"
+  },
+  "humorously": {
+    "中释": "幽默地, 滑稽地"
+  },
+  "permission": {
+    "中释": "许可, 允许",
+    "英释": "If someone who has authority over you gives you permission to do something, they say that they will allow you to do it"
+  },
+  "needlelike": {
+    "中释": "针状的"
+  },
+  "abruptness": {
+    "中释": "唐突,粗鲁"
+  },
+  "pantomimic": {
+    "中释": "哑剧的"
+  },
+  "subglacial": {
+    "中释": "冰川下的",
+    "英释": "formed or occurring at the bottom of a glacier "
+  },
+  "cleverness": {
+    "中释": "聪明, 机灵"
+  },
+  "achievable": {
+    "中释": "做得成的, 可完成的",
+    "英释": "If you say that something you are trying to do is achievable, you mean that it is possible for you to succeed in doing it"
+  },
+  "threadlike": {
+    "中释": "线状的"
+  },
+  "concurrent": {
+    "中释": "一致的；同时的",
+    "英释": "existing or happening at the same time"
+  },
+  "unsureness": {
+    "中释": "不确定, 缺乏自信"
+  },
+  "retrospect": {
+    "中释": "回顾",
+    "英释": "thinking back to a time in the past, especially with the advantage of knowing more now than you did then"
+  },
+  "uneducated": {
+    "中释": "没受教育的；文盲的",
+    "英释": "not educated to the usual level, or showing that someone is not well educated"
+  },
+  "governance": {
+    "中释": "统治, 管理",
+    "英释": "the act or process of governing"
+  },
+  "feverishly": {
+    "中释": "兴奋地, 发热地"
+  },
+  "antifungal": {
+    "中释": "抗真菌的, 杀真菌的",
+    "英释": "inhibiting the growth of fungi "
+  },
+  "disruptive": {
+    "中释": "使破裂的, 分裂性的"
+  },
+  "unforeseen": {
+    "中释": "无法预料的",
+    "英释": "an unforeseen situation is one that you did not expect to happen"
+  },
+  "abbreviate": {
+    "中释": "缩写, 简化"
+  },
+  "televisual": {
+    "中释": "电视的",
+    "英释": "relating to television"
+  },
+  "triangular": {
+    "中释": "三角形的, 三人间的",
+    "英释": "shaped like a triangle"
+  },
+  "vocational": {
+    "中释": "职业的，业务的",
+    "英释": "teaching or relating to the skills you need to do a particular job"
+  },
+  "compulsory": {
+    "中释": "强制的,  义务的",
+    "英释": "something that is compulsory must be done because it is the law or because someone in authority orders you to"
+  },
+  "credential": {
+    "中释": "外交使节所递的国书, 信任状"
+  },
+  "dissension": {
+    "中释": "意见不同, 纠纷",
+    "英释": "disagreement among a group of people"
+  },
+  "categorize": {
+    "中释": "加以类别, 分类",
+    "英释": "If you categorize people or things, you divide them into sets or you say which set they belong to"
+  },
+  "changeover": {
+    "中释": "转换, 大变更",
+    "英释": "a change from one activity, system, or way of working to another"
+  },
+  "invariable": {
+    "中释": "不变的, 永恒的"
+  },
+  "disability": {
+    "中释": "无力, 残疾",
+    "英释": "A disability is a permanent injury, illness, or physical or mental condition that tends to restrict the way that someone can live their life"
+  },
+  "helplessly": {
+    "中释": "无能为力地"
+  },
+  "emancipate": {
+    "中释": "释放, 解放",
+    "英释": "to give someone the political or legal rights that they did not have before"
+  },
+  "bankruptcy": {
+    "中释": "破产",
+    "英释": "the state of being unable to pay your debts"
+  },
+  "consortium": {
+    "中释": "财团, 联合, 合伙",
+    "英释": "a group of companies or organizations who are working together to do something"
+  },
+  "preventive": {
+    "中释": "预防性的",
+    "英释": "intended to stop something you do not want to happen, such as illness, from happening"
+  },
+  "dazzlingly": {
+    "中释": "灿烂地, 耀眼地"
+  },
+  "pedestrian": {
+    "中释": "步行者，行人",
+    "英释": "someone who is walking, especially along a street or other place used by cars"
+  },
+  "thunderous": {
+    "中释": "打雷的, 雷鸣般的",
+    "英释": "extremely loud"
+  },
+  "suspension": {
+    "中释": "暂停, 中止",
+    "英释": "when something is officially stopped for a period of time"
+  },
+  "overburden": {
+    "中释": "装载过多, 负担过多",
+    "英释": "to give an organization, person, or system more work or problems than they can deal with"
+  },
+  "enthusiast": {
+    "中释": "热心家, 狂热者",
+    "英释": "someone who is very interested in a particular activity or subject"
+  },
+  "confluence": {
+    "中释": "汇合",
+    "英释": "the place where two or more rivers flow together"
+  },
+  "wildcatter": {
+    "中释": "投机份子"
+  },
+  "trespasser": {
+    "中释": "侵入者, 侵犯者"
+  },
+  "adequately": {
+    "中释": "充分地"
+  },
+  "methodical": {
+    "中释": "有条理的，井然的",
+    "英释": "a methodical way of doing something is careful and uses an ordered system"
+  },
+  "birthright": {
+    "中释": "生来就有的权利, 长子继承权",
+    "英释": "something such as a right, property, money etc that you believe you should have because of the family or country you belong to"
+  },
+  "delectable": {
+    "中释": "使人愉快的",
+    "英释": "If you describe something, especially food or drink, as delectable, you mean that it is very pleasant"
+  },
+  "liberation": {
+    "中释": "释放, 解放"
+  },
+  "reverently": {
+    "中释": "恭敬地, 虔诚地"
+  },
+  "springtime": {
+    "中释": "春天, 春季",
+    "英释": "the time of the year when it is spring"
+  },
+  "postmodern": {
+    "中释": "后现代主义的",
+    "英释": "relating to or influenced by postmodernism"
+  },
+  "chronology": {
+    "中释": "年代学, 年表",
+    "英释": "an account of events in the order in which they happened"
+  },
+  "colorfully": {
+    "中释": "华美的, 富有色彩的"
+  },
+  "prearrange": {
+    "中释": "预先安排",
+    "英释": "If you prearrange something, you plan or arrange it before the time when it actually happens"
+  },
+  "sturdiness": {
+    "中释": "强健, 雄壮, 坚固"
+  },
+  "nationwide": {
+    "中释": "全国性的",
+    "英释": "happening or existing in every part of the country"
+  },
+  "schoolroom": {
+    "中释": "教室",
+    "英释": "a room used for teaching in a small school"
+  },
+  "midwestern": {
+    "中释": "美国中西部的",
+    "英释": "Midwestern means belonging or relating to the Midwest"
+  },
+  "gratuitous": {
+    "中释": "无缘无故的；免费的",
+    "英释": "said or done without a good reason, in a way that offends someone"
+  },
+  "liveliness": {
+    "中释": "活泼"
+  },
+  "rebellious": {
+    "中释": "反抗的，难控制的",
+    "英释": "deliberately not obeying people in authority or rules of behaviour"
+  },
+  "propensity": {
+    "中释": "倾向",
+    "英释": "a natural tendency to behave in a particular way"
+  },
+  "wildflower": {
+    "中释": "野花",
+    "英释": "Wildflowers are flowers that grow naturally in the countryside, rather than being grown by people in gardens"
+  },
+  "embroidery": {
+    "中释": "刺绣(品)",
+    "英释": "a pattern sewn onto cloth, or cloth with patterns sewn onto it"
+  },
+  "programmer": {
+    "中释": "程序师, 程序规划员",
+    "英释": "someone whose job is to write computer programs"
+  },
+  "accountant": {
+    "中释": "会计(员), 会计师",
+    "英释": "someone whose job is to keep and check financial accounts, calculate taxes etc"
+  },
+  "culturally": {
+    "中释": "人文地, 文化地",
+    "英释": "in a way that is related to the ideas, beliefs, or customs of a society"
+  },
+  "sluggishly": {
+    "中释": "缓慢的, 懒惰的"
+  },
+  "nationally": {
+    "中释": "全国性地, 在全国范围内",
+    "英释": "by or to everyone in the nation"
+  },
+  "furnishing": {
+    "中释": "供给(装备)"
+  },
+  "housewares": {
+    "中释": "家用器皿",
+    "英释": "small things used in the home, for example plates, lamps etc, or the department of a large shop that sells these things"
+  },
+  "reluctance": {
+    "中释": "不愿, 勉强",
+    "英释": "when someone is unwilling to do something, or when they do something slowly to show that they are not very willing"
+  },
+  "engagement": {
+    "中释": "约会, 婚约",
+    "英释": "an agreement between two people to marry, or the period of time they are engaged"
+  },
+  "oxidizable": {
+    "中释": "可氧化的"
+  },
+  "difluoride": {
+    "中释": "二氟化物"
+  },
+  "defensible": {
+    "中释": "可防御的",
+    "英释": "a defensible building or area is easy to protect against attack"
+  },
+  "idealistic": {
+    "中释": "理想主义的, 空想的",
+    "英释": "believing that you should live according to high standards and principles, even if they cannot really be achieved, or showing this belief"
+  },
+  "watertight": {
+    "中释": "不漏水的, 无懈可击的",
+    "英释": "an argument, plan etc that is watertight is made very carefully so that people cannot find any mistakes in it"
+  },
+  "worthiness": {
+    "中释": "价值,值得"
+  },
+  "moralistic": {
+    "中释": "狭隘道德观的, 说教的",
+    "英释": "with very strong beliefs about what is right and wrong, especially when this makes you judge other people’s behaviour"
+  },
+  "landholder": {
+    "中释": "地主, 土地拥有者"
+  },
+  "newsworthy": {
+    "中释": "有报导价值的",
+    "英释": "important or interesting enough to be reported in newspapers, on the radio, or on television"
+  },
+  "inaugurate": {
+    "中释": "开始；举行就职典礼",
+    "英释": "to hold an official ceremony when someone starts doing an important job in government"
+  },
+  "eloquently": {
+    "中释": "雄辩地, 有口才地"
+  },
+  "centrality": {
+    "中释": "中心, 中央",
+    "英释": "the state or condition of being central "
+  },
+  "insatiable": {
+    "中释": "不知足的, 贪求无厌的",
+    "英释": "always wanting more and more of something"
+  },
+  "subsidiary": {
+    "中释": "辅助的, 补充的",
+    "英释": "If something is subsidiary, it is less important than something else with which it is connected"
+  },
+  "summertime": {
+    "中释": "夏季",
+    "英释": "the season when it is summer"
+  },
+  "smoothness": {
+    "中释": "平坦， 光滑"
+  },
+  "vertically": {
+    "中释": "垂直地"
+  },
+  "acoustical": {
+    "中释": "听觉的, 声学的"
+  },
+  "intimidate": {
+    "中释": "胁迫",
+    "英释": "to frighten or threaten someone into making them do what you want"
+  },
+  "impervious": {
+    "中释": "不透的；不受影响的",
+    "英释": "not affected or influenced by something and seeming not to notice it"
+  },
+  "conformity": {
+    "中释": "一致, 符合",
+    "英释": "in a way that obeys rules, customs etc"
+  },
+  "conduction": {
+    "中释": "传导",
+    "英释": "the passage of electricity through wires, heat through metal, water through pipes etc"
+  },
+  "conference": {
+    "中释": "会议, 讨论会",
+    "英释": "a large formal meeting where a lot of people discuss important matters such as business, politics, or science, especially for several days"
+  },
+  "forefather": {
+    "中释": "祖先, 祖宗",
+    "英释": "the people, especially men, who were part of your family a long time ago in the past"
+  },
+  "breathless": {
+    "中释": "无声息的, 喘不过气来的",
+    "英释": "having difficulty breathing, especially because you are very tired, excited, or frightened"
+  },
+  "clockmaker": {
+    "中释": "制造或修理钟表者",
+    "英释": "a person who makes or mends clocks, watches, etc "
+  },
+  "parliament": {
+    "中释": "国会, 议会",
+    "英释": "the group of people who are elected to make a country’s laws and discuss important national affairs"
+  },
+  "volatility": {
+    "中释": "挥发性"
+  },
+  "omnipotent": {
+    "中释": "全能的, 无所不能的",
+    "英释": "able to do everything"
+  },
+  "Interstate": {
+    "中释": "州际的",
+    "英释": "Interstate means between states, especially the states of the United States"
+  },
+  "gregarious": {
+    "中释": "社交的,群居的",
+    "英释": "friendly and preferring to be with other people"
+  },
+  "modulation": {
+    "中释": "调制"
+  },
+  "outpouring": {
+    "中释": "倾泄, 流出, 流露",
+    "英释": "an expression of strong feelings"
+  },
+  "enrichment": {
+    "中释": "发财致富, 丰富, 肥沃",
+    "英释": "Enrichment is the act of enriching someone or something or the state of being enriched"
+  },
+  "printmaker": {
+    "中释": "版画复制匠"
+  },
+  "serigraphy": {
+    "中释": "绢印, 绢网印艺术"
+  },
+  "waterworks": {
+    "中释": "自来水厂,供水系统",
+    "英释": "the system of pipes and water supplies in a town or city"
+  },
+  "crossbreed": {
+    "中释": "[生物]杂种 v异种交配",
+    "英释": "an animal or plant that is a mixture of breeds"
+  },
+  "inactivate": {
+    "中释": "使不活泼, 阻止活动",
+    "英释": "to render inactive "
+  },
+  "impregnate": {
+    "中释": "使怀孕, 使受精 a怀孕的, 充满的",
+    "英释": "to make a woman or female animal pregnant"
+  },
+  "immobilize": {
+    "中释": "固定不动",
+    "英释": "to prevent someone or something from moving"
+  },
+  "preeminent": {
+    "中释": "卓越的"
+  },
+  "Cincinnati": {
+    "中释": "辛辛那提（美国俄亥俄州西南部城市）"
+  },
+  "yesteryear": {
+    "中释": "去年 ad过去不久的岁月",
+    "英释": "You use yesteryear to refer to the past, often a period in the past with a set of values or a way of life that no longer exists"
+  },
+  "perfection": {
+    "中释": "尽善尽美, 完美, 完成",
+    "英释": "the state of being perfect"
+  },
+  "percussive": {
+    "中释": "冲击的,叩诊的",
+    "英释": "Percussive sounds are like the sound of drums"
+  },
+  "multistory": {
+    "中释": "多层的,有多层楼的"
+  },
+  "hammerhead": {
+    "中释": "锤头 a锤头状的, 鲁钝的",
+    "英释": "any shark of the genus Sphyrna and family Sphyrnidae, having a flattened hammer-shaped head "
+  },
+  "coincident": {
+    "中释": "一致的,符合的",
+    "英释": "existing or happening at the same place or time"
+  },
+  "phenomenal": {
+    "中释": "现象的,显著的"
+  },
+  "unoccupied": {
+    "中释": "空闲的,未占领的",
+    "英释": "a seat, house, room etc that is unoccupied has no one in it"
+  },
+  "bituminous": {
+    "中释": "沥青的,含沥青的"
+  },
+  "forecaster": {
+    "中释": "预报员",
+    "英释": "someone whose job is to say what is likely to happen in the future, especially what kind of weather is expected"
+  },
+  "torrential": {
+    "中释": "猛烈的,汹涌的"
+  },
+  "merchandis": {
+    "中释": "商品,货物 v买卖"
+  },
+  "regenerate": {
+    "中释": "使新生, 重建 a新生的, 更新的",
+    "英释": "to grow again, or make something grow again"
+  },
+  "eviscerate": {
+    "中释": "取出内脏, 除去精华",
+    "英释": "to cut the organs out of a person’s or animal’s body"
+  },
+  "strikingly": {
+    "中释": "醒目地, 引人侧目地",
+    "英释": "in a way that is very easy to notice"
+  },
+  "pleasantly": {
+    "中释": "令人愉快地；舒适地"
+  },
+  "pressurize": {
+    "中释": "增压, 密封",
+    "英释": "to increase the pressure in (an enclosure, such as an aircraft cabin) in order to maintain approximately atmospheric pressure when the external pressure is low "
+  },
+  "dependably": {
+    "中释": "可信任地"
+  },
+  "secondhand": {
+    "中释": "a&ad  二手的, 间接的",
+    "英释": "Secondhand things are not new and have been owned by someone else"
+  },
+  "irreverent": {
+    "中释": "不敬的,  无礼的",
+    "英释": "someone who is irreverent does not show respect for organizations, customs, beliefs etc that most other people respect – often used to show approval"
+  },
+  "miraculous": {
+    "中释": "奇迹的,不可思议的",
+    "英释": "very good, completely unexpected, and often very lucky"
+  },
+  "diagonally": {
+    "中释": "斜对地,  对角地"
+  },
+  "underworld": {
+    "中释": "黑社会",
+    "英释": "the criminals in a particular place and the criminal activities they are involved in"
+  },
+  "foreshadow": {
+    "中释": "预示",
+    "英释": "to show or say that something will happen in the future"
+  },
+  "waterborne": {
+    "中释": "水上的,  水运的"
+  },
+  "overcharge": {
+    "中释": "讨价过高,夸张,过度充电"
+  },
+  "simplistic": {
+    "中释": "过分简单化的",
+    "英释": "treating difficult subjects in a way that is too simple"
+  },
+  "rationally": {
+    "中释": "理性地"
+  },
+  "prominence": {
+    "中释": "突出, 显著",
+    "英释": "the fact of being important and well known"
+  },
+  "persuasion": {
+    "中释": "说服, 说服力",
+    "英释": "the act of persuading someone to do something"
+  },
+  "refinement": {
+    "中释": "精致, 文雅",
+    "英释": "Refinement is politeness and good manners"
+  },
+  "intimately": {
+    "中释": "密切地,  亲密地"
+  },
+  "uniqueness": {
+    "中释": "唯一性, 独特性"
+  },
+  "spheroidal": {
+    "中释": "球状的",
+    "英释": "shaped like an ellipsoid of revolution; approximately spherical "
+  },
+  "megafossil": {
+    "中释": "大化石"
+  },
+  "conspiracy": {
+    "中释": "共谋, 阴谋",
+    "英释": "a secret plan made by two or more people to do something that is harmful or illegal"
+  },
+  "wholesaler": {
+    "中释": "批发商",
+    "英释": "a person or company who sells goods wholesale"
+  },
+  "ruthlessly": {
+    "中释": "冷酷地, 残忍地"
+  },
+  "contractor": {
+    "中释": "订约人, 承包人",
+    "英释": "A contractor is a person or company that does work for other people or organizations"
+  },
+  "skeletally": {
+    "中释": "骨骼的, 梗概的"
+  },
+  "muscularly": {
+    "中释": "肌肉的"
+  },
+  "strawberry": {
+    "中释": "[植]草莓",
+    "英释": "a soft red juicy fruit with small seeds on its surface, or the plant that grows this fruit"
+  },
+  "communally": {
+    "中释": "共同地, 社区地"
+  },
+  "crossbones": {
+    "中释": "交叉腿骨的图形"
+  },
+  "figurehead": {
+    "中释": "装饰船头的雕像, 破浪神",
+    "英释": "a wooden model of a woman that used to be placed on the front of ships"
+  },
+  "delightful": {
+    "中释": "令人愉快的,  可喜的",
+    "英释": "very pleasant"
+  },
+  "equestrian": {
+    "中释": "骑马的 n骑手",
+    "英释": "relating to horse-riding"
+  },
+  "stonemason": {
+    "中释": "石匠",
+    "英释": "someone whose job is cutting stone into pieces to be used in buildings"
+  },
+  "bitterness": {
+    "中释": "苦味, 辛酸"
+  },
+  "inflexible": {
+    "中释": "不可弯曲的, 僵硬的",
+    "英释": "inflexible rules, arrangements etc are impossible to change"
+  },
+  "subduction": {
+    "中释": "[地]潜没(指地壳的板块沉到另一板块之下)"
+  },
+  "bandleader": {
+    "中释": "伴舞乐队的指挥",
+    "英释": "someone who  conduct s  a band, especially a dance or  jazz  band"
+  },
+  "memorandum": {
+    "中释": "备忘录, 便笺",
+    "英释": "a  memo "
+  },
+  "accusation": {
+    "中释": "谴责, [律]指控",
+    "英释": "a statement saying that someone is guilty of a crime or of doing something wrong"
+  },
+  "conviction": {
+    "中释": "深信,  定罪",
+    "英释": "a very strong belief or opinion"
+  },
+  "profoundly": {
+    "中释": "深深地, 衷心地"
+  },
+  "flamboyant": {
+    "中释": "辉耀的,艳丽的",
+    "英释": "behaving in a confident or exciting way that makes people notice you"
+  },
+  "ameliorate": {
+    "中释": "改善, 改进",
+    "英释": "to make a bad situation better or less harmful"
+  },
+  "heartbreak": {
+    "中释": "心碎；伤心事",
+    "英释": "great sadness or disappointment"
+  },
+  "northerner": {
+    "中释": "北国人, 北方人",
+    "英释": "A northerner is a person who was born in or who lives in the north of a place or country"
+  },
+  "helicopter": {
+    "中释": "直升(飞)机, 直升机",
+    "英释": "a type of aircraft with large metal blades on top which turn around very quickly to make it fly"
+  },
+  "dictaphone": {
+    "中释": "录音电话机（商标名称） [商标名] 录音机",
+    "英释": "a tape recorder designed for recording dictation and later reproducing it for typing "
+  },
+  "succinctly": {
+    "中释": "简洁地, 简便地"
+  },
+  "standpoint": {
+    "中释": "立场, 观点",
+    "英释": "a way of thinking about people, situations, ideas etc"
+  },
+  "thousandth": {
+    "中释": "第一千的, 千分之一的"
+  },
+  "demolition": {
+    "中释": "毁坏, 毁坏之遗迹",
+    "英释": "The demolition of a structure, for example, a building, is the act of deliberately destroying it, often in order to build something else in its place"
+  },
+  "irrational": {
+    "中释": "无理数"
+  },
+  "improbable": {
+    "中释": "不大可能的, 不像会发生的, 似不可信的"
+  },
+  "cordwainer": {
+    "中释": "鞋匠",
+    "英释": "a shoemaker or worker in cordovan leather "
+  },
+  "negligibly": {
+    "中释": "可忽略不计地, 微不足道地, 极小地"
+  },
+  "plasticity": {
+    "中释": "可塑性, 塑性",
+    "英释": "the quality of being easily made into any shape, and of staying in that shape until someone changes it"
+  },
+  "adolescent": {
+    "中释": "青少年",
+    "英释": "a young person, usually between the ages of 12 and 18, who is developing into an adult"
+  },
+  "nonchalant": {
+    "中释": "若无其事的, 不关心的, 冷淡的",
+    "英释": "behaving calmly and not seeming interested in anything or worried about anything"
+  },
+  "tyrannical": {
+    "中释": "暴虐的, 压制的, 残暴的",
+    "英释": "behaving in a cruel and unfair way towards someone you have power over"
+  },
+  "unverified": {
+    "中释": "未经证实的,  未经核对的",
+    "英释": "not having been confirmed, substantiated, or proven to be true "
+  },
+  "courageous": {
+    "中释": "勇敢的",
+    "英释": "brave"
+  },
+  "relational": {
+    "中释": "有关系的, 亲属的",
+    "英释": "indicating or expressing syntactic relation, as for example the case endings in Latin "
+  },
+  "demobilize": {
+    "中释": "使复员, 使退伍, 遣散",
+    "英释": "to send home the members of an army, navy etc, especially at the end of a war"
+  },
+  "palimpsest": {
+    "中释": "重写本",
+    "英释": "a manuscript on which two or more successive texts have been written, each one being erased to make room for the next "
+  },
+  "collarless": {
+    "中释": "无领的,无马轭(或颈圈)的",
+    "英释": "a collarless jacket, shirt etc is one that does not have a collar"
+  },
+  "rediscover": {
+    "中释": "重新发现",
+    "英释": "If you rediscover something good or valuable that you had forgotten or lost, you become aware of it again or find it again"
+  },
+  "adrenaline": {
+    "中释": "肾上腺素(使激动兴奋等)"
+  },
+  "proprietor": {
+    "中释": "所有者, 经营者"
+  },
+  "prevention": {
+    "中释": "预防, 防止",
+    "英释": "when something bad is stopped from happening"
+  },
+  "playwright": {
+    "中释": "剧作家",
+    "英释": "someone who writes plays"
+  },
+  "hospitable": {
+    "中释": "好客的, 宜人的",
+    "英释": "friendly, welcoming, and generous to visitors"
+  },
+  "obligation": {
+    "中释": "义务, 职责, 债务",
+    "英释": "a moral or legal duty to do something"
+  }
+}

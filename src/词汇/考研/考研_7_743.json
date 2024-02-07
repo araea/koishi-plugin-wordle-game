@@ -1,0 +1,2814 @@
+{
+  "science": {
+    "中释": "科学；技术；学科；理科",
+    "英释": "knowledge about the world, especially based on examining, testing, and proving facts"
+  },
+  "century": {
+    "中释": "世纪，百年；（板球）一百分",
+    "英释": "one of the 100-year periods measured from before or after the year of Christ’s birth"
+  },
+  "process": {
+    "中释": "经过特殊加工（或处理）的"
+  },
+  "include": {
+    "中释": "包含，包括",
+    "英释": "if one thing includes another, the second thing is part of the first"
+  },
+  "service": {
+    "中释": "维修，检修；保养",
+    "英释": "if someone services a machine or vehicle, they examine it and do what is needed to keep it working well"
+  },
+  "require": {
+    "中释": "需要；要求；命令",
+    "英释": "to need something"
+  },
+  "federal": {
+    "中释": "(Federal)人名；(英)费德勒尔"
+  },
+  "publish": {
+    "中释": "出版；发表；公布",
+    "英释": "to arrange for a book, magazine etc to be written, printed, and sold"
+  },
+  "support": {
+    "中释": "支持，维持；支援，供养；支持者，支撑物",
+    "英释": "approval, encouragement, and perhaps help for a person, idea, plan etc"
+  },
+  "history": {
+    "中释": "历史，历史学；历史记录；来历",
+    "英释": "all the things that happened in the past, especially the political, social, or economic development of a nation"
+  },
+  "medical": {
+    "中释": "医生；体格检查",
+    "英释": "an examination of your body by a doctor to see if you are healthy"
+  },
+  "student": {
+    "中释": "学生；学者",
+    "英释": "someone who is studying at a university, school etc"
+  },
+  "average": {
+    "中释": "算出…的平均数；将…平均分配；使…平衡",
+    "英释": "to usually do something or usually happen a particular number of times, or to usually be a particular size or amount"
+  },
+  "feeling": {
+    "中释": "感觉；认为（feel的现在分词）；触摸"
+  },
+  "writing": {
+    "中释": "书写（write的ing形式）"
+  },
+  "message": {
+    "中释": "报信，报告；[通信] 报文"
+  },
+  "certain": {
+    "中释": "(Certain)人名；(葡)塞尔塔因；(法)塞尔坦"
+  },
+  "concept": {
+    "中释": "观念，概念",
+    "英释": "an idea of how something is, or how something should be done"
+  },
+  "genetic": {
+    "中释": "遗传的；基因的；起源的",
+    "英释": "relating to genes or genetics"
+  },
+  "journal": {
+    "中释": "日报，杂志；日记；分类账",
+    "英释": "a serious magazine produced for professional people or those with a particular interest"
+  },
+  "produce": {
+    "中释": "农产品，产品",
+    "英释": "food or other things that have been grown or produced on a farm to be sold"
+  },
+  "quality": {
+    "中释": "优质的；高品质的；<英俚>棒极了",
+    "英释": "very good – used especially by people who are trying to sell something"
+  },
+  "product": {
+    "中释": "产品；结果；[数] 乘积；作品",
+    "英释": "something that is grown or made in a factory in large quantities, usually in order to be sold"
+  },
+  "segment": {
+    "中释": "段；部分",
+    "英释": "a part of something that is different from or affected differently from the whole in some way"
+  },
+  "success": {
+    "中释": "成功，成就；胜利；大获成功的人或事物",
+    "英释": "when you achieve what you want or intend"
+  },
+  "learned": {
+    "中释": "(Learned)人名；(英)勒尼德"
+  },
+  "observe": {
+    "中释": "庆祝",
+    "英释": "If you observe an important day such as a holiday or anniversary, you do something special in order to honour or celebrate it"
+  },
+  "teacher": {
+    "中释": "教师；导师",
+    "英释": "someone whose job is to teach, especially in a school"
+  },
+  "concern": {
+    "中释": "关系；关心；关心的事；忧虑",
+    "英释": "something that is important to you or that involves you"
+  },
+  "variety": {
+    "中释": "多样；种类；杂耍；变化，多样化",
+    "英释": "the differences within a group, set of actions etc that make it interesting"
+  },
+  "nuclear": {
+    "中释": "原子能的；[细胞] 细胞核的；中心的；原子核的",
+    "英释": "relating to or involving the nucleus (= central part ) of an atom, or the energy produced when the nucleus of an atom is either split or joined with the nucleus of another atom"
+  },
+  "involve": {
+    "中释": "包含；牵涉；使陷于；潜心于",
+    "英释": "if an activity or situation involves something, that thing is part of it or a result of it"
+  },
+  "general": {
+    "中释": "一般；将军，上将；常规",
+    "英释": "an officer of very high rank in the army or air force"
+  },
+  "network": {
+    "中释": "网络；广播网；网状物",
+    "英释": "a system of lines, tubes, wires, roads etc that cross each other and are connected to each other"
+  },
+  "pursuit": {
+    "中释": "追赶，追求；职业，工作",
+    "英释": "when someone tries to get, achieve, or find something in a determined way"
+  },
+  "natural": {
+    "中释": "自然的事情；白痴；本位音",
+    "英释": "a musical note that has been changed from a flat to be a semitone higher, or from a sharp to be a semitone lower"
+  },
+  "feature": {
+    "中释": "起重要作用"
+  },
+  "achieve": {
+    "中释": "取得；获得；实现；成功",
+    "英释": "to successfully complete something or get a good result, especially by working hard"
+  },
+  "suppose": {
+    "中释": "假使…结果会怎样"
+  },
+  "promise": {
+    "中释": "允诺，许诺；给人以…的指望或希望",
+    "英释": "If you promise that you will do something, you say to someone that you will definitely do it"
+  },
+  "present": {
+    "中释": "现在；礼物；瞄准",
+    "英释": "something you give someone on a special occasion or to thank them for something"
+  },
+  "justice": {
+    "中释": "司法，法律制裁；正义；法官，审判员",
+    "英释": "the system by which people are judged in courts of law and criminals are punished"
+  },
+  "limited": {
+    "中释": "高级快车"
+  },
+  "reality": {
+    "中释": "现实；实际；真实",
+    "英释": "what actually happens or is true, not what is imagined or thought"
+  },
+  "finding": {
+    "中释": "找到；感到（find的ing形式）；遇到"
+  },
+  "educate": {
+    "中释": "教育；培养；训练",
+    "英释": "to teach a child at a school, college, or university"
+  },
+  "setting": {
+    "中释": "放置；沉没；使…处于某位置（set的ing形式）"
+  },
+  "pattern": {
+    "中释": "模仿；以图案装饰",
+    "英释": "to be designed or made in a way that is copied from something else"
+  },
+  "conduct": {
+    "中释": "进行；行为；实施",
+    "英释": "the way someone behaves, especially in public, in their job etc"
+  },
+  "largely": {
+    "中释": "主要地；大部分；大量地",
+    "英释": "mostly or mainly"
+  },
+  "enhance": {
+    "中释": "提高；加强；增加",
+    "英释": "to improve something"
+  },
+  "emotion": {
+    "中释": "情感；情绪",
+    "英释": "a strong human feeling such as love, hate, or anger"
+  },
+  "economy": {
+    "中释": "经济；节约；理财",
+    "英释": "the system by which a country’s money and goods are produced and used, or a country considered in this way"
+  },
+  "predict": {
+    "中释": "预报，预言；预知",
+    "英释": "to say that something will happen, before it happens"
+  },
+  "outcome": {
+    "中释": "结果，结局；成果",
+    "英释": "the final result of a meeting, discussion, war etc – used especially when no one knows what it will be until it actually happens"
+  },
+  "express": {
+    "中释": "快车，快递，专使；捷运公司",
+    "英释": "a train or bus that does not stop in many places and therefore travels quickly"
+  },
+  "measure": {
+    "中释": "测量；估量；权衡",
+    "英释": "to find the size, length, or amount of something, using standard units such as  inch es  ,metres etc"
+  },
+  "current": {
+    "中释": "（水，气，电）流；趋势；涌流",
+    "英释": "a continuous movement of water in a river, lake, or sea"
+  },
+  "scholar": {
+    "中释": "学者；奖学金获得者",
+    "英释": "someone who knows a lot about a particular subject, especially one that is not a science subject"
+  },
+  "acquire": {
+    "中释": "获得；取得；学到；捕获",
+    "英释": "to obtain something by buying it or being given it"
+  },
+  "reflect": {
+    "中释": "反映；反射，照出；表达；显示;反省",
+    "英释": "if a person or a thing is reflected in a mirror, glass, or water, you can see an image of the person or thing on the surface of the mirror, glass, or water"
+  },
+  "advance": {
+    "中释": "预先的；先行的",
+    "英释": "Advance booking, notice, or warning is done or given before an event happens"
+  },
+  "examine": {
+    "中释": "检查；调查； 检测；考试",
+    "英释": "to look at something carefully and thoroughly because you want to find out more about it"
+  },
+  "obvious": {
+    "中释": "明显的；显著的；平淡无奇的",
+    "英释": "easy to notice or understand"
+  },
+  "special": {
+    "中释": "特别的；专门的，专用的",
+    "英释": "not ordinary or usual, but different in some way and often better or more important"
+  },
+  "benefit": {
+    "中释": "有益于，对…有益",
+    "英释": "if you benefit from something, or it benefits you, it gives you an advantage, improves your life, or helps you in some way"
+  },
+  "attract": {
+    "中释": "吸引；引起",
+    "英释": "to make someone interested in something, or make them want to take part in something"
+  },
+  "similar": {
+    "中释": "类似物"
+  },
+  "replace": {
+    "中释": "取代，代替；替换，更换；归还，偿还；把…放回原处",
+    "英释": "to start doing something instead of another person, or start being used instead of another thing"
+  },
+  "dynamic": {
+    "中释": "动态；动力",
+    "英释": "something that causes action or change"
+  },
+  "disease": {
+    "中释": "传染；使…有病"
+  },
+  "revenue": {
+    "中释": "税收，国家的收入；收益",
+    "英释": "money that a business or organization receives over a period of time, especially from selling goods or services"
+  },
+  "article": {
+    "中释": "订约将…收为学徒或见习生；使…受协议条款的约束"
+  },
+  "circuit": {
+    "中释": "环行"
+  },
+  "primary": {
+    "中释": "原色；最主要者"
+  },
+  "trouble": {
+    "中释": "麻烦；使烦恼；折磨",
+    "英释": "to say something or ask someone to do something which may use or waste their time or upset them"
+  },
+  "traffic": {
+    "中释": "用…作交换；在…通行"
+  },
+  "payment": {
+    "中释": "付款，支付；报酬，报答；偿还；惩罚，报应",
+    "英释": "the act of paying for something"
+  },
+  "respect": {
+    "中释": "尊敬，尊重；遵守",
+    "英释": "to admire someone because they have high standards and good qualities such as fairness and honesty"
+  },
+  "element": {
+    "中释": "元素；要素；原理；成分；自然环境",
+    "英释": "one part or feature of a whole system, plan, piece of work etc, especially one that is basic or important"
+  },
+  "freedom": {
+    "中释": "自由，自主；直率",
+    "英释": "the right to do what you want without being controlled or restricted by anyone"
+  },
+  "partner": {
+    "中释": "合伙；合股；成为搭档"
+  },
+  "manager": {
+    "中释": "经理；管理人员",
+    "英释": "someone whose job is to manage part or all of a company or other organization"
+  },
+  "sustain": {
+    "中释": "维持；支撑，承担；忍受；供养；证实",
+    "英释": "to make something continue to exist or happen for a period of time"
+  },
+  "neglect": {
+    "中释": "疏忽，忽视；怠慢",
+    "英释": "failure to look after something or someone, or the condition of not being looked after"
+  },
+  "justify": {
+    "中释": "证明合法；整理版面",
+    "英释": "To justify a decision, action, or idea means to show or prove that it is reasonable or necessary"
+  },
+  "mention": {
+    "中释": "提及，说起",
+    "英释": "when someone mentions something or someone in a conversation, piece of writing etc"
+  },
+  "decline": {
+    "中释": "下降；衰落；谢绝",
+    "英释": "to say no politely when someone invites you somewhere, offers you something, or wants you to do something"
+  },
+  "combine": {
+    "中释": "联合收割机；联合企业",
+    "英释": "a machine used by farmers to cut grain, separate the seeds from it, and clean it"
+  },
+  "approve": {
+    "中释": "批准；赞成；为…提供证据",
+    "英释": "to officially accept a plan, proposal etc"
+  },
+  "imagine": {
+    "中释": "想像；猜想；臆断",
+    "英释": "to form a picture or idea in your mind about what something could be like"
+  },
+  "collect": {
+    "中释": "(Collect)人名；(英)科莱克特"
+  },
+  "supreme": {
+    "中释": "至高；霸权"
+  },
+  "consume": {
+    "中释": "消耗，消费；使…著迷；挥霍",
+    "英释": "to use time, energy, goods etc"
+  },
+  "captive": {
+    "中释": "俘虏；迷恋者",
+    "英释": "someone who is kept as a prisoner, especially in a war"
+  },
+  "opinion": {
+    "中释": "意见；主张",
+    "英释": "your ideas or beliefs about a particular subject"
+  },
+  "capable": {
+    "中释": "能干的，能胜任的；有才华的",
+    "英释": "able to do things well"
+  },
+  "remains": {
+    "中释": "残余；遗骸",
+    "英释": "the parts of something that are left after the rest has been destroyed or has disappeared"
+  },
+  "confuse": {
+    "中释": "使混乱；使困惑",
+    "英释": "to make someone feel that they cannot think clearly or do not understand"
+  },
+  "meaning": {
+    "中释": "意味；意思是（mean的ing形式）"
+  },
+  "recruit": {
+    "中释": "补充；聘用；征募；使…恢复健康"
+  },
+  "failure": {
+    "中释": "失败；故障；失败者；破产",
+    "英释": "a lack of success in achieving or doing something"
+  },
+  "uniform": {
+    "中释": "使穿制服；使成一样"
+  },
+  "attempt": {
+    "中释": "企图，试图；尝试",
+    "英释": "to try to do something, especially something difficult"
+  },
+  "exclude": {
+    "中释": "排除；排斥；拒绝接纳；逐出",
+    "英释": "to deliberately not include something"
+  },
+  "survive": {
+    "中释": "幸存；生还；幸免于；比活得长",
+    "英释": "to continue to live after an accident, war, or illness"
+  },
+  "initial": {
+    "中释": "词首大写字母",
+    "英释": "the first letter of someone’s first name"
+  },
+  "compete": {
+    "中释": "竞争；比赛；对抗",
+    "英释": "if one company or country competes with another, it tries to get people to buy its goods or servicesrather than those available from another company or country"
+  },
+  "mislead": {
+    "中释": "误导；带错",
+    "英释": "to make someone believe something that is not true by giving them information that is false or not complete"
+  },
+  "opening": {
+    "中释": "开放（open的ing形式）；打开；公开"
+  },
+  "liberal": {
+    "中释": "自由主义者",
+    "英释": "Liberal is also a noun"
+  },
+  "gradual": {
+    "中释": "弥撒升阶圣歌集"
+  },
+  "diverse": {
+    "中释": "不同的；多种多样的；变化多的",
+    "英释": "If a group of things is diverse, it is made up of a wide variety of things"
+  },
+  "grammar": {
+    "中释": "语法；语法书",
+    "英释": "the rules by which words change their forms and are combined into sentences, or the study or use of these rules"
+  },
+  "forward": {
+    "中释": "前锋",
+    "英释": "an attacking player on a team in sports such as football and  basketball "
+  },
+  "fortune": {
+    "中释": "偶然发生"
+  },
+  "fulfill": {
+    "中释": "履行；实现；满足；使结束（等于fulfil）"
+  },
+  "explore": {
+    "中释": "探索；探测；探险",
+    "英释": "to discuss or think about something carefully"
+  },
+  "leading": {
+    "中释": "领导（lead的ing形式）"
+  },
+  "propose": {
+    "中释": "建议；打算，计划；求婚",
+    "英释": "to suggest something as a plan or course of action"
+  },
+  "counsel": {
+    "中释": "建议；劝告",
+    "英释": "to advise someone"
+  },
+  "premier": {
+    "中释": "总理，首相",
+    "英释": "a  prime minister  – used in news reports"
+  },
+  "picture": {
+    "中释": "画；想像；描写",
+    "英释": "to show someone or something in a photograph, painting, or drawing"
+  },
+  "typical": {
+    "中释": "典型的；特有的；象征性的",
+    "英释": "having the usual features or qualities of a particular group or thing"
+  },
+  "restore": {
+    "中释": "恢复；修复；归还",
+    "英释": "to make something return to its former state or condition"
+  },
+  "quarter": {
+    "中释": "四分之一",
+    "英释": "one of four equal parts into which something can be divided"
+  },
+  "anxiety": {
+    "中释": "焦虑；渴望；挂念；令人焦虑的事",
+    "英释": "the feeling of being very worried about something"
+  },
+  "regular": {
+    "中释": "定期地；经常地"
+  },
+  "triumph": {
+    "中释": "获得胜利，成功",
+    "英释": "to gain a victory or success after a difficult struggle"
+  },
+  "version": {
+    "中释": "版本；译文；倒转术",
+    "英释": "a copy of something that has been changed so that it is slightly different"
+  },
+  "subsidy": {
+    "中释": "补贴；津贴；补助金",
+    "英释": "money that is paid by a government or organization to make prices lower, reduce the cost of producing goods etc"
+  },
+  "deserve": {
+    "中释": "应受，应得",
+    "英释": "to have earned something by good or bad actions or behaviour"
+  },
+  "crucial": {
+    "中释": "重要的；决定性的；定局的；决断的",
+    "英释": "something that is crucial is extremely important, because everything else depends on it"
+  },
+  "succeed": {
+    "中释": "成功；继承；继任；兴旺",
+    "英释": "to do what you tried or wanted to do"
+  },
+  "popular": {
+    "中释": "流行的，通俗的；受欢迎的；大众的；普及的",
+    "英释": "liked by a lot of people"
+  },
+  "chamber": {
+    "中释": "把…关在室内；装填（弹药等）"
+  },
+  "servant": {
+    "中释": "仆人，佣人；公务员；雇工",
+    "英释": "someone, especially in the past, who was paid to clean someone’s house, cook for them, answer the door etc, and who often lived in the house"
+  },
+  "capture": {
+    "中释": "捕获；战利品，俘虏",
+    "英释": "when you catch someone in order to make them a prisoner"
+  },
+  "routine": {
+    "中释": "日常的；例行的",
+    "英释": "happening as a normal part of a job or process"
+  },
+  "hostile": {
+    "中释": "敌对"
+  },
+  "display": {
+    "中释": "展览的；陈列用的"
+  },
+  "venture": {
+    "中释": "企业；风险；冒险",
+    "英释": "a new business activity that involves taking risks"
+  },
+  "carrier": {
+    "中释": "[化学] 载体；运送者；带菌者；货架",
+    "英释": "someone who passes a disease or  gene  to other people, especially without being affected by it themselves"
+  },
+  "unusual": {
+    "中释": "不寻常的；与众不同的；不平常的",
+    "英释": "different from what is usual or normal"
+  },
+  "passive": {
+    "中释": "被动语态",
+    "英释": "the passive form of a verb, for example ‘was destroyed’ in the sentence ‘The building was destroyed during the war.’"
+  },
+  "impulse": {
+    "中释": "推动"
+  },
+  "respond": {
+    "中释": "应答；唱和"
+  },
+  "heading": {
+    "中释": "用头顶（head的ing形式）"
+  },
+  "prudent": {
+    "中释": "(Prudent)人名；(法)普吕当"
+  },
+  "setback": {
+    "中释": "挫折；退步；逆流",
+    "英释": "a problem that delays or prevents progress, or makes things worse than they were"
+  },
+  "precede": {
+    "中释": "领先，在…之前；优于，高于",
+    "英释": "to happen or exist before something or someone, or to come before something else in a series"
+  },
+  "careful": {
+    "中释": "仔细的，小心的",
+    "英释": "used to tell someone to think about what they are doing so that something bad does not happen"
+  },
+  "dismiss": {
+    "中释": "解散；解雇；开除；让离开；不予理会、不予考虑",
+    "英释": "to remove someone from their job"
+  },
+  "strange": {
+    "中释": "(Strange)人名；(英)斯特兰奇；(瑞典、塞)斯特朗格"
+  },
+  "expense": {
+    "中释": "被花掉"
+  },
+  "destroy": {
+    "中释": "破坏；消灭；毁坏",
+    "英释": "to damage something so badly that it no longer exists or cannot be used or repaired"
+  },
+  "speaker": {
+    "中释": "演讲者；扬声器；说话者；说某种语言的人",
+    "英释": "someone who makes a formal speech to a group of people"
+  },
+  "counter": {
+    "中释": "反方向地；背道而驰地"
+  },
+  "council": {
+    "中释": "委员会；会议；理事会；地方议会；顾问班子",
+    "英释": "a group of people that are chosen to make rules, laws, or decisions, or to give advice"
+  },
+  "academy": {
+    "中释": "学院；研究院；学会；专科院校",
+    "英释": "an official organization which encourages the development of literature, art, science etc"
+  },
+  "outline": {
+    "中释": "概述；略述；描画…轮廓",
+    "英释": "to describe something in a general way, giving the main points but not the details"
+  },
+  "extreme": {
+    "中释": "极端；末端；最大程度；极端的事物",
+    "英释": "a situation, quality etc which is as great as it can possibly be – used especially when talking about two opposites"
+  },
+  "delight": {
+    "中释": "高兴",
+    "英释": "to give someone great satisfaction and enjoyment"
+  },
+  "outrage": {
+    "中释": "凌辱，强奸；对…施暴行；激起愤怒",
+    "英释": "to make someone feel very angry and shocked"
+  },
+  "surface": {
+    "中释": "浮出水面",
+    "英释": "if someone or something surfaces, they suddenly appear somewhere, especially after being gone or hidden for a long time"
+  },
+  "provoke": {
+    "中释": "驱使；激怒；煽动；惹起",
+    "英释": "to cause a reaction or feeling, especially a sudden one"
+  },
+  "upright": {
+    "中释": "垂直；竖立",
+    "英释": "a long piece of wood or metal that stands straight up and supports something"
+  },
+  "pension": {
+    "中释": "发给养老金或抚恤金",
+    "英释": "to grant a pension to "
+  },
+  "operate": {
+    "中释": "运转；动手术；起作用",
+    "英释": "to cut into someone’s body in order to repair or remove a part that is damaged"
+  },
+  "possess": {
+    "中释": "控制；使掌握；持有；迷住；拥有，具备",
+    "英释": "to have a particular quality or ability"
+  },
+  "perfect": {
+    "中释": "完成式",
+    "英释": "the form of a verb which is used when talking about a period of time up to and including the present. In English, it is formed with ‘have’ and the past participle."
+  },
+  "married": {
+    "中释": "结婚，与…结婚（marry的过去式）"
+  },
+  "diffuse": {
+    "中释": "扩散；传播；漫射",
+    "英释": "to make heat, light, liquid etc spread through something, or to spread like this"
+  },
+  "bargain": {
+    "中释": "讨价还价；议价；(谈价钱后)卖",
+    "英释": "to discuss the conditions of a sale, agreement etc, for example to try and get a lower price"
+  },
+  "theater": {
+    "中释": "电影院，戏院，剧场；戏剧；手术室"
+  },
+  "exhaust": {
+    "中释": "排气；废气；排气装置",
+    "英释": "a pipe on a car or machine that waste gases pass through"
+  },
+  "western": {
+    "中释": "西方人；西部片，西部小说",
+    "英释": "a film about life in the 19th century in the American West, especially the lives of cowboys"
+  },
+  "abolish": {
+    "中释": "废除，废止；取消，革除",
+    "英释": "to officially end a law, system etc, especially one that has existed for a long time"
+  },
+  "forever": {
+    "中释": "永远；不断地；常常",
+    "英释": "for all future time"
+  },
+  "ancient": {
+    "中释": "古代人；老人",
+    "英释": "people who lived long ago, especially the Greeks and Romans"
+  },
+  "episode": {
+    "中释": "插曲；一段情节；插话；有趣的事件",
+    "英释": "a television or radio programme that is one of a series of programmes in which the same story is continued each week"
+  },
+  "project": {
+    "中释": "工程；计划；事业",
+    "英释": "a carefully planned piece of work to get information about something, to build something, to improve something etc"
+  },
+  "airline": {
+    "中释": "航线的"
+  },
+  "exhibit": {
+    "中释": "展览品；证据；展示会",
+    "英释": "something, for example a painting, that is put in a public place so that people can go to see it"
+  },
+  "alcohol": {
+    "中释": "酒精，乙醇",
+    "英释": "drinks such as beer or wine that contain a substance which can make you drunk"
+  },
+  "holiday": {
+    "中释": "外出度假",
+    "英释": "to spend your holiday in a place - used especially in news reports"
+  },
+  "maximum": {
+    "中释": "最高的；最多的；最大极限的",
+    "英释": "the maximum amount, quantity, speed etc is the largest that is possible or allowed"
+  },
+  "sponsor": {
+    "中释": "赞助；发起",
+    "英释": "to give money to a sports event, theatre, institution etc, especially in exchange for the right to advertise"
+  },
+  "prepare": {
+    "中释": "准备；使适合；装备；起草",
+    "英释": "to make plans or arrangements for something that will happen in the future"
+  },
+  "contact": {
+    "中释": "使接触，联系",
+    "英释": "to write to or telephone someone"
+  },
+  "nervous": {
+    "中释": "神经的；紧张不安的；强健有力的",
+    "英释": "worried or frightened about something, and unable to relax"
+  },
+  "surgery": {
+    "中释": "外科；外科手术；手术室；诊疗室",
+    "英释": "medical treatment in which a surgeon cuts open your body to repair or remove something inside"
+  },
+  "obscure": {
+    "中释": "某种模糊的或不清楚的东西"
+  },
+  "pastime": {
+    "中释": "娱乐，消遣",
+    "英释": "something that you do because you think it is enjoyable or interesting"
+  },
+  "perform": {
+    "中释": "执行；完成；演奏",
+    "英释": "to do something, especially something difficult or useful"
+  },
+  "pilgrim": {
+    "中释": "去朝圣；漫游"
+  },
+  "elevate": {
+    "中释": "提升；举起；振奋情绪等；提升…的职位",
+    "英释": "to move someone or something to a more important level or rank, or make them better than before"
+  },
+  "surpass": {
+    "中释": "超越；胜过，优于；非…所能办到或理解",
+    "英释": "to be even better or greater than someone or something else"
+  },
+  "address": {
+    "中释": "地址；演讲；致辞；说话的技巧；称呼",
+    "英释": "a formal speech that someone makes to a group of people"
+  },
+  "missing": {
+    "中释": "(Missing)人名；(德)米辛"
+  },
+  "novelty": {
+    "中释": "新奇；新奇的事物；新颖小巧而廉价的物品",
+    "英释": "the quality of being new, unusual, and interesting"
+  },
+  "protect": {
+    "中释": "保护，防卫；警戒",
+    "英释": "to keep someone or something safe from harm, damage, or illness"
+  },
+  "biology": {
+    "中释": "（一个地区全部的）生物；生物学",
+    "英释": "the scientific study of living things"
+  },
+  "extract": {
+    "中释": "汁；摘录；榨出物；选粹",
+    "英释": "a short piece of writing, music etc taken from a particular book, piece of music etc"
+  },
+  "factory": {
+    "中释": "工厂；制造厂；代理店",
+    "英释": "a building or group of buildings in which goods are produced in large quantities, using machines"
+  },
+  "intense": {
+    "中释": "强烈的；紧张的；非常的；热情的",
+    "英释": "having a very strong effect or felt very strongly"
+  },
+  "inspire": {
+    "中释": "激发；鼓舞；启示；产生；使生灵感",
+    "英释": "to encourage someone by making them feel confident and eager to do something"
+  },
+  "exploit": {
+    "中释": "勋绩；功绩"
+  },
+  "barrier": {
+    "中释": "把…关入栅栏"
+  },
+  "contend": {
+    "中释": "竞争；奋斗；斗争；争论",
+    "英释": "to compete against someone in order to gain something"
+  },
+  "reserve": {
+    "中释": "储备；保留；预约",
+    "英释": "to arrange for a place in a hotel, restaurant, plane etc to be kept for you to use at a particular time in the future"
+  },
+  "contest": {
+    "中释": "竞赛；争夺；争论",
+    "英释": "a competition or a situation in which two or more people or groups are competing with each other"
+  },
+  "trigger": {
+    "中释": "扳机；[电子] 触发器；制滑机",
+    "英释": "the part of a gun that you pull with your finger to fire it"
+  },
+  "pioneer": {
+    "中释": "开辟；倡导；提倡",
+    "英释": "to be the first person to do, invent or use something"
+  },
+  "context": {
+    "中释": "环境；上下文；来龙去脉",
+    "英释": "the situation, events, or information that are related to something and that help you to understand it"
+  },
+  "leisure": {
+    "中释": "空闲的；有闲的；业余的"
+  },
+  "amateur": {
+    "中释": "业余的；外行的",
+    "英释": "Amateur sports or activities are done by people as a hobby and not as a job"
+  },
+  "athlete": {
+    "中释": "运动员，体育家；身强力壮的人",
+    "英释": "someone who competes in sports competitions, especially running, jumping, and throwing"
+  },
+  "imitate": {
+    "中释": "模仿，仿效；仿造，仿制",
+    "英释": "to copy the way someone behaves, speaks, moves etc, especially in order to make people laugh"
+  },
+  "tourist": {
+    "中释": "坐旅游车厢；坐经济舱"
+  },
+  "acclaim": {
+    "中释": "欢呼，喝彩；称赞",
+    "英释": "Acclaim is public praise for someone or something"
+  },
+  "perplex": {
+    "中释": "使困惑，使为难；使复杂化",
+    "英释": "if something perplexes you, it makes you feel confused and worried because it is difficult to understand"
+  },
+  "concert": {
+    "中释": "音乐会用的；在音乐会上演出的"
+  },
+  "absence": {
+    "中释": "没有；缺乏；缺席；不注意",
+    "英释": "when you are not in the place where people expect you to be, or the time that you are away"
+  },
+  "horizon": {
+    "中释": "[天] 地平线；视野；眼界；范围",
+    "英释": "the line far away where the land or sea seems to meet the sky"
+  },
+  "visible": {
+    "中释": "可见物；进出口贸易中的有形项目"
+  },
+  "chronic": {
+    "中释": "(Chronic)人名；(英)克罗尼克"
+  },
+  "posture": {
+    "中释": "摆姿势"
+  },
+  "boycott": {
+    "中释": "联合抵制",
+    "英释": "an act of boycotting something, or the period of time when it is boycotted"
+  },
+  "correct": {
+    "中释": "正确的；恰当的；端正的",
+    "英释": "having no mistakes"
+  },
+  "skilled": {
+    "中释": "熟练的；有技能的；需要技能的",
+    "英释": "someone who is skilled has the training and experience that is needed to do something well"
+  },
+  "incline": {
+    "中释": "倾斜；斜面；斜坡",
+    "英释": "a slope"
+  },
+  "pyramid": {
+    "中释": "渐增；上涨；成金字塔状"
+  },
+  "painful": {
+    "中释": "痛苦的；疼痛的；令人不快的",
+    "英释": "if a part of your body is painful, it hurts"
+  },
+  "enlarge": {
+    "中释": "扩大；放大；详述",
+    "英释": "if you enlarge something, or if it enlarges, it increases in size or scale"
+  },
+  "abandon": {
+    "中释": "遗弃；放弃",
+    "英释": "to leave someone, especially someone you are responsible for"
+  },
+  "durable": {
+    "中释": "耐用品"
+  },
+  "prevail": {
+    "中释": "盛行，流行；战胜，获胜",
+    "英释": "if a belief, custom, situation etc prevails, it exists among a group of people at a certain time"
+  },
+  "foreign": {
+    "中释": "外国的；外交的；异质的；不相关的",
+    "英释": "from or relating to a country that is not your own"
+  },
+  "consent": {
+    "中释": "同意；（意见等的）一致；赞成",
+    "英释": "agreement about something"
+  },
+  "housing": {
+    "中释": "房屋；住房供给；[机] 外壳；遮盖物；机器等的防护外壳或外罩",
+    "英释": "the work of providing houses for people to live in"
+  },
+  "caution": {
+    "中释": "警告",
+    "英释": "to warn someone that something might be dangerous, difficult etc"
+  },
+  "channel": {
+    "中释": "通道；频道；海峡",
+    "英释": "a television station and all the programmes that it broadcasts"
+  },
+  "consist": {
+    "中释": "由…组成；在于；符合"
+  },
+  "condemn": {
+    "中释": "谴责；判刑，定罪；声讨",
+    "英释": "to say very strongly that you do not approve of something or someone, especially because you think it is morally wrong"
+  },
+  "evident": {
+    "中释": "明显的；明白的",
+    "英释": "easy to see, notice, or understand"
+  },
+  "fitting": {
+    "中释": "适合的，适宜的；相称的",
+    "英释": "right for a particular situation or occasion"
+  },
+  "purpose": {
+    "中释": "决心；企图；打算"
+  },
+  "senator": {
+    "中释": "参议员；（古罗马的）元老院议员；评议员，理事",
+    "英释": "a member of the Senate or a senate"
+  },
+  "fashion": {
+    "中释": "使用；改变；做成…的形状",
+    "英释": "to shape or make something, using your hands or only a few tools"
+  },
+  "realise": {
+    "中释": "认识到，明白"
+  },
+  "reverse": {
+    "中释": "反面的；颠倒的；反身的",
+    "英释": "the back of something"
+  },
+  "confirm": {
+    "中释": "确认；确定；证实；批准；使巩固",
+    "英释": "to show that something is definitely true, especially by providing more proof"
+  },
+  "confine": {
+    "中释": "限制；禁闭",
+    "英释": "to keep someone or something within the limits of a particular activity or subject"
+  },
+  "massive": {
+    "中释": "大量的；巨大的，厚重的；魁伟的",
+    "英释": "very large, solid, and heavy"
+  },
+  "suspend": {
+    "中释": "延缓，推迟；使暂停；使悬浮",
+    "英释": "to officially stop something from continuing, especially for a short time"
+  },
+  "analyse": {
+    "中释": "分析；分解；细察",
+    "英释": "to examine or think about something carefully, in order to understand it"
+  },
+  "calorie": {
+    "中释": "卡路里（热量单位）",
+    "英释": "a unit for measuring the amount of  energy  that food will produce"
+  },
+  "violent": {
+    "中释": "暴力的；猛烈的",
+    "英释": "involving actions that are intended to injure or kill people, by hitting them, shooting them etc"
+  },
+  "shelter": {
+    "中释": "保护；使掩蔽",
+    "英释": "If a place or thing is sheltered by something, it is protected by that thing from wind and rain"
+  },
+  "charter": {
+    "中释": "宪章；执照；特许状",
+    "英释": "a statement of the principles, duties, and purposes of an organization"
+  },
+  "minimum": {
+    "中释": "最小的；最低的",
+    "英释": "the minimum number, degree, or amount of something is the smallest or least that is possible, allowed, or needed"
+  },
+  "curious": {
+    "中释": "好奇的，有求知欲的；古怪的；爱挑剔的",
+    "英释": "wanting to know about something"
+  },
+  "garment": {
+    "中释": "给…穿衣服"
+  },
+  "resolve": {
+    "中释": "坚决；决定要做的事",
+    "英释": "strong determination to succeed in doing something"
+  },
+  "hearing": {
+    "中释": "听见（hear的ing形式）"
+  },
+  "deprive": {
+    "中释": "使丧失，剥夺",
+    "英释": "If you deprive someone of something that they want or need, you take it away from them, or you prevent them from having it"
+  },
+  "preface": {
+    "中释": "为…加序言；以…开始",
+    "英释": "If you preface an action or speech with something else, you do or say this other thing first"
+  },
+  "edition": {
+    "中释": "版本",
+    "英释": "the form that a book, newspaper, magazine etc is produced in"
+  },
+  "surplus": {
+    "中释": "剩余的；过剩的",
+    "英释": "more than what is needed or used"
+  },
+  "mixture": {
+    "中释": "混合；混合物；混合剂",
+    "英释": "a combination of two or more different things, feelings, or types of people"
+  },
+  "distort": {
+    "中释": "扭曲；使失真；曲解",
+    "英释": "to report something in a way that is not completely true or correct"
+  },
+  "whisper": {
+    "中释": "耳语；密谈；飒飒地响",
+    "英释": "to speak or say something very quietly, using your breath rather than your voice"
+  },
+  "package": {
+    "中释": "打包；将…包装",
+    "英释": "to put food or other goods into a bag, box etc ready to be sold or sent"
+  },
+  "gallery": {
+    "中释": "挖地道"
+  },
+  "finance": {
+    "中释": "负担经费，供给…经费"
+  },
+  "extinct": {
+    "中释": "使熄灭"
+  },
+  "prolong": {
+    "中释": "延长；拖延",
+    "英释": "to deliberately make something such as a feeling or an activity last longer"
+  },
+  "mystery": {
+    "中释": "秘密，谜；神秘，神秘的事物；推理小说，推理剧；常作 mysteries 秘技，秘诀",
+    "英释": "an event, situation etc that people do not understand or cannot explain because they do not know enough about it"
+  },
+  "orderly": {
+    "中释": "顺序地；依次地"
+  },
+  "harness": {
+    "中释": "马具；甲胄；挽具状带子；降落伞背带；日常工作",
+    "英释": "a set of leather bands used to control a horse or to attach it to a vehicle it is pulling"
+  },
+  "dignity": {
+    "中释": "尊严；高贵",
+    "英释": "the ability to behave in a calm controlled way even in a difficult situation"
+  },
+  "therapy": {
+    "中释": "治疗，疗法",
+    "英释": "the treatment of an illness or injury over a fairly long period of time"
+  },
+  "enforce": {
+    "中释": "实施，执行；强迫，强制",
+    "英释": "to make people obey a rule or law"
+  },
+  "depress": {
+    "中释": "压抑；使沮丧；使萧条",
+    "英释": "to make someone feel very unhappy"
+  },
+  "tuition": {
+    "中释": "学费；讲授",
+    "英释": "teaching, especially in small groups"
+  },
+  "eminent": {
+    "中释": "杰出的；有名的；明显的",
+    "英释": "an eminent person is famous, important, and respected"
+  },
+  "insight": {
+    "中释": "洞察力；洞悉",
+    "英释": "the ability to understand and realize what people or situations are really like"
+  },
+  "signify": {
+    "中释": "表示；意味；预示",
+    "英释": "to represent, mean, or be a sign of something"
+  },
+  "liberty": {
+    "中释": "自由；许可；冒失",
+    "英释": "the freedom and the right to do whatever you want without asking permission or being afraid of authority"
+  },
+  "clarify": {
+    "中释": "澄清；阐明",
+    "英释": "to make something clearer or easier to understand"
+  },
+  "refusal": {
+    "中释": "拒绝；优先取舍权；推却；取舍权",
+    "英释": "when you say firmly that you will not do, give, or accept something"
+  },
+  "banquet": {
+    "中释": "宴请，设宴款待"
+  },
+  "surgeon": {
+    "中释": "外科医生",
+    "英释": "a doctor who does operations in a hospital"
+  },
+  "retreat": {
+    "中释": "撤退；退避；向后倾",
+    "英释": "to move away from the enemy after being defeated in battle"
+  },
+  "dictate": {
+    "中释": "命令；指示",
+    "英释": "an order, rule, or principle that you have to obey"
+  },
+  "anxious": {
+    "中释": "焦虑的；担忧的；渴望的；急切的",
+    "英释": "worried about something"
+  },
+  "foresee": {
+    "中释": "预见；预知",
+    "英释": "to think or know that something is going to happen in the future"
+  },
+  "readily": {
+    "中释": "容易地；乐意地；无困难地",
+    "英释": "quickly, willingly, and without complaining"
+  },
+  "protein": {
+    "中释": "蛋白质的"
+  },
+  "wealthy": {
+    "中释": "富人",
+    "英释": "The wealthy are people who are wealthy"
+  },
+  "mission": {
+    "中释": "派遣；向……传教"
+  },
+  "revolve": {
+    "中释": "旋转；循环；旋转舞台"
+  },
+  "discard": {
+    "中释": "抛弃；被丢弃的东西或人"
+  },
+  "compile": {
+    "中释": "编译；编制；编辑；[图情] 汇编",
+    "英释": "to make a book, list, record etc, using different pieces of information, music etc"
+  },
+  "visitor": {
+    "中释": "访问者，参观者；视察者；候鸟",
+    "英释": "someone who comes to visit a place or a person"
+  },
+  "dialect": {
+    "中释": "方言的"
+  },
+  "elegant": {
+    "中释": "高雅的，优雅的；讲究的；简炼的；简洁的",
+    "英释": "beautiful, attractive, or graceful"
+  },
+  "refresh": {
+    "中释": "更新；使……恢复；使……清新；消除……的疲劳",
+    "英释": "if you refresh your computer screen while you are connected to the Internet, you make the screen show any new information that has arrived since you first began looking at it"
+  },
+  "dentist": {
+    "中释": "牙科医生",
+    "英释": "someone whose job is to treat people’s teeth"
+  },
+  "startle": {
+    "中释": "惊愕；惊恐"
+  },
+  "loyalty": {
+    "中释": "忠诚；忠心；忠实；忠于…感情",
+    "英释": "the quality of remaining faithful to your friends, principles, country etc"
+  },
+  "dislike": {
+    "中释": "嫌恶，反感，不喜爱",
+    "英释": "Dislike is the feeling that you do not like someone or something"
+  },
+  "nurture": {
+    "中释": "养育；教养；营养物",
+    "英释": "the education and care that you are given as a child, and the way it affects your later development and attitudes"
+  },
+  "protest": {
+    "中释": "表示抗议的；抗议性的"
+  },
+  "convert": {
+    "中释": "皈依者；改变宗教信仰者",
+    "英释": "someone who has been persuaded to change their beliefs and accept a particular religion or opinion"
+  },
+  "meeting": {
+    "中释": "会面；会合（meet的ing形式）"
+  },
+  "witness": {
+    "中释": "目击；证明；为…作证",
+    "英释": "to see something happen, especially a crime or accident"
+  },
+  "awkward": {
+    "中释": "尴尬的；笨拙的；棘手的；不合适的",
+    "英释": "making you feel embarrassed so that you are not sure what to do or say"
+  },
+  "augment": {
+    "中释": "增加；增大"
+  },
+  "illegal": {
+    "中释": "非法移民，非法劳工",
+    "英释": "an illegal immigrant"
+  },
+  "invalid": {
+    "中释": "使伤残；使退役"
+  },
+  "station": {
+    "中释": "配置；安置；驻扎",
+    "英释": "to send someone in the military to a particular place for a period of time as part of their military duty"
+  },
+  "tremble": {
+    "中释": "颤抖；战栗；摇晃",
+    "英释": "Tremble is also a noun"
+  },
+  "village": {
+    "中释": "村庄；村民；（动物的）群落",
+    "英释": "a very small town in the countryside"
+  },
+  "trivial": {
+    "中释": "不重要的，琐碎的；琐细的"
+  },
+  "plateau": {
+    "中释": "高原印第安人的"
+  },
+  "formula": {
+    "中释": "[数] 公式，准则；配方；婴儿食品",
+    "英释": "a method or set of principles that you use to solve a problem or to make sure that something is successful"
+  },
+  "elderly": {
+    "中释": "上了年纪的；过了中年的；稍老的",
+    "英释": "used as a polite way of saying that someone is old or becoming old"
+  },
+  "oneself": {
+    "中释": "自己；亲自",
+    "英释": "the reflexive form of one27"
+  },
+  "persist": {
+    "中释": "存留，坚持；持续，固执",
+    "英释": "to continue to do something, although this is difficult, or other people oppose it"
+  },
+  "bizarre": {
+    "中释": "奇异的（指态度，容貌，款式等）",
+    "英释": "very unusual or strange"
+  },
+  "embrace": {
+    "中释": "拥抱",
+    "英释": "the act of holding someone close to you, especially as a sign of love"
+  },
+  "overlap": {
+    "中释": "部分重叠；部分的同时发生",
+    "英释": "If one thing overlaps another, or if you overlap them, a part of the first thing occupies the same area as a part of the other thing. You can also say that two things overlap. "
+  },
+  "release": {
+    "中释": "释放；发布；让与",
+    "英释": "when someone is officially allowed to go free, after being kept somewhere"
+  },
+  "poverty": {
+    "中释": "贫困；困难；缺少；低劣",
+    "英释": "the situation or experience of being poor"
+  },
+  "soldier": {
+    "中释": "当兵；磨洋工；坚持干；假称害病"
+  },
+  "stumble": {
+    "中释": "绊倒；蹒跚而行"
+  },
+  "steward": {
+    "中释": "管理"
+  },
+  "shortly": {
+    "中释": "立刻；简短地；唐突地",
+    "英释": "soon"
+  },
+  "lottery": {
+    "中释": "彩票；碰运气的事，难算计的事；抽彩给奖法",
+    "英释": "a game used to make money for a state or a  charity  in which people buy tickets with a series of numbers on them. If their number is picked by chance, they win money or a prize."
+  },
+  "tribute": {
+    "中释": "礼物；[税收] 贡物；颂词；（尤指对死者的）致敬，悼念，吊唁礼物",
+    "英释": "something that you say, do, or give in order to express your respect or admiration for someone"
+  },
+  "despair": {
+    "中释": "绝望，丧失信心",
+    "英释": "to feel that there is no hope at all"
+  },
+  "freight": {
+    "中释": "货运；运费；船货",
+    "英释": "goods that are carried by ship, train, or aircraft, and the system of moving these goods"
+  },
+  "jealous": {
+    "中释": "妒忌的；猜疑的；唯恐失去的；戒备的",
+    "英释": "feeling unhappy because someone has something that you wish you had"
+  },
+  "testify": {
+    "中释": "证明，证实；作证",
+    "英释": "to make a formal statement of what is true, especially in a court of law"
+  },
+  "stretch": {
+    "中释": "伸展，延伸",
+    "英释": "the action of stretching a part of your body out to its full length, or a particular way of doing this"
+  },
+  "immense": {
+    "中释": "巨大的，广大的；无边无际的；非常好的",
+    "英释": "extremely large"
+  },
+  "hostage": {
+    "中释": "人质；抵押品",
+    "英释": "someone who is kept as a prisoner by an enemy so that the other side will do what the enemy demands"
+  },
+  "entitle": {
+    "中释": "称做…；定名为…；给…称号；使…有权利",
+    "英释": "to give someone the official right to do or have something"
+  },
+  "veteran": {
+    "中释": "经验丰富的；老兵的"
+  },
+  "journey": {
+    "中释": "旅行",
+    "英释": "to travel"
+  },
+  "analogy": {
+    "中释": "类比；类推；类似",
+    "英释": "something that seems similar between two situations, processes etc"
+  },
+  "partial": {
+    "中释": "局部的；偏爱的；不公平的",
+    "英释": "not complete"
+  },
+  "paradox": {
+    "中释": "悖论，反论；似非而是的论点；自相矛盾的人或事",
+    "英释": "a situation that seems strange because it involves two ideas or qualities that are very different"
+  },
+  "inquiry": {
+    "中释": "探究；调查；质询",
+    "英释": "the act or process of asking questions in order to get information"
+  },
+  "distant": {
+    "中释": "遥远的；冷漠的；远隔的；不友好的，冷淡的",
+    "英释": "far away in space or time"
+  },
+  "cottage": {
+    "中释": "小屋；村舍；（农舍式的）小别墅",
+    "英释": "a small house in the country"
+  },
+  "classic": {
+    "中释": "名著；经典著作；大艺术家",
+    "英释": "a book, play, or film that is important and has been admired for a long time"
+  },
+  "citizen": {
+    "中释": "公民；市民；老百姓",
+    "英释": "someone who lives in a particular town, country, or state"
+  },
+  "tuesday": {
+    "中释": "星期二",
+    "英释": "Tuesday is the day after Monday and before Wednesday"
+  },
+  "fragile": {
+    "中释": "脆的；易碎的",
+    "英释": "easily broken or damaged"
+  },
+  "dispute": {
+    "中释": "辩论；争吵",
+    "英释": "a serious argument or disagreement"
+  },
+  "vicious": {
+    "中释": "(Vicious)人名；(英)维舍斯"
+  },
+  "farther": {
+    "中释": "进一步的；更远的（far的比较级）",
+    "英释": "more distant; a  comparative  form of ‘far’"
+  },
+  "cricket": {
+    "中释": "板球，板球运动；蟋蟀",
+    "英释": "a game between two teams of 11 players in which players try to get points by hitting a ball and running between two sets of three sticks"
+  },
+  "daytime": {
+    "中释": "日间，白天",
+    "英释": "the time during the day between the time when it gets light and the time when it gets dark"
+  },
+  "officer": {
+    "中释": "指挥"
+  },
+  "faculty": {
+    "中释": "科，系；能力；全体教员",
+    "英释": "all the teachers in a university"
+  },
+  "comfort": {
+    "中释": "安慰；使（痛苦等）缓和",
+    "英释": "to make someone feel less worried, unhappy, or upset, for example by saying kind things to them or touching them"
+  },
+  "amiable": {
+    "中释": "(Amiable)人名；(法)阿米亚布勒；(英)阿米娅布尔"
+  },
+  "virtual": {
+    "中释": "[计] 虚拟的；实质上的，事实上的（但未在名义上或正式获承认）",
+    "英释": "made, done, seen etc on the Internet or on a computer, rather than in the real world"
+  },
+  "logical": {
+    "中释": "合逻辑的，合理的；逻辑学的",
+    "英释": "seeming reasonable and sensible"
+  },
+  "balance": {
+    "中释": "使平衡；结算；使相称",
+    "英释": "if a government balances the budget, they make the amount of money that they spend equal to the amount of money available"
+  },
+  "inherit": {
+    "中释": "继承；遗传而得",
+    "英释": "to receive money, property etc from someone after they have died"
+  },
+  "compose": {
+    "中释": "构成；写作；使平静；排…的版",
+    "英释": "to write a piece of music"
+  },
+  "essence": {
+    "中释": "本质，实质；精华；香精",
+    "英释": "the most basic and important quality of something"
+  },
+  "treason": {
+    "中释": "[法] 叛国罪；不忠",
+    "英释": "the crime of being disloyal to your country or its government, especially by helping its enemies or trying to remove the government using violence"
+  },
+  "cripple": {
+    "中释": "跛的；残废的"
+  },
+  "stadium": {
+    "中释": "体育场；露天大型运动场",
+    "英释": "a building for public events, especially sports and large rock music concerts, consisting of a playing field surrounded by rows of seats"
+  },
+  "drawing": {
+    "中释": "绘画；吸引（draw的ing形式）；拖曳"
+  },
+  "rectify": {
+    "中释": "改正；精馏；整流",
+    "英释": "If you rectify something that is wrong, you change it so that it becomes correct or satisfactory"
+  },
+  "library": {
+    "中释": "图书馆，藏书室；文库",
+    "英释": "a room or building containing books that can be looked at or borrowed"
+  },
+  "plaster": {
+    "中释": "减轻；粘贴；涂以灰泥；敷以膏药；使平服",
+    "英释": "If you plaster yourself in some kind of sticky substance, you cover yourself in it"
+  },
+  "shampoo": {
+    "中释": "洗发",
+    "英释": "to wash something with shampoo"
+  },
+  "seminar": {
+    "中释": "讨论会，研讨班",
+    "英释": "a class at a university or college for a small group of students and a teacher to study or discuss a particular subject"
+  },
+  "prophet": {
+    "中释": "先知；预言者；提倡者",
+    "英释": "a man who people in the Christian, Jewish, or Muslim religion believe has been sent by God to lead them and teach them their religion"
+  },
+  "peasant": {
+    "中释": "农民；乡下人",
+    "英释": "a poor farmer who owns or rents a small amount of land, either in past times or in poor countries"
+  },
+  "biscuit": {
+    "中释": "小点心，饼干",
+    "英释": "a small thin dry cake that is usually sweet and made for one person to eat"
+  },
+  "sunrise": {
+    "中释": "日出；黎明",
+    "英释": "the time when the sun first appears in the morning"
+  },
+  "vehicle": {
+    "中释": "[车辆] 车辆；工具；交通工具；运载工具；传播媒介；媒介物",
+    "英释": "a machine with an engine that is used to take people or things from one place to another, such as a car, bus, or truck"
+  },
+  "deviate": {
+    "中释": "脱离；越轨",
+    "英释": "To deviate from something means to start doing something different or not planned, especially in a way that causes problems for others"
+  },
+  "painter": {
+    "中释": "画家；油漆匠",
+    "英释": "someone who paints pictures"
+  },
+  "clothes": {
+    "中释": "衣服",
+    "英释": "the things that people wear to cover their body or keep warm"
+  },
+  "blossom": {
+    "中释": "花；开花期；兴旺期；花开的状态",
+    "英释": "a flower or the flowers on a tree or bush"
+  },
+  "laundry": {
+    "中释": "洗衣店，洗衣房；要洗的衣服；洗熨；洗好的衣服",
+    "英释": "clothes, sheets etc that need to be washed or have just been washed"
+  },
+  "canteen": {
+    "中释": "食堂，小卖部；水壶",
+    "英释": "a place in a factory, school etc where meals are provided, usually quite cheaply"
+  },
+  "baggage": {
+    "中释": "行李；[交] 辎重（军队的）",
+    "英释": "the cases, bags, boxes etc carried by someone who is travelling"
+  },
+  "lateral": {
+    "中释": "横向传球"
+  },
+  "removal": {
+    "中释": "免职；移动；排除；搬迁",
+    "英释": "when someone is forced out of an important position or dismissed from a job"
+  },
+  "upgrade": {
+    "中释": "向上的"
+  },
+  "beneath": {
+    "中释": "在下方",
+    "英释": "in or to a lower position than something, or directly under something"
+  },
+  "smuggle": {
+    "中释": "走私；偷运",
+    "英释": "to take something or someone illegally from one country to another"
+  },
+  "torrent": {
+    "中释": "奔流；倾注；迸发；连续不断",
+    "英释": "A torrent is a lot of water falling or flowing rapidly or violently"
+  },
+  "feather": {
+    "中释": "用羽毛装饰"
+  },
+  "relieve": {
+    "中释": "解除，减轻；使不单调乏味；换…的班；解围；使放心",
+    "英释": "to reduce someone’s pain or unpleasant feelings"
+  },
+  "cabbage": {
+    "中释": "卷心菜，甘蓝菜，洋白菜；（俚)脑袋；（非正式、侮辱）植物人（常用于英式英语）；（俚）钱，尤指纸币（常用于美式俚语）",
+    "英释": "a large round vegetable with thick green or purple leaves"
+  },
+  "bearing": {
+    "中释": "忍受（bear的ing形式）"
+  },
+  "inhabit": {
+    "中释": "栖息；居住于；占据",
+    "英释": "if animals or people inhabit an area or place, they live there"
+  },
+  "brother": {
+    "中释": "我的老兄！",
+    "英释": "a word meaning a black man, used especially by other black men"
+  },
+  "bowling": {
+    "中释": "打保龄球（bowl的现在分词）"
+  },
+  "agitate": {
+    "中释": "摇动；骚动；使…激动",
+    "英释": "to shake or mix a liquid quickly"
+  },
+  "trumpet": {
+    "中释": "吹喇叭；吹嘘",
+    "英释": "to tell everyone about something that you are proud of, especially in an annoying way"
+  },
+  "bicycle": {
+    "中释": "骑脚踏车",
+    "英释": "to go somewhere by bicycle"
+  },
+  "pronoun": {
+    "中释": "代词",
+    "英释": "a word that is used instead of a noun or noun phrase, such as ‘he’ instead of ‘Peter’ or ‘the man’"
+  },
+  "exclaim": {
+    "中释": "呼喊，惊叫；大声叫嚷",
+    "英释": "to say something suddenly and loudly because you are surprised, angry, or excited"
+  },
+  "oppress": {
+    "中释": "压迫，压抑；使……烦恼；使……感到沉重",
+    "英释": "to treat a group of people unfairly or cruelly, and prevent them from having the same rights that other people in society have"
+  },
+  "diagram": {
+    "中释": "用图解法表示",
+    "英释": "to show or represent something in a diagram"
+  },
+  "ecology": {
+    "中释": "生态学；社会生态学",
+    "英释": "the way in which plants, animals, and people are related to each other and to their environment, or the scientific study of this"
+  },
+  "immerse": {
+    "中释": "沉浸；使陷入",
+    "英释": "to put someone or something deep into a liquid so that they are completely covered"
+  },
+  "chimney": {
+    "中释": "烟囱",
+    "英释": "a vertical pipe that allows smoke from a fire to pass out of a building up into the air, or the part of this pipe that is above the roof"
+  },
+  "furious": {
+    "中释": "激烈的；狂怒的；热烈兴奋的；喧闹的",
+    "英释": "very angry"
+  },
+  "magnify": {
+    "中释": "放大；赞美；夸大",
+    "英释": "to make something seem bigger or louder, especially using special equipment"
+  },
+  "impress": {
+    "中释": "印象，印记；特征，痕迹"
+  },
+  "optimum": {
+    "中释": "最佳效果；最适宜条件"
+  },
+  "embassy": {
+    "中释": "大使馆；大使馆全体人员",
+    "英释": "a group of officials who represent their government in a foreign country, or the building they work in"
+  },
+  "glimpse": {
+    "中释": "瞥见",
+    "英释": "to see someone or something for a moment without getting a complete view of them"
+  },
+  "conform": {
+    "中释": "一致的；顺从的"
+  },
+  "scenery": {
+    "中释": "风景；景色；舞台布景",
+    "英释": "the natural features of a particular part of a country that you can see, such as mountains, forests, deserts etc"
+  },
+  "warrant": {
+    "中释": "保证；担保；批准；辩解",
+    "英释": "to promise that something is true"
+  },
+  "monarch": {
+    "中释": "君主，帝王；最高统治者",
+    "英释": "a king or queen"
+  },
+  "wedding": {
+    "中释": "与…结婚（wed的ing形式）"
+  },
+  "weekend": {
+    "中释": "度周末",
+    "英释": "to spend the weekend somewhere"
+  },
+  "inhibit": {
+    "中释": "抑制；禁止",
+    "英释": "to prevent something from growing or developing well"
+  },
+  "terrify": {
+    "中释": "恐吓；使恐怖；使害怕",
+    "英释": "to make someone extremely afraid"
+  },
+  "pollute": {
+    "中释": "污染；玷污；败坏",
+    "英释": "to make air, water, soil etc dangerously dirty and not suitable for people to use"
+  },
+  "tobacco": {
+    "中释": "烟草，烟叶；烟草制品；抽烟",
+    "英释": "the dried brown leaves that are smoked in cigarettes, pipes etc"
+  },
+  "beloved": {
+    "中释": "心爱的人；亲爱的教友"
+  },
+  "premise": {
+    "中释": "前提；上述各项；房屋连地基",
+    "英释": "the buildings and land that a shop, restaurant, company etc uses"
+  },
+  "indulge": {
+    "中释": "满足；纵容；使高兴；使沉迷于…",
+    "英释": "to let someone have or do whatever they want, even if it is bad for them"
+  },
+  "textile": {
+    "中释": "纺织的"
+  },
+  "heroine": {
+    "中释": "女主角；女英雄；女杰出人物",
+    "英释": "a woman who is admired for doing something extremely brave"
+  },
+  "erosion": {
+    "中释": "侵蚀，腐蚀",
+    "英释": "the process by which rock or soil is gradually destroyed by wind, rain, or the sea"
+  },
+  "adverse": {
+    "中释": "不利的；相反的；敌对的（名词adverseness，副词adversely）",
+    "英释": "not good or favourable"
+  },
+  "steamer": {
+    "中释": "轮船；蒸汽机；蒸笼",
+    "英释": "a  steamship "
+  },
+  "premium": {
+    "中释": "高价的；优质的",
+    "英释": "of very high quality"
+  },
+  "intrude": {
+    "中释": "把…强加；把…硬挤"
+  },
+  "monster": {
+    "中释": "巨大的，庞大的",
+    "英释": "unusually large"
+  },
+  "drought": {
+    "中释": "干旱；缺乏",
+    "英释": "a long period of dry weather when there is not enough water for plants and animals to live"
+  },
+  "cherish": {
+    "中释": "珍爱",
+    "英释": "if you cherish something, it is very important to you"
+  },
+  "disgust": {
+    "中释": "使厌恶；使作呕",
+    "英释": "To disgust someone means to make them feel a strong sense of dislike and disapproval"
+  },
+  "fearful": {
+    "中释": "可怕的；担心的；严重的",
+    "英释": "frightened that something bad might happen"
+  },
+  "tractor": {
+    "中释": "拖拉机；牵引机",
+    "英释": "a strong vehicle with large wheels, used for pulling farm machinery"
+  },
+  "descent": {
+    "中释": "除去…的气味；使…失去香味"
+  },
+  "organic": {
+    "中释": "[有化] 有机的；组织的；器官的；根本的",
+    "英释": "living, or produced by or from living things"
+  },
+  "outdoor": {
+    "中释": "户外的；露天的；野外的（等于out-of-door）",
+    "英释": "existing, happening, or used outside, not inside a building"
+  },
+  "descend": {
+    "中释": "下降；下去；下来；遗传；屈尊",
+    "英释": "to move from a higher level to a lower one"
+  },
+  "selfish": {
+    "中释": "自私的；利己主义的",
+    "英释": "caring only about yourself and not about other people – used to show disapproval"
+  },
+  "comrade": {
+    "中释": "同志；伙伴",
+    "英释": " socialists  or  communists  often call each other ‘comrade’, especially in meetings"
+  },
+  "corrupt": {
+    "中释": "使腐烂；使堕落，使恶化",
+    "英释": "to encourage someone to start behaving in an immoral or dishonest way"
+  },
+  "conceal": {
+    "中释": "隐藏；隐瞒",
+    "英释": "to hide something carefully"
+  },
+  "doorway": {
+    "中释": "门口；途径",
+    "英释": "the space where a door opens into a room or building"
+  },
+  "concede": {
+    "中释": "承认；退让；给予，容许",
+    "英释": "to admit that something is true or correct, although you wish it were not true"
+  },
+  "typhoon": {
+    "中释": "[气象] 台风",
+    "英释": "a very violent tropical storm"
+  },
+  "enquire": {
+    "中释": "询问；调查；问候（等于inquire）"
+  },
+  "mistake": {
+    "中释": "弄错；误解",
+    "英释": "to understand something wrongly"
+  },
+  "gesture": {
+    "中释": "作手势；用动作示意",
+    "英释": "to move your hand, arm, or head to tell someone something, or show them what you mean"
+  },
+  "rubbish": {
+    "中释": "毫无价值的"
+  },
+  "verdict": {
+    "中释": "结论；裁定",
+    "英释": "an official decision made in a court of law, especially about whether someone is guilty of a crime or how a death happened"
+  },
+  "conquer": {
+    "中释": "战胜，征服；攻克，攻取",
+    "英释": "to get control of a country by fighting"
+  },
+  "scandal": {
+    "中释": "丑闻；流言蜚语；诽谤；公愤",
+    "英释": "an event in which someone, especially someone important, behaves in a bad way that shocks people"
+  },
+  "refrain": {
+    "中释": "叠句，副歌；重复",
+    "英释": "part of a song or poem that is repeated, especially at the end of each  verse "
+  },
+  "precise": {
+    "中释": "精确的；明确的；严格的",
+    "英释": "precise information, details etc are exact, clear, and correct"
+  },
+  "postman": {
+    "中释": "邮递员；邮差",
+    "英释": "someone whose job is to collect and deliver letters"
+  },
+  "climate": {
+    "中释": "气候；风气；思潮；风土",
+    "英释": "the typical weather conditions in a particular area"
+  },
+  "monitor": {
+    "中释": "监控",
+    "英释": "to carefully watch and check a situation in order to see how it changes over a period of time"
+  },
+  "discern": {
+    "中释": "识别；领悟，认识",
+    "英释": "If you can discern something, you are aware of it and know what it is"
+  },
+  "vibrate": {
+    "中释": "振动；颤动；摇摆；踌躇",
+    "英释": "if something vibrates, or if you vibrate it, it shakes quickly and continuously with very small movements"
+  },
+  "chapter": {
+    "中释": "把…分成章节"
+  },
+  "tonight": {
+    "中释": "今晚",
+    "英释": "the night of this day"
+  },
+  "quarrel": {
+    "中释": "吵架；反目；怨言；争吵的原因；方头凿",
+    "英释": "an angry argument or disagreement"
+  },
+  "amplify": {
+    "中释": "放大，扩大；增强；详述",
+    "英释": "to make sound louder, especially musical sound"
+  },
+  "eternal": {
+    "中释": "永恒的；不朽的",
+    "英释": "continuing for ever and having no end"
+  },
+  "assault": {
+    "中释": "攻击；袭击",
+    "英释": "to attack someone in a violent way"
+  },
+  "isolate": {
+    "中释": "隔离的；孤立的"
+  },
+  "perfume": {
+    "中释": "洒香水于…；使…带香味",
+    "英释": "to put perfume on something"
+  },
+  "chemist": {
+    "中释": "化学家；化学工作者；药剂师；炼金术士",
+    "英释": "a scientist who has special knowledge and training in chemistry"
+  },
+  "marital": {
+    "中释": "婚姻的；夫妇间的",
+    "英释": "relating to marriage"
+  },
+  "appoint": {
+    "中释": "任命；指定；约定",
+    "英释": "to choose someone for a position or a job"
+  },
+  "compute": {
+    "中释": "计算；估计；推断"
+  },
+  "applaud": {
+    "中释": "赞同；称赞；向…喝彩",
+    "英释": "to express strong approval of an idea, plan etc"
+  },
+  "acrobat": {
+    "中释": "杂技演员，特技演员；随机应变者；翻云覆雨者，善变者",
+    "英释": "someone who entertains people by doing difficult physical actions such as walking on their hands or balancing on a high rope, especially at a  circus "
+  },
+  "colonel": {
+    "中释": "陆军上校",
+    "英释": "a high rank in the army, Marines, or the US air force, or someone who has this rank"
+  },
+  "royalty": {
+    "中释": "皇室；版税；王权；专利税",
+    "英释": "members of a royal family"
+  },
+  "wrinkle": {
+    "中释": "起皱",
+    "英释": "if you wrinkle a part of your face, or if it wrinkles, small lines appear on it"
+  },
+  "october": {
+    "中释": "[天] 十月",
+    "英释": "October is the tenth month of the year in the Western calendar"
+  },
+  "mankind": {
+    "中释": "人类；男性",
+    "英释": "all humans considered as a group"
+  },
+  "leather": {
+    "中释": "皮的；皮革制的"
+  },
+  "refugee": {
+    "中释": "难民，避难者；流亡者，逃亡者",
+    "英释": "someone who has been forced to leave their country, especially during a war, or for political or religious reasons"
+  },
+  "enclose": {
+    "中释": "围绕；装入；放入封套",
+    "英释": "to put something inside an envelope as well as a letter"
+  },
+  "orchard": {
+    "中释": "果园；果树林",
+    "英释": "a place where fruit trees are grown"
+  },
+  "mercury": {
+    "中释": "[化]汞，水银",
+    "英释": "Mercury is a silver-coloured liquid metal that is used especially in thermometers and barometers"
+  },
+  "inspect": {
+    "中释": "检查；视察；检阅",
+    "英释": "to examine something carefully in order to find out more about it or to find out what is wrong with it"
+  },
+  "despise": {
+    "中释": "轻视，鄙视",
+    "英释": "to dislike and have a low opinion of someone or something"
+  },
+  "tedious": {
+    "中释": "沉闷的；冗长乏味的",
+    "英释": "something that is tedious continues for a long time and is not interesting"
+  },
+  "anguish": {
+    "中释": "使极度痛苦"
+  },
+  "nucleus": {
+    "中释": "核，核心；原子核",
+    "英释": "the central part of an atom, made up of neutrons, protons, and other elementary particles"
+  },
+  "nominal": {
+    "中释": "[语] 名词性词"
+  },
+  "geology": {
+    "中释": "地质学；地质情况",
+    "英释": "the study of the rocks, soil etc that make up the Earth, and of the way they have changed since the Earth was formed"
+  },
+  "rejoice": {
+    "中释": "高兴；庆祝"
+  },
+  "trolley": {
+    "中释": "用手推车运"
+  },
+  "ashamed": {
+    "中释": "惭愧的，感到难为情的；耻于……的",
+    "英释": "feeling very sorry and embarrassed because of something you have done"
+  },
+  "hopeful": {
+    "中释": "有希望成功的人",
+    "英释": "someone who is hoping to be successful, especially in acting, sports, politics etc"
+  },
+  "blunder": {
+    "中释": "大错",
+    "英释": "a careless or stupid mistake"
+  },
+  "storage": {
+    "中释": "存储；仓库；贮藏所",
+    "英释": "the process of keeping or putting something in a special place while it is not being used"
+  },
+  "auction": {
+    "中释": "拍卖",
+    "英释": "a public meeting where land, buildings, paintings etc are sold to the person who offers the most money for them"
+  },
+  "jewelry": {
+    "中释": "珠宝；珠宝类"
+  },
+  "sausage": {
+    "中释": "香肠；腊肠；装香肠的碎肉",
+    "英释": "a small tube of skin filled with a mixture of meat, spices etc, eaten hot or cold after it has been cooked"
+  },
+  "instant": {
+    "中释": "瞬间；立即；片刻",
+    "英释": "a moment"
+  },
+  "forgive": {
+    "中释": "原谅；免除（债务、义务等）",
+    "英释": "to stop being angry with someone and stop blaming them, although they have done something wrong"
+  },
+  "confess": {
+    "中释": "承认；坦白；忏悔；供认",
+    "英释": "to admit, especially to the police, that you have done something wrong or illegal"
+  },
+  "battery": {
+    "中释": "[电] 电池，蓄电池",
+    "英释": "an object that provides a supply of electricity for something such as a radio, car, or toy"
+  },
+  "install": {
+    "中释": "安装；任命；安顿",
+    "英释": "to put a piece of equipment somewhere and connect it so that it is ready to be used"
+  },
+  "tragedy": {
+    "中释": "悲剧；灾难；惨案",
+    "英释": "a very sad event, that shocks people because it involves death"
+  },
+  "radiant": {
+    "中释": "光点；发光的物体"
+  },
+  "interim": {
+    "中释": "过渡时期，中间时期；暂定",
+    "英释": "in the period of time between two events"
+  },
+  "husband": {
+    "中释": "丈夫",
+    "英释": "the man that a woman is married to"
+  },
+  "defence": {
+    "中释": "防御；防卫；答辩；防卫设备",
+    "英释": "something you do or a way of behaving that prevents you from seeming weak or being hurt by others"
+  },
+  "disable": {
+    "中释": "使失去能力；使残废；使无资格",
+    "英释": "to make someone unable to use a part of their body properly"
+  },
+  "luggage": {
+    "中释": "行李；皮箱",
+    "英释": "the cases, bags etc that you carry when you are travelling"
+  },
+  "prosper": {
+    "中释": "(Prosper)人名；(英、德、罗、法)普罗斯珀"
+  },
+  "commend": {
+    "中释": "推荐；称赞；把…委托",
+    "英释": "to praise or approve of someone or something publicly"
+  },
+  "inertia": {
+    "中释": "[力] 惯性；惰性，迟钝；不活动",
+    "英释": "when no one wants to do anything to change a situation"
+  },
+  "fireman": {
+    "中释": "消防队员；救火队员；锅炉工",
+    "英释": "a man whose job is to stop fires burning"
+  },
+  "warfare": {
+    "中释": "战争；冲突",
+    "英释": "the activity of fighting in a war – used especially when talking about particular methods of fighting"
+  },
+  "bracket": {
+    "中释": "括在一起；把…归入同一类；排除",
+    "英释": "If two or more people or things are bracketed together, they are considered to be similar or related in some way"
+  },
+  "fatigue": {
+    "中释": "疲劳的"
+  },
+  "corrode": {
+    "中释": "侵蚀；损害",
+    "英释": "if metal corrodes, or if something corrodes it, it is slowly destroyed by the effect of water, chemicals etc"
+  },
+  "radiate": {
+    "中释": "辐射状的，有射线的"
+  },
+  "statute": {
+    "中释": "[法] 法规；法令；条例",
+    "英释": "a law passed by a parliament, council etc and formally written down"
+  },
+  "dispose": {
+    "中释": "处置；性情"
+  },
+  "suicide": {
+    "中释": "自杀"
+  },
+  "presume": {
+    "中释": "假定；推测；擅自；意味着",
+    "英释": "If you presume that something is the case, you think that it is the case, although you are not certain"
+  },
+  "scratch": {
+    "中释": "抓；刮；挖出；乱涂",
+    "英释": "to rub your skin with your nails because it feels uncomfortable"
+  },
+  "outward": {
+    "中释": "外表；外面；物质世界"
+  },
+  "optical": {
+    "中释": "光学的；眼睛的，视觉的",
+    "英释": "relating to machines or processes which are concerned with light, images, or the way we see things"
+  },
+  "dessert": {
+    "中释": "餐后甜点；甜点心",
+    "英释": "sweet food served after the main part of a meal"
+  },
+  "shallow": {
+    "中释": "使变浅"
+  },
+  "consult": {
+    "中释": "查阅；商量；向…请教",
+    "英释": "to ask for information or advice from someone because it is their job to know something"
+  },
+  "dilemma": {
+    "中释": "困境；进退两难；两刀论法",
+    "英释": "a situation in which it is very difficult to decide what to do, because all the choices seem equally good or equally bad"
+  },
+  "airport": {
+    "中释": "机场；航空站",
+    "英释": "a place where planes take off and land, with buildings for passengers to wait in"
+  },
+  "scatter": {
+    "中释": "分散；散播，撒播"
+  },
+  "cigaret": {
+    "中释": "香烟；纸烟（等于cigarette）"
+  },
+  "revenge": {
+    "中释": "报复；替…报仇；洗雪",
+    "英释": "to punish someone who has done something to harm you or someone else"
+  },
+  "shatter": {
+    "中释": "碎片；乱七八糟的状态"
+  },
+  "furnish": {
+    "中释": "提供；供应；装备",
+    "英释": "to supply or provide something"
+  },
+  "texture": {
+    "中释": "质地；纹理；结构；本质，实质",
+    "英释": "the way a surface or material feels when you touch it, especially how smooth or rough it is"
+  },
+  "naughty": {
+    "中释": "顽皮的，淘气的；不听话的；没规矩的；不适当的；下流的",
+    "英释": "a naughty child does not obey adults and behaves badly"
+  },
+  "fantasy": {
+    "中释": "空想；想像"
+  },
+  "distill": {
+    "中释": "提取；蒸馏；使滴下",
+    "英释": "to make a liquid such as water or alcohol more pure by heating it so that it becomes a gas and then letting it cool. Drinks such as  whisky  are made this way."
+  },
+  "compact": {
+    "中释": "使简洁；使紧密结合"
+  },
+  "execute": {
+    "中释": "实行；执行；处死",
+    "英释": "to kill someone, especially legally as a punishment"
+  },
+  "notable": {
+    "中释": "名人，显要人物"
+  },
+  "sweater": {
+    "中释": "毛线衣，运动衫；大量出汗的人，发汗剂",
+    "英释": "a piece of warm wool or cotton clothing with long sleeves, which covers the top half of your body"
+  },
+  "destiny": {
+    "中释": "命运，定数，天命",
+    "英释": "the things that will happen to someone in the future, especially those that cannot be changed or controlled"
+  },
+  "deposit": {
+    "中释": "使沉积；存放",
+    "英释": "to put something down in a particular place"
+  },
+  "session": {
+    "中释": "会议；（法庭的）开庭；（议会等的）开会；学期；讲习会",
+    "英释": "a formal meeting or group of meetings, especially of a law court or parliament"
+  },
+  "silence": {
+    "中释": "安静！；别作声！",
+    "英释": "complete absence of sound or noise"
+  },
+  "antique": {
+    "中释": "觅购古玩"
+  },
+  "volcano": {
+    "中释": "火山",
+    "英释": "a mountain with a large hole at the top, through which lava(= very hot liquid rock ) is sometimes forced out"
+  },
+  "fiction": {
+    "中释": "小说；虚构，编造；谎言",
+    "英释": "books and stories about imaginary people and events"
+  },
+  "nourish": {
+    "中释": "滋养；怀有；使健壮",
+    "英释": "to give a person or other living thing the food and other substances they need in order to live, grow, and stay healthy"
+  },
+  "diploma": {
+    "中释": "发给…毕业文凭"
+  },
+  "capsule": {
+    "中释": "压缩；简述"
+  },
+  "pretext": {
+    "中释": "以…为借口"
+  },
+  "january": {
+    "中释": "一月",
+    "英释": "January is the first month of the year in the Western calendar"
+  },
+  "proceed": {
+    "中释": "收入，获利",
+    "英释": "The proceeds of an event or activity are the money that has been obtained from it"
+  },
+  "console": {
+    "中释": "安慰；慰藉",
+    "英释": "to make someone feel better when they are feeling sad or disappointed"
+  },
+  "drastic": {
+    "中释": "烈性泻药"
+  },
+  "rainbow": {
+    "中释": "呈彩虹状"
+  },
+  "silicon": {
+    "中释": "[化学] 硅；硅元素",
+    "英释": "a chemical substance that exists as a solid or as a powder and is used to make glass, bricks, and parts for computers. It is a chemical element: symbol Si"
+  },
+  "majesty": {
+    "中释": "威严；最高权威，王权；雄伟；权威",
+    "英释": "the quality that something big has of being impressive, powerful, or beautiful"
+  },
+  "furnace": {
+    "中释": "火炉，熔炉",
+    "英释": "a large container for a very hot fire, used to produce power, heat, or liquid metal"
+  },
+  "dubious": {
+    "中释": "可疑的；暧昧的；无把握的；半信半疑的",
+    "英释": "probably not honest, true, right etc"
+  },
+  "thirsty": {
+    "中释": "口渴的，口干的；渴望的，热望的",
+    "英释": "feeling that you want or need a drink"
+  },
+  "lantern": {
+    "中释": "灯笼；提灯；灯笼式天窗",
+    "英释": "a lamp that you can carry, consisting of a metal container with glass sides that surrounds a flame or light"
+  },
+  "glitter": {
+    "中释": "闪光；灿烂",
+    "英释": "brightness consisting of many flashing points of light"
+  },
+  "ceiling": {
+    "中释": "天花板；上限",
+    "英释": "the inner surface of the top part of a room"
+  },
+  "romance": {
+    "中释": "虚构；渲染；写传奇",
+    "英释": "to describe things that have happened in a way that makes them seem more important, interesting etc than they really were"
+  },
+  "clarity": {
+    "中释": "清楚，明晰；透明",
+    "英释": "the clarity of a piece of writing, law, argument etc is its quality of being expressed clearly"
+  },
+  "pretend": {
+    "中释": "假装的",
+    "英释": "imaginary or not real - used especially by children"
+  },
+  "cashier": {
+    "中释": "解雇；抛弃"
+  },
+  "foolish": {
+    "中释": "愚蠢的；傻的",
+    "英释": "a foolish action, remark etc is stupid and shows that someone is not thinking sensibly"
+  },
+  "blanket": {
+    "中释": "覆盖，掩盖；用毯覆盖",
+    "英释": "to cover something with a thick layer"
+  },
+  "genuine": {
+    "中释": "真实的，真正的；诚恳的",
+    "英释": "a genuine feeling, desire etc is one that you really feel, not one you pretend to feel"
+  },
+  "courage": {
+    "中释": "勇气；胆量",
+    "英释": "the quality of being brave when you are facing a difficult or dangerous situation or when you are very ill"
+  },
+  "commute": {
+    "中释": "通勤（口语）",
+    "英释": "A commute is the journey that you make when you commute"
+  },
+  "flatter": {
+    "中释": "奉承；谄媚；使高兴",
+    "英释": "to praise someone in order to please them or get something from them, even though you do not mean it"
+  },
+  "decimal": {
+    "中释": "小数",
+    "英释": "a  fraction (= a number less than 1 )  that is shown as a  full stop  followed by the number of  tenth s  ,  hundredth s  etc. The numbers 0.5, 0.175, and 0.661 are decimals."
+  },
+  "vinegar": {
+    "中释": "醋",
+    "英释": "a sour-tasting liquid made from malt or wine that is used to improve the taste of food or to preserve it"
+  },
+  "costume": {
+    "中释": "给…穿上服装"
+  },
+  "voltage": {
+    "中释": "[电] 电压",
+    "英释": "electrical force measured in volts"
+  },
+  "missile": {
+    "中释": "导弹的；可投掷的；用以发射导弹的"
+  },
+  "lecture": {
+    "中释": "演讲；训诫",
+    "英释": "to talk to a group of people on a particular subject, especially to students in a university"
+  },
+  "apology": {
+    "中释": "道歉；谢罪；辩护；勉强的替代物",
+    "英释": "something that you say or write to show that you are sorry for doing something wrong"
+  },
+  "arrival": {
+    "中释": "到来；到达；到达者",
+    "英释": "when someone or something arrives somewhere"
+  },
+  "stomach": {
+    "中释": "忍受；吃下",
+    "英释": "to be able to accept something, especially something unpleasant"
+  },
+  "receipt": {
+    "中释": "收到"
+  },
+  "welfare": {
+    "中释": "福利的；接受社会救济的",
+    "英释": "Welfare services are provided to help with people's living conditions and financial problems"
+  },
+  "recover": {
+    "中释": "还原至预备姿势"
+  },
+  "uncover": {
+    "中释": "发现；揭开；揭露",
+    "英释": "to find out about something that has been kept secret"
+  },
+  "nursery": {
+    "中释": "苗圃；托儿所；温床",
+    "英释": "a place where young children are taken care of during the day while their parents are at work"
+  },
+  "squeeze": {
+    "中释": "压榨；紧握；拥挤；佣金",
+    "英释": "a situation in which there is only just enough room for things or people to fit somewhere"
+  },
+  "torture": {
+    "中释": "折磨；拷问；歪曲",
+    "英释": "an act of deliberately hurting someone in order to force them to tell you something, to punish them, or to be cruel"
+  },
+  "musical": {
+    "中释": "音乐片",
+    "英释": "a play or film that includes singing and dancing"
+  },
+  "fixture": {
+    "中释": "设备；固定装置；固定于某处不大可能移动之物",
+    "英释": "a piece of equipment that is fixed inside a house or building and is sold as part of the house"
+  },
+  "earnest": {
+    "中释": "认真；定金；诚挚",
+    "英释": "if something starts happening in earnest, it begins properly – used when it was happening in a small or informal way before"
+  },
+  "marxist": {
+    "中释": "马克思主义的",
+    "英释": "Marxist means based on Marxism or relating to Marxism"
+  },
+  "slipper": {
+    "中释": "用拖鞋打"
+  },
+  "kitchen": {
+    "中释": "厨房；炊具；炊事人员",
+    "英释": "the room where you prepare and cook food"
+  },
+  "declare": {
+    "中释": "宣布，声明；断言，宣称",
+    "英释": "to state officially and publicly that a particular situation exists or that something is true"
+  },
+  "digital": {
+    "中释": "数字；键"
+  },
+  "reclaim": {
+    "中释": "改造，感化；再生胶"
+  },
+  "breadth": {
+    "中释": "宽度，幅度；宽宏",
+    "英释": "the distance from one side of something to the other"
+  },
+  "shutter": {
+    "中释": "为…装百叶窗；以百叶窗遮闭"
+  },
+  "compass": {
+    "中释": "包围"
+  },
+  "whistle": {
+    "中释": "吹口哨；鸣汽笛",
+    "英释": "to make a high or musical sound by blowing air out through your lips"
+  },
+  "harvest": {
+    "中释": "收割；得到",
+    "英释": "to gather crops from the fields"
+  },
+  "tension": {
+    "中释": "使紧张；使拉紧"
+  },
+  "violate": {
+    "中释": "违反；侵犯，妨碍；亵渎",
+    "英释": "to disobey or do something against an official agreement, law, principle etc"
+  },
+  "recycle": {
+    "中释": "再生；再循环；重复利用"
+  },
+  "miracle": {
+    "中释": "奇迹，奇迹般的人或物；惊人的事例",
+    "英释": "something very lucky or very good that happens which you did not expect to happen or did not think was possible"
+  },
+  "crystal": {
+    "中释": "水晶的；透明的，清澈的"
+  },
+  "twinkle": {
+    "中释": "闪烁",
+    "英释": "an expression in your eyes that shows you are happy or amused"
+  },
+  "passion": {
+    "中释": "激情；热情；酷爱；盛怒",
+    "英释": "a very strong belief or feeling about something"
+  },
+  "portray": {
+    "中释": "描绘；扮演",
+    "英释": "to describe or represent something or someone"
+  },
+  "thunder": {
+    "中释": "打雷；怒喝",
+    "英释": "if it thunders, there is a loud noise in the sky, usually after a flash of lightning"
+  },
+  "neutral": {
+    "中释": "中立国；中立者；非彩色；齿轮的空档",
+    "英释": "a country, person, or group that is not involved in an argument or disagreement"
+  },
+  "worship": {
+    "中释": "崇拜；尊敬；爱慕",
+    "英释": "to show respect and love for a god, especially by praying in a religious building"
+  },
+  "butcher": {
+    "中释": "屠夫",
+    "英释": "A butcher is a shopkeeper who cuts up and sells meat. Some butchers also kill animals for meat and make foods such as sausages and meat pies. "
+  },
+  "qualify": {
+    "中释": "限制；使具有资格；证明…合格",
+    "英释": "to have the right to have or do something, or to give someone this right"
+  },
+  "concise": {
+    "中释": "简明的，简洁的",
+    "英释": "short, with no unnecessary words"
+  },
+  "emperor": {
+    "中释": "皇帝，君主",
+    "英释": "the man who is the ruler of an empire"
+  },
+  "disrupt": {
+    "中释": "分裂的，中断的；分散的"
+  },
+  "vitamin": {
+    "中释": "[生化] 维生素；[生化] 维他命",
+    "英释": "a chemical substance in food that is necessary for good health"
+  },
+  "thermal": {
+    "中释": "上升的热气流",
+    "英释": "a rising current of warm air used by birds"
+  },
+  "shuttle": {
+    "中释": "使穿梭般来回移动；短程穿梭般运送",
+    "英释": "to travel frequently between two places"
+  },
+  "torment": {
+    "中释": "痛苦，苦恼；痛苦的根源",
+    "英释": "severe mental or physical suffering"
+  },
+  "burglar": {
+    "中释": "夜贼，窃贼",
+    "英释": "someone who goes into houses, shops etc to steal things"
+  },
+  "privacy": {
+    "中释": "隐私；秘密；隐居；隐居处",
+    "英释": "the state of being free from public attention"
+  },
+  "antenna": {
+    "中释": "[电讯] 天线；[动] 触角，[昆] 触须",
+    "英释": "one of two long thin parts on an insect’s head, that it uses to feel things"
+  },
+  "fertile": {
+    "中释": "富饶的，肥沃的；能生育的",
+    "英释": "fertile land or soil is able to produce good crops"
+  },
+  "portion": {
+    "中释": "分配；给…嫁妆"
+  },
+  "postage": {
+    "中释": "邮资，邮费",
+    "英释": "the money charged for sending a letter, package etc by post"
+  },
+  "remnant": {
+    "中释": "剩余的"
+  },
+  "sparkle": {
+    "中释": "使闪耀；使发光",
+    "英释": "to shine in small bright flashes"
+  },
+  "leaflet": {
+    "中释": "小叶；传单",
+    "英释": "a small book or piece of paper advertising something or giving information on a particular subject"
+  },
+  "dynasty": {
+    "中释": "王朝，朝代",
+    "英释": "a family of kings or other rulers whose parents, grandparents etc have ruled the country for many years"
+  },
+  "garbage": {
+    "中释": "垃圾；废物",
+    "英释": "waste material, such as paper, empty containers, and food thrown away"
+  },
+  "certify": {
+    "中释": "证明；保证",
+    "英释": "to state that something is correct or true, especially after some kind of test"
+  },
+  "graphic": {
+    "中释": "形象的；图表的；绘画似的",
+    "英释": "connected with or including drawing, printing, or designing"
+  },
+  "captain": {
+    "中释": "指挥；率领",
+    "英释": "to lead a group or team of people and be their captain"
+  },
+  "stagger": {
+    "中释": "交错的；错开的"
+  },
+  "handful": {
+    "中释": "少数；一把；棘手事",
+    "英释": "an amount that you can hold in your hand"
+  },
+  "actress": {
+    "中释": "女演员",
+    "英释": "a woman who performs in a play or film"
+  },
+  "turbine": {
+    "中释": "[动力] 涡轮；[动力] 涡轮机",
+    "英释": "an engine or motor in which the pressure of a liquid or gas moves a special wheel around"
+  },
+  "traitor": {
+    "中释": "叛徒；卖国贼；背信弃义的人",
+    "英释": "someone who is not loyal to their country, friends, or beliefs"
+  },
+  "profile": {
+    "中释": "描…的轮廓；扼要描述"
+  },
+  "cabinet": {
+    "中释": "内阁的；私下的，秘密的"
+  },
+  "deficit": {
+    "中释": "赤字；不足额",
+    "英释": "the difference between the amount of something that you have and the higher amount that you need"
+  },
+  "bandage": {
+    "中释": "用绷带包扎",
+    "英释": "to tie or cover a part of the body with a bandage"
+  },
+  "slender": {
+    "中释": "细长的；苗条的；微薄的",
+    "英释": "thin in an attractive or graceful way"
+  },
+  "migrate": {
+    "中释": "移动；随季节而移居；移往",
+    "英释": "if people migrate, they go to live in another area or country, especially in order to find work"
+  },
+  "cushion": {
+    "中释": "给…安上垫子；把…安置在垫子上；缓和…的冲击",
+    "英释": "to make the effect of a fall or hit less painful, for example by having something soft in the way"
+  },
+  "curtain": {
+    "中释": "遮蔽；装上门帘"
+  },
+  "funeral": {
+    "中释": "丧葬的，出殡的"
+  },
+  "utilize": {
+    "中释": "利用",
+    "英释": "to use something for a particular purpose"
+  },
+  "suffice": {
+    "中释": "使满足；足够…用；合格",
+    "英释": "to be enough"
+  },
+  "explode": {
+    "中释": "爆炸，爆发；激增",
+    "英释": "to burst, or to make something burst, into small pieces, usually with a loud noise and in a way that causes damage"
+  },
+  "deceive": {
+    "中释": "欺骗；行骗",
+    "英释": "to make someone believe something that is not true"
+  },
+  "seaside": {
+    "中释": "海边的；海滨的",
+    "英释": "relating to places that are near the sea"
+  },
+  "excerpt": {
+    "中释": "引用，摘录"
+  },
+  "evening": {
+    "中释": "晚上好（等于good evening）",
+    "英释": "the early part of the night between the end of the day and the time you go to bed"
+  },
+  "equator": {
+    "中释": "赤道",
+    "英释": "an imaginary line drawn around the middle of the Earth that is exactly the same distance from the North Pole and the South Pole"
+  },
+  "pasture": {
+    "中释": "放牧；吃草",
+    "英释": "to put animals outside in a field to feed on the grass"
+  },
+  "hostess": {
+    "中释": "女主人，女老板；女服务员；舞女；女房东",
+    "英释": "a woman at a party, meal etc who has invited all the guests and provides them with food, drink etc"
+  },
+  "collide": {
+    "中释": "碰撞；抵触，冲突",
+    "英释": "to hit something or someone that is moving in a different direction from you"
+  },
+  "outlook": {
+    "中释": "朝外看"
+  },
+  "abdomen": {
+    "中释": "腹部；下腹；腹腔",
+    "英释": "the part of your body between your chest and legs which contains your stomach,  bowel s  etc"
+  },
+  "monthly": {
+    "中释": "每月，每月一次",
+    "英释": "Monthly is also an adverb"
+  },
+  "impetus": {
+    "中释": "动力；促进；冲力",
+    "英释": "an influence that makes something happen or makes it happen more quickly"
+  },
+  "chicken": {
+    "中释": "鸡肉的；胆怯的；幼小的",
+    "英释": "not brave enough to do something"
+  },
+  "harmony": {
+    "中释": "协调；和睦；融洽；调和",
+    "英释": "notes of music combined together in a pleasant way"
+  },
+  "balloon": {
+    "中释": "像气球般鼓起的"
+  },
+  "eastern": {
+    "中释": "东方人；（美国）东部地区的人"
+  },
+  "highway": {
+    "中释": "公路，大路；捷径",
+    "英释": "a wide main road that joins one town to another"
+  },
+  "mineral": {
+    "中释": "矿物的；矿质的"
+  },
+  "illness": {
+    "中释": "病；疾病",
+    "英释": "a disease of the body or mind, or the condition of being ill"
+  },
+  "summary": {
+    "中释": "概要，摘要，总结",
+    "英释": "a short statement that gives the main information about something, without giving all the details"
+  },
+  "cordial": {
+    "中释": "补品；兴奋剂；甜香酒，甘露酒",
+    "英释": "a strong sweet alcoholic drink"
+  },
+  "catalog": {
+    "中释": "登记；为…编目录"
+  },
+  "elastic": {
+    "中释": "松紧带；橡皮圈",
+    "英释": "Elastic is a rubber material that stretches when you pull it and returns to its original size and shape when you let it go. Elastic is often used in clothes to make them fit tightly, for example, around the waist. "
+  },
+  "swallow": {
+    "中释": "燕子；一次吞咽的量",
+    "英释": "a small black and white bird that comes to northern countries in the summer"
+  },
+  "cocaine": {
+    "中释": "[药] 可卡因",
+    "英释": "a drug, usually in the form of a white powder, that is taken illegally for pleasure or used in some medical situations to prevent pain"
+  },
+  "plumber": {
+    "中释": "水管工；堵漏人员",
+    "英释": "A plumber is a person whose job is to connect and repair things such as water and drainage pipes, bathtubs, and toilets"
+  },
+  "density": {
+    "中释": "密度",
+    "英释": "the degree to which an area is filled with people or things"
+  },
+  "poultry": {
+    "中释": "家禽",
+    "英释": "birds such as chickens and ducks that are kept on farms in order to produce eggs and meat"
+  },
+  "undergo": {
+    "中释": "经历，经受；忍受",
+    "英释": "if you undergo a change, an unpleasant experience etc, it happens to you or is done to you"
+  },
+  "soluble": {
+    "中释": "[化学] 可溶的，可溶解的；可解决的",
+    "英释": "a soluble substance can be  dissolved  in a liquid"
+  },
+  "charity": {
+    "中释": "慈善；施舍；慈善团体；宽容；施舍物",
+    "英释": "an organization that gives money, goods, or help to people who are poor, sick etc"
+  },
+  "breathe": {
+    "中释": "呼吸；低语；松口气；（风）轻拂",
+    "英释": "to take air into your lungs and send it out again"
+  },
+  "eyebrow": {
+    "中释": "为…描眉；用皱眉蹙额迫使"
+  },
+  "weekday": {
+    "中释": "平日，普通日；工作日",
+    "英释": "any day of the week except Saturday and Sunday"
+  },
+  "balcony": {
+    "中释": "阳台；包厢；戏院楼厅",
+    "英释": "a structure that you can stand on, that is attached to the outside wall of a building, above ground level"
+  },
+  "preside": {
+    "中释": "主持，担任会议主席",
+    "英释": "to be in charge of a formal event, organization, ceremony etc"
+  },
+  "cluster": {
+    "中释": "群聚；丛生"
+  },
+  "provide": {
+    "中释": "提供,供应,供给；规定",
+    "英释": "to give something to someone or make it available to them, because they need it or want it"
+  },
+  "inverse": {
+    "中释": "相反之物",
+    "英释": "the complete opposite of something"
+  },
+  "company": {
+    "中释": "公司；陪伴；宾客；(一)群,队,伙",
+    "英释": "a business organization that makes or sells goods or services"
+  },
+  "victory": {
+    "中释": "胜利",
+    "英释": "a situation in which you win a battle, game, election, or dispute"
+  },
+  "finally": {
+    "中释": "最后,最终",
+    "英释": "after a long time"
+  },
+  "specify": {
+    "中释": "指定,详细说明",
+    "英释": "to state something in an exact and detailed way"
+  },
+  "herself": {
+    "中释": "[反身代词]她自己；她亲自，她本人",
+    "英释": "used to show that the woman or girl who does something is affected by her own action"
+  },
+  "contain": {
+    "中释": "包含，容纳",
+    "英释": "if something such as a bag, box, or place contains something, that thing is inside it"
+  },
+  "receive": {
+    "中释": "收到,接到；遭受,受到；接待,接见",
+    "英释": "to be given something"
+  },
+  "subject": {
+    "中释": "使隶属",
+    "英释": "to force a country or group of people to be ruled by you, and control them very strictly"
+  },
+  "college": {
+    "中释": "高等专科学校；大学；学院",
+    "英释": "a school for advanced education, especially in a particular profession or skill"
+  },
+  "prevent": {
+    "中释": "(from)预防,防止,阻止,制止,妨碍",
+    "英释": "to stop something from happening, or stop someone from doing something"
+  },
+  "improve": {
+    "中释": "改善，改进；变得更好",
+    "英释": "to make something better, or to become better"
+  },
+  "calcium": {
+    "中释": "钙(化学符号Ca)",
+    "英释": "a silver-white metal that helps to form teeth, bones, and  chalk  . It is a chemical  element  : symbol Ca"
+  },
+  "account": {
+    "中释": "说明，解释",
+    "英释": "to give a satisfactory explanation of why something has happened or why you did something"
+  },
+  "country": {
+    "中释": "国家；农村,乡下",
+    "英释": "an area of land that is controlled by its own government, president, king etc"
+  },
+  "convict": {
+    "中释": "囚犯",
+    "英释": "someone who has been proved to be guilty of a crime and sent to prison"
+  },
+  "outside": {
+    "中释": "外部",
+    "英释": "the part or surface of something that is furthest from the centre"
+  },
+  "symptom": {
+    "中释": "(疾病的)症状；(不好事情的)征兆,表征",
+    "英释": "something wrong with your body or mind which shows that you have a particular illness"
+  },
+  "capital": {
+    "中释": "主要的,大写字母的",
+    "英释": "a capital letter is one that is written or printed in its large form"
+  },
+  "promote": {
+    "中释": "促进,发扬；提升,提拔",
+    "英释": "to help something to develop or increase"
+  },
+  "private": {
+    "中释": "私人的,个人的；秘密的,私下的",
+    "英释": "for use by one person or group, not for everyone"
+  },
+  "species": {
+    "中释": "(物)种,种类",
+    "英释": "a group of animals or plants whose members are similar and can breed together to produce young animals or plants"
+  },
+  "compare": {
+    "中释": "比较；与…相比",
+    "英释": "to consider two or more things or people, in order to show how they are similar or different"
+  },
+  "suspect": {
+    "中释": "嫌疑犯",
+    "英释": "someone who is thought to be guilty of a crime"
+  },
+  "cartoon": {
+    "中释": "动画片；漫画,幽默画",
+    "英释": "a short film that is made by photographing a series of drawings"
+  },
+  "besides": {
+    "中释": "于…之外；除…以外",
+    "英释": "in addition to someone or something else that you are mentioning"
+  }
+}

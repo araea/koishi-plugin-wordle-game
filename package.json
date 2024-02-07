@@ -1,6 +1,6 @@
 {
   "name": "koishi-plugin-wordle-game",
-  "description": "",
+  "description": "欢迎来到 Wordle 猜单词小游戏，包含经典模式、多种词库（CET4、CET6、考研等）模式、多种游戏设置和排行榜系统。",
   "version": "0.0.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -8,15 +8,44 @@
     "lib",
     "dist"
   ],
+  "koishi": {
+    "service": {
+      "required": [
+        "monetary",
+        "database",
+        "puppeteer"
+      ],
+      "optional": [
+        "markdownToImage"
+      ]
+    }
+  },
   "license": "MIT",
-  "scripts": {},
+  "author": "Nawyjx <3373167460@qq.com>",
+  "homepage": "https://www.npmjs.com/package/koishi-plugin-wordle-game?activeTab=readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/araea/koishi-plugin-wordle-game.git"
+  },
   "keywords": [
     "chatbot",
     "koishi",
-    "plugin"
+    "plugin",
+    "wordle",
+    "game",
+    "word",
+    "猜单词",
+    "游戏",
+    "小游戏",
+    "guess",
+    "wordle-game"
   ],
-  "devDependencies": {},
   "peerDependencies": {
     "koishi": "^4.16.8"
+  },
+  "devDependencies": {
+    "koishi-plugin-markdown-to-image-service": "^1.1.3",
+    "koishi-plugin-monetary": "^0.1.3",
+    "koishi-plugin-puppeteer": "^3.7.3"
   }
 }

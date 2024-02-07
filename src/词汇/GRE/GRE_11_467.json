@@ -1,0 +1,1774 @@
+{
+  "orthopedics": {
+    "中释": "[医]整形外科, 整形术",
+    "英释": "the part of medicine that treats illnesses or injuries that affect people’s bones or muscles"
+  },
+  "impecunious": {
+    "中释": "(经常)没有钱的, 身无分文的, 贫穷的",
+    "英释": "having very little money, especially over a long period – sometimes used humorously"
+  },
+  "importunate": {
+    "中释": "(人)缠扰不休的, 胡搅蛮缠的, (事务等)急切的, 讨厌的",
+    "英释": "continuously asking for things in an annoying or unreasonable way"
+  },
+  "inalienable": {
+    "中释": "(指权利等)不能让与的, 不能剥夺的",
+    "英释": "an inalienable right, power etc cannot be taken from you"
+  },
+  "terricolous": {
+    "中释": "[生]陆生的",
+    "英释": "living on or in the soil "
+  },
+  "fantabulous": {
+    "中释": "<美俚>极出色的, 极妙的"
+  },
+  "persnickety": {
+    "中释": "爱挑剔的, 难应付的",
+    "英释": "worrying too much about details that are not important – used to show disapproval"
+  },
+  "flirtatious": {
+    "中释": "爱调戏的, 轻浮的",
+    "英释": "Someone who is flirtatious behaves toward someone else as if they are sexually attracted to them, usually not in a very serious way"
+  },
+  "overbearing": {
+    "中释": "傲慢的, 专横的",
+    "英释": "always trying to control other people without considering their wishes or feelings"
+  },
+  "translucent": {
+    "中释": "半透明的, 透明的",
+    "英释": "not trans-parent, but clear enough to allow light to pass through"
+  },
+  "concomitant": {
+    "中释": "伴随的",
+    "英释": "existing or happening together, especially as a result of something"
+  },
+  "retributive": {
+    "中释": "报应的"
+  },
+  "disaffected": {
+    "中释": "抱不平的, 有叛意的, 不服的",
+    "英释": "not satisfied with your government, leader etc, and therefore no longer loyal to them or no longer believing they can help you"
+  },
+  "distressing": {
+    "中释": "悲伤的, 使痛苦的, 使烦恼的",
+    "英释": "If something is distressing, it upsets you or worries you"
+  },
+  "treacherous": {
+    "中释": "背叛的, 背信弃义的, 奸诈的, 叛逆的",
+    "英释": "someone who is treacherous cannot be trusted because they are not loyal and secretly intend to harm you"
+  },
+  "downtrodden": {
+    "中释": "被践踏的, 被蹂躏的,被压制的",
+    "英释": "downtrodden people are treated badly and without respect by people who have power over them"
+  },
+  "preoccupied": {
+    "中释": "被先占的, 全神贯注的",
+    "英释": "thinking about something a lot, with the result that you do not pay attention to other things"
+  },
+  "superficial": {
+    "中释": "表面的, 肤浅的, 浅薄的",
+    "英释": "not studying or looking at something carefully and only seeing the most noticeable things"
+  },
+  "complaisant": {
+    "中释": "彬彬有礼的, 殷勤的, 柔顺的",
+    "英释": "showing a desire to comply or oblige; polite "
+  },
+  "incompetent": {
+    "中释": "不合格的, 不胜任的",
+    "英释": "not having the ability or skill to do a job properly"
+  },
+  "undesirable": {
+    "中释": "不合需要的, 不受欢迎的, 令人不快的",
+    "英释": "something or someone that is undesirable is not welcome or wanted because they may affect a situation or person in a bad way"
+  },
+  "ineluctable": {
+    "中释": "不可避免的, 无法逃避的",
+    "英释": "impossible to avoid"
+  },
+  "disgruntled": {
+    "中释": "不满的, 不高兴的",
+    "英释": "annoyed or disappointed, especially because things have not happened in the way that you wanted"
+  },
+  "indivisible": {
+    "中释": "不能分割的, 除不尽的",
+    "英释": "something that is indivisible cannot be separated or divided into parts"
+  },
+  "irrevocable": {
+    "中释": "不能取消的",
+    "英释": "an irrevocable decision, action etc cannot be changed or stopped"
+  },
+  "impermeable": {
+    "中释": "不能渗透的, 不渗透性的",
+    "英释": "not allowing liquids or gases to pass through"
+  },
+  "irreparable": {
+    "中释": "不能挽回的",
+    "英释": "irreparable damage, harm etc is so bad that it can never be repaired or made better"
+  },
+  "insuperable": {
+    "中释": "不能制胜的, 不能克服的",
+    "英释": "an insuperable difficulty or problem is impossible to deal with"
+  },
+  "incontinent": {
+    "中释": "不能自制的, 无节制的, 荒淫的, [医]失禁的",
+    "英释": "unable to control the passing of liquid or solid waste from your body"
+  },
+  "indomitable": {
+    "中释": "不屈服的, 不屈不挠的",
+    "英释": "having great determination or courage"
+  },
+  "indubitable": {
+    "中释": "不容置疑的, 确实的, 明白的",
+    "英释": "You use indubitable to describe something when you want to emphasize that it is definite and cannot be doubted"
+  },
+  "dispensable": {
+    "中释": "不是必要的, 可有可无的",
+    "英释": "not necessary or important and so easy to get rid of"
+  },
+  "inexpedient": {
+    "中释": "不适宜的",
+    "英释": "not suitable, advisable, or judicious "
+  },
+  "incongruous": {
+    "中释": "不调和的, 不适宜的",
+    "英释": "strange, unexpected, or unsuitable in a particular situation"
+  },
+  "unremitting": {
+    "中释": "不懈的",
+    "英释": "continuing for a long time and not likely to stop"
+  },
+  "unflappable": {
+    "中释": "不易惊慌的, 镇定的",
+    "英释": "having the ability to stay calm and not become upset, even in difficult situations"
+  },
+  "disinclined": {
+    "中释": "不愿的, 不想的",
+    "英释": "If you are disinclined to do something, you do not want to do it"
+  },
+  "inadvertent": {
+    "中释": "不注意的, 疏忽的, 无意中做的",
+    "英释": "An inadvertent action is one that you do without realizing what you are doing"
+  },
+  "preprandial": {
+    "中释": "餐前的",
+    "英释": "You use preprandial to refer to things you do or have before a meal"
+  },
+  "procrustean": {
+    "中释": "残暴的, 强求一致的"
+  },
+  "precipitant": {
+    "中释": "仓促的"
+  },
+  "atrabilious": {
+    "中释": "沉闷的, 疑心的"
+  },
+  "approbatory": {
+    "中释": "承认的, 认可的, 赞赏的"
+  },
+  "crestfallen": {
+    "中释": "垂头丧气的",
+    "英释": "looking disappointed and upset"
+  },
+  "subordinate": {
+    "中释": "次要的, 从属的, 下级的",
+    "英释": "in a less important position than someone else"
+  },
+  "clodhopping": {
+    "中释": "粗鲁的, 不礼节的"
+  },
+  "precipitous": {
+    "中释": "陡峭的, 急躁的",
+    "英释": "very sudden"
+  },
+  "substantive": {
+    "中释": "独立存在的, 真实的, 有实质的, 大量的, 巨额的",
+    "英释": "dealing with things that are important or real"
+  },
+  "symmetrical": {
+    "中释": "对称的, 均匀的",
+    "英释": "an object or design that is symmetrical has two halves that are exactly the same shape and size"
+  },
+  "superfluous": {
+    "中释": "多余的, 过剩的, 过量的",
+    "英释": "more than is needed or wanted"
+  },
+  "compendious": {
+    "中释": "扼要的, 简明的",
+    "英释": "containing or stating the essentials of a subject in a concise form; succinct "
+  },
+  "suggestible": {
+    "中释": "耳根软的, 可建议的, 容易受暗示影响的",
+    "英释": "easily influenced by other people or by things you see and hear"
+  },
+  "reactionary": {
+    "中释": "反作用的, 反动的",
+    "英释": "very strongly opposed to any social or political change - used to show disapproval"
+  },
+  "intemperate": {
+    "中释": "放纵的",
+    "英释": "intemperate language or behaviour shows a lack of control, which other people think is unacceptable"
+  },
+  "incorporeal": {
+    "中释": "非物质的, 无实体的, 灵魂的, 无形体的",
+    "英释": "not existing in any physical form"
+  },
+  "parathyroid": {
+    "中释": "副甲状腺的",
+    "英释": "situated near the thyroid gland "
+  },
+  "rudimentary": {
+    "中释": "根本的, 未发展的",
+    "英释": "Rudimentary knowledge includes only the simplest and most basic facts"
+  },
+  "utilitarian": {
+    "中释": "功利的, 实利的, 功利主义的",
+    "英释": "intended to be useful and practical rather than attractive or comfortable"
+  },
+  "opinionated": {
+    "中释": "固执己见的, 武断的",
+    "英释": "expressing very strong opinions about things"
+  },
+  "magisterial": {
+    "中释": "官气十足的, 有权威的, 专横的",
+    "英释": "a magisterial way of behaving or speaking shows that you think you have authority"
+  },
+  "overwrought": {
+    "中释": "过度紧张的, 过劳的",
+    "英释": "very upset, nervous, and worried"
+  },
+  "inquisitive": {
+    "中释": "好奇的",
+    "英释": "asking too many questions and trying to find out too many details about something or someone"
+  },
+  "belligerent": {
+    "中释": "好战的, 交战国的, 交战的",
+    "英释": "a belligerent country is fighting a war against another country"
+  },
+  "contentious": {
+    "中释": "好争吵的, 争论的, 有异议的",
+    "英释": "causing a lot of argument and disagreement between people"
+  },
+  "incorporate": {
+    "中释": "合并的, 结社的, 一体化的"
+  },
+  "internecine": {
+    "中释": "互相残杀的, 两败俱伤的, 内部冲突的",
+    "英释": "internecine fighting or struggles happen between members of the same group or nation"
+  },
+  "obsolescent": {
+    "中释": "荒废的",
+    "英释": "becoming obsolete"
+  },
+  "resplendent": {
+    "中释": "辉煌的, 灿烂的, 光辉的, 华丽的",
+    "英释": "very beautiful, bright, and impressive in appearance"
+  },
+  "reverberant": {
+    "中释": "回响的"
+  },
+  "dilapidated": {
+    "中释": "毁坏的, 要塌似的, 荒废的"
+  },
+  "promiscuous": {
+    "中释": "混杂的",
+    "英释": "involving a wide range of different things"
+  },
+  "scrumptious": {
+    "中释": "极为愉快的, 绝妙的, 极好的, 味美的",
+    "英释": "food that is scrumptious tastes very good"
+  },
+  "persevering": {
+    "中释": "坚忍的, 不屈不挠的"
+  },
+  "sententious": {
+    "中释": "简洁的, 警句的, 富于格言的, 很多(过分)说教式的",
+    "英释": "telling people how they should behave – used in order to show disapproval"
+  },
+  "overweening": {
+    "中释": "骄傲的, 自负的, 夸大了的",
+    "英释": "too proud and confident – used to show disapproval"
+  },
+  "illustrious": {
+    "中释": "杰出的",
+    "英释": "famous and admired because of what you have achieved"
+  },
+  "approximate": {
+    "中释": "近似的, 大约的",
+    "英释": "an approximate number, amount, or time is close to the exact number, amount etc, but could be a little bit more or less than it"
+  },
+  "prohibitive": {
+    "中释": "禁止的, 抑制的",
+    "英释": "a prohibitive rule prevents people from doing things"
+  },
+  "psychiatric": {
+    "中释": "精神病学的, 精神病治疗的",
+    "英释": "relating to the study and treatment of mental illness"
+  },
+  "paleolithic": {
+    "中释": "旧石器时代的",
+    "英释": "relating to the  stone age (= the period of time thousands of years ago when people used stone tools and weapons ) "
+  },
+  "punctilious": {
+    "中释": "拘泥细节的, 谨小慎微的, 一丝不苟的",
+    "英释": "very careful to behave correctly and follow rules"
+  },
+  "perceptible": {
+    "中释": "可察觉的, 显而易见的, 感觉得到的",
+    "英释": "something that is perceptible can be noticed, although it is very small"
+  },
+  "ignominious": {
+    "中释": "可耻的, 不光彩的, 下流的",
+    "英释": "making you feel ashamed or embarrassed"
+  },
+  "convertible": {
+    "中释": "可改变的, 自由兑换的",
+    "英释": "an object that is convertible can be folded or arranged in a different way so that it can be used as something else"
+  },
+  "appreciable": {
+    "中释": "可感知的, 可评估的",
+    "英释": "An appreciable amount or effect is large enough to be important or clearly noticed"
+  },
+  "conceivable": {
+    "中释": "可能的, 想得到的, 可想像的",
+    "英释": "able to be believed or imagined"
+  },
+  "redoubtable": {
+    "中释": "可怕的"
+  },
+  "predictable": {
+    "中释": "可预言的",
+    "英释": "if something or someone is predictable, you know what will happen or what they will do – sometimes used to show disapproval"
+  },
+  "affirmative": {
+    "中释": "肯定的, (对正式辩论中的问题)表示赞成的, (态度, 方法等)积极的, 乐观的, 怀有希望的",
+    "英释": "an affirmative answer or action means ‘yes’ or shows agreement"
+  },
+  "nuncupative": {
+    "中释": "口述的",
+    "英释": "(of a will) declared orally by the testator and later written down "
+  },
+  "magnanimous": {
+    "中释": "宽宏大量的, 有雅量的",
+    "英释": "kind and generous, especially to someone that you have defeated"
+  },
+  "standoffish": {
+    "中释": "冷淡的",
+    "英释": "If you say that someone is standoffish, you mean that they behave in a formal and rather unfriendly way"
+  },
+  "pococurante": {
+    "中释": "冷漠的的, 漠不关心的",
+    "英释": "indifferent or apathetic "
+  },
+  "centrifugal": {
+    "中释": "离心的",
+    "英释": "acting, moving, or tending to move away from a centre "
+  },
+  "exceptional": {
+    "中释": "例外的, 异常的",
+    "英释": "unusually good"
+  },
+  "provisional": {
+    "中释": "临时的",
+    "英释": "likely or able to be changed in the future"
+  },
+  "rebarbative": {
+    "中释": "令人讨厌的",
+    "英释": "fearsome; forbidding "
+  },
+  "terrestrial": {
+    "中释": "陆地",
+    "英释": "relating to the Earth rather than to the moon or other  planets "
+  },
+  "perfunctory": {
+    "中释": "马马虎虎的",
+    "英释": "a perfunctory action is done quickly, and is only done because people expect it"
+  },
+  "fascinating": {
+    "中释": "迷人的, 醉人的, 着魔的",
+    "英释": "extremely interesting"
+  },
+  "underhanded": {
+    "中释": "秘密的",
+    "英释": "If an action is underhand or if it is done in an underhand way, it is done secretly and dishonestly"
+  },
+  "clandestine": {
+    "中释": "秘密的",
+    "英释": "done or kept secret"
+  },
+  "secretarial": {
+    "中释": "秘书的, 书记的",
+    "英释": "relating to the work of a secretary"
+  },
+  "penetrating": {
+    "中释": "敏锐的, 明察秋毫的, (指声音、喊叫等)尖锐的",
+    "英释": "showing an ability to understand things quickly and completely"
+  },
+  "acquiescent": {
+    "中释": "默许的, 默从的",
+    "英释": "too ready to agree with someone or do what they want, without complaining or saying what you want to do"
+  },
+  "intractable": {
+    "中释": "难处理的",
+    "英释": "an intractable problem is very difficult to deal with or solve"
+  },
+  "inscrutable": {
+    "中释": "难以了解的, 不能预测的",
+    "英释": "someone who is inscrutable shows no emotion or reaction in the expression on their face so that it is impossible to know what they are feeling or thinking"
+  },
+  "necessitous": {
+    "中释": "贫困的",
+    "英释": "very needy; destitute; poverty-stricken "
+  },
+  "egalitarian": {
+    "中释": "平等主义的",
+    "英释": "based on the belief that everyone is equal and should have equal rights"
+  },
+  "devastating": {
+    "中释": "破坏性的, 全然的",
+    "英释": "badly damaging or destroying something"
+  },
+  "apocalyptic": {
+    "中释": "启示录的, 天启的",
+    "英释": "Apocalyptic means relating to or involving predictions about future disasters and the destruction of the world"
+  },
+  "psychedelic": {
+    "中释": "起幻觉的, 迷幻的",
+    "英释": "psychedelic drugs such as  lsd  make you  hallucinate (= see things that do not exist ) "
+  },
+  "puritanical": {
+    "中释": "清教徒的, 严格的",
+    "英释": "very strict about moral matters, especially sex – used in order to show disapproval"
+  },
+  "subservient": {
+    "中释": "屈从的, 有帮助的, 有用的, 奉承的",
+    "英释": "always obeying another person and doing everything they want you to do – used when someone seems too weak and powerless"
+  },
+  "corroborant": {
+    "中释": "确证的, 使强固的",
+    "英释": "serving to corroborate "
+  },
+  "impassioned": {
+    "中释": "热情洋溢的"
+  },
+  "mellifluous": {
+    "中释": "如蜜般的, 流畅的"
+  },
+  "odoriferous": {
+    "中释": "散发气味的, 臭的"
+  },
+  "dishevelled": {
+    "中释": "散乱的, 蓬乱的",
+    "英释": "if someone’s appearance or their clothes, hair etc is dishevelled, they look very untidy"
+  },
+  "provocative": {
+    "中释": "煽动的",
+    "英释": "provocative behaviour, remarks etc are intended to make people angry or upset, or to cause a lot of discussion"
+  },
+  "extravagant": {
+    "中释": "奢侈的, 浪费的, 过分的, 放纵的",
+    "英释": "spending or costing a lot of money, especially more than is necessary or more than you can afford"
+  },
+  "charismatic": {
+    "中释": "神赐能力的, 超凡魅力的",
+    "英释": "having charisma"
+  },
+  "circumspect": {
+    "中释": "慎重的, 周到的",
+    "英释": "thinking carefully about something before doing it, in order to avoid risk"
+  },
+  "herbivorous": {
+    "中释": "食草的",
+    "英释": "Herbivorous animals only eat plants"
+  },
+  "carnivorous": {
+    "中释": "食肉类的",
+    "英释": "Carnivorous animals eat meat"
+  },
+  "rubefacient": {
+    "中释": "使发红的"
+  },
+  "sensational": {
+    "中释": "使人感动的, 非常好的",
+    "英释": "very good"
+  },
+  "appropriate": {
+    "中释": "适当的",
+    "英释": "correct or suitable for a particular time, situation, or purpose"
+  },
+  "sycophantic": {
+    "中释": "说奉承话的, 阿谀的",
+    "英释": "praising important or powerful people too much because you want to get something from them – used in order to show disapproval"
+  },
+  "proprietary": {
+    "中释": "所有的, 私人拥有的",
+    "英释": "relating to who owns something"
+  },
+  "homogeneous": {
+    "中释": "同类的, 相似的, 均一的, 均匀的",
+    "英释": "Homogeneous is used to describe a group or thing which has members or parts that are all the same"
+  },
+  "synchronous": {
+    "中释": "同时的, [物]同步的",
+    "英释": "if two or more things are synchronous, they happen at the same time or work at the same speed"
+  },
+  "transparent": {
+    "中释": "透明的, 显然的, 明晰的",
+    "英释": "if something is transparent, you can see through it"
+  },
+  "protuberant": {
+    "中释": "突起的, 凸出的, 隆起的",
+    "英释": "Protuberant eyes, lips, noses, or teeth stick out more than usual from the face"
+  },
+  "antifebrile": {
+    "中释": "退热的, 解热的",
+    "英释": "reducing fever; antipyretic "
+  },
+  "crepuscular": {
+    "中释": "微光的, 拂晓的, 黄昏的",
+    "英释": "Crepuscular means relating to "
+  },
+  "preliterate": {
+    "中释": "文字出现以前的"
+  },
+  "proletarian": {
+    "中释": "无产阶级的",
+    "英释": "Proletarian means relating to the proletariat"
+  },
+  "impregnable": {
+    "中释": "无法攻取的, 要塞坚固的, 不受影响的, 可以受孕的的",
+    "英释": "a building that is impregnable is so strong that it cannot be entered by force"
+  },
+  "impertinent": {
+    "中释": "无关的, 鲁莽的, 不相干的",
+    "英释": "rude and not respectful, especially to someone who is older or more important"
+  },
+  "indifferent": {
+    "中释": "无关紧要的"
+  },
+  "nondescript": {
+    "中释": "无可名状的, 难以区别的, 无特征的"
+  },
+  "disembodied": {
+    "中释": "无实质的, 无实体的",
+    "英释": "existing without a body or separated from a body"
+  },
+  "categorical": {
+    "中释": "无条件的, 绝对的, 直接了当的(陈述、理论等)",
+    "英释": "a categorical statement is a clear statement that something is definitely true or false"
+  },
+  "improvident": {
+    "中释": "无远见的, 浪费的",
+    "英释": "too careless to save any money or to plan for the future"
+  },
+  "hygroscopic": {
+    "中释": "吸湿的",
+    "英释": "(of a substance) tending to absorb water from the air "
+  },
+  "conspicuous": {
+    "中释": "显著的",
+    "英释": "very easy to notice"
+  },
+  "coterminous": {
+    "中释": "相连的, 连接的",
+    "英释": "having the same pattern or features"
+  },
+  "prestigious": {
+    "中释": "享有声望的, 声望很高的",
+    "英释": "admired as one of the best and most important"
+  },
+  "acquisitive": {
+    "中释": "想获得的, 有获得可能性的, 可学到的"
+  },
+  "centripetal": {
+    "中释": "向心的，利用向心力的",
+    "英释": "acting, moving, or tending to move towards a centre "
+  },
+  "elephantine": {
+    "中释": "象的, 粗笨的, 巨大的",
+    "英释": "slow, heavy, and awkward, like an elephant"
+  },
+  "peripatetic": {
+    "中释": "逍遥学派的, 走来走去的"
+  },
+  "lilliputian": {
+    "中释": "小人国居民的",
+    "英释": "extremely small compared to the normal size of things"
+  },
+  "blasphemous": {
+    "中释": "亵渎神明的, 不敬神的",
+    "英释": "You can describe someone who shows disrespect for God or a religion as blasphemous. You can also describe what they are saying or doing as blasphemous. "
+  },
+  "vertiginous": {
+    "中释": "旋转的, 眩晕的, 眼花的, 迅速变化的, 不稳定的"
+  },
+  "expeditious": {
+    "中释": "迅速的, 敏捷的",
+    "英释": "Expeditious means quick and efficient"
+  },
+  "acrimonious": {
+    "中释": "严厉的, 辛辣的"
+  },
+  "combustible": {
+    "中释": "易燃的",
+    "英释": "able to burn easily"
+  },
+  "inflammable": {
+    "中释": "易燃的, 易怒的",
+    "英释": "inflammable materials or substances will start to burn very easily"
+  },
+  "prejudicial": {
+    "中释": "引起偏见的"
+  },
+  "spectacular": {
+    "中释": "引人入胜的, 壮观的",
+    "英释": "very impressive"
+  },
+  "connotative": {
+    "中释": "隐含的, 内涵的"
+  },
+  "fluorescent": {
+    "中释": "荧光的, 莹光的",
+    "英释": "a fluorescent light contains a tube filled with gas, which shines with a bright light when electricity is passed through it"
+  },
+  "sempiternal": {
+    "中释": "永久的, 永恒的",
+    "英释": "everlasting; eternal "
+  },
+  "microscopic": {
+    "中释": "用显微镜可见的, 精微的",
+    "英释": "using a microscope"
+  },
+  "fragmentary": {
+    "中释": "由碎片组成的, 断断续续的",
+    "英释": "consisting of many different small parts"
+  },
+  "tempestuous": {
+    "中释": "有暴风雨的, 暴乱的",
+    "英释": "a tempestuous relationship or period of time involves a lot of difficulty and strong emotions"
+  },
+  "meritorious": {
+    "中释": "有功的"
+  },
+  "detrimental": {
+    "中释": "有害的",
+    "英释": "causing harm or damage"
+  },
+  "mischievous": {
+    "中释": "有害的, 恶作剧的, 淘气的, 为害",
+    "英释": "someone who is mischievous likes to have fun, especially by playing tricks on people or doing things to annoy or embarrass them"
+  },
+  "deleterious": {
+    "中释": "有害的, 有毒的",
+    "英释": "damaging or harmful"
+  },
+  "abstentious": {
+    "中释": "有节制的"
+  },
+  "justifiable": {
+    "中释": "有理由的",
+    "英释": "actions, reactions, decisions etc that are justifiable are acceptable because they are done for good reasons"
+  },
+  "tendentious": {
+    "中释": "有倾向的, 有偏见的",
+    "英释": "a tendentious speech, remark, book etc expresses a strong opinion that is intended to influence people"
+  },
+  "restorative": {
+    "中释": "有助于复元的",
+    "英释": "Something that is restorative makes you feel healthier, stronger, or more cheerful after you have been feeling tired, weak, or miserable"
+  },
+  "piscatorial": {
+    "中释": "渔业的, 渔民的",
+    "英释": "relating to fishing or people who go fishing"
+  },
+  "prospective": {
+    "中释": "预期的",
+    "英释": "You use prospective to describe someone who wants to be the thing mentioned or who is likely to be the thing mentioned"
+  },
+  "dyslogistic": {
+    "中释": "责难的"
+  },
+  "commendable": {
+    "中释": "值得表扬的",
+    "英释": "deserving praise"
+  },
+  "papyraceous": {
+    "中释": "纸草的, 纸状的",
+    "英释": "of, relating to, made of, or resembling paper "
+  },
+  "therapeutic": {
+    "中释": "治疗的, 治疗学的",
+    "英释": "relating to the treatment or cure of an illness"
+  },
+  "predominant": {
+    "中释": "卓越的, 支配的, 主要的, 突出的, 有影响的",
+    "英释": "If something is predominant, it is more important or noticeable than anything else in a set of people or things"
+  },
+  "spontaneous": {
+    "中释": "自发的, 自然产生的",
+    "英释": "something that is spontaneous has not been planned or organized, but happens by itself, or because you suddenly feel you want to do it"
+  },
+  "thrasonical": {
+    "中释": "自夸的, (打击等)沉重的, 吹牛的",
+    "英释": "bragging; boastful "
+  },
+  "pretentious": {
+    "中释": "自命不凡的"
+  },
+  "involuntary": {
+    "中释": "自然而然的, 无意的, 不知不觉的, 偶然的, 不随意的",
+    "英释": "an involuntary movement, sound, reaction etc is one that you make suddenly and without intending to because you cannot control yourself"
+  },
+  "integrative": {
+    "中释": "综合的, 一体化的"
+  },
+  "opprobrious": {
+    "中释": "嘴不干净的, 无礼的, 粗野的, 该骂的, 可耻的"
+  },
+  "superlative": {
+    "中释": "最高的",
+    "英释": "excellent"
+  },
+  "exceedingly": {
+    "中释": "非常地, 极度地",
+    "英释": "extremely"
+  },
+  "instigation": {
+    "中释": "鼓动, 煽动"
+  },
+  "pandemonium": {
+    "中释": "喧嚣；大混乱；大吵大闹",
+    "英释": "a situation in which there is a lot of noise because people are angry, confused or frightened"
+  },
+  "consolation": {
+    "中释": "(被)安慰, 起安慰作用的人或事物",
+    "英释": "something that makes you feel better when you are sad or disappointed"
+  },
+  "consignment": {
+    "中释": "(货物的)交托, 交货, 发货, 运送, 托付物, 寄存物",
+    "英释": "a quantity of goods that are sent somewhere, especially in order to be sold"
+  },
+  "blockbuster": {
+    "中释": "(破坏力极大的)巨型炸弹, 一鸣惊人者"
+  },
+  "divestiture": {
+    "中释": "(头衔,财产权利等的)剥夺, 脱衣"
+  },
+  "protagonist": {
+    "中释": "(戏剧, 故事, 小说中的)主角, 领导者, 积极参加者",
+    "英释": "one of the most important people taking part in a competition, battle, or struggle"
+  },
+  "connoisseur": {
+    "中释": "(艺术品的)鉴赏家, 鉴定家, 内行",
+    "英释": "someone who knows a lot about something such as art, food, or music"
+  },
+  "edification": {
+    "中释": "(尤指道德或精神方面的)教诲, 启迪, 熏陶",
+    "英释": "If something is done for your edification, it is done to benefit you in some way, for example by teaching you about something"
+  },
+  "vaccination": {
+    "中释": "[医]接种疫苗, 种痘, 牛痘疤"
+  },
+  "megalomania": {
+    "中释": "[医]夸大狂, 妄自尊大",
+    "英释": "when someone wants to have a lot of power for themselves and enjoys having control over other people’s lives, sometimes as part of a mental illness"
+  },
+  "astigmatism": {
+    "中释": "[医]散光, 因偏差而造成的曲解或错判",
+    "英释": "difficulty in seeing clearly that is caused by a change in the inner shape of the eye"
+  },
+  "haemophilia": {
+    "中释": "[医]血友病, 出血不止症",
+    "英释": "a serious disease that prevents a person’s blood from becoming thick, so that they lose a lot of blood easily if they are injured"
+  },
+  "haughtiness": {
+    "中释": "傲慢, 不逊"
+  },
+  "oscillation": {
+    "中释": "摆动, 振动",
+    "英释": "oscillations are frequent changes between two extreme amounts or limits"
+  },
+  "transaction": {
+    "中释": "办理, 处理, 会报, 学报, 交易, 事务, 处理事务",
+    "英释": "a business deal or action, such as buying or selling something"
+  },
+  "retribution": {
+    "中释": "报偿",
+    "英释": "Retribution is punishment for a crime, especially punishment that is carried out by someone other than the official authorities"
+  },
+  "tragedienne": {
+    "中释": "悲剧女演员",
+    "英释": "an actor who specializes in tragic roles "
+  },
+  "endorsement": {
+    "中释": "背书, 签注(文件), 认可",
+    "英释": "An endorsement is a statement or action that shows you support or approve of something or someone"
+  },
+  "vindication": {
+    "中释": "辩护, 辩明, 拥护"
+  },
+  "deprivation": {
+    "中释": "剥夺",
+    "英释": "If you suffer deprivation, you do not have or are prevented from having something that you want or need"
+  },
+  "incertitude": {
+    "中释": "不肯定, 不确定, 无把握",
+    "英释": "uncertainty; doubt "
+  },
+  "impropriety": {
+    "中释": "不适当, 不适当的事物",
+    "英释": "Impropriety is improper behaviour"
+  },
+  "incongruity": {
+    "中释": "不调和的, 不适宜的",
+    "英释": "the fact that something is strange, unusual, or unsuitable in a particular situation"
+  },
+  "installment": {
+    "中释": "部分"
+  },
+  "disposition": {
+    "中释": "部署"
+  },
+  "parenthesis": {
+    "中释": "插入语, 附带, 插曲, 圆括号",
+    "英释": "a round  bracket "
+  },
+  "enunciation": {
+    "中释": "阐明"
+  },
+  "trepidation": {
+    "中释": "颤抖"
+  },
+  "precipitate": {
+    "中释": "沉淀物",
+    "英释": "a solid substance that has been chemically separated from a liquid"
+  },
+  "corrugation": {
+    "中释": "成皱, 起皱, 皱状"
+  },
+  "castigation": {
+    "中释": "惩罚, 苛责, 修订"
+  },
+  "haemorrhage": {
+    "中释": "出血(尤指大出血), 溢血",
+    "英释": "a serious medical condition in which a person bleeds a lot, sometimes inside their body"
+  },
+  "abecedarian": {
+    "中释": "初学者, 学字母者",
+    "英释": "a person who is learning the alphabet or the rudiments of a subject "
+  },
+  "penetration": {
+    "中释": "穿过, 渗透, 突破",
+    "英释": "when something or someone enters or passes through something, especially when this is difficult"
+  },
+  "originality": {
+    "中释": "创意, 新奇",
+    "英释": "when something is completely new and different from anything that anyone has thought of before"
+  },
+  "malapropism": {
+    "中释": "词语误用, 用词错误可笑",
+    "英释": "an amusing mistake that you make when you use a word that sounds similar to the word you intended to say but means something completely different"
+  },
+  "resignation": {
+    "中释": "辞职, 辞职书, 放弃, 顺从",
+    "英释": "an occasion when you officially announce that you have decided to leave your job or an organization, or a written statement that says you will be leaving"
+  },
+  "harpsichord": {
+    "中释": "大键琴",
+    "英释": "a musical instrument like a piano, used especially in the past"
+  },
+  "latifundium": {
+    "中释": "大农场主",
+    "英释": "a large agricultural estate, esp one worked by slaves in ancient Rome "
+  },
+  "agglomerate": {
+    "中释": "大团, 大块"
+  },
+  "succedaneum": {
+    "中释": "代用品, 代理者, 代用药",
+    "英释": "something that is used as a substitute, esp any medical drug or agent that may be taken or prescribed in place of another "
+  },
+  "singularity": {
+    "中释": "单一, 异常, 奇异, 奇妙, 稀有",
+    "英释": "an extremely small point in space that contains an extremely large amount of material and which does not obey the usual laws of nature, for example a  black hole  or the point at the beginning of the universe"
+  },
+  "penultimate": {
+    "中释": "倒数第二音节"
+  },
+  "kleptomania": {
+    "中释": "盗窃癖",
+    "英释": "a mental illness in which you have a desire to steal things"
+  },
+  "diaphoresis": {
+    "中释": "发汗",
+    "英释": "a technical name for sweating "
+  },
+  "orientation": {
+    "中释": "方向, 方位, 定位, 倾向性, 向东方",
+    "英释": "the type of activity or subject that a person or organization seems most interested in and gives most attention to"
+  },
+  "impedimenta": {
+    "中释": "妨碍行进或运动的东西"
+  },
+  "reassurance": {
+    "中释": "放心",
+    "英释": "something that is said or done which makes someone feel calmer and less worried or frightened about a problem"
+  },
+  "parturition": {
+    "中释": "分娩, 生产",
+    "英释": "the act or process of giving birth "
+  },
+  "indignation": {
+    "中释": "愤慨, 义愤",
+    "英释": "feelings of anger and surprise because you feel insulted or unfairly treated"
+  },
+  "hummingbird": {
+    "中释": "蜂雀",
+    "英释": "A hummingbird is a small brightly coloured bird found in North, Central and South America. It has a long thin beak and powerful narrow wings that can move very fast. "
+  },
+  "renaissance": {
+    "中释": "复兴, 复活, 新生, 文艺复兴, 文艺复兴时期",
+    "英释": "a new interest in something, especially a particular form of art, music etc, that has not been popular for a long period"
+  },
+  "incarnation": {
+    "中释": "赋予肉体, 具人形, 化身",
+    "英释": "An incarnation is an instance of being alive on earth in a particular form. Some religions believe that people have several incarnations in different forms. "
+  },
+  "permutation": {
+    "中释": "改变, 交换, [数]排列, 置换",
+    "英释": "one of the different ways in which a number of things can be arranged"
+  },
+  "valediction": {
+    "中释": "告别, 告别词",
+    "英释": "the act of saying goodbye, especially in a formal speech"
+  },
+  "paleography": {
+    "中释": "古文书, 古文书学"
+  },
+  "shareholder": {
+    "中释": "股东",
+    "英释": "someone who owns shares in a company or business"
+  },
+  "malfunction": {
+    "中释": "故障",
+    "英释": "a fault in the way a machine or part of someone’s body works"
+  },
+  "approbation": {
+    "中释": "官方批准, 认可, 嘉许",
+    "英释": "official praise or approval"
+  },
+  "bureaucracy": {
+    "中释": "官僚, 官僚作风, 官僚机构",
+    "英释": "a complicated official system that is annoying or confusing because it has a lot of rules, processes etc"
+  },
+  "restitution": {
+    "中释": "归还",
+    "英释": "the act of giving back something that was lost or stolen to its owner, or of paying for damage"
+  },
+  "replacement": {
+    "中释": "归还, 复位, 交换, 代替者, 补充兵员, 置换, 移位",
+    "英释": "when you get something that is newer or better than the one you had before"
+  },
+  "attribution": {
+    "中释": "归因"
+  },
+  "machination": {
+    "中释": "诡计"
+  },
+  "hibernation": {
+    "中释": "过冬, 冬眠, 避寒"
+  },
+  "connotation": {
+    "中释": "含蓄, 储蓄的东西(词、语等), 内涵",
+    "英释": "The connotations of a particular word or name are the ideas or qualities which it makes you think of"
+  },
+  "delinquency": {
+    "中释": "行为不良, 错失",
+    "英释": "illegal or immoral behaviour or actions, especially by young people"
+  },
+  "aeronautics": {
+    "中释": "航空学, 航空术",
+    "英释": "the science of designing and flying planes"
+  },
+  "hospitality": {
+    "中释": "好客, 宜人, 盛情",
+    "英释": "friendly behaviour towards visitors"
+  },
+  "candidature": {
+    "中释": "候选人的地位, 候选人资格"
+  },
+  "respiration": {
+    "中释": "呼吸, 呼吸作用",
+    "英释": "the process of breathing"
+  },
+  "reciprocity": {
+    "中释": "互惠",
+    "英释": "a situation in which two people, groups, or countries give each other similar kinds of help or special rights"
+  },
+  "flamboyance": {
+    "中释": "华丽, 火焰"
+  },
+  "acclamation": {
+    "中释": "欢呼, 喝彩, (以欢呼、鼓掌等表示的)拥护, 赞成",
+    "英释": "a loud expression of approval or welcome"
+  },
+  "appeasement": {
+    "中释": "缓和"
+  },
+  "spendthrift": {
+    "中释": "挥霍者",
+    "英释": "someone who spends money carelessly, even when they do not have a lot of it"
+  },
+  "intermingle": {
+    "中释": "混合"
+  },
+  "dislocation": {
+    "中释": "混乱, 断层, 脱臼",
+    "英释": "Dislocation is a situation in which something such as a system, process, or way of life is greatly disturbed or prevented from continuing as normal"
+  },
+  "promiscuity": {
+    "中释": "混乱, 杂乱, 尤指男女乱交"
+  },
+  "procurement": {
+    "中释": "获得, 取得",
+    "英释": "Procurement is the act of obtaining something such as supplies for an army or other organization"
+  },
+  "monstrosity": {
+    "中释": "畸形"
+  },
+  "provocation": {
+    "中释": "激怒, 刺激, 挑衅, 挑拨",
+    "英释": "an action or event that makes someone angry or upset, or is intended to do this"
+  },
+  "aggregation": {
+    "中释": "集合, 集合体, 聚合",
+    "英释": "the act or process of aggregating "
+  },
+  "convocation": {
+    "中释": "集会, 召集, 教士会议",
+    "英释": "a large formal meeting of a group of people, especially church officials"
+  },
+  "philatelist": {
+    "中释": "集邮家",
+    "英释": "A philatelist is a person who collects and studies postage stamps"
+  },
+  "computation": {
+    "中释": "计算, 估计",
+    "英释": "the process of calculating or the result of calculating"
+  },
+  "chronometer": {
+    "中释": "记时计",
+    "英释": "a very exact clock, used for scientific purposes"
+  },
+  "domesticity": {
+    "中释": "家庭生活, 专心于家务, 对家庭的挚爱, 家庭生活",
+    "英释": "life at home with your family"
+  },
+  "presumption": {
+    "中释": "假定",
+    "英释": "something that you think is true because it is very likely"
+  },
+  "supposition": {
+    "中释": "假定, 想象, 推测, 推想",
+    "英释": "something that you think is true, even though you are not certain and cannot prove it"
+  },
+  "affectation": {
+    "中释": "假装, 虚饰, 做作",
+    "英释": "If you say that someone's attitude or behaviour is an affectation, you disapprove of the fact that it is not genuine or natural, but is intended to impress other people"
+  },
+  "interaction": {
+    "中释": "交互作用, 交感",
+    "英释": "a process by which two or more things affect each other"
+  },
+  "mollycoddle": {
+    "中释": "娇惯的男人, 懦夫"
+  },
+  "pontificate": {
+    "中释": "教皇的职位, 主教的地位",
+    "英释": "the position or period of being Pope"
+  },
+  "doctrinaire": {
+    "中释": "教条主义者"
+  },
+  "propinquity": {
+    "中释": "接近",
+    "英释": "the fact of being near someone or something, or of being related to someone"
+  },
+  "inoculation": {
+    "中释": "接木, 接种, 接插芽"
+  },
+  "commandment": {
+    "中释": "戒律"
+  },
+  "comportment": {
+    "中释": "举止, 态度, 动作",
+    "英释": "conduct; bearing "
+  },
+  "sovereignty": {
+    "中释": "君主, 主权, 主权国家",
+    "英释": "the power that an independent country has to govern itself"
+  },
+  "corrigendum": {
+    "中释": "勘误表"
+  },
+  "archaeology": {
+    "中释": "考古学",
+    "英释": "the study of ancient societies by examining what remains of their buildings,  grave s  , tools etc"
+  },
+  "variability": {
+    "中释": "可变性"
+  },
+  "interregnum": {
+    "中释": "空白期间, 空位期间, 中断",
+    "英释": "a period of time when a country or organization has no ruler or leader, and they are waiting for a new one"
+  },
+  "tribulation": {
+    "中释": "苦难, 忧患, 磨难",
+    "英释": "serious trouble or a serious problem"
+  },
+  "lucubration": {
+    "中释": "苦心而成的著作, 学术作品"
+  },
+  "elaboration": {
+    "中释": "苦心经营, 苦心经营的结果, 详尽的细节"
+  },
+  "predicament": {
+    "中释": "困境",
+    "英释": "a difficult or unpleasant situation in which you do not know what to do, or in which you have to make a difficult choice"
+  },
+  "gerontology": {
+    "中释": "老人医学",
+    "英释": "the scientific study of old age and its effects on the body"
+  },
+  "resemblance": {
+    "中释": "类同之处",
+    "英释": "If there is a resemblance between two people or things, they are similar to each other"
+  },
+  "nonchalance": {
+    "中释": "冷淡"
+  },
+  "legislature": {
+    "中释": "立法机关, 立法机构",
+    "英释": "an institution that has the power to make or change laws"
+  },
+  "affiliation": {
+    "中释": "联系, 从属关系",
+    "英释": "the connection or involvement that someone or something has with a political, religious etc organization"
+  },
+  "compunction": {
+    "中释": "良心的谴责, 后悔, 悔恨",
+    "英释": "a feeling that you should not do something because it is bad or wrong"
+  },
+  "inspiration": {
+    "中释": "灵感",
+    "英释": "a good idea about what you should do, write, say etc, especially one which you get suddenly"
+  },
+  "forwardness": {
+    "中释": "卤莽, 早熟, 热心"
+  },
+  "depredation": {
+    "中释": "掠夺, 破坏痕迹",
+    "英释": "an act of taking or destroying something"
+  },
+  "controversy": {
+    "中释": "论争, 辩论, 论战",
+    "英释": "a serious argument about something that involves many people and continues for a long time"
+  },
+  "screwdriver": {
+    "中释": "螺丝起子",
+    "英释": "a tool with a narrow blade at one end that you use for turning screws"
+  },
+  "ostentation": {
+    "中释": "卖弄, 夸耀, 摆阔, 风头主义",
+    "英释": "when you deliberately try to show people how rich or clever you are, in order to make them admire you"
+  },
+  "complacency": {
+    "中释": "满足, 安心",
+    "英释": "Complacency is being complacent about a situation"
+  },
+  "insouciance": {
+    "中释": "漫不经心, 无忧无虑",
+    "英释": "a cheerful feeling of not caring or worrying about anything"
+  },
+  "caterpillar": {
+    "中释": "毛虫",
+    "英释": "a small creature like a  worm  with many legs that eats leaves and that develops into a  butterfly  or other flying insect"
+  },
+  "pulchritude": {
+    "中释": "美丽, 标致",
+    "英释": "physical beauty "
+  },
+  "captivation": {
+    "中释": "迷惑, 魅力, 着迷"
+  },
+  "enchantment": {
+    "中释": "迷惑, 着迷, 魔法, 妖术, 魅力",
+    "英释": "the quality of being very pleasant or attractive"
+  },
+  "countenance": {
+    "中释": "面容, 脸色, 支持",
+    "英释": "your face or your expression"
+  },
+  "ethnography": {
+    "中释": "民族志学, 人种学, 人种志",
+    "英释": "the scientific description of different races of people"
+  },
+  "appellation": {
+    "中释": "名称, 称呼",
+    "英释": "a name or title"
+  },
+  "campanology": {
+    "中释": "鸣钟术, 铸钟术",
+    "英释": "the skill of ringing bells, and the study of bells"
+  },
+  "fascination": {
+    "中释": "魔力, 入迷, 魅力, 迷恋, 强烈爱好",
+    "英释": "the state of being very interested in something, so that you want to look at it, learn about it etc"
+  },
+  "ornithology": {
+    "中释": "鸟类学, 鸟学论文",
+    "英释": "the scientific study of birds"
+  },
+  "contingency": {
+    "中释": "偶然, 可能性, 意外事故, 可能发生的附带事件",
+    "英释": "an event or situation that might happen in the future, especially one that could cause problems"
+  },
+  "dermatology": {
+    "中释": "皮肤医学, 皮肤病学",
+    "英释": "the part of medical science that deals with skin diseases and their treatment"
+  },
+  "declination": {
+    "中释": "偏差"
+  },
+  "equilibrium": {
+    "中释": "平衡, 平静, 均衡, 保持平衡的能力, 沉着, 安静",
+    "英释": "a balance between different people, groups, or forces that compete with each other, so that none is stronger than the others and a situation is not likely to change suddenly"
+  },
+  "persecution": {
+    "中释": "迫害, 烦扰",
+    "英释": "Persecution is cruel and unfair treatment of a person or group, especially because of their religious or political beliefs, or their race"
+  },
+  "destruction": {
+    "中释": "破坏, 毁灭",
+    "英释": "the act or process of destroying something or of being destroyed"
+  },
+  "skulduggery": {
+    "中释": "欺骗, 作假, 使诈, 诡计",
+    "英释": "secretly dishonest or illegal activity – also used humorously"
+  },
+  "imprecation": {
+    "中释": "祈求, 诅咒",
+    "英释": "an offensive word or phrase, used when someone is very angry"
+  },
+  "implication": {
+    "中释": "牵连, 含意, 暗示",
+    "英释": "a situation in which it is shown or suggested that someone or something is involved in a crime or a dishonest act"
+  },
+  "numismatist": {
+    "中释": "钱币奖章收藏家",
+    "英释": "someone who collects and studies coins and medals"
+  },
+  "overmeasure": {
+    "中释": "强行剩余"
+  },
+  "inclination": {
+    "中释": "倾斜, 弯曲, 倾度, 倾向, 爱好",
+    "英释": "a feeling that makes you want to do something"
+  },
+  "liquidation": {
+    "中释": "清算",
+    "英释": "the act of closing a company by selling the things that belong to it, in order to pay its debts"
+  },
+  "distinction": {
+    "中释": "区别, 差别, 级别, 特性, 声望, 显赫",
+    "英释": "a clear difference or separation between two similar things"
+  },
+  "recantation": {
+    "中释": "取消前言, 改变论调"
+  },
+  "exhortation": {
+    "中释": "劝告, 讲道词, 训词"
+  },
+  "archipelago": {
+    "中释": "群岛, 多岛海",
+    "英释": "a group of small islands"
+  },
+  "derangement": {
+    "中释": "扰乱, 发狂"
+  },
+  "physiognomy": {
+    "中释": "人相学, 人相, 脸, 相面术, 相貌, 地貌, 地势",
+    "英释": "the general appearance of a person’s face"
+  },
+  "benevolence": {
+    "中释": "仁爱心, 善行"
+  },
+  "disturbance": {
+    "中释": "骚动, 动乱, 打扰, 干扰, 骚乱, 搅动",
+    "英释": "a situation in which people behave violently in public"
+  },
+  "fomentation": {
+    "中释": "煽动"
+  },
+  "fulmination": {
+    "中释": "闪电, 爆发, 爆鸣"
+  },
+  "merchandise": {
+    "中释": "商品, 货物",
+    "英释": "goods that are being sold"
+  },
+  "anachronism": {
+    "中释": "时代错误",
+    "英释": "something in a play, film etc that seems wrong because it did not exist in the period of history in which the play etc is set"
+  },
+  "discernment": {
+    "中释": "识别力, 眼力,洞察力",
+    "英释": "the ability to make good judgments about people or about art, music, style etc"
+  },
+  "cannibalism": {
+    "中释": "嗜食同类, 食人, 自相残杀，人吃人的",
+    "英释": "If a group of people practise cannibalism, they eat the flesh of other people"
+  },
+  "contraction": {
+    "中释": "收缩, 缩写式, 紧缩",
+    "英释": "a very strong and painful movement of a muscle, especially the muscles around the  womb  during birth"
+  },
+  "beneficiary": {
+    "中释": "受惠者, 受益人",
+    "英释": "someone who gets advantages from an action or change"
+  },
+  "investiture": {
+    "中释": "授职, 授权, 覆盖物"
+  },
+  "calligraphy": {
+    "中释": "书法",
+    "英释": "the art of producing beautiful writing using special pens or brushes, or the writing produced this way"
+  },
+  "familiarity": {
+    "中释": "熟悉, 通晓, 亲密, 熟悉, 精通",
+    "英释": "a good knowledge of a particular subject or place"
+  },
+  "terminology": {
+    "中释": "术语学",
+    "英释": "the technical words or expressions that are used in a particular subject"
+  },
+  "decrepitude": {
+    "中释": "衰老, 老朽, 老耄"
+  },
+  "speculation": {
+    "中释": "思索, 做投机买卖",
+    "英释": "when you try to make a large profit by buying goods, property,  shares  etc and then selling them"
+  },
+  "executioner": {
+    "中释": "死刑执行人, 刽子手",
+    "英释": "someone whose job is to execute criminals"
+  },
+  "deification": {
+    "中释": "祀为神, 神格化, 奉若神明",
+    "英释": "If you talk about the deification of someone or something, you mean that they are regarded with very great respect and are not criticized at all"
+  },
+  "stenography": {
+    "中释": "速记, 速记法",
+    "英释": "a fast way of writing in which you use special signs or short forms of words, used especially to record what someone is saying"
+  },
+  "smithereens": {
+    "中释": "碎片, 碎屑",
+    "英释": "If something is blown or smashed to smithereens, it breaks into very small pieces"
+  },
+  "indentation": {
+    "中释": "缩排, 呈锯齿状, 缺口, 印凹痕",
+    "英释": "a cut into the surface or edge of something"
+  },
+  "desideratum": {
+    "中释": "所愿望之物, 迫切需要之物"
+  },
+  "exploration": {
+    "中释": "探险, 踏勘, 探测, [医](伤处等的)探查, 探察术",
+    "英释": "the act of travelling through a place in order to find out about it or find something such as oil or gold in it"
+  },
+  "prerogative": {
+    "中释": "特权",
+    "英释": "a right that someone has, especially because of their importance or social position"
+  },
+  "inscription": {
+    "中释": "题字, 碑铭",
+    "英释": "a piece of writing inscribed on a stone, in the front of a book etc"
+  },
+  "stethoscope": {
+    "中释": "听诊器",
+    "英释": "an instrument that a doctor uses to listen to your heart or breathing"
+  },
+  "equivalence": {
+    "中释": "同等, [化]等价, 等值",
+    "英释": "If there is equivalence between two things, they have the same use, function, size, or value"
+  },
+  "conspirator": {
+    "中释": "同谋者, 阴谋者, 反叛者",
+    "英释": "A conspirator is a person who joins a conspiracy"
+  },
+  "perspective": {
+    "中释": "透视画法, 透视图, 远景, 前途, 观点, 看法, 观点, 观察",
+    "英释": "a way of thinking about something, especially one which is influenced by the type of person you are or by your experiences"
+  },
+  "ejaculation": {
+    "中释": "突然说出, 射精, 射出"
+  },
+  "ingratitude": {
+    "中释": "忘恩, 不知恩",
+    "英释": "the quality of not being grateful"
+  },
+  "constituent": {
+    "中释": "委托人, 要素"
+  },
+  "intrepidity": {
+    "中释": "无畏"
+  },
+  "legerdemain": {
+    "中释": "戏法, 骗术, 诡辩, 巧妙的花招",
+    "英释": "when you deceive people cleverly"
+  },
+  "prelibation": {
+    "中释": "先尝, 预尝",
+    "英释": "an advance taste or sample; foretaste "
+  },
+  "antecedence": {
+    "中释": "先行, 先前",
+    "英释": "precedence; priority "
+  },
+  "discrepancy": {
+    "中释": "相差, 差异, 矛盾",
+    "英释": "If there is a discrepancy between two things that ought to be the same, there is a noticeable difference between them"
+  },
+  "metaphysics": {
+    "中释": "形而上学, 玄学, 纯粹哲学, 宇宙哲学",
+    "英释": "the part of  philosophy  that is concerned with trying to understand and describe the nature of truth, life, and  reality "
+  },
+  "declamation": {
+    "中释": "雄辨"
+  },
+  "prorogation": {
+    "中释": "休会"
+  },
+  "monasticism": {
+    "中释": "修道院生活, 修道院制度",
+    "英释": "the monastic system, movement, or way of life "
+  },
+  "florilegium": {
+    "中释": "选集, 作品集锦, 群芳谱",
+    "英释": "(formerly) a lavishly illustrated book on flowers "
+  },
+  "histrionics": {
+    "中释": "演戏, 表演"
+  },
+  "misanthrope": {
+    "中释": "厌恶人类的人, 不愿与人来往者",
+    "英释": "A misanthrope is a person who does not like other people"
+  },
+  "coincidence": {
+    "中释": "一致, 相合, 同时发生或同时存在(尤指偶然)的事",
+    "英释": "when two things happen at the same time, in the same place, or to the same people in a way that seems surprising or unusual"
+  },
+  "discography": {
+    "中释": "音乐唱片分类目录, 音乐唱片分类学(法),录音作品目录",
+    "英释": "A discography is a list of all the recordings made by a particular artist or group"
+  },
+  "elicitation": {
+    "中释": "引出, 诱出, 抽出, 启发"
+  },
+  "cerebration": {
+    "中释": "用脑,思考",
+    "英释": "the act of thinking; consideration; thought "
+  },
+  "serendipity": {
+    "中释": "有意外发现珍宝的运气",
+    "英释": "Serendipity is the luck some people have in finding or creating interesting or valuable things by chance"
+  },
+  "periphrasis": {
+    "中释": "迂回说法",
+    "英释": "the use of  auxiliary  words instead of  inflect  ed forms"
+  },
+  "delectation": {
+    "中释": "愉快, 款待",
+    "英释": "if you do something for someone’s delectation, you do it to give them enjoyment, pleasure, or amusement"
+  },
+  "infatuation": {
+    "中释": "愚蠢, 糊涂, 醉心"
+  },
+  "linguistics": {
+    "中释": "语言学",
+    "英释": "the study of language in general and of particular languages, their structure, grammar, and history"
+  },
+  "stipulation": {
+    "中释": "约定, 约束, 契约",
+    "英释": "something that must be done, and which is stated as part of an agreement, law, or rule"
+  },
+  "enhancement": {
+    "中释": "增进, 增加"
+  },
+  "eclecticism": {
+    "中释": "折衷主义, 折衷主义的运动",
+    "英释": "Eclecticism is the principle or practice of choosing or involving objects, ideas, and beliefs from many different sources"
+  },
+  "altercation": {
+    "中释": "争论, 口角"
+  },
+  "ambivalence": {
+    "中释": "正反感情并存"
+  },
+  "requisition": {
+    "中释": "正式请求, 申请, 需要, 命令, 征用, 通知单",
+    "英释": "A requisition is a written document which allows a person or organization to obtain goods"
+  },
+  "testimonial": {
+    "中释": "证明书, 推荐书",
+    "英释": "a formal written statement describing someone’s character and abilities"
+  },
+  "expenditure": {
+    "中释": "支出, 花费",
+    "英释": "the total amount of money that a government, organization, or person spends during a particular period of time"
+  },
+  "functionary": {
+    "中释": "职员, 官员, 负责人员",
+    "英释": "someone who has a job doing unimportant or boring official duties"
+  },
+  "designation": {
+    "中释": "指示, 指定, 选派, 名称",
+    "英释": "the act of choosing someone or something for a particular purpose, or of giving them a particular description"
+  },
+  "malediction": {
+    "中释": "咒, 坏话",
+    "英释": "a wish that something bad will happen to someone"
+  },
+  "abracadabra": {
+    "中释": "咒语, 胡言乱语",
+    "英释": "a word you say when you do a magic trick, which is supposed to make it successful"
+  },
+  "benediction": {
+    "中释": "祝福",
+    "英释": "a Christian prayer that asks God to protect and help someone"
+  },
+  "climacteric": {
+    "中释": "转变期, [医]更年期,绝经期,[植]呼吸峰",
+    "英释": "a critical event or period "
+  },
+  "spontaneity": {
+    "中释": "自发性",
+    "英释": "Spontaneity is spontaneous, natural behaviour"
+  },
+  "forbearance": {
+    "中释": "自制, 忍耐, [律]债务偿还期的延展",
+    "英释": "the quality of being patient, able to control your emotions, and willing to forgive someone who has upset you"
+  },
+  "encumbrance": {
+    "中释": "阻碍, 累赘, 妨害物",
+    "英释": "An encumbrance is something or someone that encumbers you"
+  },
+  "obstruction": {
+    "中释": "阻塞, 妨碍, 障碍物",
+    "英释": "when something blocks a road, passage, tube etc, or the thing that blocks it"
+  },
+  "deteriorate": {
+    "中释": "(使)恶化",
+    "英释": "to become worse"
+  },
+  "resuscitate": {
+    "中释": "(使)复苏, (使)复兴",
+    "英释": "to make someone breathe again or become conscious after they have almost died"
+  },
+  "interrelate": {
+    "中释": "(使)相互关连",
+    "英释": "if two things interrelate, they are connected and have an effect on each other"
+  },
+  "regurgitate": {
+    "中释": "(使)涌回, (使)流回, (使)反刍",
+    "英释": "to bring food that you have already swallowed, back into your mouth"
+  },
+  "interpolate": {
+    "中释": "窜改, 添写进去, 插入新语句",
+    "英释": "to interrupt someone by saying something"
+  },
+  "scintillate": {
+    "中释": "发出火花, 闪耀光芒",
+    "英释": "to give off (sparks); sparkle; twinkle "
+  },
+  "reverberate": {
+    "中释": "反响",
+    "英释": "if a loud sound reverberates, it is heard many times as it is sent back from different surfaces"
+  },
+  "recriminate": {
+    "中释": "反责, 反唇相讥, 反控诉",
+    "英释": "to return an accusation against someone or engage in mutual accusations "
+  },
+  "consolidate": {
+    "中释": "巩固",
+    "英释": "to strengthen the position of power or success that you have, so that it becomes more effective or continues for longer"
+  },
+  "reciprocate": {
+    "中释": "互给, 酬答, 互换, 报答"
+  },
+  "extemporize": {
+    "中释": "即席演说, 即兴演奏, 当场作成",
+    "英释": "to speak or perform without preparation or practice"
+  },
+  "confabulate": {
+    "中释": "交谈",
+    "英释": "to talk together; converse; chat "
+  },
+  "remonstrate": {
+    "中释": "抗议",
+    "英释": "to tell someone that you strongly disapprove of something they have said or done"
+  },
+  "ingurgitate": {
+    "中释": "狼吞虎咽, 大吃大喝",
+    "英释": "to swallow (food) with greed or in excess; gorge "
+  },
+  "concatenate": {
+    "中释": "连接",
+    "英释": "to link or join together, esp in a chain or series "
+  },
+  "commiserate": {
+    "中释": "怜悯, 同情",
+    "英释": "to express your sympathy for someone who is unhappy about something"
+  },
+  "contemplate": {
+    "中释": "凝视, 沉思, 预期, 企图",
+    "英释": "to look at someone or something for a period of time in a way that shows you are thinking"
+  },
+  "enlightened": {
+    "中释": "启迪"
+  },
+  "disseminate": {
+    "中释": "散布",
+    "英释": "to spread information or ideas to as many people as possible"
+  },
+  "superimpose": {
+    "中释": "添加, 双重",
+    "英释": "to put one picture, image, or photograph on top of another so that both can be partly seen"
+  },
+  "synchronize": {
+    "中释": "同步",
+    "英释": "to happen at exactly the same time, or to arrange for two or more actions to happen at exactly the same time"
+  },
+  "extrapolate": {
+    "中释": "推断, [数]外推",
+    "英释": "to use facts about the present or about one thing or group to make a guess about the future or about other things or groups"
+  },
+  "materialize": {
+    "中释": "物化"
+  },
+  "exterminate": {
+    "中释": "消除",
+    "英释": "to kill large numbers of people or animals of a particular type so that they no longer exist"
+  },
+  "perambulate": {
+    "中释": "巡行"
+  },
+  "dissimulate": {
+    "中释": "掩饰, 假装, 装糊涂",
+    "英释": "to hide your true feelings or intentions, especially by lying"
+  },
+  "proliferate": {
+    "中释": "增生扩散",
+    "英释": "if something proliferates, it increases quickly and spreads to many different places"
+  },
+  "prevaricate": {
+    "中释": "支吾搪塞",
+    "英释": "to try to hide the truth by not answering questions directly"
+  },
+  "superintend": {
+    "中释": "主管, 指挥, 管理, 监督",
+    "英释": "to be in charge of something, and control how it is done"
+  },
+  "gesticulate": {
+    "中释": "做姿势表达, 用手势谈话",
+    "英释": "to make movements with your arms and hands, usually while speaking, because you are excited, angry, or cannot think of the right words to use"
+  },
+  "superabound": {
+    "中释": "过剩, 有余",
+    "英释": "to abound abnormally; be in surplus "
+  },
+  "expostulate": {
+    "中释": "劝诫, 忠告"
+  },
+  "flabbergast": {
+    "中释": "<口>使大吃一惊, 哑然失色, 使目瞪口呆",
+    "英释": "to overcome with astonishment; amaze utterly; astound "
+  },
+  "electrocute": {
+    "中释": "<美>处电刑, 触电致死",
+    "英释": "to kill someone using electricity"
+  },
+  "disencumber": {
+    "中释": "摆脱烦恼, 不受妨碍",
+    "英释": "to free from encumbrances "
+  },
+  "decorticate": {
+    "中释": "剥皮",
+    "英释": "to remove the bark or some other outer layer from "
+  },
+  "reincarnate": {
+    "中释": "赋予新肉体, 使转生"
+  },
+  "enfranchise": {
+    "中释": "给予选举权, 给予自治权, 解放",
+    "英释": "to give a group of people the right to vote"
+  },
+  "sequestrate": {
+    "中释": "扣押, 没收",
+    "英释": "to take property away from the person it belongs to because they have not paid their debts"
+  },
+  "instantiate": {
+    "中释": "例示",
+    "英释": "to represent by an instance "
+  },
+  "expropriate": {
+    "中释": "没收, 征用, 剥夺",
+    "英释": "if a government or someone in authority expropriates your private property, they take it away for public use"
+  },
+  "impersonate": {
+    "中释": "模仿, 扮演, 人格化, 拟人",
+    "英释": "to copy someone’s voice and behaviour, especially in order to make people laugh"
+  },
+  "countermand": {
+    "中释": "取消, 撤消, 下反对命令召回",
+    "英释": "If you countermand an order, you cancel it, usually by giving a different order"
+  },
+  "intersperse": {
+    "中释": "散布, 点缀",
+    "英释": "if something is interspersed with a particular kind of thing, it has a lot of them in it"
+  },
+  "interrogate": {
+    "中释": "审问, 询问",
+    "英释": "to ask someone a lot of questions for a long time in order to get information, sometimes using threats"
+  },
+  "transfigure": {
+    "中释": "使变形, 美化, 理想化",
+    "英释": "to change the way someone or something looks, especially so that they become more beautiful"
+  },
+  "proselytize": {
+    "中释": "使改宗",
+    "英释": "If you proselytize, you try to persuade someone to share your beliefs, especially religious or political beliefs"
+  },
+  "corroborate": {
+    "中释": "使坚固, 确证",
+    "英释": "to provide information that supports or helps to prove someone else’s statement, idea etc"
+  },
+  "refocillate": {
+    "中释": "使振作精神"
+  },
+  "misconstrue": {
+    "中释": "误解, 曲解",
+    "英释": "to  misunderstand  something that someone has said or done"
+  },
+  "recondition": {
+    "中释": "修理, 使复原, 使正常",
+    "英释": "to repair something, especially an old machine, so that it works like a new one"
+  },
+  "domesticate": {
+    "中释": "驯养, 使安于土地, 教化",
+    "英释": "to make an animal able to work for people or live with them as a pet"
+  },
+  "encapsulate": {
+    "中释": "装入胶囊, 压缩",
+    "英释": "to express or show something in a short way"
+  }
+}

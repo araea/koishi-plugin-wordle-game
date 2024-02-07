@@ -1,0 +1,4003 @@
+{
+  "skill": {
+    "中释": "技能,技巧",
+    "英释": "an ability to do something well, especially because you have learned and practised it"
+  },
+  "table": {
+    "中释": "桌子,表格",
+    "英释": "a piece of furniture with a flat top supported by legs"
+  },
+  "south": {
+    "中释": "在南方",
+    "英释": "in or to the southern part of England"
+  },
+  "local": {
+    "中释": "当地人",
+    "英释": "someone who lives in the place where you are or the place that you are talking about"
+  },
+  "cover": {
+    "中释": "盖子,封面",
+    "英释": "the outer front or back part of a magazine, book etc"
+  },
+  "reach": {
+    "中释": "范围",
+    "英释": "the limit of someone’s power or ability to do something"
+  },
+  "allow": {
+    "中释": "允许(…进入),同意给,承认",
+    "英释": "to accept that something is correct or true, or that something is acceptable according to the rules or law"
+  },
+  "house": {
+    "中释": "给…房子住",
+    "英释": "to provide someone with a place to live"
+  },
+  "today": {
+    "中释": "今天,现今",
+    "英释": "the day that is happening now"
+  },
+  "clear": {
+    "中释": "变清澈",
+    "英释": "if a liquid clears, it becomes more transparent and you can see through it"
+  },
+  "glass": {
+    "中释": "玻璃,玻璃杯,[pl]眼镜",
+    "英释": "a transparent solid substance used for making windows, bottles etc"
+  },
+  "range": {
+    "中释": "变动,排列",
+    "英释": "to put things in a particular order or position"
+  },
+  "green": {
+    "中释": "使…变绿",
+    "英释": "to fill an area with growing plants in order to make it more attractive"
+  },
+  "right": {
+    "中释": "扶直,纠正",
+    "英释": "exactly in a particular position or place"
+  },
+  "lower": {
+    "中释": "降下,放低",
+    "英释": "to reduce something in amount, degree, strength etc, or to become less"
+  },
+  "roman": {
+    "中释": "罗马(的),罗马人(的)",
+    "英释": "roman type or print "
+  },
+  "upper": {
+    "中释": "上面的,上部的",
+    "英释": "in a higher position than something else"
+  },
+  "learn": {
+    "中释": "学会,学习,得知",
+    "英释": "to gain knowledge of a subject or skill, by experience, by studying it, or by being taught"
+  },
+  "value": {
+    "中释": "评估,重视",
+    "英释": "to think that someone or something is important"
+  },
+  "raise": {
+    "中释": "升起,举起,提出",
+    "英释": "to move or lift something to a higher position, place, or level"
+  },
+  "metal": {
+    "中释": "(以金属)覆盖、装配"
+  },
+  "short": {
+    "中释": "短的,矮的",
+    "英释": "happening or continuing for only a little time or for less time than usual"
+  },
+  "style": {
+    "中释": "风格,式样",
+    "英释": "a particular way of doing, designing, or producing something, especially one that is typical of a particular place, period of time, or group of people"
+  },
+  "grain": {
+    "中释": "形成(颗粒),(用谷物)喂养"
+  },
+  "break": {
+    "中释": "打破,弄坏",
+    "英释": "to end a period of silence by talking or making a noise"
+  },
+  "steam": {
+    "中释": "蒸汽v蒸,蒸发",
+    "英释": "the hot mist that water produces when it is boiled"
+  },
+  "field": {
+    "中释": "田地,领域",
+    "英释": "an area of land in the country, especially one where crops are grown or animals feed on grass"
+  },
+  "speed": {
+    "中释": "加速,急行"
+  },
+  "print": {
+    "中释": "印刷,冲洗(照片)",
+    "英释": "to produce many printed copies of a book, newspaper etc"
+  },
+  "goods": {
+    "中释": "货物,商品",
+    "英释": "things that are produced in order to be sold"
+  },
+  "store": {
+    "中释": "商店",
+    "英释": "a place where goods are sold to the public. In British English, a store is large and sells many different things, but in American English, a store can be large or small, and sell many things or only one type of thing."
+  },
+  "heavy": {
+    "中释": "重的,大量的"
+  },
+  "story": {
+    "中释": "故事,小说",
+    "英释": "a description of how something happened, that is intended to entertain people, and may be true or imaginary"
+  },
+  "solar": {
+    "中释": "太阳(能)的",
+    "英释": "relating to the sun"
+  },
+  "train": {
+    "中释": "训练,培训",
+    "英释": "to teach someone the skills of a particular job or activity, or to be taught these skills"
+  },
+  "least": {
+    "中释": "最小的,最少的"
+  },
+  "canal": {
+    "中释": "运河,沟渠",
+    "英释": "a long passage dug into the ground and filled with water, either for boats to travel along, or to take water to a place"
+  },
+  "craft": {
+    "中释": "工艺,手艺",
+    "英释": "a job or activity in which you make things with your hands, and that you usually need skill to do"
+  },
+  "argue": {
+    "中释": "说服,争论,辩论",
+    "英释": "to disagree with someone in words, often in an angry way"
+  },
+  "above": {
+    "中释": "在上面",
+    "英释": "in a higher position than something else"
+  },
+  "apply": {
+    "中释": "申请,应用",
+    "英释": "to make a formal request, usually written, for something such as a job, a place at a university, or permission to do something"
+  },
+  "every": {
+    "中释": "每个,一切的,每隔",
+    "英释": "Every is also an adjective"
+  },
+  "sense": {
+    "中释": "感觉,意识到",
+    "英释": "if you sense something, you feel that it exists or is true, without being told or having proof"
+  },
+  "teach": {
+    "中释": "讲授,教授",
+    "英释": "to give lessons in a school, college, or university, or to help someone learn about something by giving them information"
+  },
+  "cycle": {
+    "中释": "骑自行(摩托)车,循环",
+    "英释": "to travel by bicycle"
+  },
+  "rural": {
+    "中释": "农村的",
+    "英释": "happening in or relating to the countryside, not the city"
+  },
+  "worth": {
+    "中释": "价值",
+    "英释": "an amount of something worth ten pounds, $500 etc"
+  },
+  "imply": {
+    "中释": "暗示, 意味",
+    "英释": "to suggest that something is true, without saying this directly"
+  },
+  "basic": {
+    "中释": "基本的,基础的",
+    "英释": "forming the most important or most necessary part of something"
+  },
+  "start": {
+    "中释": "开始,出发",
+    "英释": "to do something that you were not doing before, and continue doing it"
+  },
+  "rapid": {
+    "中释": "快的,迅速的",
+    "英释": "happening or done very quickly and in a very short time"
+  },
+  "whose": {
+    "中释": "谁的,那(些)人的"
+  },
+  "coast": {
+    "中释": "海岸,海滨",
+    "英释": "the area where the land meets the sea"
+  },
+  "claim": {
+    "中释": "声称,要求",
+    "英释": "to state that something is true, even though it has not been proved"
+  },
+  "plate": {
+    "中释": "盘子,碟",
+    "英释": "used in the names of sports competitions or races in which the winner gets a silver plate …"
+  },
+  "plain": {
+    "中释": "清晰的,简单的",
+    "英释": "very clear, and easy to understand or recognize"
+  },
+  "adult": {
+    "中释": "成年人",
+    "英释": "a fully-grown person, or one who is considered to be legally responsible for their actions"
+  },
+  "brain": {
+    "中释": "脑,头脑",
+    "英释": "the organ inside your head that controls how you think, feel, and move"
+  },
+  "grass": {
+    "中释": "草",
+    "英释": "an area of grass, especially an area where the grass is kept cut short"
+  },
+  "brief": {
+    "中释": "简短的",
+    "英释": "continuing for a short time"
+  },
+  "minor": {
+    "中释": "较小的,次要的",
+    "英释": "small and not very important or serious, especially when compared with other things"
+  },
+  "daily": {
+    "中释": "每日的,日常的",
+    "英释": "happening or done every day"
+  },
+  "third": {
+    "中释": "第三,三分之一",
+    "英释": "one of three equal parts of something"
+  },
+  "labor": {
+    "中释": "劳动"
+  },
+  "route": {
+    "中释": "路线,途径",
+    "英释": "a way from one place to another"
+  },
+  "meter": {
+    "中释": "米,公尺"
+  },
+  "stage": {
+    "中释": "舞台,阶段",
+    "英释": "a particular time or state that something reaches as it grows or develops"
+  },
+  "thing": {
+    "中释": "东西,事情",
+    "英释": "an idea, action, feeling, or fact that someone thinks, does, says, or talks about, or that happens"
+  },
+  "never": {
+    "中释": "决不,从未",
+    "英释": "not at any time, or not once"
+  },
+  "party": {
+    "中释": "政党,聚会",
+    "英释": "a social event when a lot of people meet together to enjoy themselves by eating, drinking, dancing etc"
+  },
+  "quite": {
+    "中释": "相当,完全,十分",
+    "英释": "You use quite to indicate that something is the case to a fairly great extent"
+  },
+  "drill": {
+    "中释": "练习,钻孔",
+    "英释": "to teach students, sports players etc by making them repeat the same lesson, exercise etc many times"
+  },
+  "serve": {
+    "中释": "服务,担任",
+    "英释": "to help the customers in a shop, especially by bringing them the things that they want"
+  },
+  "favor": {
+    "中释": "偏爱,支持"
+  },
+  "whale": {
+    "中释": "捕鲸"
+  },
+  "cause": {
+    "中释": "原因",
+    "英释": "a person, event, or thing that makes something happen"
+  },
+  "piece": {
+    "中释": "拼合(凑)"
+  },
+  "solid": {
+    "中释": "固体",
+    "英释": "a firm object or substance that has a fixed shape, not a gas or liquid"
+  },
+  "blood": {
+    "中释": "流血"
+  },
+  "stand": {
+    "中释": "站,坐落,处于",
+    "英释": "to support yourself on your feet or be in an upright position"
+  },
+  "clock": {
+    "中释": "时钟",
+    "英释": "an instrument that shows what time it is, in a room or outside on a building"
+  },
+  "adapt": {
+    "中释": "适应,改编",
+    "英释": "to gradually change your behaviour and attitudes in order to be successful in a new situation"
+  },
+  "Dutch": {
+    "中释": "荷兰的",
+    "英释": "relating to the Netherlands, its people, or its language"
+  },
+  "focus": {
+    "中释": "焦点,中心",
+    "英释": "the thing, person, situation etc that people pay special attention to"
+  },
+  "drift": {
+    "中释": "漂流",
+    "英释": "to move slowly on water or in the air"
+  },
+  "price": {
+    "中释": "给…定价,估价",
+    "英释": "to decide the price of something that is for sale"
+  },
+  "Greek": {
+    "中释": "希腊的",
+    "英释": "relating to Greece, its people, or its language"
+  },
+  "equal": {
+    "中释": "等于",
+    "英释": "to be exactly the same in size, number, or amount as something else"
+  },
+  "total": {
+    "中释": "总数",
+    "英释": "the final number or amount of things, people etc when everything has been counted"
+  },
+  "speak": {
+    "中释": "说话,谈话",
+    "英释": "to talk to someone about something"
+  },
+  "shift": {
+    "中释": "转移,转变,转换",
+    "英释": "to change a situation, discussion etc by giving special attention to one idea or subject instead of to a previous one"
+  },
+  "again": {
+    "中释": "再,又",
+    "英释": "one more time – used when something has happened or been done before"
+  },
+  "prove": {
+    "中释": "证明,证实",
+    "英释": "to show that something is true by providing facts, information etc"
+  },
+  "paper": {
+    "中释": "纸,报纸",
+    "英释": "material in the form of thin sheets that is used for writing on, wrapping things etc"
+  },
+  "issue": {
+    "中释": "问题,分发,颁布",
+    "英释": "a subject or problem that is often discussed or argued about, especially a social or political matter that affects the interests of a lot of people"
+  },
+  "month": {
+    "中释": "月",
+    "英释": "one of the 12 named periods of time that a year is divided into"
+  },
+  "depth": {
+    "中释": "深度",
+    "英释": "how strong an emotion is or how serious a situation is"
+  },
+  "basin": {
+    "中释": "脸盆,盆地",
+    "英释": "a round container attached to the wall in a bathroom, where you wash your hands and face"
+  },
+  "money": {
+    "中释": "钱,货币",
+    "英释": "what you earn by working and can use to buy things. Money can be in the form of notes and coins or cheques, and can be kept in a bank"
+  },
+  "flood": {
+    "中释": "洪水",
+    "英释": "a very large amount of water that covers an area that is usually dry"
+  },
+  "black": {
+    "中释": "黑暗的,黑人的",
+    "英释": "having the darkest colour, like coal or night"
+  },
+  "shell": {
+    "中释": "剥壳,炮击",
+    "英释": "to fire shells from large guns at something"
+  },
+  "birth": {
+    "中释": "出生",
+    "英释": "if a woman gives birth, she produces a baby from her body"
+  },
+  "agree": {
+    "中释": "同意,赞成",
+    "英释": "to have or express the same opinion about something as someone else"
+  },
+  "offer": {
+    "中释": "给予,提供",
+    "英释": "to ask someone if they would like to have something, or to hold something out to them so that they can take it"
+  },
+  "share": {
+    "中释": "分享,分担",
+    "英释": "to let someone have or use something that belongs to you"
+  },
+  "topic": {
+    "中释": "话题,主题",
+    "英释": "a subject that people talk or write about"
+  },
+  "block": {
+    "中释": "堵塞,妨碍",
+    "英释": "to prevent anything moving through a space by being or placing something across it or in it"
+  },
+  "avoid": {
+    "中释": "避免,预防",
+    "英释": "to prevent something bad from happening"
+  },
+  "carve": {
+    "中释": "雕刻,切割",
+    "英释": "to make an object or pattern by cutting a piece of wood or stone"
+  },
+  "death": {
+    "中释": "死,死亡",
+    "英释": "a creature that looks like a human  skeleton  , used in paintings, stories etc to represent the fact that people die"
+  },
+  "class": {
+    "中释": "阶级,班级,课",
+    "英释": "a period of time during which someone teaches a group of people, especially in a school"
+  },
+  "crust": {
+    "中释": "外壳,硬壳,面包皮",
+    "英释": "the hard brown outer surface of bread"
+  },
+  "trace": {
+    "中释": "痕迹",
+    "英释": "a small sign that shows that someone or something was present or existed"
+  },
+  "floor": {
+    "中释": "地面,地板",
+    "英释": "the flat surface that you stand on inside a building"
+  },
+  "fiber": {
+    "中释": "光纤"
+  },
+  "dense": {
+    "中释": "密集的,浓厚的",
+    "英释": "made of or containing a lot of things or people that are very close together"
+  },
+  "whole": {
+    "中释": "全部的,完整的",
+    "英释": "all of something"
+  },
+  "steel": {
+    "中释": "钢,钢铁",
+    "英释": "strong metal that can be shaped easily, consisting of iron and  carbon "
+  },
+  "thick": {
+    "中释": "厚的,粗的",
+    "英释": "if something is thick, there is a large distance or a larger distance than usual between its two opposite surfaces or sides"
+  },
+  "fruit": {
+    "中释": "水果,果实",
+    "英释": "something that grows on a plant, tree, or bush, can be eaten as a food, contains seeds or a stone, and is usually sweet"
+  },
+  "shelf": {
+    "中释": "架子,搁板",
+    "英释": "a long flat narrow board attached to a wall or in a frame or cupboard, used for putting things on"
+  },
+  "model": {
+    "中释": "模仿,展示",
+    "英释": "to wear clothes at a fashion show or in magazine photographs in order to show them to people"
+  },
+  "habit": {
+    "中释": "习惯,习性",
+    "英释": "something that you do regularly or usually, often without thinking about it because you have done it so many times before"
+  },
+  "moral": {
+    "中释": "道德(上)的,精神的",
+    "英释": "relating to the principles of what is right and wrong behaviour, and with the difference between good and evil"
+  },
+  "sleep": {
+    "中释": "睡,睡觉",
+    "英释": "to rest your mind and body, usually at night when you are lying in bed with your eyes closed"
+  },
+  "white": {
+    "中释": "白色(的)",
+    "英释": "the colour of milk, salt, and snow"
+  },
+  "trail": {
+    "中释": "追踪",
+    "英释": "to follow someone by looking for signs that they have gone in a particular direction"
+  },
+  "tribe": {
+    "中释": "部落,部族",
+    "英释": "a social group consisting of people of the same  race  who have the same beliefs, customs, language etc, and usually live in one particular area ruled by their leader"
+  },
+  "inner": {
+    "中释": "内部的,里面的,内心的",
+    "英释": "on the inside or close to the centre of something"
+  },
+  "scale": {
+    "中释": "规模,等级,比例",
+    "英释": "the size or level of something, or the amount that something is happening"
+  },
+  "fully": {
+    "中释": "充分地,完全地",
+    "英释": "completely"
+  },
+  "mouth": {
+    "中释": "口,嘴",
+    "英释": "the part of your face which you put food into, or which you use for speaking"
+  },
+  "spend": {
+    "中释": "花费,度过",
+    "英释": "to use your money to pay for goods or services"
+  },
+  "yield": {
+    "中释": "生产,获利,屈服",
+    "英释": "to produce a result, answer, or piece of information"
+  },
+  "adopt": {
+    "中释": "采用,收养",
+    "英释": "to take someone else’s child into your home and legally become its parent"
+  },
+  "crack": {
+    "中释": "(使)破裂",
+    "英释": "to break or to make something break, either so that it gets lines on its surface, or so that it breaks into pieces"
+  },
+  "vapor": {
+    "中释": "水蒸气"
+  },
+  "comet": {
+    "中释": "彗星",
+    "英释": "an object in space like a bright ball with a long tail, that moves around the sun"
+  },
+  "prior": {
+    "中释": "优先的,在前的",
+    "英释": "existing or arranged before something else or before the present situation"
+  },
+  "acorn": {
+    "中释": "橡树果,橡子",
+    "英释": "the nut of the  oak  tree"
+  },
+  "fresh": {
+    "中释": "新鲜的,无经验的",
+    "英释": "good or interesting because it has not been done, seen etc before"
+  },
+  "civil": {
+    "中释": "公民的,文明的",
+    "英释": "relating to the people who live in a country"
+  },
+  "final": {
+    "中释": "最后的,最终的",
+    "英释": "last in a series of actions, events, parts of a story etc"
+  },
+  "alder": {
+    "中释": "[植]桤木",
+    "英释": "An alder is a species of tree or shrub that grows especially in cool, damp places and loses its leaves in winter"
+  },
+  "title": {
+    "中释": "加标题于,赋予称",
+    "英释": "When a writer, composer, or artist titles a work, they give it a name"
+  },
+  "seven": {
+    "中释": "七,七个",
+    "英释": "the number 7"
+  },
+  "waste": {
+    "中释": "浪费",
+    "英释": "when something such as money or skills are not used in a way that is effective, useful, or sensible"
+  },
+  "horse": {
+    "中释": "马",
+    "英释": "a large strong animal that people ride and use for pulling heavy things"
+  },
+  "rocky": {
+    "中释": "岩石的,稳固的",
+    "英释": "covered with rocks or made of rock"
+  },
+  "night": {
+    "中释": "夜,夜晚",
+    "英释": "the dark part of each 24-hour period when the sun cannot be seen and when most people sleep"
+  },
+  "front": {
+    "中释": "面向",
+    "英释": "if a building or area of land is fronted by something, or fronts onto it, it faces that thing"
+  },
+  "surge": {
+    "中释": "(波涛)汹涌,涌起",
+    "英释": "if a feeling surges or surges up, you begin to feel it very strongly"
+  },
+  "tooth": {
+    "中释": "牙齿",
+    "英释": "one of the hard white objects in your mouth that you use to bite and eat food"
+  },
+  "radio": {
+    "中释": "收音机,无线电",
+    "英释": "a piece of electronic equipment which you use to listen to programmes that are broadcast, such as music and news"
+  },
+  "enter": {
+    "中释": "进入,参加",
+    "英释": "to start working in a particular profession or organization, or to start studying at a school or university"
+  },
+  "press": {
+    "中释": "报刊,新闻界",
+    "英释": "to be criticized in the newspapers or on radio or television"
+  },
+  "frame": {
+    "中释": "镶框,制定",
+    "英释": "to organize and develop a plan, system etc"
+  },
+  "ideal": {
+    "中释": "理想的,完美的",
+    "英释": "the best or most suitable that something could possibly be"
+  },
+  "exact": {
+    "中释": "精确的,准确的",
+    "英释": "completely correct in every detail"
+  },
+  "enjoy": {
+    "中释": "享受,喜爱",
+    "英释": "to get pleasure from something"
+  },
+  "beach": {
+    "中释": "海滩",
+    "英释": "an area of sand or small stones at the edge of the sea or a lake"
+  },
+  "drive": {
+    "中释": "驾驶",
+    "英释": "to make a car, truck, bus etc move along"
+  },
+  "guild": {
+    "中释": "行会,协会",
+    "英释": "an organization of people who do the same job or have the same interests"
+  },
+  "decay": {
+    "中释": "衰退,腐败",
+    "英释": "if traditional beliefs, standards etc decay, people do not believe in them or support them any more"
+  },
+  "flash": {
+    "中释": "闪光,闪现",
+    "英释": "to shine suddenly and brightly for a short time, or to make something shine in this way"
+  },
+  "movie": {
+    "中释": "电影",
+    "英释": "a film made to be shown at the cinema or on television"
+  },
+  "float": {
+    "中释": "漂浮,浮现",
+    "英释": "if something floats, it moves slowly through the air or stays up in the air"
+  },
+  "storm": {
+    "中释": "暴风雨,暴风雪",
+    "英释": "a period of very bad weather when there is a lot of rain or snow, strong winds, and often  lightning "
+  },
+  "polar": {
+    "中释": "(近)地极的,对立的",
+    "英释": "close to or relating to the North Pole or the South Pole"
+  },
+  "elite": {
+    "中释": "精英,精华",
+    "英释": "a group of people who have a lot of power and influence because they have money, knowledge, or special skills"
+  },
+  "ridge": {
+    "中释": "背脊,山脊",
+    "英释": "a long area of high land, especially at the top of a mountain"
+  },
+  "bound": {
+    "中释": "范围,界限",
+    "英释": "the limits of what is possible or acceptable"
+  },
+  "China": {
+    "中释": "中国,瓷器",
+    "英释": "China is a hard white substance made from clay. It is used to make things such as cups, bowls, plates, and ornaments. "
+  },
+  "broad": {
+    "中释": "宽的,广泛的",
+    "英释": "a road, river, or part of someone’s body etc that is broad is wide"
+  },
+  "virus": {
+    "中释": "病毒",
+    "英释": "a very small living thing that causes infectious illnesses"
+  },
+  "alter": {
+    "中释": "改变",
+    "英释": "to change, or to make someone or something change"
+  },
+  "erode": {
+    "中释": "侵蚀,腐蚀",
+    "英释": "if the weather erodes rock or soil, or if rock or soil erodes, its surface is gradually destroyed"
+  },
+  "arise": {
+    "中释": "出现,发生,起因于",
+    "英释": "if a problem or difficult situation arises, it begins to happen"
+  },
+  "stick": {
+    "中释": "刺,戳",
+    "英释": "if a pointed object sticks into something, or if you stick it there, it is pushed into it"
+  },
+  "toxic": {
+    "中释": "有毒的,中毒的",
+    "英释": "containing poison, or caused by poisonous substances"
+  },
+  "visit": {
+    "中释": "拜访,访问",
+    "英释": "to go and spend time in a place or with someone, especially for pleasure or interest"
+  },
+  "apart": {
+    "中释": "分离(隔)的",
+    "英释": "If people or groups are a long way apart on a particular topic or issue, they have completely different views and disagree about it"
+  },
+  "cross": {
+    "中释": "使交叉,横过",
+    "英释": "if two or more roads, lines, etc cross, or if one crosses another, they go across each other"
+  },
+  "drain": {
+    "中释": "排水,消耗",
+    "英释": "a pipe that carries water or waste liquids away"
+  },
+  "novel": {
+    "中释": "小说,长篇故事",
+    "英释": "a long written story in which the characters and events are usually imaginary"
+  },
+  "wheat": {
+    "中释": "小麦",
+    "英释": "the grain that bread is made from, or the plant that it grows on"
+  },
+  "catch": {
+    "中释": "捕获,抓住",
+    "英释": "to see someone doing something that they did not want you to know they were doing"
+  },
+  "match": {
+    "中释": "相配,相称",
+    "英释": "if one thing matches another, or if two things match, they look attractive together because they are a similar colour, pattern etc"
+  },
+  "newly": {
+    "中释": "重新,最近"
+  },
+  "motif": {
+    "中释": "主题,主旨",
+    "英释": "an idea, subject, or image that is regularly repeated and developed in a book, film, work of art etc"
+  },
+  "wheel": {
+    "中释": "推,拉,转动",
+    "英释": "to push something that has wheels somewhere"
+  },
+  "rough": {
+    "中释": "粗糙的,大致的",
+    "英释": "having an uneven surface"
+  },
+  "tulip": {
+    "中释": "郁金香",
+    "英释": "a brightly coloured flower that is shaped like a cup and grows from a  bulb  in spring"
+  },
+  "pound": {
+    "中释": "(连续)猛击,捣碎",
+    "英释": "to hit something very hard several times and make a lot of noise, damage it, break it into smaller pieces etc"
+  },
+  "brown": {
+    "中释": "棕色(的),人名",
+    "英释": "the colour of earth, wood, or coffee"
+  },
+  "alone": {
+    "中释": "单独的",
+    "英释": "if you are alone in a place, there is no one with you"
+  },
+  "trend": {
+    "中释": "倾向,趋势",
+    "英释": "a general tendency in the way a situation is changing or developing"
+  },
+  "modem": {
+    "中释": "[计]调制解调器",
+    "英释": "a piece of electronic equipment that allows information from one computer to be sent along telephone wires to another computer"
+  },
+  "shrub": {
+    "中释": "灌木, 灌木丛",
+    "英释": "a small bush with several woody stems"
+  },
+  "clean": {
+    "中释": "打扫,使干净",
+    "英释": "to remove dirt from something by rubbing or washing"
+  },
+  "drama": {
+    "中释": "戏剧",
+    "英释": "a play for the theatre, television, radio etc, usually a serious one, or plays in general"
+  },
+  "extra": {
+    "中释": "额外的",
+    "英释": "more of something, in addition to the usual or standard amount or number"
+  },
+  "algae": {
+    "中释": "水藻",
+    "英释": "a very simple plant without stems or leaves that grows in or near water"
+  },
+  "round": {
+    "中释": "大约"
+  },
+  "tower": {
+    "中释": "塔,城堡",
+    "英释": "a tall narrow building either built on its own or forming part of a castle, church etc"
+  },
+  "union": {
+    "中释": "联合,联盟",
+    "英释": "used in the names of some clubs or organizations"
+  },
+  "fluid": {
+    "中释": "流体的,流动的",
+    "英释": "fluid movements are smooth, relaxed, and graceful"
+  },
+  "track": {
+    "中释": "跟踪",
+    "英释": "to search for a person or animal by following the marks they leave behind them on the ground, their smell etc"
+  },
+  "forth": {
+    "中释": "往前,向外",
+    "英释": "going out from a place or point, and moving forwards or outwards"
+  },
+  "giant": {
+    "中释": "巨人,天才",
+    "英释": "an extremely tall strong man, who is often bad and cruel, in children’s stories"
+  },
+  "sheet": {
+    "中释": "(一)片,(一)张",
+    "英释": "a piece of paper for writing on, or containing information"
+  },
+  "rigid": {
+    "中释": "刚硬的,严格的",
+    "英释": "rigid methods, systems etc are very strict and difficult to change"
+  },
+  "wrong": {
+    "中释": "错误的,不正当的"
+  },
+  "venus": {
+    "中释": "维纳斯,金星",
+    "英释": "the Roman goddess of love "
+  },
+  "zebra": {
+    "中释": "斑马",
+    "英释": "an animal that looks like a horse but has black and white lines all over its body"
+  },
+  "heart": {
+    "中释": "心,心脏",
+    "英释": "the organ in your chest which pumps blood through your body"
+  },
+  "skull": {
+    "中释": "头脑,头骨",
+    "英释": "the bones of a person’s or animal’s head"
+  },
+  "Paris": {
+    "中释": "巴黎"
+  },
+  "hence": {
+    "中释": "因此,从此",
+    "英释": "for this reason"
+  },
+  "breed": {
+    "中释": "品种",
+    "英释": "a type of animal that is kept as a pet or on a farm"
+  },
+  "solve": {
+    "中释": "解决,解答",
+    "英释": "to find or provide a way of dealing with a problem"
+  },
+  "shale": {
+    "中释": "页岩,泥板岩",
+    "英释": "a smooth soft rock which breaks easily into thin flat pieces"
+  },
+  "maker": {
+    "中释": "制造者",
+    "英释": "a person or company that makes a particular type of goods"
+  },
+  "count": {
+    "中释": "数,计算",
+    "英释": "to calculate the total number of things or people in a group"
+  },
+  "hyper": {
+    "中释": "亢奋的,高度紧张的",
+    "英释": "extremely excited or nervous about something"
+  },
+  "loose": {
+    "中释": "弄松, 释放",
+    "英释": "to make something unpleasant begin"
+  },
+  "graze": {
+    "中释": "放牧,掠过",
+    "英释": "to touch something lightly while passing it, sometimes damaging it"
+  },
+  "organ": {
+    "中释": "器官,机构",
+    "英释": "an organization that is part of, or works for, a larger organization or group"
+  },
+  "wagon": {
+    "中释": "四轮马车,货车",
+    "英释": "a strong vehicle with four wheels, used for carrying heavy loads and usually pulled by horses"
+  },
+  "brick": {
+    "中释": "砖块",
+    "英释": "a hard block of baked clay used for building walls, houses etc"
+  },
+  "vital": {
+    "中释": "重大的,至关重要的",
+    "英释": "extremely important and necessary for something to succeed or exist"
+  },
+  "voice": {
+    "中释": "说(话)"
+  },
+  "agent": {
+    "中释": "代理(商)",
+    "英释": "a person or company that represents another person or company, especially in business"
+  },
+  "weave": {
+    "中释": "织,编",
+    "英释": "to make cloth, a carpet, a basket etc by crossing threads or thin pieces under and over each other by hand or on a loom"
+  },
+  "empty": {
+    "中释": "(使)空,倒出",
+    "英释": "to remove everything that is inside something"
+  },
+  "piano": {
+    "中释": "钢琴",
+    "英释": "a large musical instrument that has a long row of black and white  key s  . You play the piano by sitting in front of it and pressing the keys."
+  },
+  "proxy": {
+    "中释": "代理人",
+    "英释": "if you do something by proxy, you arrange for someone else to do it for you"
+  },
+  "spore": {
+    "中释": "孢子",
+    "英释": "a cell like a seed that is produced by some plants such as  mushrooms  and can develop into a new plant"
+  },
+  "Texas": {
+    "中释": "德克萨斯州(美国州名)"
+  },
+  "drink": {
+    "中释": "喝酒",
+    "英释": "to take liquid into your mouth and swallow it"
+  },
+  "cheap": {
+    "中释": "便宜的,不值钱的",
+    "英释": "not at all expensive, or lower in price than you expected"
+  },
+  "theme": {
+    "中释": "主题",
+    "英释": "the main subject or idea in a piece of writing, speech, film etc"
+  },
+  "fight": {
+    "中释": "战斗,打架,斗争",
+    "英释": "to take part in a war or battle"
+  },
+  "twist": {
+    "中释": "缠绕,拧,扭曲",
+    "英释": "to bend or turn something, such as wire, hair, or cloth, into a particular shape"
+  },
+  "doubt": {
+    "中释": "怀疑,怀疑",
+    "英释": "a feeling of being not sure whether something is true or right"
+  },
+  "treat": {
+    "中释": "对待,款待",
+    "英释": "to behave towards someone or something in a particular way"
+  },
+  "weigh": {
+    "中释": "称重量",
+    "英释": "to have a particular weight"
+  },
+  "plane": {
+    "中释": "平面,飞机",
+    "英释": "a vehicle that flies in the air and has wings and at least one engine"
+  },
+  "gland": {
+    "中释": "腺",
+    "英释": "an organ of the body which produces a substance that the body needs, such as hormones, sweat, or saliva"
+  },
+  "glaze": {
+    "中释": "釉(料)",
+    "英释": "a liquid that is used to cover plates, cups etc made of clay to give them a shiny surface"
+  },
+  "chain": {
+    "中释": "链(条),一连串,一系列",
+    "英释": "a connected series of events or actions, especially which lead to a final result"
+  },
+  "score": {
+    "中释": "得分",
+    "英释": "the number of points that each team or player has won in a game or competition"
+  },
+  "orbit": {
+    "中释": "(绕…)作轨道运行",
+    "英释": "to travel in a curved path around a much larger object such as the Earth, the Sun etc"
+  },
+  "grind": {
+    "中释": "磨(碎),折磨",
+    "英释": "to make something smooth or sharp by rubbing it on a hard surface or by using a machine"
+  },
+  "cease": {
+    "中释": "停止,终了",
+    "英释": "to stop doing something or stop happening"
+  },
+  "crude": {
+    "中释": "天然的,未加工的,粗鲁的",
+    "英释": "not exact or without any detail, but generally correct and useful"
+  },
+  "nerve": {
+    "中释": "神经,胆量",
+    "英释": "nerves are parts inside your body which look like threads and carry messages between the brain and other parts of the body"
+  },
+  "flake": {
+    "中释": "使成薄片,剥落",
+    "英释": "to break off in small thin pieces"
+  },
+  "eight": {
+    "中释": "八,八个,第八",
+    "英释": "the number 8"
+  },
+  "Spain": {
+    "中释": "西班牙(欧洲南部国家)"
+  },
+  "sheep": {
+    "中释": "羊,绵羊",
+    "英释": "a farm animal that is kept for its wool and its meat"
+  },
+  "mercy": {
+    "中释": "仁慈,宽恕,怜悯",
+    "英释": "if someone shows mercy, they choose to forgive or to be kind to someone who they have the power to hurt or punish"
+  },
+  "lewis": {
+    "中释": "[机] 吊楔,起重爪",
+    "英释": "a lifting device for heavy stone or concrete blocks consisting of a number of curved pieces of metal or wedges fitting into a dovetailed recess cut into the block "
+  },
+  "award": {
+    "中释": "授予,判给",
+    "英释": "to officially give someone something such as a prize or money to reward them for something they have done"
+  },
+  "usual": {
+    "中释": "平常的,通常的",
+    "英释": "happening, done, or existing most of the time or in most situations"
+  },
+  "touch": {
+    "中释": "接触,达到",
+    "英释": "if two things touch, or one thing touches another thing, they reach each other so that there is no space between them"
+  },
+  "guide": {
+    "中释": "领路人,指南 vt指导, 支配",
+    "英释": "a book or piece of writing that provides information on a particular subject or explains how to do something"
+  },
+  "taste": {
+    "中释": "品尝, 体验",
+    "英释": "to eat or drink a small amount of something to see what it is like"
+  },
+  "panel": {
+    "中释": "面，板,专门小组",
+    "英释": "a board in a car, plane, boat etc that has the controls on it"
+  },
+  "react": {
+    "中释": "起反应, 起作用",
+    "英释": "to behave in a particular way or show a particular emotion because of something that has happened or been said"
+  },
+  "hotel": {
+    "中释": "旅馆, 客栈,",
+    "英释": "A hotel is a building where people stay, for example on holiday, paying for their rooms and meals"
+  },
+  "found": {
+    "中释": "建立, 创办",
+    "英释": "to start something such as an organization, company, school, or city, often by providing the necessary money"
+  },
+  "twice": {
+    "中释": "两次, 两倍",
+    "英释": "two times"
+  },
+  "motor": {
+    "中释": "发动机",
+    "英释": "the part of a machine that makes it work or move, by changing power, especially electrical power, into movement"
+  },
+  "marsh": {
+    "中释": "湿地,沼泽",
+    "英释": "an area of low flat ground that is always wet and soft"
+  },
+  "trust": {
+    "中释": "信任, 信赖",
+    "英释": "to believe that someone is honest or will not do anything bad or wrong"
+  },
+  "hatch": {
+    "中释": "孵化 vt孵出, 策划",
+    "英释": "the act or process of hatching "
+  },
+  "shore": {
+    "中释": "岸, 海滨",
+    "英释": "the land along the edge of a large area of water such as an ocean or lake"
+  },
+  "burst": {
+    "中释": "爆裂, 炸破",
+    "英释": "if something bursts, or if you burst it, it breaks open or apart suddenly and violently so that its contents come out"
+  },
+  "spray": {
+    "中释": "喷雾 vt喷射",
+    "英释": "liquid which is forced out of a special container in a stream of very small drops"
+  },
+  "dozen": {
+    "中释": "一打, 十二个",
+    "英释": "twelve"
+  },
+  "larva": {
+    "中释": "幼虫",
+    "英释": "a young insect with a soft tube-shaped body, which will later become an insect with wings"
+  },
+  "sharp": {
+    "中释": "锐利的,明显的,急剧的",
+    "英释": "having a very thin edge or point that can cut things easily"
+  },
+  "chief": {
+    "中释": "主要的, 首要的",
+    "英释": "highest in rank"
+  },
+  "epoch": {
+    "中释": "新纪元, 时代",
+    "英释": "a period of history"
+  },
+  "brush": {
+    "中释": "刷子, 毛刷, 画笔 vt刷, 掸, 拂",
+    "英释": "an object that you use for cleaning, painting, making your hair tidy etc, made with a lot of hairs,  bristle s  , or thin pieces of plastic, fastened to a handle"
+  },
+  "watch": {
+    "中释": "看,注视,照顾",
+    "英释": "to look at someone or something for a period of time, paying attention to what is happening"
+  },
+  "marry": {
+    "中释": "娶, 嫁,和结婚",
+    "英释": "if you marry someone, you become their husband or wife"
+  },
+  "chick": {
+    "中释": "小鸡",
+    "英释": "a baby bird"
+  },
+  "frost": {
+    "中释": "结霜",
+    "英释": "to cover a cake with a mixture of powdery sugar and liquid"
+  },
+  "judge": {
+    "中释": "法官,裁判员 v断定,裁决",
+    "英释": "the official in control of a court, who decides how criminals should be punished"
+  },
+  "media": {
+    "中释": "媒体",
+    "英释": "all the organizations, such as television, radio, and newspapers, that provide news and information for the public, or the people who do this work"
+  },
+  "throw": {
+    "中释": "扔,投,掷",
+    "英释": "to make an object such as a ball move quickly through the air by pushing your hand forward quickly and letting the object go"
+  },
+  "fauna": {
+    "中释": "动物群",
+    "英释": "all the animals living in a particular area or period in history"
+  },
+  "salty": {
+    "中释": "咸的",
+    "英释": "tasting of or containing salt"
+  },
+  "pearl": {
+    "中释": "珍珠",
+    "英释": "a small round white object that forms inside an  oyster  , and is a valuable jewel"
+  },
+  "slope": {
+    "中释": "斜坡 v(使)顺斜",
+    "英释": "a piece of ground or a surface that slopes"
+  },
+  "being": {
+    "中释": "存在, 生命",
+    "英释": "to start to exist"
+  },
+  "sloth": {
+    "中释": "懒惰",
+    "英释": "an animal in Central and South America that moves very slowly, has grey fur, and lives in trees"
+  },
+  "shade": {
+    "中释": "荫,阴凉处vi渐变 ,遮蔽",
+    "英释": "slight darkness or shelter from the direct light of the sun made by something blocking it"
+  },
+  "click": {
+    "中释": "发出滴答声",
+    "英释": "to make a short hard sound, or make something produce this sound"
+  },
+  "board": {
+    "中释": "木板",
+    "英释": "a flat piece of wood, plastic, card etc that you use for a particular purpose such as cutting things on, or for playing indoor games"
+  },
+  "strip": {
+    "中释": "剥, 剥去",
+    "英释": "to remove something that is covering the surface of something else"
+  },
+  "stock": {
+    "中释": "储备",
+    "英释": "if a shop stocks a particular product, it keeps a supply of it to sell"
+  },
+  "camel": {
+    "中释": "骆驼",
+    "英释": "a large desert animal with a long neck and either one or two  hump s (= large raised parts )  on its back"
+  },
+  "elect": {
+    "中释": "选举, 选择",
+    "英释": "to choose someone for an official position by voting"
+  },
+  "aware": {
+    "中释": "意识到,知道的",
+    "英释": "if you are aware that a situation exists, you realize or know that it exists"
+  },
+  "prize": {
+    "中释": "奖(金，品)vt珍视，珍惜"
+  },
+  "dairy": {
+    "中释": "牛奶场,乳品店",
+    "英释": "a place on a farm where milk is kept and butter and cheese are made"
+  },
+  "phase": {
+    "中释": "阶段,方面",
+    "英释": "one of the stages of a process of development or change"
+  },
+  "realm": {
+    "中释": "领域",
+    "英释": "a general area of knowledge, activity, or thought"
+  },
+  "India": {
+    "中释": "印度"
+  },
+  "niche": {
+    "中释": "壁龛,合适的职务(环境、位置等)",
+    "英释": "a hollow place in a wall, often made to hold a statue"
+  },
+  "tract": {
+    "中释": "传单,小册子,大片(土地或森林)",
+    "英释": "a large area of land"
+  },
+  "spear": {
+    "中释": "矛, 枪",
+    "英释": "a pole with a sharp pointed blade at one end, used as a weapon in the past"
+  },
+  "equip": {
+    "中释": "装备, 配备",
+    "英释": "to provide a person or place with the things that are needed for a particular kind of activity or work"
+  },
+  "aside": {
+    "中释": "在旁边,到旁边",
+    "英释": "moved to one side or away from you"
+  },
+  "cliff": {
+    "中释": "悬崖, 绝壁",
+    "英释": "a large area of rock or a mountain with a very steep side, often at the edge of the sea or a river"
+  },
+  "stiff": {
+    "中释": "(僵)硬的；生硬的",
+    "英释": "firm, hard, or difficult to bend"
+  },
+  "roost": {
+    "中释": "栖息鸟巢",
+    "英释": "a place where birds rest and sleep"
+  },
+  "alarm": {
+    "中释": "警报 vt恐吓, 警告",
+    "英释": "a piece of equipment that makes a loud noise to warn you of danger"
+  },
+  "angle": {
+    "中释": "[数]角,角落",
+    "英释": "the space between two straight lines or surfaces that join each other, measured in degrees"
+  },
+  "Egypt": {
+    "中释": "埃及"
+  },
+  "shoot": {
+    "中释": "发射, 开枪",
+    "英释": "to make a bullet or  arrow  come from a weapon"
+  },
+  "eagle": {
+    "中释": "鹰",
+    "英释": "a very large strong bird with a beak like a hook that eats small animals, birds etc"
+  },
+  "chart": {
+    "中释": "图表 vt制图",
+    "英释": "information that is clearly arranged in the form of a simple picture, set of figures,  graph  etc, or a piece of paper with this information on it"
+  },
+  "enemy": {
+    "中释": "敌人",
+    "英释": "someone who hates you and wants to harm you"
+  },
+  "relic": {
+    "中释": "遗物, 废墟",
+    "英释": "an old object or custom that reminds people of the past or that has lived on from a past time"
+  },
+  "smell": {
+    "中释": "气味v嗅, 闻到",
+    "英释": "the quality that people and animals recognize by using their nose"
+  },
+  "biome": {
+    "中释": "(生态)生物群系",
+    "英释": "a type of environment that is described according to the typical weather conditions and plants that exist there"
+  },
+  "mount": {
+    "中释": "登上 n山,峰",
+    "英释": "If you mount the stairs or a platform, you go up the stairs or go up onto the platform"
+  },
+  "ready": {
+    "中释": "有准备的",
+    "英释": "if you are ready, you are prepared for what you are going to do"
+  },
+  "magma": {
+    "中释": "岩浆, 糊剂",
+    "英释": "hot melted rock below the surface of the Earth"
+  },
+  "sight": {
+    "中释": "视力, 视域",
+    "英释": "the physical ability to see"
+  },
+  "fault": {
+    "中释": "挑剔,弄错",
+    "英释": "to criticize someone or something for a mistake"
+  },
+  "swamp": {
+    "中释": "沼泽,湿地",
+    "英释": "land that is always very wet or covered with a layer of water"
+  },
+  "sheer": {
+    "中释": "十足的，陡峭的"
+  },
+  "anger": {
+    "中释": "恼火"
+  },
+  "Bantu": {
+    "中释": "班图人, 班图语"
+  },
+  "ratio": {
+    "中释": "比, 比率",
+    "英释": "a relationship between two amounts, represented by a pair of numbers showing how much bigger one amount is than the other"
+  },
+  "noise": {
+    "中释": "喧闹声, 噪声",
+    "英释": "a sound, especially one that is loud, unpleasant, or frightening"
+  },
+  "crowd": {
+    "中释": "人群 v拥挤",
+    "英释": "a large group of people who have gathered together to do something, for example to watch something or protest about something"
+  },
+  "pride": {
+    "中释": "自豪",
+    "英释": "a feeling that you are proud of something that you or someone connected with you has achieved"
+  },
+  "court": {
+    "中释": "法庭，庭院",
+    "英释": "the place where a trial is held, or the people there, especially the judge and the  jury  who examine the evidence and decide whether someone is guilty or not guilty"
+  },
+  "linen": {
+    "中释": "亚麻布（制品）",
+    "英释": "cloth made from the flax plant, used to make high quality clothes, home decorations etc"
+  },
+  "dream": {
+    "中释": "做梦 n梦,梦想",
+    "英释": "to think about something that you would like to happen or have"
+  },
+  "truly": {
+    "中释": "真正地；忠实地",
+    "英释": "used to emphasize that the way you are describing something is really true"
+  },
+  "smile": {
+    "中释": "微笑",
+    "英释": "to make your mouth curve upwards, in order to be friendly or because you are happy or amused"
+  },
+  "Latin": {
+    "中释": "拉丁文,拉丁语(的)",
+    "英释": "the language used in ancient Rome"
+  },
+  "split": {
+    "中释": "分裂；撕裂 n裂口",
+    "英释": "if a group of people splits, or if it is split, people in the group disagree strongly with each other and the group sometimes divides into separate smaller groups"
+  },
+  "lomas": {
+    "中释": "洛马斯(阿根廷东部的一城镇)"
+  },
+  "spite": {
+    "中释": "(in ～ of)不顾,不管",
+    "英释": "without being affected or prevented by something"
+  },
+  "truth": {
+    "中释": "事实,真理",
+    "英释": "the true facts about something, rather than what is untrue, imagined, or guessed"
+  },
+  "sieve": {
+    "中释": "筛, 过滤",
+    "英释": "to put flour or other food through a sieve"
+  },
+  "delay": {
+    "中释": "/n耽搁, 延迟",
+    "英释": "to wait until a later time to do something"
+  },
+  "Italy": {
+    "中释": "意大利(欧洲南部国家)"
+  },
+  "delta": {
+    "中释": "三角州",
+    "英释": "an area of low land where a river spreads into many smaller rivers near the sea"
+  },
+  "thank": {
+    "中释": "感谢",
+    "英释": "to tell someone that you are pleased and grateful for something they have done, or to be polite about it"
+  },
+  "slide": {
+    "中释": "滑动,下滑",
+    "英释": "to move smoothly over a surface while continuing to touch it, or to make something move in this way"
+  },
+  "troop": {
+    "中释": "[ pl]军队；一群",
+    "英释": "soldiers in an organized group"
+  },
+  "argon": {
+    "中释": "[化]氩",
+    "英释": "a colourless gas that is found in very small quantities in the air and is sometimes used in electric light  bulb s  . It is a chemical  element  : symbol Ar"
+  },
+  "robin": {
+    "中释": "知更鸟",
+    "英释": "a small European bird with a red breast and brown back"
+  },
+  "diver": {
+    "中释": "潜水者",
+    "英释": "someone who swims or works under water using special equipment to help them breathe"
+  },
+  "honor": {
+    "中释": "尊敬"
+  },
+  "flock": {
+    "中释": "聚集，成群",
+    "英释": "if people flock to a place, they go there in large numbers because something interesting or exciting is happening there"
+  },
+  "harsh": {
+    "中释": "粗糙的,严厉的",
+    "英释": "harsh conditions are difficult to live in and very uncomfortable"
+  },
+  "finch": {
+    "中释": "雀类",
+    "英释": "a small bird with a short beak"
+  },
+  "patch": {
+    "中释": "补丁 vt补,修补",
+    "英释": "a small piece of material that is sewn on something to cover a hole in it"
+  },
+  "lunar": {
+    "中释": "月亮的",
+    "英释": "relating to the Moon or to travel to the Moon"
+  },
+  "stamp": {
+    "中释": "跺脚,盖章",
+    "英释": "to walk somewhere in a noisy way by putting your feet down hard onto the ground because you are angry"
+  },
+  "quilt": {
+    "中释": "缝被,缝制",
+    "英释": "If you quilt, or if you quilt a piece of fabric, you make a quilt"
+  },
+  "dwell": {
+    "中释": "居住",
+    "英释": "to live in a particular place"
+  },
+  "oxide": {
+    "中释": "氧化物",
+    "英释": "a substance which is produced when a substance is combined with oxygen"
+  },
+  "slush": {
+    "中释": "烂泥 v溅湿",
+    "英释": "Slush is snow that has begun to melt and is therefore very wet and dirty"
+  },
+  "fluke": {
+    "中释": "侥幸，偶然的机会",
+    "英释": "something good that happens because of luck"
+  },
+  "probe": {
+    "中释": "探查, 查明",
+    "英释": "to ask questions in order to find things out, especially things that other people do not want you to know"
+  },
+  "smoke": {
+    "中释": "抽烟, 吸烟",
+    "英释": "to suck or breathe in smoke from a cigarette, pipe etc or to do this regularly as a habit"
+  },
+  "rival": {
+    "中释": "竞争,对抗"
+  },
+  "exert": {
+    "中释": "尽(力),发挥"
+  },
+  "climb": {
+    "中释": "攀登, 爬",
+    "英释": "to move up, down, or across something using your feet and hands, especially when this is difficult to do"
+  },
+  "grant": {
+    "中释": "授予,同意，准予",
+    "英释": "to give someone something or allow them to have something that they have asked for"
+  },
+  "noisy": {
+    "中释": "吵杂的, 聒噪的",
+    "英释": "someone or something that is noisy makes a lot of noise"
+  },
+  "cheep": {
+    "中释": "吱吱的叫声 v吱吱地叫",
+    "英释": "the short weak high-pitched cry of a young bird; chirp "
+  },
+  "flora": {
+    "中释": "[罗神]花神"
+  },
+  "humid": {
+    "中释": "充满潮湿的, 湿润的",
+    "英释": "if the weather is humid, you feel uncomfortable because the air is very wet and usually hot"
+  },
+  "sandy": {
+    "中释": "沙的, 沙质",
+    "英释": "covered with sand or containing a lot of sand"
+  },
+  "dwarf": {
+    "中释": "矮子, 侏儒",
+    "英释": "a person who is a dwarf has not continued to grow to the normal height because of a medical condition. Many people think that this use is offensive."
+  },
+  "adept": {
+    "中释": "熟练的, 老练的 n老手, 擅长者",
+    "英释": "good at something that needs care and skill"
+  },
+  "prose": {
+    "中释": "散文",
+    "英释": "language in its usual form, as opposed to poetry"
+  },
+  "quick": {
+    "中释": "快的, 迅速的"
+  },
+  "karst": {
+    "中释": "石灰岩地区常见的地形",
+    "英释": "denoting the characteristic scenery of a limestone region, including underground streams, gorges, etc "
+  },
+  "queen": {
+    "中释": "王后, 女王",
+    "英释": "a playing card with a picture of a queen on it"
+  },
+  "mound": {
+    "中释": "土墩，沙土堆",
+    "英释": "a pile of earth or stones that looks like a small hill"
+  },
+  "scent": {
+    "中释": "气味",
+    "英释": "a pleasant smell that something has"
+  },
+  "gamma": {
+    "中释": "100万分之1克, 微克"
+  },
+  "unity": {
+    "中释": "团结, 联合",
+    "英释": "when a group of people or countries agree or are joined together"
+  },
+  "alike": {
+    "中释": "相同的, 相似的",
+    "英释": "very similar"
+  },
+  "sport": {
+    "中释": "运动,运动会",
+    "英释": "an activity that people do in the countryside, especially hunting or fishing"
+  },
+  "voter": {
+    "中释": "投票者",
+    "英释": "someone who has the right to vote in a political election, or who votes in a particular election"
+  },
+  "April": {
+    "中释": "四月",
+    "英释": "the fourth month of the year, between March and May"
+  },
+  "cargo": {
+    "中释": "船货,货物",
+    "英释": "the goods that are being carried in a ship or plane"
+  },
+  "rainy": {
+    "中释": "下雨的，多雨的",
+    "英释": "a rainy period of time is one when it rains a lot"
+  },
+  "trial": {
+    "中释": "试验, 考验",
+    "英释": "a process of testing to find out whether something works effectively and is safe"
+  },
+  "wound": {
+    "中释": "创伤, 伤口",
+    "英释": "an injury to your body that is made by a weapon such as a knife or a bullet"
+  },
+  "moist": {
+    "中释": "潮湿的，湿润的",
+    "英释": "slightly wet, especially in a way that is pleasant or suitable"
+  },
+  "coral": {
+    "中释": "珊瑚(虫)",
+    "英释": "a hard red, white, or pink substance formed from the bones of very small sea creatures, which is often used to make jewellery"
+  },
+  "adobe": {
+    "中释": "泥砖，土坯",
+    "英释": "earth and  straw  that are made into bricks for building houses"
+  },
+  "fifty": {
+    "中释": "五十",
+    "英释": "the number 50"
+  },
+  "swing": {
+    "中释": "摇摆, 摆动",
+    "英释": "to make regular movements forwards and backwards or from one side to another while hanging from a particular point, or to make something do this"
+  },
+  "alive": {
+    "中释": "活着的, 活泼的",
+    "英释": "still living and not dead"
+  },
+  "hardy": {
+    "中释": "能吃苦耐劳的，坚强的",
+    "英释": "strong and healthy and able to bear difficult living conditions"
+  },
+  "stunt": {
+    "中释": "特技；噱头 v阻碍正常成长",
+    "英释": "a dangerous action that is done to entertain people, especially in a film"
+  },
+  "relax": {
+    "中释": "放松,休息",
+    "英释": "to rest or do something that is enjoyable, especially after you have been working"
+  },
+  "scrub": {
+    "中释": "灌木丛",
+    "英释": "low bushes and trees that grow in very dry soil"
+  },
+  "stalk": {
+    "中释": "茎，梗 v跟踪,高视阔步地走",
+    "英释": "a long narrow part of a plant that supports leaves, fruits, or flowers"
+  },
+  "coach": {
+    "中释": "教练；长途公共汽车 vt训练，指导",
+    "英释": "someone who trains a person or team in a sport"
+  },
+  "quiet": {
+    "中释": "安静的, 宁静的",
+    "英释": "not making much noise, or making no noise at all"
+  },
+  "pilot": {
+    "中释": "飞行员, 领航员",
+    "英释": "someone who operates the controls of an aircraft or spacecraft"
+  },
+  "flour": {
+    "中释": "面粉",
+    "英释": "a powder that is made by crushing wheat or other grain and is used for making bread, cakes etc"
+  },
+  "otter": {
+    "中释": "水獭, 水獭皮",
+    "英释": "an animal with smooth brown fur that swims in rivers and eats fish"
+  },
+  "valid": {
+    "中释": "有效的,有根据的,合法的",
+    "英释": "a valid ticket, document, or agreement is legally or officially acceptable"
+  },
+  "scene": {
+    "中释": "场面, 情景",
+    "英释": "what is happening in a place, or what can be seen happening"
+  },
+  "fifth": {
+    "中释": "第五的",
+    "英释": "coming after four other things in a series"
+  },
+  "fence": {
+    "中释": "栅栏 v用篱笆围住",
+    "英释": "a structure made of wood, metal etc that surrounds a piece of land"
+  },
+  "raven": {
+    "中释": "大乌鸦",
+    "英释": "a large shiny black bird"
+  },
+  "swarm": {
+    "中释": "蜂群, 一大群",
+    "英释": "a large group of insects, especially  bee s  ,moving together"
+  },
+  "alloy": {
+    "中释": "合金",
+    "英释": "a metal that consists of two or more metals mixed together"
+  },
+  "tidal": {
+    "中释": "潮汐的, 定时涨落的",
+    "英释": "relating to the regular rising and falling of the sea"
+  },
+  "flask": {
+    "中释": "长颈瓶",
+    "英释": "a glass bottle with a narrow top, used in a  laboratory "
+  },
+  "slice": {
+    "中释": "薄片 v切(片)",
+    "英释": "a thin flat piece of food cut from a larger piece"
+  },
+  "blast": {
+    "中释": "爆炸；一阵(疾风等) vt炸，炸掉",
+    "英释": "an explosion, or the very strong movement of air that it causes"
+  },
+  "prime": {
+    "中释": "首要的,最好的",
+    "英释": "most important"
+  },
+  "sweep": {
+    "中释": "打扫, 清扫",
+    "英释": "to clean the dust, dirt etc from the floor or ground, using a brush with a long handle"
+  },
+  "renew": {
+    "中释": "更新, 恢复",
+    "英释": "to remove something that is old or broken and put a new one in its place"
+  },
+  "flame": {
+    "中释": "火焰, 光辉",
+    "英释": "hot bright burning gas that you see when something is on fire"
+  },
+  "cloth": {
+    "中释": "布, 织物",
+    "英释": "material used for making things such as clothes"
+  },
+  "entry": {
+    "中释": "进入, 入口",
+    "英释": "the act of going into something"
+  },
+  "stave": {
+    "中释": "桶材；窄板  v敲破",
+    "英释": "one of the thin curved pieces of wood fitted close together to form the sides of a  barrel "
+  },
+  "curve": {
+    "中释": "曲线,弯曲",
+    "英释": "a line that gradually bends like part of a circle"
+  },
+  "joint": {
+    "中释": "关节；接头",
+    "英释": "a part of your body that can bend because two bones meet there"
+  },
+  "woody": {
+    "中释": "多树木的,木质的",
+    "英释": "a woody plant has a stem like wood"
+  },
+  "stony": {
+    "中释": "多石的, 无情的",
+    "英释": "covered by stones or containing stones"
+  },
+  "steep": {
+    "中释": "陡峭的,急剧的",
+    "英释": "a road, hill etc that is steep slopes at a high angle"
+  },
+  "cajun": {
+    "中释": "移居美国路易斯安纳州的法人后裔",
+    "英释": "A Cajun is a person of Cajun origin"
+  },
+  "bread": {
+    "中释": "面包, 生计",
+    "英释": "a type of food made from flour and water that is mixed together and then baked"
+  },
+  "flush": {
+    "中释": "冲洗；(脸)发红",
+    "英释": "to become red in the face, for example when you are angry or embarrassed"
+  },
+  "crane": {
+    "中释": "起重机",
+    "英释": "a large tall machine used by builders for lifting heavy things"
+  },
+  "ledge": {
+    "中释": "岩架,岩石突出部",
+    "英释": "a narrow flat piece of rock that sticks out on the side of a mountain or cliff"
+  },
+  "knife": {
+    "中释": "刀, 餐刀",
+    "英释": "a metal blade fixed into a handle, used for cutting or as a weapon"
+  },
+  "erect": {
+    "中释": "建造,竖立,使直立",
+    "英释": "to build something such as a building or wall"
+  },
+  "adorn": {
+    "中释": "装饰",
+    "英释": "to decorate something"
+  },
+  "crown": {
+    "中释": "王冠，冕",
+    "英释": "a mark, sign,  badge  etc in the shape of a crown, used especially to show rank or quality"
+  },
+  "audio": {
+    "中释": "音频的,声音的",
+    "英释": "relating to sound that is recorded or broadcast"
+  },
+  "radar": {
+    "中释": "雷达,电波探测器",
+    "英释": "a piece of equipment that uses radio waves to find the position of things and watch their movement"
+  },
+  "chill": {
+    "中释": "使变冷(冷冻) n寒冷",
+    "英释": "if you chill something such as food or drink, or if it chills, it becomes very cold but does not freeze"
+  },
+  "swift": {
+    "中释": "迅速的,敏捷的",
+    "英释": "happening or done quickly and immediately"
+  },
+  "strut": {
+    "中释": "昂首阔步地走"
+  },
+  "prowl": {
+    "中释": "巡游",
+    "英释": "if someone prowls, they move around an area slowly and quietly, especially because they are involved in a criminal activity or because they are looking for something"
+  },
+  "sugar": {
+    "中释": "糖",
+    "英释": "a sweet white or brown substance that is obtained from plants and used to make food and drinks sweet"
+  },
+  "ethic": {
+    "中释": "道德规范",
+    "英释": "a general idea or belief that influences people’s behaviour and attitudes"
+  },
+  "check": {
+    "中释": "核对,支票",
+    "英释": "the American spelling of  cheque "
+  },
+  "cabin": {
+    "中释": "小屋, 船舱",
+    "英释": "a small house, especially one built of wood in an area of forest or mountains"
+  },
+  "slate": {
+    "中释": "板岩,石板",
+    "英释": "a dark grey rock that can easily be split into flat thin pieces"
+  },
+  "fetus": {
+    "中释": "胎儿",
+    "英释": "A fetus is an animal or human being in its later stages of development before it is born"
+  },
+  "cedar": {
+    "中释": "雪松",
+    "英释": "a large  evergreen  tree with leaves shaped like needles"
+  },
+  "moose": {
+    "中释": "[动] 驼鹿",
+    "英释": "a large brown animal like a  deer  that has very large flat  antler s (= horns that grow like branches )  and lives in North America, northern Europe, and parts of Asia"
+  },
+  "scout": {
+    "中释": "侦察员 vi侦察",
+    "英释": "a soldier, plane etc that is sent to search the area in front of an army and get information about the enemy"
+  },
+  "xenon": {
+    "中释": "氙(惰性气体的一种,元素符号Xe)",
+    "英释": "a colourless gas that is found in very small quantities in the air. It is a chemical element: symbol Xe"
+  },
+  "alert": {
+    "中释": "警觉的n戒备",
+    "英释": "giving all your attention to what is happening, being said etc"
+  },
+  "Asian": {
+    "中释": "亚洲(的), 亚洲人(的)",
+    "英释": "someone from Asia, or whose family originally came from Asia, especially India or Pakistan"
+  },
+  "proof": {
+    "中释": "证据，证明",
+    "英释": "facts, information, documents etc that prove something is true"
+  },
+  "kneel": {
+    "中释": "跪下",
+    "英释": "to be in or move into a position where your body is resting on your knees"
+  },
+  "elder": {
+    "中释": "年长者, 老人",
+    "英释": "to be older than someone else"
+  },
+  "ahead": {
+    "中释": "在前, 向前"
+  },
+  "stove": {
+    "中释": "炉",
+    "英释": "a piece of kitchen equipment on which you cook food in pots and pans, and that contains an  oven "
+  },
+  "false": {
+    "中释": "错误的；假的",
+    "英释": "a statement, story etc that is false is completely untrue"
+  },
+  "slick": {
+    "中释": "圆滑的；精巧的",
+    "英释": "if someone is slick, they are good at persuading people, often in a way that does not seem honest"
+  },
+  "shine": {
+    "中释": "照耀,发光 n光泽",
+    "英释": "to produce bright light"
+  },
+  "boule": {
+    "中释": "人造宝石，议会",
+    "英释": "the parliament in modern Greece "
+  },
+  "lease": {
+    "中释": "租赁vt出租,租得",
+    "英释": "a legal agreement which allows you to use a building, car etc for a period of time, in return for rent"
+  },
+  "recur": {
+    "中释": "再发生，重现",
+    "英释": "if something, especially something bad or unpleasant, recurs, it happens again"
+  },
+  "reset": {
+    "中释": "重新安排",
+    "英释": "to restart a computer without switching the power off"
+  },
+  "shock": {
+    "中释": "震动；震惊",
+    "英释": "if something that happens is a shock, you did not expect it, and it makes you feel very surprised, and usually upset"
+  },
+  "shaft": {
+    "中释": "柄，杆",
+    "英释": "a long handle on a tool,  spear  etc"
+  },
+  "await": {
+    "中释": "等候",
+    "英释": "to wait for something"
+  },
+  "magic": {
+    "中释": "魔术；魔力 a有魔力的",
+    "英释": "a special, attractive, or exciting quality"
+  },
+  "alien": {
+    "中释": "外国(星)人",
+    "英释": "someone who is not a legal citizen of the country they are living or working in"
+  },
+  "taxes": {
+    "中释": "赋税,  税收",
+    "英释": "Tax is an amount of money that you have to pay to the government so that it can pay for public services such as road and schools"
+  },
+  "spoil": {
+    "中释": "损坏；溺爱 vi变质",
+    "英释": "to give a child everything they want, or let them do whatever they want, often with the result that they behave badly"
+  },
+  "width": {
+    "中释": "宽度, 广度",
+    "英释": "the distance from one side of something to the other"
+  },
+  "upset": {
+    "中释": "搅乱,使心烦 n不安",
+    "英释": "to make someone feel unhappy or worried"
+  },
+  "blend": {
+    "中释": "(使)混和n混合物",
+    "英释": "to thoroughly mix together soft or liquid substances to form a single smooth substance"
+  },
+  "brass": {
+    "中释": "黄铜(制品)",
+    "英释": "a very hard bright yellow metal that is a mixture of  copper  and  zinc "
+  },
+  "igloo": {
+    "中释": "圆顶建筑",
+    "英释": "Igloos are dome-shaped houses built from blocks of snow by the Inuit people"
+  },
+  "laser": {
+    "中释": "激光",
+    "英释": "a piece of equipment that produces a powerful narrow beam of light that can be used in medical operations, to cut metals, or to make patterns of light for entertainment"
+  },
+  "carol": {
+    "中释": "颂歌, 欢乐的歌",
+    "英释": "a traditional Christmas song"
+  },
+  "ranch": {
+    "中释": "经营牧场n牧场"
+  },
+  "prone": {
+    "中释": "易于…的，很可能…的",
+    "英释": "likely to do something or suffer from something, especially something bad or harmful"
+  },
+  "krill": {
+    "中释": "[动]磷虾(单复同)",
+    "英释": "small shellfish"
+  },
+  "forty": {
+    "中释": "四十",
+    "英释": "the number 40"
+  },
+  "peach": {
+    "中释": "桃(树)",
+    "英释": "a round juicy fruit that has a soft yellow or red skin and a large, hard seed in the centre, or the tree that this fruit grows on"
+  },
+  "plumb": {
+    "中释": "（用铅垂）测量,探测"
+  },
+  "trout": {
+    "中释": "鲑鱼",
+    "英释": "a common river-fish, often used for food, or the flesh of this fish"
+  },
+  "peace": {
+    "中释": "和平, 安静",
+    "英释": "a situation in which there is no war or fighting"
+  },
+  "farce": {
+    "中释": "闹剧；荒唐可笑",
+    "英释": "an event or a situation that is very badly organized or does not happen properly, in a way that is silly and unreasonable"
+  },
+  "vague": {
+    "中释": "不明确的,模糊的",
+    "英释": "unclear because someone does not give enough detailed information or does not say exactly what they mean"
+  },
+  "ounce": {
+    "中释": "盎司",
+    "英释": "a unit for measuring weight, equal to 28.35 grams. There are 16 ounces in a pound."
+  },
+  "dress": {
+    "中释": "连衣裙,女装 v打扮",
+    "英释": "a piece of clothing worn by a woman or girl that covers the top of her body and part or all of her legs"
+  },
+  "Anglo": {
+    "中释": "盎格鲁, 英裔美国人",
+    "英释": "a White inhabitant of the United States who is not of Latin extraction "
+  },
+  "timer": {
+    "中释": "计时员, 定时器",
+    "英释": "an instrument that you use to measure time, when you are doing something such as cooking"
+  },
+  "reign": {
+    "中释": "统治, 支配",
+    "英释": "if a feeling or quality reigns, it exists strongly for a period of time"
+  },
+  "tempt": {
+    "中释": "吸引,诱惑",
+    "英释": "to make someone want to have or do something, even though they know they really should not"
+  },
+  "boast": {
+    "中释": "自夸",
+    "英释": "to talk too proudly about your abilities, achievements, or possessions"
+  },
+  "wedge": {
+    "中释": "楔 vt楔入, 楔进",
+    "英释": "a piece of food shaped like a wedge"
+  },
+  "embed": {
+    "中释": "使插入, 嵌入",
+    "英释": "to put something firmly and deeply into something else, or to be put into something in this way"
+  },
+  "valse": {
+    "中释": "华尔兹"
+  },
+  "sweet": {
+    "中释": "甜的",
+    "英释": "containing or having a taste like sugar"
+  },
+  "fatty": {
+    "中释": "脂肪的",
+    "英释": "containing a lot of fat"
+  },
+  "maser": {
+    "中释": "微波激射器",
+    "英释": "a piece of equipment that produces a very powerful electric force"
+  },
+  "resin": {
+    "中释": "树脂 vt涂树脂于",
+    "英释": "a thick sticky liquid that comes out of some trees"
+  },
+  "frown": {
+    "中释": "／ n皱眉，蹙额",
+    "英释": "to make an angry, unhappy, or confused expression, moving your  eyebrows  together"
+  },
+  "stain": {
+    "中释": "污点v染污",
+    "英释": "a mark that is difficult to remove, especially one made by a liquid such as blood, coffee, or ink"
+  },
+  "medal": {
+    "中释": "奖牌，奖章",
+    "英释": "a flat piece of metal, usually shaped like a coin, that is given to someone who has won a competition or who has done something brave"
+  },
+  "spout": {
+    "中释": "喷出",
+    "英释": "if a  whale  spouts, it sends out a stream of water from a hole in its head"
+  },
+  "cramp": {
+    "中释": "限制，束缚",
+    "英释": "to prevent the development of someone or something"
+  },
+  "leafy": {
+    "中释": "叶状的；叶茂的",
+    "英释": "having a lot of leaves"
+  },
+  "snake": {
+    "中释": "蛇",
+    "英释": "an animal with a long thin body and no legs, that often has a poisonous bite"
+  },
+  "perry": {
+    "中释": "梨子酒",
+    "英释": "an alcoholic drink made from  pear s "
+  },
+  "liter": {
+    "中释": "公升"
+  },
+  "swirl": {
+    "中释": "旋转，漩涡",
+    "英释": "Swirl is also a noun"
+  },
+  "spark": {
+    "中释": "触发，引起",
+    "英释": "to be the cause of something, especially trouble or violence"
+  },
+  "spine": {
+    "中释": "脊柱",
+    "英释": "the row of bones down the centre of your back that supports your body and protects your  spinal cord "
+  },
+  "widen": {
+    "中释": "加宽,扩展",
+    "英释": "to become wider, or to make something wider"
+  },
+  "steer": {
+    "中释": "操纵, 驾驶",
+    "英释": "to control the direction a vehicle is going, for example by turning a wheel"
+  },
+  "acute": {
+    "中释": "敏锐的, 急性的",
+    "英释": "an acute illness or disease quickly becomes very serious"
+  },
+  "admit": {
+    "中释": "承认,准许",
+    "英释": "to agree unwillingly that something is true or that someone else is right"
+  },
+  "mouse": {
+    "中释": "鼠",
+    "英释": "a small furry animal with a pointed nose and a long tail that lives in people’s houses or in fields"
+  },
+  "beast": {
+    "中释": "野兽，牲畜",
+    "英释": "an animal, especially a large or dangerous one"
+  },
+  "shirt": {
+    "中释": "衬衫",
+    "英释": "a piece of clothing that covers the upper part of your body and your arms, usually has a collar, and is fastened at the front by buttons"
+  },
+  "eager": {
+    "中释": "热心于, 渴望着",
+    "英释": "very keen and excited about something that is going to happen or about something you want to do"
+  },
+  "ought": {
+    "中释": "应当, 应该"
+  },
+  "trick": {
+    "中释": "欺诈",
+    "英释": "to deceive someone in order to get something from them or to make them do something"
+  },
+  "array": {
+    "中释": "展示,排列",
+    "英释": "a set of numbers or signs, or of computer memory units, arranged in lines across or down"
+  },
+  "globe": {
+    "中释": "球体,地球仪",
+    "英释": "a round object with a map of the Earth drawn on it"
+  },
+  "shiny": {
+    "中释": "发光的；磨光的",
+    "英释": "smooth and bright"
+  },
+  "error": {
+    "中释": "错误, 过失",
+    "英释": "a mistake"
+  },
+  "merge": {
+    "中释": "结合,合并",
+    "英释": "to combine, or to join things together to form one thing"
+  },
+  "input": {
+    "中释": "输入，投入",
+    "英释": "information that is put into a computer"
+  },
+  "maple": {
+    "中释": "枫树",
+    "英释": "a tree which grows mainly in northern countries such as Canada. Its leaves have five points and turn red or gold in autumn."
+  },
+  "hinge": {
+    "中释": "（门、盖等的）铰链",
+    "英释": "a piece of metal fastened to a door, lid etc that allows it to swing open and shut"
+  },
+  "faith": {
+    "中释": "信仰, 信念",
+    "英释": "a strong feeling of trust or confidence in someone or something"
+  },
+  "blade": {
+    "中释": "刀刃, 刀片",
+    "英释": "the flat cutting part of a tool or weapon"
+  },
+  "happy": {
+    "中释": "快乐的，幸福的",
+    "英释": "having feelings of pleasure, for example because something good has happened to you or you are very satisfied with your life"
+  },
+  "caste": {
+    "中释": "印度的世袭阶级",
+    "英释": "A caste is one of the traditional social classes into which people are divided in a Hindu society"
+  },
+  "stake": {
+    "中释": "树桩",
+    "英释": "a pointed piece of wood, metal etc, especially one that is pushed into the ground to support something or mark a particular place"
+  },
+  "mural": {
+    "中释": "墙壁的  n壁画"
+  },
+  "petal": {
+    "中释": "花瓣",
+    "英释": "one of the coloured parts of a flower that are shaped like leaves"
+  },
+  "hypha": {
+    "中释": "[植]菌丝",
+    "英释": "any of the filaments that constitute the body (mycelium) of a fungus "
+  },
+  "crawl": {
+    "中释": "爬行, 蠕动",
+    "英释": "to move along on your hands and knees with your body close to the ground"
+  },
+  "bison": {
+    "中释": "(美洲)野牛",
+    "英释": "an animal like a large cow, with hair on its head and shoulders"
+  },
+  "saint": {
+    "中释": "圣人, 圣徒",
+    "英释": "someone who is given the title ‘saint’ by the Christian church after they have died, because they have been very good or holy"
+  },
+  "vivid": {
+    "中释": "生动的，栩栩如生的",
+    "英释": "vivid memories, dreams, descriptions etc are so clear that they seem real"
+  },
+  "sweat": {
+    "中释": "汗 v(使)出汗",
+    "英释": "drops of salty liquid that come out through your skin when you are hot, frightened, ill, or doing exercise"
+  },
+  "calve": {
+    "中释": "生小牛, (使)冰山崩解",
+    "英释": "to give birth to a  calf "
+  },
+  "lucky": {
+    "中释": "幸运的, 吉祥的",
+    "英释": "having good luck"
+  },
+  "twain": {
+    "中释": "两, 双, 二",
+    "英释": "two"
+  },
+  "avant": {
+    "中释": "先锋的,激进的"
+  },
+  "Inuit": {
+    "中释": "因纽特人,  因纽特语",
+    "英释": "The Inuit are the people descended from the original people of Alaska, Eastern Canada, and Greenland"
+  },
+  "fatal": {
+    "中释": "致命的，灾难性的",
+    "英释": "resulting in someone’s death"
+  },
+  "aural": {
+    "中释": "听觉的",
+    "英释": "relating to the sense of hearing, or someone’s ability to understand sounds"
+  },
+  "onset": {
+    "中释": "开始；攻击",
+    "英释": "the beginning of something, especially something bad"
+  },
+  "flank": {
+    "中释": "肋，侧边",
+    "英释": "the side of an army in a battle, or a sports team when playing"
+  },
+  "rodeo": {
+    "中释": "马术竞技表演会, 将牛、马驱集在一起",
+    "英释": "a type of entertainment in which  cowboy s  ride wild horses, catch cattle with ropes, and ride in races"
+  },
+  "angry": {
+    "中释": "发怒的，生气的",
+    "英释": "feeling strong emotions which make you want to shout at someone or hurt them because they have behaved in an unfair, cruel, offensive etc way, or because you think that a situation is unfair, unacceptable etc"
+  },
+  "usher": {
+    "中释": "引，领，陪同",
+    "英释": "to help someone to get from one place to another, especially by showing them the way"
+  },
+  "extol": {
+    "中释": "赞美",
+    "英释": "to praise something very much"
+  },
+  "squat": {
+    "中释": "蹲(下)",
+    "英释": "to sit with your knees bent under you and your bottom just off the ground, balancing on your feet"
+  },
+  "verse": {
+    "中释": "诗(句)",
+    "英释": "words arranged in the form of poetry"
+  },
+  "spoon": {
+    "中释": "匙，调羹",
+    "英释": "an object that you use for eating, cooking, or serving food. It has a small bowl-shaped part and a long handle."
+  },
+  "chaos": {
+    "中释": "混乱，紊乱",
+    "英释": "a situation in which everything is happening in a confused way and nothing is organized or arranged in order"
+  },
+  "spawn": {
+    "中释": "卵",
+    "英释": "the eggs of a fish or  frog  laid together in a soft mass"
+  },
+  "boost": {
+    "中释": "推进",
+    "英释": "to increase or improve something and make it more successful"
+  },
+  "tally": {
+    "中释": "记分  vi符合",
+    "英释": "A tally is a record of amounts or numbers which you keep changing and adding to as the activity which affects it progresses"
+  },
+  "Indus": {
+    "中释": "印度河（印度西北部的河流）"
+  },
+  "slave": {
+    "中释": "奴隶",
+    "英释": "someone who is owned by another person and works for them for no money"
+  },
+  "steal": {
+    "中释": "偷, 窃取",
+    "英释": "to take something that belongs to someone else"
+  },
+  "clump": {
+    "中释": "使成一丛"
+  },
+  "brine": {
+    "中释": "盐水",
+    "英释": "water that contains a lot of salt and is used for preserving food"
+  },
+  "naive": {
+    "中释": "天真的",
+    "英释": "not having much experience of how complicated life is, so that you trust people too much and believe that good things will always happen"
+  },
+  "lapis": {
+    "中释": "[化]天青石(常用于化学中的矿物命名)"
+  },
+  "chunk": {
+    "中释": "大块,相当大的部分（数量）",
+    "英释": "a large thick piece of something that does not have an even shape"
+  },
+  "staff": {
+    "中释": "全体职工，全体人员",
+    "英释": "the people who work for an organization"
+  },
+  "asset": {
+    "中释": "资产",
+    "英释": "the things that a company owns, that can be sold to pay debts"
+  },
+  "pitch": {
+    "中释": "球场,强度v扔,猛然倒下",
+    "英释": "a marked out area of ground on which a sport is played"
+  },
+  "crime": {
+    "中释": "犯罪",
+    "英释": "illegal activities in general"
+  },
+  "grade": {
+    "中释": "评分,分等级",
+    "英释": "to say what level of a quality something has, or what standard it is"
+  },
+  "amaze": {
+    "中释": "使吃惊",
+    "英释": "to surprise someone very much"
+  },
+  "barge": {
+    "中释": "驳船 vi猛撞"
+  },
+  "blink": {
+    "中释": "眨眼, 闪烁",
+    "英释": "to shut and open your eyes quickly"
+  },
+  "repel": {
+    "中释": "排斥,击退",
+    "英释": "to make someone who is attacking you go away, by fighting them"
+  },
+  "rumen": {
+    "中释": "瘤胃(反刍动物的第一胃)",
+    "英释": "the first compartment of the stomach of ruminants, behind the reticulum, in which food is partly digested before being regurgitated as cud "
+  },
+  "brant": {
+    "中释": "黑雁",
+    "英释": "a small goose, Branta bernicla, that has a dark grey plumage and short neck and occurs in most northern coastal regions "
+  },
+  "thorn": {
+    "中释": "[植]刺",
+    "英释": "a sharp point that grows on the stem of a plant such as a rose"
+  },
+  "trunk": {
+    "中释": "树干, 行李箱",
+    "英释": "the thick central woody stem of a tree"
+  },
+  "tenth": {
+    "中释": "第十, 十分之一",
+    "英释": "one of ten equal parts of something"
+  },
+  "guard": {
+    "中释": "守卫",
+    "英释": "to protect a person, place, or object by staying near them and watching them"
+  },
+  "bloom": {
+    "中释": "(使)开花,(使)繁盛",
+    "英释": "if a plant or a flower blooms, its flowers appear or open"
+  },
+  "scrap": {
+    "中释": "废弃",
+    "英释": "to decide not to use a plan or system because it is not practical"
+  },
+  "chalk": {
+    "中释": "粉笔",
+    "英释": "small sticks of a white or coloured substance like soft rock, used for writing or drawing"
+  },
+  "query": {
+    "中释": "质问,疑问",
+    "英释": "a question that you ask to get information, or to check that something is true or correct"
+  },
+  "evoke": {
+    "中释": "唤起, 引起",
+    "英释": "to produce a strong feeling or memory in someone"
+  },
+  "amass": {
+    "中释": "积累，积聚",
+    "英释": "if you amass money, knowledge, information etc, you gradually collect a large amount of it"
+  },
+  "glide": {
+    "中释": "滑行",
+    "英释": "to move smoothly and quietly, as if without effort"
+  },
+  "grasp": {
+    "中释": "抓住,领会",
+    "英释": "to completely understand a fact or an idea, especially a complicated one"
+  },
+  "deity": {
+    "中释": "神, 神性",
+    "英释": "a god or  goddess "
+  },
+  "sixth": {
+    "中释": "第六, 六分之一",
+    "英释": "one of six equal parts of something"
+  },
+  "Japan": {
+    "中释": "日本"
+  },
+  "sedge": {
+    "中释": "[植]莎草",
+    "英释": "a plant similar to grass that grows in wet ground and on the edge of rivers and lakes"
+  },
+  "ember": {
+    "中释": "灰烬, 余烬",
+    "英释": "a piece of wood or coal that stays red and very hot after a fire has stopped burning"
+  },
+  "spill": {
+    "中释": "(使)溢出 n溢出",
+    "英释": "if you spill a liquid, or if it spills, it accidentally flows over the edge of a container"
+  },
+  "befit": {
+    "中释": "适合",
+    "英释": "to be proper or suitable for someone or something"
+  },
+  "lodge": {
+    "中释": "(让)暂住 n乡间小屋，旅舍",
+    "英释": "If an object lodges somewhere, it becomes stuck there"
+  },
+  "endow": {
+    "中释": "捐赠, 赋予",
+    "英释": "You say that someone is endowed with a particular desirable ability, characteristic, or possession when they have it by chance or by birth"
+  },
+  "tough": {
+    "中释": "坚韧的，强硬的，困难的",
+    "英释": "physically or emotionally strong and able to deal with difficult situations"
+  },
+  "skirt": {
+    "中释": "裙子",
+    "英释": "a piece of outer clothing worn by women and girls, which hangs down from the waist like the bottom part of a dress"
+  },
+  "cling": {
+    "中释": "紧贴, 附着"
+  },
+  "crash": {
+    "中释": "碰撞，撞击",
+    "英释": "to have an accident in a car, plane etc by violently hitting something else"
+  },
+  "spell": {
+    "中释": "拼写",
+    "英释": "to form a word by writing or naming the letters in order"
+  },
+  "stark": {
+    "中释": "完全",
+    "英释": "completely crazy"
+  },
+  "crush": {
+    "中释": "压碎",
+    "英释": "to press something so hard that it breaks or is damaged"
+  },
+  "goose": {
+    "中释": "鹅",
+    "英释": "the cooked meat of this bird"
+  },
+  "birch": {
+    "中释": "桦树, 白桦",
+    "英释": "a tree with smooth  bark (=  outer covering  )  and thin branches, or the wood from this tree"
+  },
+  "Gypsy": {
+    "中释": "吉普赛人(的),吉普赛语（的）",
+    "英释": "A gypsy is a member of a race of people who travel from place to place, usually in caravans, rather than living in one place. Some people find this word offensive. "
+  },
+  "march": {
+    "中释": "行军",
+    "英释": "if soldiers or other people march somewhere, they walk there quickly with firm regular steps"
+  },
+  "smelt": {
+    "中释": "熔解，熔炼",
+    "英释": "to melt a rock that contains metal in order to remove the metal"
+  },
+  "rally": {
+    "中释": "集会 v集合",
+    "英释": "A rally is a large public meeting that is held in order to show support for something such as a political party"
+  },
+  "drake": {
+    "中释": "公鸭, 蜉蝣类",
+    "英释": "a male duck"
+  },
+  "gully": {
+    "中释": "小峡谷, 排水沟",
+    "英释": "a small narrow valley, usually formed by a lot of rain flowing down the side of a hill"
+  },
+  "panic": {
+    "中释": "恐(惊)慌 v(使)恐慌",
+    "英释": "a sudden strong feeling of fear or nervousness that makes you unable to think clearly or behave sensibly"
+  },
+  "miner": {
+    "中释": "矿工",
+    "英释": "someone who works under the ground in a mine to remove coal, gold etc"
+  },
+  "reuse": {
+    "中释": "再使用 n重新使用",
+    "英释": "to use something again"
+  },
+  "canoe": {
+    "中释": "独木舟",
+    "英释": "a long light boat that is pointed at both ends and which you move along using a  paddle "
+  },
+  "apple": {
+    "中释": "苹果",
+    "英释": "a hard round fruit that has red, light green, or yellow skin and is white inside"
+  },
+  "quote": {
+    "中释": "引用, 引证",
+    "英释": "to repeat exactly what someone else has said or written"
+  },
+  "delft": {
+    "中释": "代夫特(荷兰城市)陶器"
+  },
+  "blame": {
+    "中释": "责备",
+    "英释": "to say or think that someone or something is responsible for something bad"
+  },
+  "ensue": {
+    "中释": "接着发生，接踵而来",
+    "英释": "If something ensues, it happens immediately after another event, usually as a result of it"
+  },
+  "risky": {
+    "中释": "危险的",
+    "英释": "involving a risk that something bad will happen"
+  },
+  "skate": {
+    "中释": "冰鞋 vi溜冰",
+    "英释": "one of a pair of boots with metal blades on the bottom, for moving quickly on ice"
+  },
+  "bowel": {
+    "中释": "肠",
+    "英释": "the system of tubes inside your body where food is made into solid waste material and through which it passes out of your body"
+  },
+  "maybe": {
+    "中释": "大概, 或许",
+    "英释": "used to say that something may happen or may be true but you are not certain"
+  },
+  "aptly": {
+    "中释": "适当地,适宜地"
+  },
+  "worry": {
+    "中释": "烦恼, 忧虑",
+    "英释": "to make someone feel anxious about something"
+  },
+  "gourd": {
+    "中释": "葫芦",
+    "英释": "a round fruit whose outer shell can be used as a container, or the container made from this fruit"
+  },
+  "valve": {
+    "中释": "阀,活门",
+    "英释": "a part of a tube or pipe that opens and shuts like a door to control the flow of liquid, gas, air etc passing through it"
+  },
+  "draft": {
+    "中释": "草拟",
+    "英释": "to write a plan, letter, report etc that will need to be changed before it is in its finished form"
+  },
+  "amuse": {
+    "中释": "使发笑,使愉快",
+    "英释": "If something amuses you, it makes you want to laugh or smile"
+  },
+  "legal": {
+    "中释": "法律的,合法的",
+    "英释": "if something is legal, you are allowed to do it or have to do it by law"
+  },
+  "shake": {
+    "中释": "摇动，颤抖",
+    "英释": "to move suddenly from side to side or up and down, usually with a lot of force, or to make something or someone do this"
+  },
+  "idiom": {
+    "中释": "成语, 方言",
+    "英释": "a group of words that has a special meaning that is different from the ordinary meaning of each separate word. For example, ‘under the weather’ is an idiom meaning ‘ill’."
+  },
+  "sting": {
+    "中释": "刺, 刺痛",
+    "英释": "if an insect or a plant stings you, it makes a very small hole in your skin and you feel a sharp pain because of a poisonous substance"
+  },
+  "stump": {
+    "中释": "笨重地走,使为难"
+  },
+  "humor": {
+    "中释": "幽默, 诙谐"
+  },
+  "plank": {
+    "中释": "厚木板(条)",
+    "英释": "a long narrow piece of wooden board, used especially for making structures to walk on"
+  },
+  "brand": {
+    "中释": "商标, 牌子, 烙印",
+    "英释": "a type of product made by a particular company, that has a particular name or design"
+  },
+  "naked": {
+    "中释": "裸体的, 无遮盖的",
+    "英释": "not wearing any clothes or not covered by clothes"
+  },
+  "badly": {
+    "中释": "严重地, 恶劣地",
+    "英释": "in an unsatisfactory or unsuccessful way"
+  },
+  "cable": {
+    "中释": "缆绳；电缆",
+    "英释": "a plastic or rubber tube containing wires that carry telephone messages, electronic signals, television pictures etc"
+  },
+  "arrow": {
+    "中释": "箭, 箭头记号",
+    "英释": "a weapon usually made from a thin straight piece of wood with a sharp point at one end, that you shoot with a  bow "
+  },
+  "tight": {
+    "中释": "紧的",
+    "英释": "tight clothes fit your body very closely, especially in a way that is uncomfortable"
+  },
+  "chest": {
+    "中释": "胸腔，橱",
+    "英释": "Your chest is the top part of the front of your body where your ribs, lungs, and heart are"
+  },
+  "chair": {
+    "中释": "椅子,主席 vt担任主席",
+    "英释": "a piece of furniture for one person to sit on, which has a back, a seat, and four legs"
+  },
+  "merit": {
+    "中释": "值得",
+    "英释": "to be good, important, or serious enough for praise or attention"
+  },
+  "photo": {
+    "中释": "照片",
+    "英释": "a photograph"
+  },
+  "muddy": {
+    "中释": "多泥的, 泥泞的",
+    "英释": "covered with mud or containing mud"
+  },
+  "label": {
+    "中释": "贴标签于",
+    "英释": "to attach a label onto something or write information on something"
+  },
+  "wispy": {
+    "中释": "纤细的, 脆弱的"
+  },
+  "auger": {
+    "中释": "用钻子钻洞于"
+  },
+  "ether": {
+    "中释": "天空醚, 大气",
+    "英释": "Ether is a colourless liquid that burns easily. It is used in industry and in medicine as an anaesthetic. "
+  },
+  "tenon": {
+    "中释": "接榫, 造榫",
+    "英释": "to form a tenon on (a piece of wood) "
+  },
+  "amino": {
+    "中释": "[化学] 氨基",
+    "英释": "of, consisting of, or containing the group of atoms -NH2 "
+  },
+  "milky": {
+    "中释": "牛奶的,乳白色的",
+    "英释": "containing a lot of milk"
+  },
+  "eject": {
+    "中释": "逐出,喷射",
+    "英释": "to make someone leave a place or building by using force"
+  },
+  "scuba": {
+    "中释": "水中呼吸器"
+  },
+  "rider": {
+    "中释": "骑手, 附文, 扶手",
+    "英释": "A rider is someone who rides a horse, a bicycle, or a motorcycle as a hobby or job. You can also refer to someone who is riding a horse, a bicycle, or a motorcycle as a rider. "
+  },
+  "opera": {
+    "中释": "歌剧",
+    "英释": "a musical play in which all of the words are sung"
+  },
+  "vocal": {
+    "中释": "元音"
+  },
+  "hilly": {
+    "中释": "多小山的, 多坡的",
+    "英释": "having a lot of hills"
+  },
+  "armor": {
+    "中释": "为…装甲"
+  },
+  "lathe": {
+    "中释": "用车床加工",
+    "英释": "to shape, bore, or cut a screw thread in or on (a workpiece) on a lathe "
+  },
+  "grand": {
+    "中释": "盛大的,极重要的",
+    "英释": "excellent"
+  },
+  "unify": {
+    "中释": "统一,使成一体",
+    "英释": "if you unify two or more parts or things, or if they unify, they are combined to make a single unit"
+  },
+  "anvil": {
+    "中释": "[解]砧骨",
+    "英释": "a heavy iron block on which pieces of hot metal are shaped using a hammer"
+  },
+  "actor": {
+    "中释": "男演员,行动者",
+    "英释": "someone who performs in a play or film"
+  },
+  "caput": {
+    "中释": "头, 首"
+  },
+  "flute": {
+    "中释": "吹长笛,刻槽"
+  },
+  "trait": {
+    "中释": "显著的特点, 特性",
+    "英释": "a particular quality in someone’s character"
+  },
+  "heave": {
+    "中释": "举起,投掷",
+    "英释": "a strong rising or falling movement"
+  },
+  "scope": {
+    "中释": "(活动)范围",
+    "英释": "the range of things that a subject, activity, book etc deals with"
+  },
+  "nomad": {
+    "中释": "游牧的"
+  },
+  "burin": {
+    "中释": "冰凿,雕刻刀",
+    "英释": "a chisel of tempered steel with a sharp lozenge-shaped point, used for engraving furrows in metal, wood, or marble "
+  },
+  "brace": {
+    "中释": "支住,撑牢"
+  },
+  "quest": {
+    "中释": "追求,探索",
+    "英释": "If you are questing for something, you are searching for it"
+  },
+  "essay": {
+    "中释": "散文",
+    "英释": "a short piece of writing about a particular subject by a student as part of a course of study"
+  },
+  "nurse": {
+    "中释": "护理,照料",
+    "英释": "to take special care of something, especially during a difficult situation"
+  },
+  "wharf": {
+    "中释": "靠在码头"
+  },
+  "pluto": {
+    "中释": "冥王星, 阴间之神",
+    "英释": "the god of the underworld; Hades "
+  },
+  "comic": {
+    "中释": "滑稽的, 喜剧的",
+    "英释": "amusing you and making you want to laugh"
+  },
+  "meaty": {
+    "中释": "肉的,多肉的",
+    "英释": "containing a lot of meat, or tasting strongly of meat"
+  },
+  "clerk": {
+    "中释": "职员, 办事员",
+    "英释": "someone who keeps records or accounts in an office"
+  },
+  "snout": {
+    "中释": "猪嘴,鼻子",
+    "英释": "the long nose of some kinds of animals, such as pigs"
+  },
+  "grace": {
+    "中释": "使优雅",
+    "英释": "to make a place or an object look more attractive"
+  },
+  "Chile": {
+    "中释": "智利"
+  },
+  "alpha": {
+    "中释": "希腊字母的第一个字母",
+    "英释": "the first letter in the Greek alphabet (Α, α), a vowel transliterated as a "
+  },
+  "creep": {
+    "中释": "爬行"
+  },
+  "rigor": {
+    "中释": "严格,精确"
+  },
+  "salad": {
+    "中释": "色拉",
+    "英释": "a mixture of raw vegetables, especially  lettuce  ,  cucumber  , and tomato"
+  },
+  "blaze": {
+    "中释": "照耀,激发",
+    "英释": "to shine with a very bright light"
+  },
+  "ghost": {
+    "中释": "鬼, 幽灵",
+    "英释": "the spirit of a dead person that some people think they can feel or see in a place"
+  },
+  "faint": {
+    "中释": "头晕的",
+    "英释": "Someone who is faint feels weak and unsteady as if they are about to lose consciousness"
+  },
+  "smear": {
+    "中释": "油迹, 涂片",
+    "英释": "a  smear test "
+  },
+  "ocher": {
+    "中释": "黄土, 赭土"
+  },
+  "youth": {
+    "中释": "青春,少年",
+    "英释": "the period of time when someone is young, especially the period when someone is a teenager"
+  },
+  "grama": {
+    "中释": "美国西部产的一种牧草",
+    "英释": "any of various grasses of the genus Bouteloua, of W North America and South America: often used as pasture grasses "
+  },
+  "gesso": {
+    "中释": "(雕刻、绘画用的)石膏, 石膏粉",
+    "英释": "a white ground of plaster and size, used esp in the Middle Ages and Renaissance to prepare panels or canvas for painting or gilding "
+  },
+  "stuff": {
+    "中释": "塞满",
+    "英释": "to push or put something into a small space, especially in a quick careless way"
+  },
+  "Jules": {
+    "中释": "朱尔斯（男子名）"
+  },
+  "flier": {
+    "中释": "飞行者,快车,宣传单"
+  },
+  "sepal": {
+    "中释": "萼片",
+    "英释": "one of the small leaves directly under a flower"
+  },
+  "glial": {
+    "中释": "神经胶质的"
+  },
+  "flare": {
+    "中释": "闪光,闪耀"
+  },
+  "maize": {
+    "中释": "玉米色的"
+  },
+  "brave": {
+    "中释": "勇敢的",
+    "英释": "dealing with danger, pain, or difficult situations with courage and confidence"
+  },
+  "disco": {
+    "中释": "迪斯科舞厅",
+    "英释": "a place or social event at which people dance to recorded popular music"
+  },
+  "quill": {
+    "中释": "刺穿"
+  },
+  "virgo": {
+    "中释": "室女宫,室女(星)座",
+    "英释": "Virgo is one of the twelve signs of the zodiac. Its symbol is a young woman. People who are born approximately between the 23rd of August and the 22nd of September come under this sign. "
+  },
+  "exalt": {
+    "中释": "晋升",
+    "英释": "to put someone or something into a high rank or position"
+  },
+  "ingot": {
+    "中释": "[冶]锭铁, 工业纯铁"
+  },
+  "notch": {
+    "中释": "刻凹痕"
+  },
+  "sword": {
+    "中释": "剑",
+    "英释": "a weapon with a long pointed blade and a handle"
+  },
+  "weary": {
+    "中释": "疲倦,厌倦",
+    "英释": "to become very tired, or make someone very tired"
+  },
+  "screw": {
+    "中释": "调节,旋",
+    "英释": "to fasten or close something by turning it, or to be fastened in this way"
+  },
+  "chord": {
+    "中释": "弦,和音",
+    "英释": "a combination of several musical notes that are played at the same time and sound pleasant together"
+  },
+  "haunt": {
+    "中释": "出没于",
+    "英释": "if the soul of a dead person haunts a place, it appears there often"
+  },
+  "sleek": {
+    "中释": "圆滑的,使…光滑",
+    "英释": "Sleek hair or fur is smooth and shiny and looks healthy"
+  },
+  "uncle": {
+    "中释": "伯父,叔父,援助者",
+    "英释": "used by children, in front of a first name, to address or refer to a man who is a close friend of their parents"
+  },
+  "greet": {
+    "中释": "问候,向致意",
+    "英释": "to say hello to someone or welcome them"
+  },
+  "drape": {
+    "中释": "使褶皱"
+  },
+  "jewel": {
+    "中释": "宝石",
+    "英释": "a valuable stone, such as a diamond"
+  },
+  "bland": {
+    "中释": "变得乏味"
+  },
+  "avail": {
+    "中释": "效用, 利益"
+  },
+  "rumor": {
+    "中释": "谣传, 传闻"
+  },
+  "bluff": {
+    "中释": "诈骗",
+    "英释": "to pretend something, especially in order to achieve what you want in a difficult or dangerous situation"
+  },
+  "tonal": {
+    "中释": "音调的",
+    "英释": "relating to tones of colour or sound"
+  },
+  "pedal": {
+    "中释": "踩的踏板",
+    "英释": "to turn or push the pedals on a bicycle or other machine with your feet"
+  },
+  "chafe": {
+    "中释": "(将皮肤等)擦热, 使恼火",
+    "英释": "to rub part of your body to make it warm"
+  },
+  "charm": {
+    "中释": "迷人, 使陶醉"
+  },
+  "harem": {
+    "中释": "（伊斯兰教教徒之）闺房, 为一个雄性动物所控制的许多雌性动物",
+    "英释": "part of a Muslim house that is separate from the rest of the house, where only women live"
+  },
+  "atlas": {
+    "中释": "地图, 地图集",
+    "英释": "a book containing maps, especially of the whole world"
+  },
+  "logic": {
+    "中释": "逻辑的"
+  },
+  "gripe": {
+    "中释": "握紧"
+  },
+  "Irish": {
+    "中释": "爱尔兰人(的),爱尔兰语（的）",
+    "英释": "people from Ireland"
+  },
+  "punch": {
+    "中释": "冲孔, 打孔",
+    "英释": "to make a hole in something, using a metal tool or other sharp object"
+  },
+  "Kenya": {
+    "中释": "肯尼亚"
+  },
+  "quina": {
+    "中释": "[植]金鸡纳树皮, 奎宁"
+  },
+  "lunch": {
+    "中释": "午餐",
+    "英释": "a meal eaten in the middle of the day"
+  },
+  "loess": {
+    "中释": "黄土",
+    "英释": "a light-coloured fine-grained accumulation of clay and silt particles that have been deposited by the wind "
+  },
+  "ample": {
+    "中释": "充足的, 丰富的",
+    "英释": "more than enough"
+  },
+  "vogue": {
+    "中释": "、a流行（的）, 时髦（的）",
+    "英释": "a popular and fashionable style, activity, method etc"
+  },
+  "align": {
+    "中释": "排列，使结盟",
+    "英释": "If you align yourself with a particular group, you support them because you have the same political aim"
+  },
+  "dodge": {
+    "中释": "/n避开, 躲避",
+    "英释": "to move quickly to avoid someone or something"
+  },
+  "scant": {
+    "中释": "缺乏的,不足的 v节省,减少",
+    "英释": "not enough"
+  },
+  "juice": {
+    "中释": "(水果)汁, 液",
+    "英释": "the liquid that comes from fruit and vegetables, or a drink that is made from this"
+  },
+  "bliss": {
+    "中释": "狂喜"
+  },
+  "bongo": {
+    "中释": "非洲产大羚羊, 一种用手指敲的小鼓",
+    "英释": "A bongo is a small drum that you play with your hands"
+  },
+  "dizzy": {
+    "中释": "使人晕眩的"
+  },
+  "pylon": {
+    "中释": "塔门, 路标塔"
+  },
+  "sonar": {
+    "中释": "声纳, 声波定位仪",
+    "英释": "equipment on a ship or  submarine  that uses  sound waves  to find out the position of objects under the water"
+  },
+  "apace": {
+    "中释": "快速地, 急速地",
+    "英释": "happening quickly"
+  },
+  "pluck": {
+    "中释": "勇气v拔, 采集",
+    "英释": "courage and determination"
+  },
+  "reply": {
+    "中释": "答复, 答辩v答复, 回击",
+    "英释": "something that is said, written, or done as a way of replying"
+  },
+  "aphid": {
+    "中释": "[动]蚜虫",
+    "英释": "a type of small insect that feeds on the juices of plants"
+  },
+  "Miami": {
+    "中释": "迈阿密(美国佛罗里州达东南部港市)"
+  },
+  "fever": {
+    "中释": "发烧, 狂热 v(使)发烧, 狂热",
+    "英释": "an illness or a medical condition in which you have a very high temperature"
+  },
+  "lyric": {
+    "中释": "抒情诗, 歌词",
+    "英释": "the words of a song"
+  },
+  "untie": {
+    "中释": "解开,  松开",
+    "英释": "to take the knots out of something, or unfasten something that has been tied"
+  },
+  "allay": {
+    "中释": "减轻, 减少",
+    "英释": "to make someone feel less afraid, worried etc"
+  },
+  "cater": {
+    "中释": "迎合,提供饮食及服务",
+    "英释": "to provide and serve food and drinks at a party, meeting etc, usually as a business"
+  },
+  "groom": {
+    "中释": "刷洗 n新郎；马夫",
+    "英释": "to clean and brush an animal, especially a horse"
+  },
+  "Maine": {
+    "中释": "缅因州(美国东北角的州)"
+  },
+  "fleet": {
+    "中释": "舰队 v疾驰,掠过",
+    "英释": "a group of ships, or all the ships in a navy"
+  },
+  "misty": {
+    "中释": "有薄雾的",
+    "英释": "misty weather is weather with a lot of mist"
+  },
+  "thumb": {
+    "中释": "拇指",
+    "英释": "the part of your hand that is shaped like a thick short finger and helps you to hold things"
+  },
+  "snail": {
+    "中释": "蜗牛",
+    "英释": "a small soft creature that moves very slowly and has a hard shell on its back"
+  },
+  "Haiti": {
+    "中释": "海地"
+  },
+  "wreck": {
+    "中释": "毁坏；使遇难 n失事(船等)，残骸",
+    "英释": "to damage something such as a building or vehicle so badly that it cannot be repaired"
+  },
+  "moody": {
+    "中释": "易怒的, 情绪化的",
+    "英释": "annoyed or unhappy"
+  },
+  "proud": {
+    "中释": "自豪的, 得意的",
+    "英释": "feeling pleased about something that you have done or something that you own, or about someone or something you are involved with or related to"
+  },
+  "hurry": {
+    "中释": "赶紧,匆忙",
+    "英释": "to do something or go somewhere more quickly than usual, especially because there is not much time"
+  },
+  "lvory": {
+    "中释": "象牙"
+  },
+  "incur": {
+    "中释": "招致",
+    "英释": "if you incur a cost, debt, or a fine, you have to pay money because of something you have done"
+  },
+  "juicy": {
+    "中释": "多汁(液)的",
+    "英释": "containing a lot of juice"
+  },
+  "tenet": {
+    "中释": "原则",
+    "英释": "a principle or belief, especially one that is part of a larger system of beliefs"
+  },
+  "ruler": {
+    "中释": "统治者, (直)尺",
+    "英释": "someone such as a king or queen who has official power over a country or area"
+  },
+  "preen": {
+    "中释": "整理羽毛，(人)打扮修饰",
+    "英释": "if a bird preens or preens itself, it cleans itself and makes its feathers smooth using its beak"
+  },
+  "forge": {
+    "中释": "铸造, 伪造",
+    "英释": "to illegally copy something, especially something printed or written, to make people think that it is real"
+  },
+  "tinge": {
+    "中释": "(清淡的)色调 vt给…着色"
+  },
+  "genre": {
+    "中释": "类型, 流派",
+    "英释": "a particular type of art, writing, music etc, which has certain features that all examples of this type share"
+  },
+  "crook": {
+    "中释": "使弯曲",
+    "英释": "if you crook your finger or your arm, you bend it"
+  },
+  "tepee": {
+    "中释": "美国印第安人的圆锥形帐篷",
+    "英释": "a round tent with a pointed top, used by some Native Americans"
+  },
+  "inter": {
+    "中释": "埋葬",
+    "英释": "to bury a dead person"
+  },
+  "spare": {
+    "中释": "备用的；多余的",
+    "英释": "not being used or not needed at the present time"
+  },
+  "halve": {
+    "中释": "二等分,  分享"
+  },
+  "hover": {
+    "中释": "盘旋",
+    "英释": "if a bird, insect, or  helicopter  hovers, it stays in one place in the air"
+  },
+  "lipid": {
+    "中释": "脂质, 油脂",
+    "英释": "one of several types of fattysubstances in living things, such as fat, oil, or wax"
+  },
+  "smoky": {
+    "中释": "冒烟的, 烟状的",
+    "英释": "producing too much smoke"
+  },
+  "viral": {
+    "中释": "滤过性毒菌的",
+    "英释": "A viral disease or infection is caused by a virus"
+  },
+  "fancy": {
+    "中释": "喜欢n爱好；想象力",
+    "英释": "to like or want something, or want to do something"
+  },
+  "widow": {
+    "中释": "寡妇",
+    "英释": "a woman whose husband has died and who has not married again"
+  },
+  "loyal": {
+    "中释": "忠诚的, 忠心的",
+    "英释": "always supporting your friends, principles, country etc"
+  },
+  "glare": {
+    "中释": "闪耀光, 刺眼 v发眩光, 瞪视",
+    "英释": "a bright unpleasant light which hurts your eyes"
+  },
+  "stint": {
+    "中释": "紧缩,节省"
+  },
+  "glory": {
+    "中释": "荣誉, 光荣",
+    "英释": "the importance, honour, and praise that people give someone they admire a lot"
+  },
+  "chomp": {
+    "中释": "大声地咀嚼, 反复咀嚼"
+  },
+  "civic": {
+    "中释": "市的, 市民的",
+    "英释": "relating to a town or city"
+  },
+  "stout": {
+    "中释": "发胖的；结实的",
+    "英释": "strong and thick"
+  },
+  "posit": {
+    "中释": "安置"
+  },
+  "chase": {
+    "中释": "追赶, 追逐",
+    "英释": "to quickly follow someone or something in order to catch them"
+  },
+  "bunch": {
+    "中释": "串, 束 v捆成一束",
+    "英释": "a group of things that are fastened, held, or growing together"
+  },
+  "pulse": {
+    "中释": "脉搏, 脉冲",
+    "英释": "the regular beat that can be felt, for example at your wrist, as your heart pumps blood around your body"
+  },
+  "flint": {
+    "中释": "打火石, 燧石",
+    "英释": "a type of smooth hard stone that makes a small flame when you hit it with steel"
+  },
+  "cider": {
+    "中释": "苹果酒",
+    "英释": "an alcoholic drink made from apples, or a glass of this drink"
+  },
+  "onion": {
+    "中释": "洋葱",
+    "英释": "a round white vegetable with a brown, red, or white skin and many layers. Onions have a strong taste and smell."
+  },
+  "shear": {
+    "中释": "剪, 剪切",
+    "英释": "to cut the wool off a sheep"
+  },
+  "loder": {
+    "中释": "[计]装填器"
+  },
+  "flesh": {
+    "中释": "肉，果肉",
+    "英释": "the soft part of the body of a person or animal that is between the skin and the bones"
+  },
+  "excel": {
+    "中释": "优秀, 胜过他人",
+    "英释": "to do something very well, or much better than most people"
+  },
+  "worst": {
+    "中释": "最坏(的)，最差(的)"
+  },
+  "buyer": {
+    "中释": "买主, 顾客",
+    "英释": "someone who buys something expensive such as a house or car"
+  },
+  "flout": {
+    "中释": "轻视, 嘲笑",
+    "英释": "If you flout something such as a law, an order, or an accepted way of behaving, you deliberately do not obey it or follow it"
+  },
+  "relay": {
+    "中释": "接力赛；中继转播(设备) vt转述；转播",
+    "英释": "a relay race"
+  },
+  "noble": {
+    "中释": "高尚的,贵族的",
+    "英释": "morally good or generous in a way that is admired"
+  },
+  "buddy": {
+    "中释": "<美口>密友, 伙伴",
+    "英释": "a friend"
+  },
+  "Swiss": {
+    "中释": "/ a瑞士(的), 瑞士人(的)",
+    "英释": "people from Switzerland"
+  },
+  "syrup": {
+    "中释": "糖浆, 果汁",
+    "英释": "a thick sticky sweet liquid, eaten on top of or mixed with other foods"
+  },
+  "binge": {
+    "中释": "狂闹, 狂欢"
+  },
+  "brook": {
+    "中释": "小溪 vt容忍",
+    "英释": "a small stream"
+  },
+  "degas": {
+    "中释": "除去瓦斯"
+  },
+  "leaky": {
+    "中释": "漏的",
+    "英释": "a container, roof etc that is leaky has a hole or crack in it so that liquid or gas passes through it"
+  },
+  "venue": {
+    "中释": "审判地, 集合地"
+  },
+  "patty": {
+    "中释": "小馅饼,",
+    "英释": "small, flat pieces of cooked meat or other food"
+  },
+  "seedy": {
+    "中释": "多种子的, 结籽的"
+  },
+  "civet": {
+    "中释": "[动物]麝猫",
+    "英释": "any catlike viverrine mammal of the genus Viverra and related genera, of Africa and S Asia, typically having blotched or spotted fur and secreting a powerfully smelling fluid from anal glands "
+  },
+  "drown": {
+    "中释": "溺死, 淹没",
+    "英释": "to die from being under water for too long, or to kill someone in this way"
+  },
+  "setup": {
+    "中释": "装备, 安装,计划",
+    "英释": "The setup of computer hardware or software is the process of installing it and making it ready to use"
+  },
+  "forum": {
+    "中释": "讨论会, 论坛",
+    "英释": "an organization, meeting, TV programme etc where people have a chance to publicly discuss an important subject"
+  },
+  "purge": {
+    "中释": "清洗(除) n清洗",
+    "英释": "to force people to leave a place or organization because the people in power do not like them"
+  },
+  "cheer": {
+    "中释": "欢呼",
+    "英释": "a shout of happiness, praise, approval, or encouragement"
+  },
+  "douse": {
+    "中释": "熄灭；浸，洒",
+    "英释": "to stop a fire from burning by pouring water on it"
+  },
+  "nylon": {
+    "中释": "尼龙",
+    "英释": "a strong artificial material that is used to make plastics, clothes, rope etc"
+  },
+  "rayon": {
+    "中释": "人造丝, 人造纤维",
+    "英释": "a smooth artificial cloth used for making clothes"
+  },
+  "olive": {
+    "中释": "橄榄树",
+    "英释": "a small bitter egg-shaped black or green fruit, used as food and for making oil"
+  },
+  "salal": {
+    "中释": "[植](产于北美洲太平洋沿岸的)沙龙白珠树"
+  },
+  "fiord": {
+    "中释": "(尤指挪威的)海湾, 峡湾"
+  },
+  "yeast": {
+    "中释": "酵母, 发酵粉",
+    "英释": "a type of fungus used for producing alcohol in beer and wine, and for making bread rise"
+  },
+  "belie": {
+    "中释": "掩饰",
+    "英释": "to give someone a false idea about something"
+  },
+  "sewer": {
+    "中释": "排水沟，下水道",
+    "英释": "a pipe or passage under the ground that carries away waste material and used water from houses, factories etc"
+  },
+  "index": {
+    "中释": "索引, 指数",
+    "英释": "an alphabetical list of names, subjects etc at the back of a book, with the numbers of the pages where they can be found"
+  },
+  "attic": {
+    "中释": "阁楼",
+    "英释": "a space or room just below the roof of a house, often used for storing things"
+  },
+  "butte": {
+    "中释": "孤立的丘"
+  },
+  "dimly": {
+    "中释": "微暗, 朦胧"
+  },
+  "awful": {
+    "中释": "可怕的, 威严的,"
+  },
+  "bylaw": {
+    "中释": "附则, 法规",
+    "英释": "a law made by a local government that people in that area must obey"
+  },
+  "pique": {
+    "中释": "生气, 愤怒",
+    "英释": "a feeling of being annoyed or upset, especially because someone has ignored you or insulted you"
+  },
+  "swell": {
+    "中释": "(使)膨胀, 增大",
+    "英释": "to increase in amount or number"
+  },
+  "bulge": {
+    "中释": "膨胀，鼓起",
+    "英释": "a curved mass on the surface of something, usually caused by something under or inside it"
+  },
+  "cruel": {
+    "中释": "残酷的, 悲惨的",
+    "英释": "making someone suffer or feel unhappy"
+  },
+  "repay": {
+    "中释": "偿还, 报答",
+    "英释": "to pay back money that you have borrowed"
+  },
+  "curio": {
+    "中释": "古董, 古玩",
+    "英释": "a small object that is interesting because it is beautiful or rare"
+  },
+  "speck": {
+    "中释": "斑点",
+    "英释": "a very small mark, spot, or piece of something"
+  },
+  "stair": {
+    "中释": "楼梯",
+    "英释": "a set of steps built for going from one level of a building to another"
+  },
+  "glean": {
+    "中释": "拾落穗, 收集",
+    "英释": "to collect grain that has been left behind after the crops have been cut"
+  },
+  "nevus": {
+    "中释": "[医]痣",
+    "英释": "any congenital growth or pigmented blemish on the skin; birthmark or mole "
+  },
+  "varve": {
+    "中释": "[地质]纹泥",
+    "英释": "a typically thin band of sediment deposited annually in glacial lakes, consisting of a light layer and a dark layer deposited at different seasons "
+  },
+  "churn": {
+    "中释": "搅拌, 搅动",
+    "英释": "If something churns water, mud, or dust, it moves it about violently"
+  },
+  "brood": {
+    "中释": "沉思；孵蛋 n一窝",
+    "英释": "to keep thinking about something that you are worried or upset about"
+  },
+  "mimic": {
+    "中释": "模仿, 模拟",
+    "英释": "to copy the way someone speaks or behaves, especially in order to make people laugh"
+  },
+  "rivet": {
+    "中释": "铆钉  v固定",
+    "英释": "a metal pin used to fasten pieces of metal together"
+  },
+  "hairy": {
+    "中释": "毛发的，多毛的",
+    "英释": "a hairy person or animal has a lot of hair on their body"
+  },
+  "creek": {
+    "中释": "小溪, 小河,",
+    "英释": "a small narrow stream or river"
+  },
+  "sonic": {
+    "中释": "音速的",
+    "英释": "relating to sound,  sound waves  , or the speed of sound"
+  },
+  "seize": {
+    "中释": "抓住,夺取",
+    "英释": "to take hold of something suddenly and violently"
+  },
+  "folly": {
+    "中释": "愚蠢, 荒唐事",
+    "英释": "a very stupid thing to do, especially one that is likely to have serious results"
+  },
+  "waxes": {
+    "中释": "蜡，蜂蜡 vt给…上蜡",
+    "英释": "Wax is a solid, slightly shiny substance made of fat or oil that is used to make candles and polish. It melts when it is heated. "
+  },
+  "aloof": {
+    "中释": "冷漠的",
+    "英释": "unfriendly and deliberately not talking to other people"
+  },
+  "depot": {
+    "中释": "贮藏所, 仓库",
+    "英释": "A depot is a place where large amounts of raw materials, equipment, arms, or other supplies are kept until they are needed"
+  },
+  "erupt": {
+    "中释": "喷出 vi爆发",
+    "英释": "if a volcano erupts, it explodes and sends smoke, fire, and rock into the sky"
+  },
+  "truck": {
+    "中释": "卡车, 敞棚货车",
+    "英释": "a large road vehicle used to carry goods"
+  },
+  "craze": {
+    "中释": "狂热",
+    "英释": "a fashion, game, type of music etc that becomes very popular for a short time"
+  },
+  "laugh": {
+    "中释": "笑, 笑声",
+    "英释": "to make sounds with your voice, usually while you are smiling, because you think something is funny"
+  },
+  "groan": {
+    "中释": "呻吟, 叹息",
+    "英释": "to make a long deep sound because you are in pain, upset, or disappointed, or because something is very enjoyable"
+  },
+  "tapir": {
+    "中释": "[动]貘",
+    "英释": "an animal like a pig with thick legs, a short tail, and a long nose, that lives in tropical America and Southeast Asia"
+  },
+  "cubic": {
+    "中释": "立方体的, 立方的",
+    "英释": "relating to a measurement of space which is calculated by multiplying the length of something by its width and height"
+  },
+  "taint": {
+    "中释": "感染 n污点",
+    "英释": "to damage something by adding an unwanted substance to it"
+  },
+  "stilt": {
+    "中释": "高跷, 支柱",
+    "英释": "one of two poles which you can stand on and walk high above the ground"
+  },
+  "stele": {
+    "中释": "石碑,  匾额",
+    "英释": "an upright stone slab or column decorated with figures or inscriptions, common in prehistoric times "
+  },
+  "overt": {
+    "中释": "明显的, 公然的",
+    "英释": "overt actions are done publicly, without trying to hide anything"
+  },
+  "abuse": {
+    "中释": "滥用, 虐待,辱骂",
+    "英释": "cruel or violent treatment of someone"
+  },
+  "slime": {
+    "中释": "粘土, 粘液"
+  },
+  "slimy": {
+    "中释": "黏滑的, 卑劣的",
+    "英释": "covered with  slime  , or wet and slippery like slime"
+  },
+  "ditch": {
+    "中释": "沟,  壕沟",
+    "英释": "a long narrow hole dug at the side of a field, road etc to hold or remove unwanted water"
+  },
+  "debut": {
+    "中释": "首次演出，初次露面",
+    "英释": "the first public appearance of an entertainer, sports player etc or of something new and important"
+  },
+  "rebel": {
+    "中释": "反叛；反对",
+    "英释": "to oppose or fight against someone in authority or against an idea or situation which you do not agree with"
+  },
+  "foray": {
+    "中释": "突袭，偷袭",
+    "英释": "a short sudden attack by a group of soldiers, especially in order to get food or supplies"
+  },
+  "pupil": {
+    "中释": "小学生",
+    "英释": "someone who is being taught, especially a child"
+  },
+  "timid": {
+    "中释": "胆小的, 羞怯的",
+    "英释": "not having courage or confidence"
+  },
+  "irony": {
+    "中释": "反话, 讽刺",
+    "英释": "a situation that is unusual or amusing because something strange happens, or the opposite of what is expected happens or is true"
+  },
+  "stern": {
+    "中释": "船尾",
+    "英释": "the back of a ship"
+  },
+  "hobby": {
+    "中释": "业余爱好",
+    "英释": "an activity that you enjoy doing in your free time"
+  },
+  "belle": {
+    "中释": "美女",
+    "英释": "a beautiful girl or woman"
+  },
+  "chary": {
+    "中释": "小心的，审慎的",
+    "英释": "unwilling to risk doing something"
+  },
+  "facet": {
+    "中释": "小平面, 方面, 刻面",
+    "英释": "one of several parts of someone’s character, a situation etc"
+  },
+  "bathe": {
+    "中释": "洗澡"
+  },
+  "scour": {
+    "中释": "四处搜索；洗涤",
+    "英释": "If you scour something such as a place or a book, you make a thorough search of it to try to find what you are looking for"
+  },
+  "filmy": {
+    "中释": "薄膜的, 朦胧的",
+    "英释": "A filmy fabric or substance is very thin and almost transparent"
+  },
+  "aloft": {
+    "中释": "在高处, 在上",
+    "英释": "high up in the air"
+  },
+  "dusty": {
+    "中释": "满是灰尘的, 粉状的",
+    "英释": "covered with dust"
+  },
+  "trash": {
+    "中释": "垃圾, 废物",
+    "英释": "things that you throw away, such as empty bottles, used papers, food that has gone bad etc"
+  },
+  "weedy": {
+    "中释": "杂草多的",
+    "英释": "full of unwanted wild plants"
+  },
+  "chant": {
+    "中释": "圣歌",
+    "英释": "a regularly repeated tune, often with many words sung on one note, especially used for religious prayers"
+  },
+  "plaza": {
+    "中释": "广场，集市",
+    "英释": "a public square or market place surrounded by buildings, especially in towns in Spanish-speaking countries"
+  },
+  "swear": {
+    "中释": "宣誓, 发誓",
+    "英释": "to say very strongly that what you are saying is true"
+  },
+  "lover": {
+    "中释": "爱人, 爱好者",
+    "英释": "someone’s lover is the person they are having a sexual relationship with but who they are not married to"
+  },
+  "messy": {
+    "中释": "肮脏的, 凌乱的",
+    "英释": "dirty or untidy"
+  },
+  "creed": {
+    "中释": "信条",
+    "英释": "a set of beliefs or principles"
+  },
+  "badge": {
+    "中释": "徽章, 证章",
+    "英释": "a small piece of metal, cloth, or plastic with a picture or words on it, worn to show rank, membership of a group, support for a political idea etc"
+  },
+  "vowel": {
+    "中释": "元音(的)",
+    "英释": "one of the human speech sounds that you make by letting your breath flow out without closing any part of your mouth or throat"
+  },
+  "pesky": {
+    "中释": "讨厌的，烦人的",
+    "英释": "annoying"
+  },
+  "towel": {
+    "中释": "毛巾",
+    "英释": "a piece of cloth that you use for drying your skin or for drying things such as dishes"
+  },
+  "snowy": {
+    "中释": "雪的, 多雪的",
+    "英释": "with a lot of snow"
+  },
+  "cache": {
+    "中释": "贮藏，隐藏  n藏物处",
+    "英释": "to hide something in a secret place, especially weapons"
+  },
+  "guest": {
+    "中释": "客人, 来宾",
+    "英释": "someone who is invited to an event or special occasion"
+  },
+  "crest": {
+    "中释": "浪尖, 冠",
+    "英释": "a group of feathers that stick up on the top of a bird’s head"
+  },
+  "enure": {
+    "中释": "变得更有利"
+  },
+  "modus": {
+    "中释": "方法, 形式"
+  },
+  "strap": {
+    "中释": "用带捆扎",
+    "英释": "to fasten something or someone in place with one or more straps"
+  },
+  "sully": {
+    "中释": "玷污",
+    "英释": "to spoil or reduce the value of something that was perfect"
+  },
+  "modal": {
+    "中释": "模态的, 形态上的",
+    "英释": "modal meanings are concerned with the attitude of the speaker to the hearer or to what is being said"
+  },
+  "brawl": {
+    "中释": "争吵, 怒骂",
+    "英释": "to quarrel or fight in a noisy way, especially in a public place"
+  },
+  "midst": {
+    "中释": "中部，中间",
+    "英释": "in the middle of a place or a group of things or people"
+  },
+  "vigor": {
+    "中释": "精力, 活力"
+  },
+  "penal": {
+    "中释": "刑事的",
+    "英释": "relating to the legal punishment of criminals, especially in prisons"
+  },
+  "daddy": {
+    "中释": "爸爸",
+    "英释": "father – used especially by children or when speaking to children"
+  },
+  "horde": {
+    "中释": "游牧部落"
+  },
+  "pella": {
+    "中释": "斗篷"
+  },
+  "bench": {
+    "中释": "长椅子,替补队员 vt给…以席位",
+    "英释": "a long seat for two or more people, especially outdoors"
+  },
+  "oasis": {
+    "中释": "(沙漠中)绿洲,舒适的地方",
+    "英释": "a place with water and trees in a desert"
+  },
+  "honey": {
+    "中释": "(蜂)蜜,宝贝 a甜美的",
+    "英释": "a sweet sticky substance produced by  bees  , used as food"
+  },
+  "venom": {
+    "中释": "(蛇的)毒液, 恶意 vt放毒, 使恶毒",
+    "英释": "great anger or hatred"
+  },
+  "spiny": {
+    "中释": "多剌的, 剌状的",
+    "英释": "a spiny animal or plant has lots of stiff sharp points"
+  },
+  "curly": {
+    "中释": "卷曲的, 弯曲的, (木材)有皱状纹理的",
+    "英释": "having a lot of curls"
+  },
+  "mayor": {
+    "中释": "市长",
+    "英释": "the person who has been elected to lead the government of a town or city"
+  },
+  "chimp": {
+    "中释": "(非洲)黑猩猩"
+  },
+  "weird": {
+    "中释": "怪异的, 超自然的, 不可思议的",
+    "英释": "very strange and unusual, and difficult to understand or explain"
+  },
+  "pinch": {
+    "中释": "捏, 撮 v夹痛,节省",
+    "英释": "when you press someone’s skin between your finger and thumb"
+  },
+  "needy": {
+    "中释": "贫困的, 缺乏生活必需品的",
+    "英释": "having very little food or money"
+  },
+  "spiky": {
+    "中释": "大钉似的, 尖刻的",
+    "英释": "Something that is spiky has one or more sharp points"
+  },
+  "daunt": {
+    "中释": "沮丧"
+  },
+  "theft": {
+    "中释": "偷, 行窃",
+    "英释": "an act of stealing something"
+  },
+  "tread": {
+    "中释": "踏, 步态 v踏,  跳",
+    "英释": "the part of a stair that you put your foot on"
+  },
+  "mania": {
+    "中释": "[医]颠狂, 狂躁, 癖好, 狂热",
+    "英释": "a strong desire for something or interest in something, especially one that affects a lot of people at the same time"
+  },
+  "stash": {
+    "中释": "存放 n隐藏处",
+    "英释": "to store something secretly or safely somewhere"
+  },
+  "affix": {
+    "中释": "使附于, 粘贴 n[语]词缀"
+  },
+  "trove": {
+    "中释": "被发现的东西, 收藏的东西"
+  },
+  "vault": {
+    "中释": "拱顶 v做成弧形",
+    "英释": "a roof or ceiling that consists of several arches that are joined together, especially in a church"
+  },
+  "forte": {
+    "中释": "长处",
+    "英释": "to be something that you do well or are skilled at"
+  },
+  "suite": {
+    "中释": "(一批)随员, (一套)家具, 组",
+    "英释": "a set of rooms, especially expensive ones in a hotel"
+  },
+  "twine": {
+    "中释": "合股线 v织, (使)缠绕",
+    "英释": "strong string made by twisting together two or more threads or strings"
+  },
+  "video": {
+    "中释": "录象, 视频 a视频的",
+    "英释": "a digital recording of an event, for example one made using a mobile phone"
+  },
+  "haven": {
+    "中释": "港口, 避难所",
+    "英释": "a place where people or animals can live peacefully or go to in order to be safe"
+  },
+  "pinon": {
+    "中释": "矮松, 矮松果"
+  },
+  "wring": {
+    "中释": "绞, 扭, 折磨 n绞, 扭动",
+    "英释": "to tightly twist a wet cloth or wet clothes in order to remove water"
+  },
+  "briny": {
+    "中释": "盐水的, 咸的, 海水的",
+    "英释": "briny water is water that contains a lot of salt"
+  },
+  "buggy": {
+    "中释": "多虫的 n童车",
+    "英释": "infested with bugs "
+  },
+  "balmy": {
+    "中释": "芳香的, 温和的",
+    "英释": "balmy air, weather etc is warm and pleasant"
+  },
+  "compo": {
+    "中释": "组合物,混合涂料"
+  },
+  "comer": {
+    "中释": "来者, 新来者",
+    "英释": "anyone who wants to take part in an activity, especially a sporting competition"
+  },
+  "scowl": {
+    "中释": "愁容, 皱眉 v皱眉"
+  },
+  "crimp": {
+    "中释": "起皱, 卷曲, 抑制"
+  },
+  "deter": {
+    "中释": "阻止",
+    "英释": "to stop someone from doing something, by making them realize it will be difficult or have bad results"
+  },
+  "gloss": {
+    "中释": "光泽，注解",
+    "英释": "a bright shine on a surface"
+  },
+  "guess": {
+    "中释": "猜测, 推测",
+    "英释": "to try to answer a question or form an opinion when you are not sure whether you will be correct"
+  },
+  "frill": {
+    "中释": "皱边",
+    "英释": "a decoration that consists of narrow piece of cloth that has many small folds in it"
+  },
+  "cigar": {
+    "中释": "雪茄",
+    "英释": "a thick tube-shaped thing that people smoke, and which is made from tobacco leaves that have been rolled up"
+  },
+  "haste": {
+    "中释": "匆忙, 急忙",
+    "英释": "great speed in doing something, especially because you do not have enough time"
+  },
+  "aloud": {
+    "中释": "大声地",
+    "英释": "if you read, laugh, say something etc aloud, you read etc so that people can hear you"
+  },
+  "beard": {
+    "中释": "胡须",
+    "英释": "hair that grows around a man’s chin and cheeks"
+  },
+  "grape": {
+    "中释": "葡萄, 葡萄树",
+    "英释": "one of a number of small round green or purple fruits that grow together on a  vine . Grapes are often used for making wine"
+  },
+  "perch": {
+    "中释": "栖息处 v暂栖，停留",
+    "英释": "a branch or stick where a bird sits"
+  },
+  "awake": {
+    "中释": "醒,唤醒 a警觉的, 醒的",
+    "英释": "to wake up, or to make someone wake up"
+  },
+  "snipe": {
+    "中释": "[鸟]鹬"
+  },
+  "biter": {
+    "中释": "咬人的动物, 骗子"
+  },
+  "smite": {
+    "中释": "重击",
+    "英释": "to hit something with a lot of force"
+  },
+  "lotus": {
+    "中释": "贪图安乐的"
+  },
+  "grope": {
+    "中释": "/ n摸索",
+    "英释": "to try to find something that you cannot see by feeling with your hands"
+  },
+  "decor": {
+    "中释": "舞台装饰",
+    "英释": "the way that the inside of a building is decorated"
+  },
+  "wrist": {
+    "中释": "手腕, 腕关节",
+    "英释": "the part of your body where your hand joins your arm"
+  },
+  "mason": {
+    "中释": "用砖瓦砌成"
+  },
+  "bugle": {
+    "中释": "吹号集合",
+    "英释": "to play or sound (on) a bugle "
+  },
+  "ankle": {
+    "中释": "[解]踝",
+    "英释": "the joint between your foot and your leg"
+  },
+  "royal": {
+    "中释": "皇家的, 高贵的",
+    "英释": "relating to or belonging to a king or queen"
+  },
+  "hydra": {
+    "中释": "[希神]九头怪蛇, 难以根除之祸害, [动]水螅",
+    "英释": "a snake in ancient Greek stories with many heads that grow again when they are cut off"
+  },
+  "utter": {
+    "中释": "发出, 发射",
+    "英释": "to make a sound with your voice, especially with difficulty"
+  },
+  "dread": {
+    "中释": "恐怖的"
+  },
+  "kiosk": {
+    "中释": "亭子"
+  },
+  "annex": {
+    "中释": "并吞, 附加",
+    "英释": "to take control of a country or area next to your own, especially by using force"
+  },
+  "spank": {
+    "中释": "拍击"
+  },
+  "peart": {
+    "中释": "有精神的, 快活的",
+    "英释": "lively; spirited; brisk "
+  },
+  "rarer": {
+    "中释": "稀罕的,  珍贵的"
+  },
+  "knead": {
+    "中释": "揉(面等)成团, 按摩",
+    "英释": "to press a mixture of flour and water many times with your hands"
+  },
+  "boron": {
+    "中释": "[化]硼",
+    "英释": "a very hard almost colourless crystalline metalloid element that in impure form exists as a brown amorphous powder. It occurs principally in borax and is used in hardening steel. The naturally occurring isotope boron-10 is used in nuclear control rods and neutron detection instruments. Symbol: B; atomic no: 5; atomic wt: 10.81; valency: 3; relative density: 2.34 (crystalline), 2.37 (amorphous); melting pt: 2092°C; boiling pt: 4002°C "
+  },
+  "arena": {
+    "中释": "竞技场, 舞台",
+    "英释": "a building with a large flat central area surrounded by seats, where sports or entertainments take place"
+  },
+  "waist": {
+    "中释": "腰部, 衣服的上身部分",
+    "英释": "the narrow part in the middle of the human body"
+  },
+  "thigh": {
+    "中释": "大腿, 股",
+    "英释": "the top part of your leg, between your knee and your  hip "
+  },
+  "bleak": {
+    "中释": "寒冷的,荒凉的, 黯淡的",
+    "英释": "cold and without any pleasant or comfortable features"
+  },
+  "serum": {
+    "中释": "浆液, 血清",
+    "英释": "a liquid containing substances that fight infection or poison, that is put into a sick person’s blood"
+  },
+  "silly": {
+    "中释": "愚蠢的, 可笑的",
+    "英释": "not sensible, or showing bad judgment"
+  },
+  "Cuban": {
+    "中释": "古巴(人)的",
+    "英释": "Cuban means belonging or relating to Cuba, or to its people or culture"
+  },
+  "dough": {
+    "中释": "生面团",
+    "英释": "a mixture of flour and water ready to be baked into bread,  pastry  etc"
+  },
+  "flair": {
+    "中释": "才能, 本领",
+    "英释": "a natural ability to do something very well"
+  },
+  "bless": {
+    "中释": "祝福, 保佑",
+    "英释": "used to show that you are fond of someone, amused by them, or pleased by something they have done"
+  },
+  "pivot": {
+    "中释": "在枢轴上转动",
+    "英释": "to turn or balance on a central point, or to make something do this"
+  }
+}
