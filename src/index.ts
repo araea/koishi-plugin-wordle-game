@@ -245,7 +245,13 @@ export function apply(ctx: Context, config: Config) {
         if (!isInGame) {
           return await sendMessage(session, `【@${username}】\n不好意思你来晚啦~\n游戏已经开始了呢！`)
         } else {
-          // 这里返回提示和游戏进程图 db*
+          // 这里返回提示和游戏进程图
+          // 生成 html 字符串
+          const emptyGridHtml = generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
+          const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+          // 图
+          const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+          return await sendMessage(session, `【@${username}】\n你已经在游戏里了哦~且游戏正在进行中，加油！\n${h.image(imageBuffer,`image/${config.imageType}`)}`)
         }
       }
       // 判断输入
@@ -497,6 +503,7 @@ export function apply(ctx: Context, config: Config) {
       const letterTilesHtml = '<div class="Row-module_row__pwpBq">' + generateLetterTilesHtml(gameInfo.wordGuess, inputWord) + '</div>';
       const emptyGridHtml = generateEmptyGridHtml(gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
       const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+      // 图
       const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
       // 判断负
       let isLose = false
