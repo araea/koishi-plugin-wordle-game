@@ -47,14 +47,22 @@ npm install koishi-plugin-wordle-game
 
 ### 游戏行为设置
 
+根据提供的配置项，我建议将上述两个变量放在以下位置：
+
+### 游戏行为设置
+
 - `allowNonPlayersToGuess: boolean`
-  - 是否允许未加入游戏的玩家进行猜单词的操作。默认值为 `true`.
+  - 是否允许未加入游戏的玩家进行猜单词的操作，开启后可以无需加入直接开始。默认值为 `true`.
 - `enableWordGuessMiddleware: boolean`
   - 是否开启猜单词指令无前缀的中间件。默认值为 `true`.
 - `shouldPromptWordLengthInput: boolean`
   - 是否在开始游戏引导中提示输入猜单词的长度，不开启则为默认长度。默认值为 `true`.
 - `shouldPromptForWordLengthOnNonClassicStart: boolean`
   - 是否在开始非经典模式时提示输入猜单词的长度，不开启则为默认长度。默认值为 `false`.
+- `enableWordGuessTimeLimit: boolean`
+  - 是否开启猜单词游戏作答时间限制功能。默认值为 `false`.
+  - `wordGuessTimeLimitInSeconds: number`
+    - 猜单词游戏作答时间，单位是秒。默认值为 `120`.
 - `imageType: "png" | "jpeg" | "webp"`
   - 发送的图片类型。默认值为 `"png"`.
 - `isTextToImageConversionEnabled: boolean`

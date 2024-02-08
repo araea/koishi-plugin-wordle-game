@@ -1,3 +1,5 @@
+// noinspection CssUnresolvedCustomProperty
+
 import {Context, h, Schema} from 'koishi'
 import {} from 'koishi-plugin-puppeteer'
 import {} from 'koishi-plugin-monetary'
@@ -44,7 +46,7 @@ export const usage = `## 🎣 使用
 - \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL.胜场/输场 [number:number]\` -
   查看不同模式的玩家排行榜，可选参数为排行榜的人数。`
 
-// pz*
+// pz* pzx*
 export interface Config {
   defaultMaxLeaderboardEntries: number
   defaultWordLengthForGuessing: number
@@ -55,6 +57,10 @@ export interface Config {
   enableWordGuessMiddleware: boolean
   shouldPromptWordLengthInput: boolean
   shouldPromptForWordLengthOnNonClassicStart: boolean
+
+  enableWordGuessTimeLimit: boolean
+  wordGuessTimeLimitInSeconds: number
+
   imageType: "png" | "jpeg" | "webp"
   isTextToImageConversionEnabled: boolean
 }
@@ -69,15 +75,29 @@ export const Config: Schema<Config> = Schema.intersect([
   }).description('游戏设置'),
 
 
-  Schema.object({
-    allowNonPlayersToGuess: Schema.boolean().default(true).description(`是否允许未加入游戏的玩家进行猜单词的操作。`),
-    enableWordGuessMiddleware: Schema.boolean().default(true).description(`是否开启猜单词指令无前缀的中间件。`),
-    shouldPromptWordLengthInput: Schema.boolean().default(true).description(`是否在开始游戏引导中提示输入猜单词的长度，不开启则为默认长度。`),
-    shouldPromptForWordLengthOnNonClassicStart: Schema.boolean().default(false).description(`是否在开始非经典模式时提示输入猜单词的长度，不开启则为默认长度。`),
-    imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`发送的图片类型。`),
-    isTextToImageConversionEnabled: Schema.boolean().default(false).description(`是否开启将文本转为图片的功能（可选），如需启用，需要启用 \`markdownToImage\` 服务。`),
-  }).description('游戏行为设置'),
-]);
+  Schema.intersect([
+    Schema.object({
+      allowNonPlayersToGuess: Schema.boolean().default(true).description(`是否允许未加入游戏的玩家进行猜单词的操作，开启后可以无需加入直接开始。`),
+      enableWordGuessMiddleware: Schema.boolean().default(true).description(`是否开启猜单词指令无前缀的中间件。`),
+      shouldPromptWordLengthInput: Schema.boolean().default(true).description(`是否在开始游戏引导中提示输入猜单词的长度，不开启则为默认长度。`),
+      shouldPromptForWordLengthOnNonClassicStart: Schema.boolean().default(false).description(`是否在开始非经典模式时提示输入猜单词的长度，不开启则为默认长度。`),
+    }).description('游戏行为设置'),
+    Schema.object({
+      enableWordGuessTimeLimit: Schema.boolean().default(false).description(`是否开启猜单词游戏作答时间限制功能。`),
+    }),
+    Schema.union([
+      Schema.object({
+        enableWordGuessTimeLimit: Schema.const(true).required(),
+        wordGuessTimeLimitInSeconds: Schema.number().min(0).default(120).description(` 猜单词游戏作答时间，单位是秒。`),
+      }),
+      Schema.object({}),
+    ]),
+    Schema.object({
+      imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`发送的图片类型。`),
+      isTextToImageConversionEnabled: Schema.boolean().default(false).description(`是否开启将文本转为图片的功能（可选），如需启用，需要启用 \`markdownToImage\` 服务。`),
+    }),
+  ])
+]) as any;
 
 declare module 'koishi' {
   interface Tables {
@@ -105,6 +125,7 @@ export interface GameRecord {
   wordAnswerChineseDefinition: string
   guessWordLength: number
   wordGuess: string
+  timestamp: number
 }
 
 export interface GamingPlayer {
@@ -122,6 +143,7 @@ export interface PlayerRecord {
   win: number
   lose: number
   moneyChange: number
+  wordGuessCount: number
   stats: PlayerStats;
 }
 
@@ -178,6 +200,7 @@ export function apply(ctx: Context, config: Config) {
     wordGuessHtmlCache: 'text',
     guessWordLength: 'unsigned',
     gameMode: 'string',
+    timestamp: 'integer',
   }, {
     primary: 'id',
     autoInc: true,
@@ -199,6 +222,7 @@ export function apply(ctx: Context, config: Config) {
     lose: 'unsigned',
     win: 'unsigned',
     moneyChange: 'double',
+    wordGuessCount: 'unsigned',
     stats: {type: 'json', initial: initialStats}
   }, {
     primary: 'id',
@@ -245,13 +269,13 @@ export function apply(ctx: Context, config: Config) {
         if (!isInGame) {
           return await sendMessage(session, `【@${username}】\n不好意思你来晚啦~\n游戏已经开始了呢！`)
         } else {
-          // 这里返回提示和游戏进程图
           // 生成 html 字符串
           const emptyGridHtml = generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
           const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
           // 图
           const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
-          return await sendMessage(session, `【@${username}】\n你已经在游戏里了哦~且游戏正在进行中，加油！\n${h.image(imageBuffer,`image/${config.imageType}`)}`)
+          // 返回提示和游戏进程图
+          return await sendMessage(session, `【@${username}】\n你已经在游戏里了哦~\n且游戏正在进行中，加油！\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
         }
       }
       // 判断输入
@@ -347,9 +371,8 @@ export function apply(ctx: Context, config: Config) {
         return await sendMessage(session, `【@${username}】\n游戏还没开始哦~怎么结束呐？`);
       }
       // 结束
-      await ctx.database.remove('wordle_gaming_player_records', {channelId})
-      await ctx.database.remove('wordle_game_records', {channelId})
-      return await sendMessage(session, `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n答案是：【${gameInfo.wordGuess}】${gameInfo.wordAnswerChineseDefinition !== '' ? `\n单词释义如下：\n${gameInfo.wordAnswerChineseDefinition}` : ''}`);
+      await endGame(channelId)
+      return await sendMessage(session, `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${generateGameEndMessage(gameInfo)}`);
       // .action
     })
   // wordleGame.开始 s* ks*
@@ -385,7 +408,7 @@ export function apply(ctx: Context, config: Config) {
   // wordleGame.开始.经典 jd*
   ctx.command('wordleGame.开始.经典', '开始经典猜单词游戏')
     .action(async ({session}) => {
-      const {channelId, userId, username, platform} = session
+      const {channelId, userId, username, platform, timestamp} = session
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username)
       // 游戏状态
@@ -432,12 +455,13 @@ export function apply(ctx: Context, config: Config) {
         remainingGuessesCount: 6,
         guessWordLength: 5,
         gameMode: '经典',
+        timestamp: timestamp,
       })
       // 游戏图
       const emptyGridHtml = generateEmptyGridHtml(6, 5);
       const styledHtml = generateStyledHtml(6);
       const imageBuffer = await generateImage(styledHtml, emptyGridHtml);
-      return await sendMessage(session, `游戏开始！\n当前游戏模式为：【经典】\n单词长度为：【5】\n猜单词机会为：【6】\n待猜单词数量为：【14855】\n${h.image(imageBuffer, `image/${config.imageType}`)}`);
+      return await sendMessage(session, `游戏开始！\n当前游戏模式为：【经典】\n单词长度为：【5】\n猜单词机会为：【6】\n待猜单词数量为：【14855】${config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : ''}\n${h.image(imageBuffer, `image/${config.imageType}`)}`);
 
       // .action
     })
@@ -457,13 +481,29 @@ export function apply(ctx: Context, config: Config) {
   // wordleGame.猜 c* cdc*
   ctx.command('wordleGame.猜 [inputWord:text]', '猜单词')
     .action(async ({session}, inputWord) => {
-      const {channelId, userId, username, platform} = session
+      const {channelId, userId, username, platform, timestamp} = session
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username)
       // 游戏状态
       const gameInfo = await getGameInfo(channelId)
       if (!gameInfo.isStarted) {
         return await sendMessage(session, `【@${username}】\n游戏还没开始呢！`);
+      }
+      // 作答时间限制
+      if (config.enableWordGuessTimeLimit) {
+        const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000; // 将时间戳转换为秒
+
+        if (timeDifferenceInSeconds > config.wordGuessTimeLimitInSeconds) {
+          // 生成 html 字符串
+          const emptyGridHtml = generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
+          const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+          // 图
+          const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+          // 玩家记录输
+          await updatePlayerRecordsLose(channelId, gameInfo)
+          await endGame(channelId)
+          return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
+        }
       }
       // 玩家不在游戏中
       const isInGame = await isPlayerInGame(channelId, userId);
@@ -524,17 +564,18 @@ export function apply(ctx: Context, config: Config) {
         }
         // 玩家记录赢
         await updatePlayerRecordsWin(channelId, gameInfo)
+        // 增加该玩家猜出单词的次数
+        const [playerRecord] = await ctx.database.get('wordle_player_records', {userId})
+        await ctx.database.set('wordle_player_records', {userId}, {wordGuessCount: playerRecord.wordGuessCount + 1})
 
-        await ctx.database.remove('wordle_game_records', {channelId})
-        await ctx.database.remove('wordle_gaming_player_records', {channelId})
-        return await sendMessage(session, `太棒了，你猜出来了！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n答案是：【${gameInfo.wordGuess}】${gameInfo.wordAnswerChineseDefinition !== '' ? `\n单词释义如下：\n${gameInfo.wordAnswerChineseDefinition}` : ''}\n${finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`}`);
+        await endGame(channelId)
+        return await sendMessage(session, `太棒了，你猜出来了！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${generateGameEndMessage(gameInfo)}\n${finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`}`);
       }
       // 处理输
       if (isLose) {
         // 玩家记录输
         await updatePlayerRecordsLose(channelId, gameInfo)
-        await ctx.database.remove('wordle_game_records', {channelId})
-        await ctx.database.remove('wordle_gaming_player_records', {channelId})
+        await endGame(channelId)
         return await sendMessage(session, `很遗憾，你们没有猜出来！\n但没关系~下次加油哇！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n答案是：【${gameInfo.wordGuess}】${gameInfo.wordAnswerChineseDefinition !== '' ? `\n单词释义如下：\n${gameInfo.wordAnswerChineseDefinition}` : ''}`);
       }
       // 继续
@@ -560,9 +601,10 @@ export function apply(ctx: Context, config: Config) {
         return sendMessage(session, `查询对象：${username}
 无任何游戏记录。`)
       }
-      const {win, lose, moneyChange, stats} = targetUserRecord[0]
+      const {win, lose, moneyChange, wordGuessCount, stats} = targetUserRecord[0]
       const queryInfo = `
 查询对象：${username}
+猜出单词次数：${wordGuessCount} 次
 总胜场：${win} 次
 总输场：${lose} 次
 损益为：${moneyChange} 点
@@ -585,7 +627,7 @@ ALL - 胜: ${stats.ALL?.win}, 负: ${stats.ALL?.lose}
     })
 
   const rankType = [
-    "总", "损益", "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
+    "总", "损益", "猜出单词次数", "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
     "SAT", "TOEFL", "考研", "专八", "专四", "ALL"
   ];
 
@@ -657,6 +699,14 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       }
       return await getLeaderboard(session, 'moneyChange', 'moneyChange', '玩家损益排行榜', number);
     });
+  // ccdccs*
+  ctx.command('wordleGame.排行榜.猜出单词次数 [number:number]', '查看玩家猜出单词次数排行榜')
+    .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+      if (typeof number !== 'number' || isNaN(number) || number < 0) {
+        return '请输入大于等于 0 的数字作为排行榜的参数。';
+      }
+      return await getLeaderboard(session, 'wordGuessCount', 'wordGuessCount', '玩家猜出单词次数排行榜', number);
+    });
   // zsc*
   ctx.command('wordleGame.排行榜.总.胜场 [number:number]', '查看玩家总胜场排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
@@ -717,6 +767,13 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   });
 
   // ch*
+  async function endGame(channelId: string) {
+    await Promise.all([
+      ctx.database.remove('wordle_gaming_player_records', {channelId}),
+      ctx.database.remove('wordle_game_records', {channelId})
+    ]);
+  }
+
   async function getLeaderboard(session: any, type: string, sortField: string, title: string, number: number) {
     const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {})
     const sortedPlayers = getPlayers.sort((a, b) => b[sortField] - a[sortField])
@@ -802,14 +859,15 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     }
   }
 
-  async function setWordleGameRecord(channelId: string, guessWordLength: number, result: any, gameMode: string) {
+  async function setWordleGameRecord(channelId: string, guessWordLength: number, result: any, gameMode: string, timestamp: number) {
     await ctx.database.set('wordle_game_records', {channelId}, {
       isStarted: true,
       wordGuess: result.word,
       wordAnswerChineseDefinition: result.translation,
       remainingGuessesCount: guessWordLength + 1,
       guessWordLength: guessWordLength,
-      gameMode: gameMode
+      gameMode: gameMode,
+      timestamp: timestamp,
     });
   }
 
@@ -905,7 +963,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
   // sh*
   async function startWordleGame(command: string, guessWordLength: number, session: any) {
-    const {channelId, userId, username} = session;
+    const {channelId, userId, username, timestamp} = session;
 
     // 更新玩家记录表中的用户名
     await updateNameInPlayerRecord(userId, username);
@@ -939,19 +997,23 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
     // 开始游戏
     const result = getRandomWordTranslation(command, guessWordLength);
-    await setWordleGameRecord(channelId, guessWordLength, result, command);
+    await setWordleGameRecord(channelId, guessWordLength, result, command, timestamp);
 
     // 生成并发送游戏图
     const emptyGridHtml = generateEmptyGridHtml(guessWordLength + 1, guessWordLength);
     const styledHtml = generateStyledHtml(guessWordLength + 1);
     const imageBuffer = await generateImage(styledHtml, emptyGridHtml);
-    return await sendMessage(session, `游戏开始！\n当前游戏模式为：【${command}】\n单词长度为：【${guessWordLength}】\n猜单词机会为：【${guessWordLength + 1}】\n待猜单词数量为：【${result.wordCount}】\n${h.image(imageBuffer, `image/${config.imageType}`)}`);
+    return await sendMessage(session, `游戏开始！\n当前游戏模式为：【${command}】\n单词长度为：【${guessWordLength}】\n猜单词机会为：【${guessWordLength + 1}】\n待猜单词数量为：【${result.wordCount}】${config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : ''}\n${h.image(imageBuffer, `image/${config.imageType}`)}`);
   }
 
   // apply
 }
 
 // hs*
+function generateGameEndMessage(gameInfo: GameRecord): string {
+  return `答案是：【${gameInfo.wordGuess}】${gameInfo.wordAnswerChineseDefinition !== '' ? `\n单词释义如下：\n${gameInfo.wordAnswerChineseDefinition}` : ''}`;
+}
+
 function generateLetterTilesHtml(wordGuess: string, inputWord: string): string {
   const wordHtml: string[] = new Array(inputWord.length);
   const letterCountMap: { [key: string]: number } = {};
