@@ -521,7 +521,7 @@ export function apply(ctx: Context, config: Config) {
         return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`);
       }
       if (inputWord.length !== gameInfo.guessWordLength) {
-        return await sendMessage(session, `【@${username}】\n输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】}`);
+        return await sendMessage(session, `【@${username}】\n输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】`);
       }
       // 是否存在该单词
       const fileData = getJsonFilePathAndWordCountByLength('ALL', gameInfo.guessWordLength);
