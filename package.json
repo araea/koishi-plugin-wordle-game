@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-wordle-game",
   "description": "欢迎来到 Wordle 猜单词小游戏，包含经典模式、多种词库（CET4、CET6、考研等）模式、多种游戏设置和排行榜系统。",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [

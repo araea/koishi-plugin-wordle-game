@@ -82,12 +82,15 @@ npm install koishi-plugin-wordle-game
 
 - `wordleGame.开始 [guessWordLength:number]` - 开始游戏引导，可选参数为猜单词的长度。
 - `wordleGame.开始.经典` - 开始经典猜单词游戏，需要投入货币，赢了有奖励。
+  - `--hard` - 指令的选项，困难模式，后续猜单词必须使用前面正确或出现的字母。
 - `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL [guessWordLength:number]` -
   开始猜不同考试/类别的单词游戏，可选参数为猜单词的长度。
+  - `--hard` - 指令的选项，困难模式，后续猜单词必须使用前面正确或出现的字母。
 
 ### 游戏操作
 
 - `wordleGame.猜 [inputWord:text]` - 猜单词，参数为输入的单词。
+- `wordleGame.查询进度` - 查询当前游戏进度。
 
 ### 数据查询
 
