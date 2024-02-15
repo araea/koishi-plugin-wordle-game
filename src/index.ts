@@ -572,7 +572,7 @@ export function apply(ctx: Context, config: Config) {
         const usernameMention = `【@${username}】`;
         const inputLengthMessage = `输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】`;
         const presentLettersWithoutAsterisk = uniqueSortedLowercaseLetters(presentLetters);
-        const progressMessage = `当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`;
+        const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`;
 
         return await sendMessage(session, `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`);
       }
@@ -643,14 +643,14 @@ export function apply(ctx: Context, config: Config) {
         await ctx.database.set('wordle_player_records', {userId}, {wordGuessCount: playerRecord.wordGuessCount + 1})
 
         await endGame(channelId)
-        return await sendMessage(session, `【@${username}】\n太棒了，你猜出来了！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${generateGameEndMessage(gameInfo)}\n${finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`}`);
+        return await sendMessage(session, `【@${username}】\n太棒了，你猜出来了！\n${calculateGameDuration(gameInfo.timestamp, timestamp)}\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${generateGameEndMessage(gameInfo)}\n${finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`}`);
       }
       // 处理输
       if (isLose) {
         // 玩家记录输
         await updatePlayerRecordsLose(channelId, gameInfo)
         await endGame(channelId)
-        return await sendMessage(session, `很遗憾，你们没有猜出来！\n但没关系~下次加油哇！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n答案是：【${gameInfo.wordGuess}】${gameInfo.wordAnswerChineseDefinition !== '' ? `\n单词释义如下：\n${gameInfo.wordAnswerChineseDefinition}` : ''}`);
+        return await sendMessage(session, `很遗憾，你们没有猜出来！\n但没关系~下次加油哇！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${calculateGameDuration(gameInfo.timestamp, timestamp)}\n答案是：【${gameInfo.wordGuess}】${gameInfo.wordAnswerChineseDefinition !== '' ? `\n单词释义如下：\n${gameInfo.wordAnswerChineseDefinition}` : ''}`);
       }
       // 继续
       await setGuessRunningStatus(channelId, false)
@@ -745,7 +745,7 @@ ALL - 胜: ${stats.ALL?.win}, 负: ${stats.ALL?.lose}
       const {correctLetters, presentLetters, isHardMode, gameMode, guessWordLength, absentLetters} = gameInfo;
       const usernameMention = `【@${username}】`;
       const inputLengthMessage = `待猜单词的长度为：【${guessWordLength}】`;
-      const progressMessage = `当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`;
+      const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`;
       const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000;
 
       let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${isHardMode ? '（困难）' : ''}】`;
@@ -1221,6 +1221,19 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 }
 
 // hs*
+function calculateGameDuration(startTime: number, currentTime: number): string {
+  const elapsedMilliseconds = currentTime - startTime;
+  const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
+  const minutes = Math.floor(elapsedSeconds / 60);
+  const seconds = elapsedSeconds % 60;
+
+  if (minutes > 0) {
+    return `用时：【${minutes} 分 ${seconds} 秒】`;
+  } else {
+    return `用时：【${seconds} 秒】`;
+  }
+}
+
 function uniqueSortedLowercaseLetters(input: string): string {
   const uniqueLetters = Array.from(new Set(input.toLowerCase().match(/[a-z]/g)));
   return uniqueLetters.sort().join('');
