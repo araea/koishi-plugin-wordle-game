@@ -47,7 +47,7 @@ export const usage = `## 🎣 使用
 - \`wordleGame.查询单词 [targetWord:text]\` - 在 ALL 词库中查询单词信息（翻译）。
 - \`wordleGame.查询玩家记录 [targetUser:text]\` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - \`wordleGame.排行榜 [number:number]\` - 查看排行榜，可选参数为排行榜的人数。
-- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL.胜场/输场 [number:number]\` -
+- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL.胜场/输场/最快用时 [number:number]\` -
   查看不同模式的玩家排行榜，可选参数为排行榜的人数。`
 
 // pz* pzx*
@@ -154,6 +154,7 @@ export interface PlayerRecord {
   moneyChange: number
   wordGuessCount: number
   stats: PlayerStats;
+  fastestGuessTime: Record<string, number>;
 }
 
 interface WordData {
@@ -180,7 +181,6 @@ interface PlayerStats {
 interface WinLoseStats {
   win: number;
   lose: number;
-  // fastestWordGuessTime: number;
 }
 
 const initialStats: PlayerStats = {
@@ -196,6 +196,21 @@ const initialStats: PlayerStats = {
   专八: {win: 0, lose: 0},
   专四: {win: 0, lose: 0},
   ALL: {win: 0, lose: 0},
+};
+
+const initialFastestGuessTime: Record<string, number> = {
+  经典: 0,
+  CET4: 0,
+  CET6: 0,
+  GMAT: 0,
+  GRE: 0,
+  IELTS: 0,
+  SAT: 0,
+  TOEFL: 0,
+  考研: 0,
+  专八: 0,
+  专四: 0,
+  ALL: 0,
 };
 
 export function apply(ctx: Context, config: Config) {
@@ -238,7 +253,8 @@ export function apply(ctx: Context, config: Config) {
     win: 'unsigned',
     moneyChange: 'double',
     wordGuessCount: 'unsigned',
-    stats: {type: 'json', initial: initialStats}
+    stats: {type: 'json', initial: initialStats},
+    fastestGuessTime: {type: 'json', initial: initialFastestGuessTime},
   }, {
     primary: 'id',
     autoInc: true,
@@ -385,6 +401,8 @@ export function apply(ctx: Context, config: Config) {
       if (!gameInfo.isStarted) {
         return await sendMessage(session, `【@${username}】\n游戏还没开始哦~怎么结束呐？`);
       }
+      // 玩家记录输
+      await updatePlayerRecordsLose(channelId, gameInfo)
       // 结束
       await endGame(channelId)
       return await sendMessage(session, `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${generateGameEndMessage(gameInfo)}`);
@@ -533,9 +551,8 @@ export function apply(ctx: Context, config: Config) {
         return await sendMessage(session, `【@${username}】\n游戏还没开始呢！`);
       }
       // 作答时间限制
+      const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000; // 将时间戳转换为秒
       if (config.enableWordGuessTimeLimit) {
-        const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000; // 将时间戳转换为秒
-
         if (timeDifferenceInSeconds > config.wordGuessTimeLimitInSeconds) {
           // 生成 html 字符串
           const emptyGridHtml = generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
@@ -640,7 +657,14 @@ export function apply(ctx: Context, config: Config) {
         await updatePlayerRecordsWin(channelId, gameInfo)
         // 增加该玩家猜出单词的次数
         const [playerRecord] = await ctx.database.get('wordle_player_records', {userId})
-        await ctx.database.set('wordle_player_records', {userId}, {wordGuessCount: playerRecord.wordGuessCount + 1})
+        // 更新最快用时
+        if (timeDifferenceInSeconds < playerRecord.fastestGuessTime[gameInfo.gameMode] || playerRecord.fastestGuessTime[gameInfo.gameMode] === 0) {
+          playerRecord.fastestGuessTime[gameInfo.gameMode] = Math.floor(timeDifferenceInSeconds);
+        }
+        await ctx.database.set('wordle_player_records', {userId}, {
+          wordGuessCount: playerRecord.wordGuessCount + 1,
+          fastestGuessTime: playerRecord.fastestGuessTime
+        })
 
         await endGame(channelId)
         return await sendMessage(session, `【@${username}】\n太棒了，你猜出来了！\n${calculateGameDuration(gameInfo.timestamp, timestamp)}\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${generateGameEndMessage(gameInfo)}\n${finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`}`);
@@ -657,49 +681,46 @@ export function apply(ctx: Context, config: Config) {
       return await sendMessage(session, `${h.image(imageBuffer, `image/${config.imageType}`)}`)
       // .action
     })
-  // wordleGame.查询玩家记录 cx*
+  // wordleGame.查询玩家记录 cx* cxwjjl*
   ctx.command('wordleGame.查询玩家记录 [targetUser:text]', '查询玩家记录')
     .action(async ({session}, targetUser) => {
-      let {userId, username} = session
+      let {userId, username} = session;
+
       if (targetUser) {
         const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
         const match = targetUser.match(userIdRegex);
         userId = match?.[1] ?? userId;
         username = match?.[2] ?? username;
       }
-      const targetUserRecord = await ctx.database.get('wordle_player_records', {userId})
+
+      const targetUserRecord = await ctx.database.get('wordle_player_records', {userId});
+
       if (targetUserRecord.length === 0) {
-        await ctx.database.create('wordle_player_records', {
-          userId,
-          username,
-        })
-        return sendMessage(session, `查询对象：${username}
-无任何游戏记录。`)
+        await ctx.database.create('wordle_player_records', {userId, username});
+        return sendMessage(session, `查询对象：${username} 无任何游戏记录。`);
       }
-      const {win, lose, moneyChange, wordGuessCount, stats} = targetUserRecord[0]
-      const queryInfo = `
+
+      const {
+        win,
+        lose,
+        moneyChange,
+        wordGuessCount,
+        stats,
+        fastestGuessTime
+      } = targetUserRecord[0];
+
+      const queryInfo = `【@${session.username}】
 查询对象：${username}
 猜出单词次数：${wordGuessCount} 次
 总胜场：${win} 次
 总输场：${lose} 次
 损益为：${moneyChange} 点
-详细统计信息：
-经典 - 胜: ${stats.经典?.win}, 负: ${stats.经典?.lose}
-CET4 - 胜: ${stats.CET4?.win}, 负: ${stats.CET4?.lose}
-CET6 - 胜: ${stats.CET6?.win}, 负: ${stats.CET6?.lose}
-GMAT - 胜: ${stats.GMAT?.win}, 负: ${stats.GMAT?.lose}
-GRE - 胜: ${stats.GRE?.win}, 负: ${stats.GRE?.lose}
-IELTS - 胜: ${stats.IELTS?.win}, 负: ${stats.IELTS?.lose}
-SAT - 胜: ${stats.SAT?.win}, 负: ${stats.SAT?.lose}
-TOEFL - 胜: ${stats.TOEFL?.win}, 负: ${stats.TOEFL?.lose}
-考研 - 胜: ${stats.考研?.win}, 负: ${stats.考研?.lose}
-专八 - 胜: ${stats.专八?.win}, 负: ${stats.专八?.lose}
-专四 - 胜: ${stats.专四?.win}, 负: ${stats.专四?.lose}
-ALL - 胜: ${stats.ALL?.win}, 负: ${stats.ALL?.lose}
-`;
+详细统计信息如下：
+${generateStatsInfo(stats, fastestGuessTime)}
+    `;
 
       return sendMessage(session, queryInfo);
-    })
+    });
   // wordleGame.查询单词 cxdc*
   ctx.command('wordleGame.查询单词 [targetWord:text]', '查询ALL词库中的单词信息')
     .action(async ({session}, targetWord) => {
@@ -803,7 +824,7 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}
           return '请输入大于等于 0 的数字作为排行榜的参数。';
         }
         const rankType3 = [
-          "胜场", "输场"
+          "胜场", "输场", "最快用时"
         ];
         await sendMessage(session, `当前可查看排行榜如下：
 ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
@@ -860,46 +881,52 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
     "SAT", "TOEFL", "考研", "专八", "专四", "ALL"
   ];
-  // 注册胜场排行榜指令
+  // 注册胜场、输场、用时排行榜指令
   rankType4.forEach((type) => {
     ctx.command(`wordleGame.排行榜.${type}.胜场 [number:number]`, `查看${type}胜场排行榜`)
       .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
-        if (typeof number !== 'number' || isNaN(number) || number < 0) {
-          return '请输入大于等于 0 的数字作为排行榜的参数。';
-        }
-        const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {});
-
-        // 将 getPlayers 按照当前类型的胜场次数降序排序
-        getPlayers.sort((a, b) => (b.stats[type]?.win || 0) - (a.stats[type]?.win || 0));
-
-        // 形成一个类似于字符串排行榜的数组
-        const leaderboard: string[] = getPlayers.slice(0, number).map((player, index) => `${index + 1}. ${player.username}：${player.stats[type]?.win} 次`);
-
-        const result = `${type}模式胜场排行榜：\n${leaderboard.join('\n')}`;
-        return await sendMessage(session, result);
+        return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'win', '胜场'));
       });
-  });
-  // 注册输场排行榜指令
-  rankType4.forEach((type) => {
+
     ctx.command(`wordleGame.排行榜.${type}.输场 [number:number]`, `查看${type}输场排行榜`)
       .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
-        if (typeof number !== 'number' || isNaN(number) || number < 0) {
-          return '请输入大于等于 0 的数字作为排行榜的参数。';
-        }
-        const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {});
+        return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'lose', '输场'));
+      });
 
-        // 将 getPlayers 按照当前类型的输场次数降序排序
-        getPlayers.sort((a, b) => (b.stats[type]?.lose || 0) - (a.stats[type]?.lose || 0));
-
-        // 形成一个类似于字符串排行榜的数组
-        const leaderboard: string[] = getPlayers.slice(0, number).map((player, index) => `${index + 1}. ${player.username}：${player.stats[type]?.lose} 次`);
-
-        const result = `${type}模式输场排行榜：\n${leaderboard.join('\n')}`;
-        return await sendMessage(session, result);
+    ctx.command(`wordleGame.排行榜.${type}.最快用时 [number:number]`, `查看${type}最快用时排行榜`)
+      .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+        return await sendMessage(session, await getLeaderboardFastestGuessTime(type, number));
       });
   });
 
+
   // ch*
+  async function getLeaderboardWinOrLose(type, number, statKey, label) {
+    if (typeof number !== 'number' || isNaN(number) || number < 0) {
+      return '请输入大于等于 0 的数字作为排行榜的参数。';
+    }
+    const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {});
+
+    // 降序排序
+    getPlayers.sort((a, b) => (b.stats[type]?.[statKey] || 0) - (a.stats[type]?.[statKey] || 0));
+
+    const leaderboard: string[] = getPlayers.slice(0, number).map((player, index) => `${index + 1}. ${player.username}：${player.stats[type]?.[statKey]} 次`);
+
+    return `${type}模式${label}排行榜：\n${leaderboard.join('\n')}`;
+  }
+
+  async function getLeaderboardFastestGuessTime(type: string, number: number) {
+    const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {});
+    const leaderboard = getPlayers
+      .filter(player => player.fastestGuessTime[type] > 0)
+      .sort((a, b) => a.fastestGuessTime[type] - b.fastestGuessTime[type])
+      .slice(0, number)
+      .map((player, index) => `${index + 1}. ${player.username}：${formatGameDuration2(player.fastestGuessTime[type])}`)
+      .join('\n');
+
+    return `${type}模式最快用时排行榜：\n${leaderboard}`;
+  };
+
   async function generateLetterTilesHtml(wordGuess: string, inputWord: string, channelId: string): Promise<string> {
     const wordHtml: string[] = new Array(inputWord.length);
     const letterCountMap: { [key: string]: number } = {};
@@ -1221,9 +1248,62 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 }
 
 // hs*
+function generateStatsInfo(stats, fastestGuessTime) {
+  const gameTypes = [
+    '经典',
+    'CET4',
+    'CET6',
+    'GMAT',
+    'GRE',
+    'IELTS',
+    'SAT',
+    'TOEFL',
+    '考研',
+    '专八',
+    '专四',
+    'ALL'
+  ];
+
+  let statsInfo = '';
+
+  gameTypes.forEach(type => {
+    const winCount = stats[type]?.win || 0;
+    const loseCount = stats[type]?.lose || 0;
+    const fastestTime = fastestGuessTime[type] || 0;
+
+    statsInfo += `${type} - 胜：${winCount} 次，负：${loseCount} 次`;
+    statsInfo += fastestTime === 0 ? '' : `，最快${formatGameDuration(fastestTime)}`;
+    statsInfo += '\n';
+  });
+
+  return statsInfo;
+}
+
+function formatGameDuration(elapsedSeconds: number): string {
+  const minutes = Math.floor(elapsedSeconds / 60);
+  const seconds = elapsedSeconds % 60;
+
+  if (minutes > 0) {
+    return `用时：${minutes} 分 ${seconds} 秒`;
+  } else {
+    return `用时：${seconds} 秒`;
+  }
+}
+
+function formatGameDuration2(elapsedSeconds: number): string {
+  const minutes = Math.floor(elapsedSeconds / 60);
+  const seconds = elapsedSeconds % 60;
+
+  if (minutes > 0) {
+    return `${minutes} 分 ${seconds} 秒`;
+  } else {
+    return `${seconds} 秒`;
+  }
+}
+
 function removeLetters(wordAnswer: string, absentLetters: string): string {
   const letterSet = new Set(wordAnswer);
-  return absentLetters.split('').filter(letter => !letterSet.has(letter)).join('');;
+  return absentLetters.split('').filter(letter => !letterSet.has(letter)).join('');
 }
 
 function calculateGameDuration(startTime: number, currentTime: number): string {
