@@ -572,7 +572,7 @@ export function apply(ctx: Context, config: Config) {
         const usernameMention = `【@${username}】`;
         const inputLengthMessage = `输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】`;
         const presentLettersWithoutAsterisk = uniqueSortedLowercaseLetters(presentLetters);
-        const progressMessage = `当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n且包含字母：【${presentLettersWithoutAsterisk}】`}`;
+        const progressMessage = `当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`;
 
         return await sendMessage(session, `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`);
       }
@@ -594,7 +594,7 @@ export function apply(ctx: Context, config: Config) {
         }
         if (isInputWordWrong) {
           await setGuessRunningStatus(channelId, false);
-          return await sendMessage(session, `【@${username}】\n当前难度为：【困难】\n【困难】：后续猜单词需要使用之前正确或出现的字母。\n您输入的单词字母不符合要求！\n您的输入为：【${inputWord}】\n单词字母要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含字母：【${presentLetters}】\n不包含字母：【${absentLetters}】`}`);
+          return await sendMessage(session, `【@${username}】\n当前难度为：【困难】\n【困难】：后续猜单词需要使用之前正确或出现的字母。\n您输入的单词字母不符合要求！\n您的输入为：【${inputWord}】\n单词字母要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`);
         }
       }
 
@@ -745,7 +745,7 @@ ALL - 胜: ${stats.ALL?.win}, 负: ${stats.ALL?.lose}
       const {correctLetters, presentLetters, isHardMode, gameMode, guessWordLength, absentLetters} = gameInfo;
       const usernameMention = `【@${username}】`;
       const inputLengthMessage = `待猜单词的长度为：【${guessWordLength}】`;
-      const progressMessage = `当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】\n不包含字母：【${absentLetters}】`}`;
+      const progressMessage = `当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`;
       const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000;
 
       let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${isHardMode ? '（困难）' : ''}】`;
