@@ -698,13 +698,14 @@ ALL - 胜: ${stats.ALL?.win}, 负: ${stats.ALL?.lose}
   ctx.command('wordleGame.查询单词 [targetWord:text]', '查询ALL词库中的单词信息')
     .action(async ({session}, targetWord) => {
       let {userId, username} = session
+      targetWord = targetWord.trim();
       if (!targetWord) {
         // 提示输入
         await sendMessage(session, `【@${username}】\n请输入【待查询的单词】或【取消】：`);
         const userInput = await session.prompt();
         if (!userInput) return await sendMessage(session, `【@${username}】\n输入超时！`);
         if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查询单词操作已取消。`);
-        targetWord = userInput
+        targetWord = userInput.trim();
       }
       // 判断输入
       if (!/^[a-zA-Z]+$/.test(targetWord)) {
