@@ -210,7 +210,7 @@ export function apply(ctx: Context, config: Config) {
     guessWordLength: 'unsigned',
     gameMode: 'string',
     isRunning: 'boolean',
-    timestamp: 'integer',
+    timestamp: 'double',
     correctLetters: 'list',
     presentLetters: 'list',
     isHardMode: 'boolean',
