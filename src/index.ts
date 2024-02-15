@@ -961,7 +961,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     await ctx.database.set('wordle_game_records', {channelId}, {
       correctLetters,
       presentLetters: uniqueSortedLowercaseLetters(presentLetters),
-      absentLetters: uniqueSortedLowercaseLetters(absentLetters),
+      absentLetters: removeLetters(gameInfo.wordGuess, uniqueSortedLowercaseLetters(absentLetters)),
     })
     return wordHtml.join("\n");
   }
@@ -1221,6 +1221,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 }
 
 // hs*
+function removeLetters(wordAnswer: string, absentLetters: string): string {
+  const letterSet = new Set(wordAnswer);
+  return absentLetters.split('').filter(letter => !letterSet.has(letter)).join('');;
+}
+
 function calculateGameDuration(startTime: number, currentTime: number): string {
   const elapsedMilliseconds = currentTime - startTime;
   const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
