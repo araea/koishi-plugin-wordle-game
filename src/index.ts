@@ -393,7 +393,7 @@ export function apply(ctx: Context, config: Config) {
   // wordleGame.结束 s* js*
   ctx.command('wordleGame.结束', '结束游戏')
     .action(async ({session}) => {
-      const {channelId, userId, username} = session
+      const {channelId, userId, username, timestamp} = session
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username)
       // 游戏状态
@@ -405,7 +405,7 @@ export function apply(ctx: Context, config: Config) {
       await updatePlayerRecordsLose(channelId, gameInfo)
       // 结束
       await endGame(channelId)
-      return await sendMessage(session, `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${generateGameEndMessage(gameInfo)}`);
+      return await sendMessage(session, `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${calculateGameDuration(gameInfo.timestamp, timestamp)}\n${generateGameEndMessage(gameInfo)}`);
       // .action
     })
   // wordleGame.开始 s* ks*
