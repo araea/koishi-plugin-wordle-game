@@ -682,7 +682,7 @@ export function apply(ctx: Context, config: Config) {
           wordsList = remainingWordsList;
         }
         let longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
-        while (isChallengeMode && wordsList.includes(targetWord) && longestRemainingWordList.length === 1 && longestRemainingWordList[0] !== targetWord) {
+        while (isChallengeMode && wordsList.includes(targetWord) && longestRemainingWordList && longestRemainingWordList.length === 1 && longestRemainingWordList[0] !== targetWord) {
           longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
         }
 
@@ -1414,7 +1414,7 @@ async function findLongestMatchedWords(wordsList: string[], lowercaseInputWord: 
 
   const maxLength = Math.max(...results.map(result => result.matchedWords.length));
   let longestMatchedWords = results.filter(result => result.matchedWords.length === maxLength).map(result => result.matchedWords);
-  if (isChallengeMode) {
+  if (isChallengeMode && wordsList.includes(targetWord)) {
     longestMatchedWords = longestMatchedWords.filter(words => words.includes(targetWord));
   }
   const randomIndex = Math.floor(Math.random() * longestMatchedWords.length);
