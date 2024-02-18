@@ -682,7 +682,7 @@ export function apply(ctx: Context, config: Config) {
           wordsList = remainingWordsList;
         }
         let longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
-        if(!longestRemainingWordList){
+        if (!longestRemainingWordList) {
           longestRemainingWordList = []
         } else {
           while (isChallengeMode && wordsList.includes(targetWord) && longestRemainingWordList && longestRemainingWordList.length === 1 && longestRemainingWordList[0] !== targetWord) {
@@ -769,9 +769,10 @@ export function apply(ctx: Context, config: Config) {
       const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
       // 图
       const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
+      const remainingGuessesCount = isAbsurd ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1
       // 更新游戏记录
       await ctx.database.set('wordle_game_records', {channelId}, {
-        remainingGuessesCount: gameInfo.remainingGuessesCount - 1,
+        remainingGuessesCount: remainingGuessesCount,
         wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
       })
       // 处理赢
