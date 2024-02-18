@@ -906,7 +906,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`;
       const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000;
 
-      let message = `${usernameMention}\n当前游戏模式为：【经典${isHardMode ? '（困难）' : ''}${isAbsurd ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${targetWord}】` : ''}`;
+      let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${isHardMode ? '（困难）' : ''}${isAbsurd ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${targetWord}】` : ''}`;
       if (config.enableWordGuessTimeLimit) {
         message += `\n剩余作答时间：【${timeDifferenceInSeconds}】秒`;
       }
