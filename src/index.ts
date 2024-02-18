@@ -257,7 +257,7 @@ export function apply(ctx: Context, config: Config) {
     id: 'unsigned',
     channelId: 'string',
     isStarted: 'boolean',
-    remainingGuessesCount: 'unsigned',
+    remainingGuessesCount: 'integer',
     wordAnswerChineseDefinition: 'string',
     wordGuess: 'string',
     wordGuessHtmlCache: 'text',
@@ -682,14 +682,19 @@ export function apply(ctx: Context, config: Config) {
           wordsList = remainingWordsList;
         }
         let longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
-        while (isChallengeMode && wordsList.includes(targetWord) && longestRemainingWordList && longestRemainingWordList.length === 1 && longestRemainingWordList[0] !== targetWord) {
-          longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
+        if(!longestRemainingWordList){
+          longestRemainingWordList = []
+        } else {
+          while (isChallengeMode && wordsList.includes(targetWord) && longestRemainingWordList && longestRemainingWordList.length === 1 && longestRemainingWordList[0] !== targetWord) {
+            longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
+          }
+
+          // 变态挑战模式
+          if (isChallengeMode) {
+            isLose = !longestRemainingWordList.includes(targetWord);
+          }
         }
 
-        // 变态挑战模式
-        if (isChallengeMode) {
-          isLose = !longestRemainingWordList.includes(targetWord);
-        }
         let randomWord = longestRemainingWordList[Math.floor(Math.random() * longestRemainingWordList.length)];
         const foundWord = findWord(randomWord)
         if (isLose && isChallengeMode) {
@@ -1415,7 +1420,10 @@ async function findLongestMatchedWords(wordsList: string[], lowercaseInputWord: 
   const maxLength = Math.max(...results.map(result => result.matchedWords.length));
   let longestMatchedWords = results.filter(result => result.matchedWords.length === maxLength).map(result => result.matchedWords);
   if (isChallengeMode && wordsList.includes(targetWord)) {
-    longestMatchedWords = longestMatchedWords.filter(words => words.includes(targetWord));
+    const filteredWords = longestMatchedWords.filter(words => words.includes(targetWord));
+    if (filteredWords.length > 0) {
+      longestMatchedWords = filteredWords;
+    }
   }
   const randomIndex = Math.floor(Math.random() * longestMatchedWords.length);
   return longestMatchedWords[randomIndex];
