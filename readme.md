@@ -80,12 +80,26 @@ npm install koishi-plugin-wordle-game
 
 ### 游戏模式
 
-- `wordleGame.开始 [guessWordLength:number]` - 开始游戏引导，可选参数为猜单词的长度。
-- `wordleGame.开始.经典` - 开始经典猜单词游戏，需要投入货币，赢了有奖励。
-  - `--hard` - 指令的选项，困难模式，后续猜单词必须使用前面正确或出现的字母。
-- `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL [guessWordLength:number]` -
-  开始猜不同考试/类别的单词游戏，可选参数为猜单词的长度。
-  - `--hard` - 指令的选项，困难模式，后续猜单词必须使用前面正确或出现的字母。
+- `wordleGame.开始 [guessWordLength:number]`
+  - 开始游戏引导，可选参数为猜单词的长度。
+
+- `wordleGame.开始.经典`
+  - 开始经典猜单词游戏，需要投入货币，赢了有奖励。
+
+- `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL [guessWordLength:number]`
+  - 开始猜不同考试/类别的单词游戏，可选参数为猜单词的长度。
+    - `--hard`
+      - 困难模式，所有透露的信息必须在以后的猜测中使用。
+    - `--absurd`
+      - 荒谬/变态模式，AI将尽量避免给出答案，每次猜测时都会尽可能少地透露信息，甚至可能更换秘密词。
+      - 在这种模式下，你将面对一个极具挑战性的对手。
+      - [如何玩？](https://qntm.org/absurdle)
+    - `--challenge`
+      - 荒谬/变态挑战模式，要求你从一个给定的目标词出发，通过某种方式使其变成秘密词。
+      - 仅建议高级玩家尝试。
+      - [如何玩？](https://qntm.org/challenge)
+
+> Tip：可以同时启用困难模式和变态模式，且经典模式也同样适用。
 
 ### 游戏操作
 
@@ -108,7 +122,9 @@ npm install koishi-plugin-wordle-game
 - [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle) - Wordle 经典模式词典
 - [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典
 - [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT) - 英汉语词典数据库
-- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典 Wordle 的单词列表
+- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典
+  Wordle 的单词列表
+
 ## ✨ License
 
 MIT License © 2024
