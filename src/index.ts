@@ -660,6 +660,31 @@ export function apply(ctx: Context, config: Config) {
         await setGuessRunningStatus(channelId, false)
         return await sendMessage(session, `【@${username}】\n你确定存在这样的单词吗？`);
       }
+      // 困难模式
+      if (isHardMode) {
+        let isInputWordWrong = false;
+        // 包含
+        const containsAllLetters = lowercaseInputWord.split('').filter(letter => presentLetters.includes(letter) && letter !== '*');
+        if (mergeSameLetters(containsAllLetters).length !== presentLetters.length && presentLetters.length !== 0) {
+          isInputWordWrong = true;
+        }
+        // 不包含
+        if (absentLetters.length !== 0 && lowercaseInputWord.split('').some(letter => absentLetters.includes(letter))) {
+          isInputWordWrong = true;
+        }
+        // 正确
+        for (let i = 0; i < lowercaseInputWord.length; i++) {
+          if (correctLetters[i] !== '*' && correctLetters[i] !== lowercaseInputWord[i] && correctLetters.some(letter => letter !== '*')) {
+            isInputWordWrong = true;
+            break;
+          }
+        }
+
+        if (isInputWordWrong) {
+          await setGuessRunningStatus(channelId, false);
+          return await sendMessage(session, `【@${username}】\n当前难度为：【困难】\n【困难】：后续猜单词需要使用之前正确或出现的字母。\n您输入的单词字母不符合要求！\n您的输入为：【${inputWord}】\n单词字母要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? `` : `\n不包含字母：【${absentLetters}】`}`);
+        }
+      }
       // 初始化输
       let isLose = false
       // 变态模式
@@ -694,7 +719,11 @@ export function apply(ctx: Context, config: Config) {
             isLose = !longestRemainingWordList.includes(targetWord);
           }
         }
-
+        if (longestRemainingWordList.length === 0) {
+          await updatePlayerRecordsLose(channelId, gameInfo)
+          await endGame(channelId)
+          return await sendMessage(session, `【@${username}】\n根据透露出的信息！\n已经无任何可用单词！\n很遗憾，你们输了！`);
+        }
         let randomWord = longestRemainingWordList[Math.floor(Math.random() * longestRemainingWordList.length)];
         const foundWord = findWord(randomWord)
         if (isLose && isChallengeMode) {
@@ -704,7 +733,7 @@ export function apply(ctx: Context, config: Config) {
           const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
           // 图
           const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}`);
-          await sendMessage(session, `【@${username}】\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n您可选择的操作有：【撤销】和【结束】\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`);
+          await sendMessage(session, `【@${username}】\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n您可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`);
           let userInput = await session.prompt()
           // 生成 html 字符串
           // 图
@@ -727,32 +756,6 @@ export function apply(ctx: Context, config: Config) {
           wordAnswerChineseDefinition: replaceEscapeCharacters(foundWord.translation),
         })
         gameInfo = await getGameInfo(channelId)
-      }
-
-      // 困难模式
-      if (isHardMode) {
-        let isInputWordWrong = false;
-        // 包含
-        const containsAllLetters = lowercaseInputWord.split('').filter(letter => presentLetters.includes(letter) && letter !== '*');
-        if (mergeSameLetters(containsAllLetters).length !== presentLetters.length && presentLetters.length !== 0) {
-          isInputWordWrong = true;
-        }
-        // 不包含
-        if (absentLetters.length !== 0 && lowercaseInputWord.split('').some(letter => absentLetters.includes(letter))) {
-          isInputWordWrong = true;
-        }
-        // 正确
-        for (let i = 0; i < lowercaseInputWord.length; i++) {
-          if (correctLetters[i] !== '*' && correctLetters[i] !== lowercaseInputWord[i] && correctLetters.some(letter => letter !== '*')) {
-            isInputWordWrong = true;
-            break;
-          }
-        }
-
-        if (isInputWordWrong) {
-          await setGuessRunningStatus(channelId, false);
-          return await sendMessage(session, `【@${username}】\n当前难度为：【困难】\n【困难】：后续猜单词需要使用之前正确或出现的字母。\n您输入的单词字母不符合要求！\n您的输入为：【${inputWord}】\n单词字母要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? `` : `\n不包含字母：【${absentLetters}】`}`);
-        }
       }
       // 判断胜
       let isWin = false
