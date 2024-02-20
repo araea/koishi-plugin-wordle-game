@@ -65,7 +65,7 @@ export const usage = `## 🎣 使用
 
 - \`wordleGame.查询单词 [targetWord:text]\` - 在 ALL 词库中查询单词信息（翻译）。
 - \`wordleGame.查找单词 [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
-- \`wordleGame.wordleGame.单词查找器\` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
+- \`wordleGame.单词查找器\` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
 - \`wordleGame.查询玩家记录 [targetUser:text]\` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - \`wordleGame.排行榜 [number:number]\` - 查看排行榜，可选参数为排行榜的人数。
 - \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL.胜场/输场/最快用时 [number:number]\` -
@@ -967,13 +967,13 @@ export function apply(ctx: Context, config: Config) {
         imageBuffers.push(imageBuffer);
         // 更新游戏记录
         const remainingGuessesCount = isAbsurd ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1
-        if (wordleIndex === 1) {
+        if (wordleIndex === 1 && !gameInfo.isWin) {
           await ctx.database.set('wordle_game_records', {channelId}, {
             isWin,
             remainingGuessesCount: remainingGuessesCount,
             wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
           })
-        } else {
+        } else if(wordleIndex > 1 && !gameInfo.isWin) {
           await ctx.database.set('extra_wordle_game_records', {channelId, wordleIndex}, {
             isWin,
             remainingGuessesCount: remainingGuessesCount,
