@@ -4,6 +4,7 @@ import {Context, h, Schema} from 'koishi'
 import {} from 'koishi-plugin-puppeteer'
 import {} from 'koishi-plugin-monetary'
 import {} from 'koishi-plugin-markdown-to-image-service'
+import {load} from "cheerio";
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -63,7 +64,8 @@ export const usage = `## 🎣 使用
 ### 数据查询
 
 - \`wordleGame.查询单词 [targetWord:text]\` - 在 ALL 词库中查询单词信息（翻译）。
-- \`wordleGame.查找单词 [targetWord:text]\` - 在 WordWord 中查询单词信息（英文定义）。
+- \`wordleGame.查找单词 [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
+- \`wordleGame.wordleGame.单词查找器\` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
 - \`wordleGame.查询玩家记录 [targetUser:text]\` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - \`wordleGame.排行榜 [number:number]\` - 查看排行榜，可选参数为排行榜的人数。
 - \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL.胜场/输场/最快用时 [number:number]\` -
@@ -1131,12 +1133,61 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         .then((responseData) => {
           const definitions = responseData.word.definitions;
           const serializedDefinitions = serializeDefinitions(definitions);
-          return sendMessage(session, `${capitalizeFirstLetter(targetWord)} Definitions: \n\n${serializedDefinitions}`);
+          return sendMessage(session, `${capitalizeFirstLetter(targetWord)} Definitions: \n${serializedDefinitions}`);
         })
         .catch((error) => {
           return sendMessage(session, `【@${username}】\n未在WordWord中找到该单词。`);
         });
     })
+  // dcczq*
+  ctx.command('wordleGame.单词查找器', '使用WordFinder查找匹配的单词')
+    .option('wordLength', '-l <length> 指定要搜索的单词长度', {fallback: undefined})
+    .option('wordWithThreeWildcards', '-w <word> 搜索带有最多三个通配符字符的单词', {fallback: undefined})
+    .option('containingLetters', '-c <letters> 搜索包含特定字母组合的单词', {fallback: undefined})
+    .option('containingTheseLetters', '--ct <letters> 搜索只包含指定字母的单词', {fallback: undefined})
+    .option('withoutTheseLetters', '--wt <letters> 搜索不包含特定字母的单词', {fallback: undefined})
+    .option('startingWithTheseLetters', '--sw <letters> 搜索以特定字母开头的单词', {fallback: undefined})
+    .option('endingWithTheseLetters', '--ew <letters> 搜索以特定字母结尾的单词', {fallback: undefined})
+    .action(async ({session, options}) => {
+      const {
+        wordLength,
+        wordWithThreeWildcards,
+        containingLetters,
+        containingTheseLetters,
+        withoutTheseLetters,
+        startingWithTheseLetters,
+        endingWithTheseLetters
+      } = options;
+
+      const noOptionsSpecified = !wordLength &&
+        !wordWithThreeWildcards &&
+        !containingLetters &&
+        !containingTheseLetters &&
+        !withoutTheseLetters &&
+        !startingWithTheseLetters &&
+        !endingWithTheseLetters;
+
+      if (noOptionsSpecified) {
+        const chineseTutorial = "欢迎使用单词查找器！\n你可以使用以下选项来搜索匹配的单词：\n- 使用 -l <length> 指定要搜索的单词长度\n- 使用 -w <word> 搜索带有最多三个通配符字符的单词\n- 使用 -c <letters> 搜索包含特定字母组合的单词\n- 使用 --ct <letters> 搜索只包含指定字母的单词\n- 使用 --wt <letters> 搜索不包含特定字母的单词\n- 使用 --sw <letters> 搜索以特定字母开头的单词\n- 使用 --ew <letters> 搜索以特定字母结尾的单词";
+        return sendMessage(session, chineseTutorial);
+      }
+
+      const params = {
+        wordLength: wordLength ? `${wordLength}-letter-words` : '',
+        wordWithThreeWildcards: wordWithThreeWildcards ? `out-of-${wordWithThreeWildcards}` : '',
+        containingLetters: containingLetters ? `containing-${containingLetters}` : '',
+        containingTheseLetters: containingTheseLetters ? `with-${containingTheseLetters}` : '',
+        withoutTheseLetters: withoutTheseLetters ? `without-${withoutTheseLetters}` : '',
+        startingWithTheseLetters: startingWithTheseLetters ? `starting-with-${startingWithTheseLetters}` : '',
+        endingWithTheseLetters: endingWithTheseLetters ? `ending-with-${endingWithTheseLetters}` : ''
+      };
+
+      const queryParams = Object.values(params).filter(param => param).join('-');
+
+      const url = `https://wordword.org/search/${queryParams}`;
+      const result = await fetchAndParseWords(url);
+      return sendMessage(session, `${result}`);
+    });
   // wordleGame.查询进度 jd* cxjd*
   ctx.command('wordleGame.查询进度', '查询当前游戏进度')
     .action(async ({session}) => {
@@ -1802,7 +1853,35 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   // apply
 
 
-// hs*
+  // hs*
+  async function fetchAndParseWords(url: string) {
+
+    try {
+      const response = await fetch(url);
+      const html = await response.text();
+      const $ = load(html);
+
+      const wordGroups = $('.word-group');
+      let finalResult = '';
+
+      if (wordGroups.length === 0) {
+        finalResult = '未找到。';
+      } else {
+        wordGroups.each((_, element) => {
+          const title = $(element).find('.word-group__title').text();
+          const words = $(element).find('.word-group__inner .word').map((_, el) => $(el).contents().filter(function () {
+            return this.nodeType === 3;
+          }).text().trim()).get();
+          finalResult += `${title}:\n${words.join(', ')}\n\n`;
+        });
+      }
+
+      return finalResult
+    } catch (error) {
+      logger.error('发生错误：', error);
+    }
+  }
+
   function capitalizeFirstLetter(word: string): string {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
