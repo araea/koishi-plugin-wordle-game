@@ -48,6 +48,8 @@ export const usage = `## 🎣 使用
       - 荒谬/变态挑战模式，要求你从一个给定的目标词出发，通过某种方式使其变成秘密词。
       - 仅建议高级玩家尝试。
       - [如何玩？](https://qntm.org/challenge)
+    - \`--wordles <value:number>\`
+      - 同时猜测多个单词，默认范围为 1 ~ 4。
 
 > Tip：可以同时启用困难模式和变态模式，且经典模式也同样适用。
 
@@ -70,6 +72,7 @@ export interface Config {
   defaultWordLengthForGuessing: number
   maxInvestmentCurrency: number
   defaultRewardMultiplier: number
+  maxSimultaneousGuesses: number
 
   allowNonPlayersToGuess: boolean
   enableWordGuessMiddleware: boolean
@@ -90,6 +93,7 @@ export const Config: Schema<Config> = Schema.intersect([
     defaultWordLengthForGuessing: Schema.number().min(1).default(5).description(`非经典游戏模式下，默认的猜单词长度。`),
     maxInvestmentCurrency: Schema.number().min(0).default(50).description(`加入游戏时可投入的最大货币数额。`),
     defaultRewardMultiplier: Schema.number().min(0).default(2).description(`猜单词经典模式赢了之后奖励的货币倍率。`),
+    maxSimultaneousGuesses: Schema.number().min(1).default(4).description(`最多同时猜测单词的数量。`),
   }).description('游戏设置'),
 
 
@@ -120,6 +124,7 @@ export const Config: Schema<Config> = Schema.intersect([
 declare module 'koishi' {
   interface Tables {
     wordle_game_records: GameRecord
+    extra_wordle_game_records: ExtraGameRecord
     wordle_gaming_player_records: GamingPlayer
     wordle_player_records: PlayerRecord
     monetary: Monetary
@@ -153,6 +158,27 @@ export interface GameRecord {
   isAbsurd: boolean
   isChallengeMode: boolean
   targetWord: string
+  wordlesNum: number
+  wordleIndex: number
+  isWin: boolean
+}
+
+export interface ExtraGameRecord {
+  id: number
+  channelId: string
+  gameMode: string
+  wordGuessHtmlCache: string
+  wordAnswerChineseDefinition: string
+  guessWordLength: number
+  wordGuess: string
+  correctLetters: string[]
+  presentLetters: string
+  absentLetters: string
+  timestamp: number
+  wordlesNum: number
+  wordleIndex: number
+  isWin: boolean
+  remainingGuessesCount: number
 }
 
 export interface GamingPlayer {
@@ -273,6 +299,29 @@ export function apply(ctx: Context, config: Config) {
     isAbsurd: 'boolean',
     isChallengeMode: 'boolean',
     targetWord: 'string',
+    wordlesNum: 'unsigned',
+    wordleIndex: 'unsigned',
+    isWin: 'boolean',
+  }, {
+    primary: 'id',
+    autoInc: true,
+  })
+  ctx.model.extend('extra_wordle_game_records', {
+    id: 'unsigned',
+    channelId: 'string',
+    wordAnswerChineseDefinition: 'string',
+    wordGuess: 'string',
+    wordGuessHtmlCache: 'text',
+    guessWordLength: 'unsigned',
+    gameMode: 'string',
+    timestamp: {type: 'integer', length: 20},
+    correctLetters: 'list',
+    presentLetters: 'string',
+    absentLetters: 'string',
+    wordlesNum: 'unsigned',
+    wordleIndex: 'unsigned',
+    isWin: 'boolean',
+    remainingGuessesCount: 'integer',
   }, {
     primary: 'id',
     autoInc: true,
@@ -446,18 +495,26 @@ export function apply(ctx: Context, config: Config) {
       // 玩家记录输
       await updatePlayerRecordsLose(channelId, gameInfo)
       // 结束
+      const processedResult: string = gameInfo.wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
       await endGame(channelId)
-      return await sendMessage(session, `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${calculateGameDuration(gameInfo.timestamp, timestamp)}${gameInfo.isAbsurd ? '' : `\n${generateGameEndMessage(gameInfo)}`}`);
+      const duration = calculateGameDuration(gameInfo.timestamp, timestamp);
+      const message = `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${duration}${gameInfo.isAbsurd ? '' : `\n${generateGameEndMessage(gameInfo)}`}${processedResult}`;
+      return await sendMessage(session, message);
       // .action
     })
   // wordleGame.开始 s* ks*
   ctx.command('wordleGame.开始 [guessWordLength:number]', '开始游戏引导')
     .option('hard', '--hard 困难模式', {fallback: false})
     .option('absurd', '--absurd 变态模式', {fallback: false})
+    .option('challenge', '--challenge 变态挑战模式', {fallback: false})
+    .option('wordles', '--wordles <value:number> 同时猜测多个单词', {fallback: 1})
     .action(async ({session, options}, guessWordLength = config.defaultWordLengthForGuessing) => {
       const {channelId, userId, username} = session;
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username);
+      if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > config.maxSimultaneousGuesses) {
+        return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`);
+      }
       // 游戏状态
       const gameInfo = await getGameInfo(channelId);
       if (gameInfo.isStarted) {
@@ -476,7 +533,12 @@ export function apply(ctx: Context, config: Config) {
           if (!userInput) return await sendMessage(session, `【@${username}】\n输入超时！`);
           guessWordLength = parseInt(userInput)
         }
-        return await session.execute(`wordleGame.开始.${selectedExam}${options.hard ? ` --hard ` : ` `}${options.absurd ? ` --absurd ` : ` `}${guessWordLength}`);
+        const hardOption = options.hard ? ` --hard` : '';
+        const absurdOption = options.absurd ? ` --absurd` : '';
+        const challengeOption = options.challenge ? ` --challenge` : '';
+        const wordlesOption = options.wordles > 1 ? `--wordles ${options.wordles}` : '';
+        const command = `wordleGame.开始.${selectedExam}${hardOption}${absurdOption}${challengeOption}${wordlesOption} ${guessWordLength}`;
+        return await session.execute(command);
       } else {
         return await sendMessage(session, `【@${username}】\n无效的输入！`);
       }
@@ -487,10 +549,14 @@ export function apply(ctx: Context, config: Config) {
     .option('hard', '--hard 困难模式', {fallback: false})
     .option('absurd', '--absurd 变态模式', {fallback: false})
     .option('challenge', '--challenge 变态挑战模式', {fallback: false})
+    .option('wordles', '--wordles <value:number> 同时猜测多个单词', {fallback: 1})
     .action(async ({session, options}) => {
       const {channelId, userId, username, platform, timestamp} = session
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username)
+      if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > config.maxSimultaneousGuesses) {
+        return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`);
+      }
       // 游戏状态
       const gameInfo = await getGameInfo(channelId)
       if (gameInfo.isStarted) {
@@ -518,31 +584,30 @@ export function apply(ctx: Context, config: Config) {
       }
       // 开始游戏
       // 选待猜单词
-      // const filePath = path.join(__dirname, '词汇', '经典_5_14855.json');
-      //
-      // const jsonContent = fs.readFileSync(filePath, 'utf-8');
-      // const words: string[] = JSON.parse(jsonContent);
-      //
-      // function getRandomWord(): string {
-      //   const randomIndex = Math.floor(Math.random() * words.length);
-      //   return words[randomIndex].toLowerCase();
-      // }
-
       // 随机选择一个单词并小写化
+      const selectedWords: string[] = [];
       const randomWord: string = lowerCaseWordArray[Math.floor(Math.random() * lowerCaseWordArray.length)].toLowerCase();
+      selectedWords.push(randomWord);
 
-      const isHardMode = options.hard;
-      const isChallengeMode = options.challenge;
-      const isAbsurdMode = isChallengeMode ? true : options.absurd;
+      let isHardMode = options.hard;
+      let isChallengeMode = options.challenge;
+      let isAbsurdMode = isChallengeMode ? true : options.absurd;
+      const wordlesNum = options.wordles
+      if (options.wordles > 1) {
+        isHardMode = false
+        isChallengeMode = false
+        isAbsurdMode = false
+      }
 
       const correctLetters: string[] = new Array(5).fill('*');
 
       const foundWord = findWord(randomWord)
+
       await ctx.database.set('wordle_game_records', {channelId}, {
         isStarted: true,
         wordGuess: randomWord,
         wordAnswerChineseDefinition: replaceEscapeCharacters(foundWord.translation),
-        remainingGuessesCount: 6,
+        remainingGuessesCount: 6 + wordlesNum - 1,
         guessWordLength: 5,
         gameMode: '经典',
         timestamp: timestamp,
@@ -553,15 +618,60 @@ export function apply(ctx: Context, config: Config) {
         isAbsurd: isAbsurdMode,
         isChallengeMode: isChallengeMode,
         targetWord: randomWord,
+        wordlesNum: wordlesNum,
+        wordleIndex: 1,
       })
 
-
+      if (wordlesNum > 1) {
+        let randomWordExtra: string = ''
+        for (let wordleIndex = 2; wordleIndex < wordlesNum + 1; wordleIndex++) {
+          while (selectedWords.length < wordleIndex) {
+            randomWordExtra = lowerCaseWordArray[Math.floor(Math.random() * lowerCaseWordArray.length)].toLowerCase();
+            if (!selectedWords.includes(randomWordExtra)) {
+              selectedWords.push(randomWordExtra);
+            }
+          }
+          const foundWordExtra = findWord(randomWordExtra)
+          await ctx.database.create('extra_wordle_game_records', {
+            channelId,
+            remainingGuessesCount: 6 + wordlesNum - 1,
+            guessWordLength: 5,
+            wordGuess: randomWordExtra,
+            wordAnswerChineseDefinition: replaceEscapeCharacters(foundWordExtra.translation),
+            gameMode: '经典',
+            timestamp: timestamp,
+            correctLetters: correctLetters,
+            presentLetters: '',
+            absentLetters: '',
+            wordlesNum: wordlesNum,
+            wordleIndex,
+          })
+        }
+      }
       // 游戏图
-      const emptyGridHtml = isAbsurdMode ? generateEmptyGridHtml(1, 5) : generateEmptyGridHtml(6, 5);
+      const emptyGridHtml = isAbsurdMode ? generateEmptyGridHtml(1, 5) : generateEmptyGridHtml(6 + wordlesNum - 1, 5);
       const styledHtml = generateStyledHtml(6);
-      const imageBuffer = await generateImage(styledHtml, emptyGridHtml);
-      return await sendMessage(session, `游戏开始！\n当前游戏模式为：【经典${isHardMode ? '（困难）' : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${randomWord}】` : ''}\n单词长度为：【5】\n猜单词机会为：【${isAbsurdMode ? '♾️' : '6'}】\n待猜单词数量为：【2315】${config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : ''}\n${h.image(imageBuffer, `image/${config.imageType}`)}`);
+      let imageBuffer = await generateImage(styledHtml, emptyGridHtml);
+      let imageBuffers: Buffer[] = [];
+      if (wordlesNum > 1) {
+        for (let wordleIndex = 0; wordleIndex < wordlesNum; wordleIndex++) {
+          imageBuffers.push(imageBuffer);
+        }
+        const htmlImgString = generateImageTags(imageBuffers);
+        imageBuffer = await generateWordlesImage(htmlImgString);
+      }
 
+      const gameMode = `【经典${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? '（困难）' : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
+      const targetWord = isChallengeMode ? `\n目标单词为：【${randomWord}】` : '';
+      const wordLength = '单词长度为：【5】';
+      const guessChance = `猜单词机会为：【${isAbsurdMode ? '♾️' : `${6 + wordlesNum - 1}`}】`;
+      const wordCount = '待猜单词数量为：【2315】';
+      const timeLimit = config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : '';
+      const image = h.image(imageBuffer, `image/${config.imageType}`);
+
+      const message = `游戏开始！\n当前游戏模式为：${gameMode}${isChallengeMode ? targetWord : ''}\n${wordLength}\n${guessChance}\n${wordCount}${timeLimit}\n${image}`;
+
+      return await sendMessage(session, message);
       // .action
     })
   const exams = [
@@ -575,6 +685,7 @@ export function apply(ctx: Context, config: Config) {
         .option('hard', '--hard 困难模式', {fallback: false})
         .option('absurd', '--absurd 变态模式', {fallback: false})
         .option('challenge', '--challenge 变态挑战模式', {fallback: false})
+        .option('wordles', '--wordles <value:number> 同时猜测多个单词', {fallback: 1})
         .action(async ({session, options}, guessWordLength = config.defaultWordLengthForGuessing) => {
           return startWordleGame(exam, guessWordLength, session, options);
         });
@@ -585,7 +696,7 @@ export function apply(ctx: Context, config: Config) {
     .action(async ({session}, inputWord) => {
       const {channelId, userId, username, platform, timestamp} = session
       // 游戏状态
-      let gameInfo = await getGameInfo(channelId)
+      let gameInfo: any = await getGameInfo(channelId)
       // 操作太快
       if (gameInfo.isRunning === true) {
         return await sendMessage(session, `【@${username}】\n操作太快了哦~\n再试一次吧！`);
@@ -602,16 +713,17 @@ export function apply(ctx: Context, config: Config) {
       const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000; // 将时间戳转换为秒
       if (config.enableWordGuessTimeLimit) {
         if (timeDifferenceInSeconds > config.wordGuessTimeLimitInSeconds) {
-          // 生成 html 字符串
-          const emptyGridHtml = gameInfo.isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
-          const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
-          // 图
-          const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+          // // 生成 html 字符串
+          // const emptyGridHtml = gameInfo.isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
+          // const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+          // // 图
+          // const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
           // 玩家记录输
           await updatePlayerRecordsLose(channelId, gameInfo)
           await endGame(channelId)
           await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
+          return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`)
+          // return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
         }
       }
       // 玩家不在游戏中
@@ -626,7 +738,7 @@ export function apply(ctx: Context, config: Config) {
           await ctx.database.create('wordle_gaming_player_records', {channelId, userId, username, money: 0})
         }
       }
-      const {
+      let {
         correctLetters,
         presentLetters,
         isHardMode,
@@ -637,6 +749,7 @@ export function apply(ctx: Context, config: Config) {
         guessWordLength,
         isChallengeMode,
         targetWord,
+        wordlesNum,
       } = gameInfo;
       // 判断输入
       if (!/^[a-zA-Z]+$/.test(inputWord)) {
@@ -648,8 +761,8 @@ export function apply(ctx: Context, config: Config) {
         const usernameMention = `【@${username}】`;
         const inputLengthMessage = `输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】`;
         const presentLettersWithoutAsterisk = uniqueSortedLowercaseLetters(presentLetters);
-        const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`;
-
+        const processedResult = wordlesNum > 1 ? '\n' + await processExtraGameInfos(channelId) : '';
+        const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}${processedResult}`;
         return await sendMessage(session, `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`);
       }
       // 是否存在该单词
@@ -728,7 +841,7 @@ export function apply(ctx: Context, config: Config) {
         const foundWord = findWord(randomWord)
         if (isLose && isChallengeMode) {
           // 生成 html 字符串
-          const letterTilesHtml = '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(foundWord.word.toLowerCase(), inputWord, channelId) + '</div>';
+          const letterTilesHtml = '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(foundWord.word.toLowerCase(), inputWord, channelId, 1) + '</div>';
           const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
           const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
           // 图
@@ -757,27 +870,58 @@ export function apply(ctx: Context, config: Config) {
         })
         gameInfo = await getGameInfo(channelId)
       }
-      // 判断胜
+      // 胜
       let isWin = false
-      if (lowercaseInputWord === gameInfo.wordGuess) {
+      if (wordlesNum === 1 && lowercaseInputWord === gameInfo.wordGuess) {
         isWin = true
       }
-      // 判断负
-      if (gameInfo.remainingGuessesCount - 1 === 0 && !isAbsurd) {
-        isLose = true
-      }
+      let isWinNum = 0
       // 生成 html 字符串
-      const letterTilesHtml = '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(gameInfo.wordGuess, inputWord, channelId) + '</div>';
-      const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(isWin ? 0 : 1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
-      const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
-      // 图
-      const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
-      const remainingGuessesCount = isAbsurd ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1
-      // 更新游戏记录
-      await ctx.database.set('wordle_game_records', {channelId}, {
-        remainingGuessesCount: remainingGuessesCount,
-        wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
-      })
+      let imageBuffers: Buffer[] = [];
+      let imageBuffer: Buffer = Buffer.from('initial value', 'utf-8');
+      for (let wordleIndex = 1; wordleIndex < wordlesNum + 1; wordleIndex++) {
+        if (wordleIndex > 1) {
+          gameInfo = await getGameInfo2(channelId, wordleIndex)
+        }
+        const isWin = lowercaseInputWord === gameInfo.wordGuess
+        if (isWin || gameInfo.isWin) {
+          ++isWinNum
+        }
+        // 负
+        if (!isWin && gameInfo.remainingGuessesCount - 1 === 0 && !isAbsurd) {
+          isLose = true
+        }
+        const letterTilesHtml = gameInfo.isWin ? '' : '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(gameInfo.wordGuess, inputWord, channelId, wordleIndex) + '</div>';
+        const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(isWin ? 0 : 1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.isWin ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
+        const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+        // 图
+        imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
+        imageBuffers.push(imageBuffer);
+        // 更新游戏记录
+        const remainingGuessesCount = isAbsurd ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1
+        if (wordleIndex === 1) {
+          await ctx.database.set('wordle_game_records', {channelId}, {
+            isWin,
+            remainingGuessesCount: remainingGuessesCount,
+            wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
+          })
+        } else {
+          await ctx.database.set('extra_wordle_game_records', {channelId, wordleIndex}, {
+            isWin,
+            remainingGuessesCount: remainingGuessesCount,
+            wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
+          })
+        }
+      }
+      if (wordlesNum > 1) {
+        const htmlImgString = generateImageTags(imageBuffers);
+        imageBuffer = await generateWordlesImage(htmlImgString);
+        if (isWinNum === wordlesNum) {
+          isWin = true
+        }
+      }
+      gameInfo = await getGameInfo(channelId)
+
       // 处理赢
       if (isWin) {
         let finalSettlementString: string = ''
@@ -798,15 +942,35 @@ export function apply(ctx: Context, config: Config) {
           fastestGuessTime: playerRecord.fastestGuessTime
         })
 
+        const processedResult: string = wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
         await endGame(channelId)
-        return await sendMessage(session, `【@${username}】\n太棒了，你猜出来了！\n${calculateGameDuration(gameInfo.timestamp, timestamp)}\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${generateGameEndMessage(gameInfo)}\n${finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`}`);
+        const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
+        const imageType = config.imageType;
+        const settlementResult = finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`;
+
+        const message = `
+【@${username}】
+太棒了，你猜出来了！
+${gameDuration}
+${h.image(imageBuffer, `image/${imageType}`)}
+${generateGameEndMessage(gameInfo)}${processedResult}
+${settlementResult}
+`;
+
+        return await sendMessage(session, message);
       }
       // 处理输
       if (isLose) {
         // 玩家记录输
         await updatePlayerRecordsLose(channelId, gameInfo)
+        const processedResult: string = wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
         await endGame(channelId)
-        return await sendMessage(session, `很遗憾，你们没有猜出来！${isChallengeMode ? `\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！` : ''}\n但没关系~下次加油哇！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${calculateGameDuration(gameInfo.timestamp, timestamp)}${isChallengeMode ? '' : `\n答案是：【${gameInfo.wordGuess}】${gameInfo.wordAnswerChineseDefinition !== '' ? `\n单词释义如下：\n${gameInfo.wordAnswerChineseDefinition}` : ''}`}`);
+        const challengeMessage = isChallengeMode ? `\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！` : '';
+        const answerInfo = isChallengeMode ? '' : `\n${generateGameEndMessage(gameInfo)}`;
+        const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
+        const message = `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${gameDuration}${answerInfo}${processedResult}`;
+
+        return await sendMessage(session, message);
       }
       // 继续
       await setGuessRunningStatus(channelId, false)
@@ -899,14 +1063,15 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         absentLetters,
         isAbsurd,
         isChallengeMode,
-        targetWord
+        targetWord,
+        wordlesNum,
       } = gameInfo;
       const usernameMention = `【@${username}】`;
       const inputLengthMessage = `待猜单词的长度为：【${guessWordLength}】`;
-      const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}`;
+      const processedResult = wordlesNum > 1 ? '\n' + await processExtraGameInfos(channelId) : ''
+      const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}${processedResult}`;
       const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000;
-
-      let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${isHardMode ? '（困难）' : ''}${isAbsurd ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${targetWord}】` : ''}`;
+      let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? '（困难）' : ''}${isAbsurd ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${targetWord}】` : ''}`;
       if (config.enableWordGuessTimeLimit) {
         message += `\n剩余作答时间：【${timeDifferenceInSeconds}】秒`;
       }
@@ -1038,6 +1203,83 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
 
   // ch*
+  async function processExtraGameInfos(channelId: string): Promise<string> {
+    const extraGameInfos: ExtraGameRecord[] = await ctx.database.get('extra_wordle_game_records', {channelId});
+
+    return extraGameInfos
+      .map(({correctLetters, presentLetters, absentLetters}) => {
+        const present = presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`;
+        const absent = absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`;
+        return `\n当前进度：【${correctLetters.join('')}】${present}${absent}`;
+      })
+      .join('\n');
+  }
+
+  async function processExtraGameRecords(channelId: string): Promise<string> {
+    const extraGameInfos: ExtraGameRecord[] = await ctx.database.get('extra_wordle_game_records', {channelId})
+
+    const resultStrings: string[] = extraGameInfos.map(info => {
+      return `\n答案是：【${info.wordGuess}】\n单词释义如下：\n${info.wordAnswerChineseDefinition}`
+    })
+
+    return resultStrings.join('\n')
+  }
+
+  async function generateWordlesImage(htmlImgString: string,) {
+    const page = await ctx.puppeteer.page();
+
+    const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
+    await page.goto('file://' + filePath);
+
+    const html = `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <style>
+            .image-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .image-container img {
+                max-width: 100%;
+                /*margin-top: 20px;*/
+                /*margin-bottom: 20px;*/
+            }
+        </style>
+        <script>
+            window.onload = function() {
+                var imageContainer = document.querySelector('.image-container');
+                var images = imageContainer.getElementsByTagName('img');
+
+                if (images.length > 4) {
+                    for (var i = 0; i < images.length; i++) {
+                        images[i].style.width = "calc(25% - 15px)";
+                    }
+                } else {
+                    for (var i = 0; i < images.length; i++) {
+                        images[i].style.width = "calc(50% - 10px)";
+                    }
+                }
+            };
+        </script>
+    </head>
+    <body>
+    <div class="image-container">
+    ${htmlImgString}
+    </div>
+    </body>
+    </html>`;
+
+    await page.setContent(html, {waitUntil: 'load'});
+    const wordlesImageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
+
+    await page.close();
+
+    return wordlesImageBuffer;
+  }
+
   async function getLeaderboardWinOrLose(type, number, statKey, label) {
     if (typeof number !== 'number' || isNaN(number) || number < 0) {
       return '请输入大于等于 0 的数字作为排行榜的参数。';
@@ -1064,7 +1306,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     return `${type}模式最快用时排行榜：\n${leaderboard}`;
   };
 
-  async function generateLetterTilesHtml(wordGuess: string, inputWord: string, channelId: string): Promise<string> {
+  async function generateLetterTilesHtml(wordGuess: string, inputWord: string, channelId: string, wordleIndex: number): Promise<string> {
     const wordHtml: string[] = new Array(inputWord.length);
     const letterCountMap: { [key: string]: number } = {};
 
@@ -1122,11 +1364,23 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       htmlIndex++;
     }
 
-    await ctx.database.set('wordle_game_records', {channelId}, {
-      correctLetters,
-      presentLetters: uniqueSortedLowercaseLetters(presentLetters),
-      absentLetters: removeLetters(gameInfo.wordGuess, uniqueSortedLowercaseLetters(absentLetters)),
-    })
+    const setWordleGameRecord = async (collection: any, keys: Record<string, any>, values: Record<string, any>) => {
+      await ctx.database.set(collection, keys, {
+        correctLetters,
+        presentLetters: uniqueSortedLowercaseLetters(presentLetters),
+        absentLetters: removeLetters(gameInfo.wordGuess, uniqueSortedLowercaseLetters(absentLetters)),
+      });
+    };
+
+    if (wordleIndex === 1) {
+      await setWordleGameRecord('wordle_game_records', {channelId}, {correctLetters, presentLetters, absentLetters});
+    } else {
+      await setWordleGameRecord('extra_wordle_game_records', {channelId, wordleIndex}, {
+        correctLetters,
+        presentLetters,
+        absentLetters
+      });
+    }
     return wordHtml.join("\n");
   }
 
@@ -1138,6 +1392,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     await Promise.all([
       ctx.database.remove('wordle_gaming_player_records', {channelId}),
       ctx.database.remove('wordle_game_records', {channelId}),
+      ctx.database.remove('extra_wordle_game_records', {channelId}),
       await setGuessRunningStatus(channelId, false),
     ]);
   }
@@ -1227,30 +1482,6 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     }
   }
 
-  async function setWordleGameRecord(channelId: string, guessWordLength: number, result: any, gameMode: string, timestamp: number, options) {
-    const isHardMode = options.hard;
-    const isChallengeMode = options.challenge;
-    const isAbsurdMode = isChallengeMode ? true : options.absurd;
-
-    const correctLetters: string[] = new Array(guessWordLength).fill('*');
-    await ctx.database.set('wordle_game_records', {channelId}, {
-      isStarted: true,
-      wordGuess: result.word,
-      wordAnswerChineseDefinition: result.translation,
-      remainingGuessesCount: guessWordLength + 1,
-      guessWordLength: guessWordLength,
-      gameMode: gameMode,
-      timestamp: timestamp,
-      isHardMode: isHardMode,
-      isAbsurd: isAbsurdMode,
-      correctLetters: correctLetters,
-      presentLetters: '',
-      absentLetters: '',
-      isChallengeMode: isChallengeMode,
-      targetWord: result.word,
-    });
-  }
-
   async function generateImage(styledHtml: string, gridHtml: string): Promise<Buffer> {
     const page = await ctx.puppeteer.page();
     await page.setViewport({width: 611, height: 731, deviceScaleFactor: 1})
@@ -1304,6 +1535,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     return gameRecord[0];
   }
 
+  async function getGameInfo2(channelId: string, wordleIndex: number): Promise<ExtraGameRecord> {
+    const gameRecord = await ctx.database.get('extra_wordle_game_records', {channelId, wordleIndex});
+    return gameRecord[0];
+  }
+
   async function updateNameInPlayerRecord(userId: string, username: string): Promise<void> {
     const userRecord = await ctx.database.get('wordle_player_records', {userId});
     if (userRecord.length === 0) {
@@ -1348,6 +1584,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     // 更新玩家记录表中的用户名
     await updateNameInPlayerRecord(userId, username);
 
+    if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > config.maxSimultaneousGuesses) {
+      return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`);
+    }
+
     if (config.shouldPromptForWordLengthOnNonClassicStart) {
       await sendMessage(session, `【@${username}】\n请输入猜单词的长度：`);
       const userInput = await session.prompt();
@@ -1375,24 +1615,108 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     // 非经典还钱
     await updateGamingPlayerRecords(channelId);
 
+    const selectedWords: string[] = [];
     // 开始游戏
     const result = getRandomWordTranslation(command, guessWordLength);
-    await setWordleGameRecord(channelId, guessWordLength, result, command, timestamp, options);
+    const randomWord = result.word
+    selectedWords.push(randomWord);
+    let isHardMode = options.hard;
+    let isChallengeMode = options.challenge;
+    let isAbsurdMode = isChallengeMode ? true : options.absurd;
+    const wordlesNum = options.wordles
+    if (options.wordles > 1) {
+      isHardMode = false
+      isChallengeMode = false
+      isAbsurdMode = false
+    }
 
+    const correctLetters: string[] = new Array(guessWordLength).fill('*');
+
+    const translation = result.translation
+    await ctx.database.set('wordle_game_records', {channelId}, {
+      isStarted: true,
+      wordGuess: randomWord,
+      wordAnswerChineseDefinition: translation,
+      remainingGuessesCount: guessWordLength + 1 + wordlesNum - 1,
+      guessWordLength,
+      gameMode: command,
+      timestamp: timestamp,
+      isHardMode: isHardMode,
+      correctLetters: correctLetters,
+      presentLetters: '',
+      absentLetters: '',
+      isAbsurd: isAbsurdMode,
+      isChallengeMode: isChallengeMode,
+      targetWord: randomWord,
+      wordlesNum: wordlesNum,
+      wordleIndex: 1,
+    })
+
+    if (wordlesNum > 1) {
+      let randomWordExtra: string = ''
+      for (let wordleIndex = 2; wordleIndex < wordlesNum + 1; wordleIndex++) {
+        let translation: string = ''
+        while (selectedWords.length < wordleIndex) {
+          const resultExtra = getRandomWordTranslation(command, guessWordLength);
+          translation = resultExtra.translation
+          randomWordExtra = resultExtra.word;
+          if (!selectedWords.includes(randomWordExtra)) {
+            selectedWords.push(randomWordExtra);
+          }
+        }
+        await ctx.database.create('extra_wordle_game_records', {
+          channelId,
+          remainingGuessesCount: guessWordLength + 1 + wordlesNum - 1,
+          guessWordLength,
+          wordGuess: randomWordExtra,
+          wordAnswerChineseDefinition: translation,
+          gameMode: command,
+          timestamp: timestamp,
+          correctLetters: correctLetters,
+          presentLetters: '',
+          absentLetters: '',
+          wordlesNum: wordlesNum,
+          wordleIndex,
+        })
+      }
+    }
     // 生成并发送游戏图
-    const isHardMode = options.hard;
-    const isChallengeMode = options.challenge;
-    const isAbsurdMode = isChallengeMode ? true : options.absurd;
-    const emptyGridHtml = isAbsurdMode ? generateEmptyGridHtml(1, guessWordLength) : generateEmptyGridHtml(guessWordLength + 1, guessWordLength);
+    const emptyGridHtml = isAbsurdMode ? generateEmptyGridHtml(1, guessWordLength) : generateEmptyGridHtml(guessWordLength + 1 + wordlesNum - 1, guessWordLength);
     const styledHtml = generateStyledHtml(guessWordLength + 1);
-    const imageBuffer = await generateImage(styledHtml, emptyGridHtml);
-    return await sendMessage(session, `游戏开始！\n当前游戏模式为：【${command}${isHardMode ? '（困难）' : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${result.word}】` : ''}\n单词长度为：【${guessWordLength}】\n猜单词机会为：【${isAbsurdMode ? '♾️' : guessWordLength + 1}】\n待猜单词数量为：【${result.wordCount}】${config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : ''}\n${h.image(imageBuffer, `image/${config.imageType}`)}`);
+    let imageBuffer = await generateImage(styledHtml, emptyGridHtml);
+    let imageBuffers: Buffer[] = [];
+    if (wordlesNum > 1) {
+      for (let wordleIndex = 0; wordleIndex < wordlesNum; wordleIndex++) {
+        imageBuffers.push(imageBuffer);
+      }
+      const htmlImgString = generateImageTags(imageBuffers);
+      imageBuffer = await generateWordlesImage(htmlImgString);
+    }
+
+    const gameMode = `游戏开始！\n当前游戏模式为：【${command}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? '（困难）' : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
+    const challengeInfo = isChallengeMode ? `\n目标单词为：【${result.word}】` : '';
+    const wordLength = `单词长度为：【${guessWordLength}】`;
+    const guessChance = `猜单词机会为：【${isAbsurdMode ? '♾️' : guessWordLength + 1 + wordlesNum - 1}】`;
+    const wordCount = `待猜单词数量为：【${result.wordCount}】`;
+    const timeLimit = config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : '';
+    const image = h.image(imageBuffer, `image/${config.imageType}`);
+
+    return await sendMessage(session, `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${wordCount}${timeLimit}\n${image}`);
   }
 
   // apply
 }
 
 // hs*
+function generateImageTags(buffers: Buffer[]): string {
+  return buffers
+    .map((buffer, index) => {
+      const base64Image = buffer.toString('base64');
+      return `    <img src="data:image/png;base64,${base64Image}" alt="图片${index + 1}">`;
+    })
+    .join('\n');
+}
+
 function extractLowerCaseWords(arr: { word: string; translation: string }[]): string[] {
   return arr.map(item => item.word.toLowerCase());
 }

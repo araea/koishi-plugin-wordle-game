@@ -44,6 +44,8 @@ npm install koishi-plugin-wordle-game
   - 加入游戏时可投入的最大货币数额。默认值为 `50`.
 - `defaultRewardMultiplier: number`
   - 猜单词经典模式赢了之后奖励的货币倍率。默认值为 `2`.
+- `maxSimultaneousGuesses: number`
+  - 最多同时猜测单词的数量，默认值为 `4`。
 
 ### 游戏行为设置
 
@@ -98,6 +100,8 @@ npm install koishi-plugin-wordle-game
       - 荒谬/变态挑战模式，要求你从一个给定的目标词出发，通过某种方式使其变成秘密词。
       - 仅建议高级玩家尝试。
       - [如何玩？](https://qntm.org/challenge)
+    - `--wordles <value:number>`
+      - 同时猜测多个单词，默认范围为 1 ~ 4。
 
 > Tip：可以同时启用困难模式和变态模式，且经典模式也同样适用。
 
