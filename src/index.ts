@@ -1594,7 +1594,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
     await page.setContent(html, {waitUntil: 'load'});
     const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
-    // await page.close();
+    await page.close();
 
     return imageBuffer;
   }
