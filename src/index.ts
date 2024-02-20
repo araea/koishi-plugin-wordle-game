@@ -49,13 +49,15 @@ export const usage = `## 🎣 使用
       - 仅建议高级玩家尝试。
       - [如何玩？](https://qntm.org/challenge)
     - \`--wordles <value:number>\`
-      - 同时猜测多个单词，默认范围为 1 ~ 4。
+      - 同时猜测多个单词，默认范围为 1 ~ 4，可自定义。
 
 > Tip：可以同时启用困难模式和变态模式，且经典模式也同样适用。
 
 ### 游戏操作
 
 - \`wordleGame.猜 [inputWord:text]\` - 猜单词，参数为输入的单词。
+  - \`-r\`
+    - 随机一个单词。
 - \`wordleGame.查询进度\` - 查询当前游戏进度。
 
 ### 数据查询
@@ -68,6 +70,9 @@ export const usage = `## 🎣 使用
 
 // pz* pzx*
 export interface Config {
+  isDarkThemeEnabled: boolean
+  isHighContrastThemeEnabled: boolean
+
   defaultMaxLeaderboardEntries: number
   defaultWordLengthForGuessing: number
   maxInvestmentCurrency: number
@@ -87,6 +92,10 @@ export interface Config {
 }
 
 export const Config: Schema<Config> = Schema.intersect([
+  Schema.object({
+    isDarkThemeEnabled: Schema.boolean().default(false).description(`是否开启黑暗主题。`),
+    isHighContrastThemeEnabled: Schema.boolean().default(false).description(`是否开启高对比度（色盲）主题。`),
+  }).description('主题设置'),
 
   Schema.object({
     defaultMaxLeaderboardEntries: Schema.number().min(0).default(10).description(`显示排行榜时默认的最大人数。`),
@@ -95,7 +104,6 @@ export const Config: Schema<Config> = Schema.intersect([
     defaultRewardMultiplier: Schema.number().min(0).default(2).description(`猜单词经典模式赢了之后奖励的货币倍率。`),
     maxSimultaneousGuesses: Schema.number().min(1).default(4).description(`最多同时猜测单词的数量。`),
   }).description('游戏设置'),
-
 
   Schema.intersect([
     Schema.object({
@@ -278,6 +286,17 @@ const lowerCaseWordArray: string[] = wordArray.map(word => word.toLowerCase());
 
 // zhs*
 export function apply(ctx: Context, config: Config) {
+  // htmlStyle* bl* cl*
+  const htmlAfterStyle = `
+</head>
+<body>
+
+<body class="${config.isDarkThemeEnabled ? 'dark' : ''} ${config.isHighContrastThemeEnabled ? 'colorblind' : ''}">
+<div>
+  <div class="MomentSystem-module_moment__G9hyw">
+    <div class="App-module_gameContainer__K_CBh" data-testid="game-wrapper" style="height: calc(100% - 210px);">
+      <main class="App-module_game__yruqo" id="wordle-app-game">
+        <div class="Board-module_boardContainer__TBHNL" style="overflow: unset;">`
   // tzb*
   ctx.model.extend('wordle_game_records', {
     id: 'unsigned',
@@ -693,13 +712,17 @@ export function apply(ctx: Context, config: Config) {
   })
   // wordleGame.猜 c* cdc*
   ctx.command('wordleGame.猜 [inputWord:text]', '猜单词')
-    .action(async ({session}, inputWord) => {
+    .option('random', '-r 随机单词', {fallback: false})
+    .action(async ({session, options}, inputWord) => {
       const {channelId, userId, username, platform, timestamp} = session
       // 游戏状态
       let gameInfo: any = await getGameInfo(channelId)
       // 操作太快
       if (gameInfo.isRunning === true) {
         return await sendMessage(session, `【@${username}】\n操作太快了哦~\n再试一次吧！`);
+      }
+      if (options.random) {
+        inputWord = getRandomWordTranslation('ALL', gameInfo.guessWordLength).word
       }
       // 运行状态
       await setGuessRunningStatus(channelId, true)
@@ -1227,7 +1250,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
   async function generateWordlesImage(htmlImgString: string,) {
     const page = await ctx.puppeteer.page();
-
+    await page.setViewport({width: 500, height: 100, deviceScaleFactor: 1})
     const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
     await page.goto('file://' + filePath);
 
@@ -1499,7 +1522,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
     await page.setContent(html, {waitUntil: 'load'});
     const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
-    await page.close();
+    // await page.close();
 
     return imageBuffer;
   }
@@ -2041,30 +2064,6 @@ function generateStyledHtml(row: number): string {
             padding: 10px;
             box-sizing: border-box;
         }
-
-        .driveToMore .DriveToMoreContent-module_gridContainer__vWpCc {
-            display: grid;
-            grid-auto-columns: 1fr;
-            grid-template-columns: repeat(${row}, 91px) 10px;
-            grid-column-gap: 10px;
-            grid-auto-flow: column;
-            width: 100%;
-            margin-left: 25px;
-        }
-
-        .pz-desktop .driveToMore .DriveToMoreContent-module_gridContainer__vWpCc {
-            grid-template-columns: repeat(${(row - 1) % 2 !== 0 ? Math.floor((row - 1) / 2) + 1 : Math.floor(row / 2)}, 91px);
-            grid-template-rows: repeat(${Math.floor((row - 1) / 2)}, 91px);
-            grid-row-gap: 10px;
-            margin: 10px 0 30px;
-        }
-
-        .driveToMore .DriveToMoreContent-module_gridContainer__vWpCc.DriveToMoreContent-module_gamesStack__pnYB2 {
-            grid-template-columns: repeat(${(row - 1) % 2 !== 0 ? Math.floor((row - 1) / 2) + 1 : Math.floor(row / 2)}, 91px);
-            grid-template-rows: repeat(${Math.floor((row - 1) / 2)}, 91px);
-            grid-row-gap: 10px;
-            margin: 10px 0 30px;
-        }
     </style>`;
 
   return styledHtml;
@@ -2100,5051 +2099,839 @@ const htmlPrefix = `<html lang="en">
   <meta charset="UTF-8">
   <title>Wordle</title>
 
-  <style>
-
-    @media (min-width: 444px) {
-      .expandToRow {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .mobileColumn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .visually-hidden {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .pz-error {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%;
-      padding-bottom: 20px;
-      margin: 4% 0;
-      font: -apple-system-body;
-      font-family: nyt-franklin
-    }
-
-    .pz-error__message {
-      text-align: center;
-      padding: 30px
-    }
-
-    .pz-error__message h1 {
-      font-style: normal;
-      font-size: 2em;
-      font-size: min(2em, 90px);
-      line-height: 1.15;
-      font-weight: 700;
-      margin-bottom: 25px
-    }
-
-    .pz-error__message p {
-      font-size: 1.125em;
-      line-height: 1.39;
-      margin-bottom: 30px;
-      max-width: 510px
-    }
-
-    .pz-error__icon {
-      background-repeat: no-repeat;
-      background-size: contain;
-      display: block;
-      margin-bottom: 30px;
-      max-width: 300px
-    }
-
-
-    .pz-error__stack-trace {
-      margin: 20px;
-      padding: 20px;
-      border: 1px solid #959595
-    }
-
-    .pz-error__stack-trace pre {
-      white-space: normal
-    }
-
-    .pz-error__link {
-      color: #000;
-      text-decoration: underline
-    }
-
-    .pz-error__link:hover {
-      text-decoration: none
-    }
-
-    .pz-error__button {
-      display: inline-block;
-      color: #fff;
-      background-color: #000;
-      border: 1px solid #dcdcdc;
-      cursor: pointer;
-      padding: 15px 25px;
-      transition: background-color 150ms;
-      margin: 0 auto;
-      margin-bottom: 10px;
-      border-radius: 1.5em;
-      font-size: 1em
-    }
-
-    /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
-    button, input, optgroup, select, textarea {
-      font-family: inherit;
-      font-size: 100%;
-      line-height: 1.15;
-      margin: 0
-    }
-
-    button, input {
-      overflow: visible
-    }
-
-    button, select {
-      text-transform: none
-    }
-
-    button, [type=button], [type=reset], [type=submit] {
-      -webkit-appearance: button
-    }
-
-    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-      margin: 0;
-      padding: 0;
-      border: 0;
-      font-size: 100%;
-      font: inherit;
-      vertical-align: baseline
-    }
-
-    article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-      display: block
-    }
-
-    body {
-      line-height: 1
-    }
-
-    ol, ul {
-      list-style: none
-    }
-
-    blockquote, q {
-      quotes: none
-    }
-
-    blockquote:before, blockquote:after, q:before, q:after {
-      content: "";
-      content: none
-    }
-
-    table {
-      border-collapse: collapse;
-      border-spacing: 0
-    }
-
-    .flexContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    @media (min-width: 444px) {
-      .expandToRow {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .mobileColumn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .visually-hidden {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    @font-face {
-      font-family: "nyt-franklin";
-      src: url("./franklin-normal-700.woff2") format("woff2");
-      font-weight: 700;
-      font-style: normal
-    }
-
-    .pz-footer.dimmed, .pz-header.dimmed, .pz-content.dimmed, .wordle-app-header.dimmed, #wordle-app-game.dimmed {
-      opacity: .6
-    }
-
-    .ccpa-snackbar {
-      margin: auto;
-      padding: 10px 20px;
-      right: 16px;
-      bottom: 16px;
-      left: 16px;
-      position: fixed;
-      background: #333;
-      box-shadow: 0px 1px 2px rgba(0, 0, 0, .25);
-      border-radius: 2px;
-      z-index: 99999
-    }
-
-    .ccpa-snackbar__header, .ccpa-snackbar.error, .ccpa-snackbar__description {
-      font-family: "nyt-franklin";
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 19px;
-      color: #fff;
-      -webkit-margin-before: 0px;
-      margin-block-start: 0px;
-      -webkit-margin-after: 0px;
-      margin-block-end: 0px
-    }
-
-    .ccpa-snackbar__description {
-      color: #a4a4a4
-    }
-
-    .ccpa-snackbar__container {
-      display: flex;
-      align-items: center;
-      letter-spacing: .147368px;
-      color: #fff
-    }
-
-    @media (min-width: 768px) {
-      .ccpa-snackbar {
-        right: 50px;
-        left: auto;
-        bottom: 50px;
-        width: 480px
-      }
-    }
-
-    .pz-icon {
-      background-size: contain;
-      background-repeat: no-repeat;
-      display: inline-block;
-      min-height: 20px;
-      min-width: 20px;
-      margin-right: 8px
-    }
-
-    .pz-icon-right {
-      margin-right: unset;
-      margin-left: 8px
-    }
-
-    .flexContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    @media (min-width: 444px) {
-      .expandToRow {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .mobileColumn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .visually-hidden {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .pz-offline-ticker {
-      background-color: #959595;
-      color: #fff;
-      font-size: .875em;
-      height: 0;
-      opacity: 0;
-      overflow: hidden;
-      padding: 0;
-      text-align: center;
-      transition: all .5s ease-in-out
-    }
-
-    .pz-offline-ticker.is-offline {
-      height: auto;
-      opacity: 1;
-      padding: 12px 0
-    }
-
-    .pz-offline-ticker .offline-ticker-dismiss {
-      position: absolute;
-      right: 8px;
-      top: 8px;
-      cursor: pointer
-    }
-
-    :root {
-      --green: #6aaa64;
-      --green-4: #538d4e;
-      --wordle-high-contrast-green: #58a351;
-      --spellingBeeYellow: #f7da21;
-      --miniCrosswordBlue: #95befa;
-      --connectionsPeriwinkle: #b4a8ff;
-      --sudoku-orange: #fb9b00;
-      --tiles-green: #b5e352;
-      --dailyCrosswordBlue: #6493e6;
-      --yellow-3: #c9b458;
-      --yellow-4: #b59f3b;
-      --newsGray-10: #dfdfdf;
-      --newsGray-100: #121212;
-      --newsGray-85: #363636;
-      --gray-3: #ccc;
-      --gray-4: #dcdcdc;
-      --gray-6: #f4f4f4;
-      --gray-13: #d3d6da;
-      --gray-18: #787c7e;
-      --gray-19: #878a8c;
-      --gray-20: #edeff1;
-      --gray-21: #f6f7f8;
-      --gray-22: #e3e3e1;
-      --gray-23: #a6a6a6;
-      --gray-24: #818384;
-      --gray-25: #565758;
-      --gray-26: #3a3a3c;
-      --gray-27: #424242;
-      --gray-28: #59595a;
-      --gray-29: #afafaf;
-      --black: #000;
-      --white: #fff;
-      --newsDarkContentPrimary: #f8f8f8;
-      --wordleBlack: #212121;
-      --wordleBlack-2: #272729;
-      --wordleBlack-3: #1a1a1b;
-      --wordleBlack-4: #121213;
-      --wordleBlack-5: #2f2f31;
-      --linkBlue: #346eb7;
-      --linkDarkBlue: #6ba1dd;
-      --orange: #f5793a;
-      --blue: #85c0f9;
-      --outlineBlue: #2671dc;
-      --svg-arrow-fill: var(--white);
-      --svg-arrow-stroke: var(--black);
-      --svg-arrow-fill-hover: var(--black);
-      --svg-arrow-stroke-hover: var(--white)
-    }
-
-    :root {
-      --color-tone-1: var(--black);
-      --color-tone-2: var(--gray-18);
-      --color-tone-3: var(--gray-19);
-      --color-tone-4: var(--gray-13);
-      --color-tone-5: var(--gray-20);
-      --color-tone-6: var(--gray-21);
-      --color-tone-7: var(--white);
-      --color-tone-8: var(--newsGray-100);
-      --color-tone-9: var(--newsGray-10);
-      --color-tone-10: var(--black);
-      --color-tone-11: var(--gray-18);
-      --color-tone-12: var(--newsGray-85);
-      --color-nav-hover: var(--gray-6);
-      --opacity-50: rgba(255, 255, 255, 0.5);
-      --error-background: var(--gray-22);
-      --icon-disabled: var(--gray-23);
-      --background-gray: var(--gray-29);
-      --inline-links: var(--linkBlue);
-      --warning-red: #d0021b
-    }
-
-    .dark {
-      --color-tone-1: var(--newsDarkContentPrimary);
-      --color-tone-2: var(--gray-24);
-      --color-tone-3: var(--gray-25);
-      --color-tone-4: var(--gray-26);
-      --color-tone-5: var(--wordleBlack-2);
-      --color-tone-6: var(--wordleBlack-3);
-      --color-tone-7: var(--wordleBlack-4);
-      --color-tone-8: var(--newsDarkContentPrimary);
-      --color-tone-9: var(--gray-27);
-      --color-tone-10: var(--newsGray-10);
-      --color-tone-11: var(--newsGray-10);
-      --color-tone-12: var(--newsGray-10);
-      --color-nav-hover: var(--wordleBlack-5);
-      --opacity-50: rgba(0, 0, 0, 0.5);
-      --error-background: var(--color-tone-7);
-      --icon-disabled: var(--gray-28);
-      --svg-arrow-fill: var(--black);
-      --svg-arrow-stroke: var(--white);
-      --svg-arrow-fill-hover: var(--white);
-      --svg-arrow-stroke-hover: var(--black);
-      --inline-links: var(--linkDarkBlue);
-      --warning-red: #ea7980
-    }
-
-    :root, .dark {
-      --color-background: var(--color-tone-7)
-    }
-
-    :root {
-      --color-present: var(--yellow-3);
-      --color-correct: var(--green);
-      --color-absent: var(--color-tone-2);
-      --tile-text-color: var(--color-tone-7);
-      --key-text-color: var(--color-tone-1);
-      --key-evaluated-text-color: var(--color-tone-7);
-      --key-bg: var(--color-tone-4);
-      --key-bg-present: var(--color-present);
-      --key-bg-correct: var(--color-correct);
-      --key-bg-absent: var(--color-absent);
-      --key-evaluated-text-color: var(--color-tone-7);
-      --key-evaluated-text-color-absent: var(--white);
-      --modal-content-bg: var(--color-tone-7);
-      --outline-focus: var(--outlineBlue);
-      --color-correct-high-contrast: var(--wordle-high-contrast-green)
-    }
-
-    @font-face {
-      font-family: "nyt-franklin";
-      src: url("./franklin-normal-700.woff2") format("woff2");
-      font-weight: 700;
-      font-style: normal
-    }
-
-    html {
-      height: 100%
-    }
-
-    body {
-      height: 100%;
-      background-color: var(--color-background);
-      margin: 0;
-      padding: 0;
-      overflow-y: hidden
-    }
-
-    body.scrollable {
-      overflow-y: unset
-    }
-
-    html, body {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale
-    }
-
-    button:focus-visible, a:focus-visible {
-      outline: 2px solid var(--outline-focus)
-    }
-
-    @media (min-width: 415px) {
-      :root {
-        --header-height: 65px
-      }
-    }
-
-    @media (min-width: 1024px) {
-      :root {
-        --header-padding-x: 24px
-      }
-    }
-
-    @media (min-width: 768px) {
-      :root {
-        --header-padding-x: 20px
-      }
-    }
-
-    .pz-play-tab .pz-hide-play-tab, .pz-newsreader.pz-ios .pz-hide-newsreader-ios, .pz-newsreader.pz-android .pz-hide-newsreader-android, .pz-newsreader .pz-hide-newsreader, .pz-games-app-ios .pz-hide-games-app-ios, .pz-games-app-android .pz-hide-games-app-android, .pz-games-app .pz-hide-games-app, body:not(.pz-hybrid) .pz-hide-web {
-      display: none
-    }
-
-    /*# sourceMappingURL=wordle.e3c9f95c41d06668a615.css.map*/
-
-  </style>
-  <style>
-    .MomentSystem-module_moment__G9hyw {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0
-    }
-
-    .MomentSystem-module_momentExit__ssPqu {
-      opacity: 1
-    }
-
-    .MomentSystem-module_momentExitActive__DuPSj {
-      opacity: 0;
-      transition: opacity 400ms
-    }
-
-    .MomentSystem-module_momentEnter__pKkpt {
-      opacity: 0
-    }
-
-    .MomentSystem-module_momentEnterActive__UJVVz {
-      opacity: 1;
-      transition: opacity 400ms
-    }
-
-    .LandscapeWarning-module_landscapeWarning__MFIwn {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: var(--horizontal-warning-z-index);
-      background-color: var(--white);
-      text-align: center;
-      padding-top: 55px
-    }
-
-    .LandscapeWarning-module_landscapeWarning__MFIwn i {
-      height: 30%;
-      width: 20%;
-      margin: 2rem
-    }
-
-    .LandscapeWarning-module_landscapeWarning__MFIwn p {
-      font-family: "nyt-franklin";
-      font-weight: 500;
-      margin: 0;
-      font-size: 16px;
-      font-size: 1rem;
-      line-height: 20.8px;
-      line-height: 1.3rem
-    }
-
-    .LandscapeWarning-module_landscapeWarning__MFIwn span {
-      font-family: "nyt-franklin";
-      font-weight: 700
-    }
-
-    .LandscapeWarning-module_darkMode__Y36XD {
-      background-color: #000;
-      color: #fff
-    }
-
-    .LandscapeWarning-module_rotate__Qrx4Q {
-      background-size: contain;
-      background-repeat: no-repeat;
-      display: inline-block;
-      min-height: 20px;
-      min-width: 20px;
-      margin-right: 8px;
-      background-image: var(--icon-rotate-wordle)
-    }
-
-    .BackButton-module_backButton__W2d63 {
-      background: rgba(0, 0, 0, 0);
-      border: 0;
-      padding: 0
-    }
-
-    .BackButton-module_backButton__W2d63:before {
-      content: "";
-      background: var(--hybrid-back) center no-repeat;
-      background-position-x: 0px;
-      display: block;
-      height: 45px;
-      padding: 0px 15px;
-      opacity: 1
-    }
-
-    .BackButton-module_backButton__W2d63:active:before {
-      opacity: .5
-    }
-
-    .dark .BackButton-module_backButton__W2d63:before {
-      background: var(--hybrid-back-dark-mode) center no-repeat;
-      background-position-x: 0px
-    }
-
-    .BackButton-module_backButtonText__myVSA {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0)
-    }
-
-    .NonDismissalBanner-module_flexContainer__jYZL0 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .NonDismissalBanner-module_expandToRow__f5g7t {
-    }
-
-    @media (min-width: 444px) {
-      .NonDismissalBanner-module_expandToRow__f5g7t {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .NonDismissalBanner-module_mobileColumn__eekI7 {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .NonDismissalBanner-module_visually-hidden__EuwSz {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-
-    .NonDismissalBanner-module_banner__CqPDp button.NonDismissalBanner-module_iconButton__hwSOB {
-      order: 3;
-      background: #fff;
-      border: 0;
-      cursor: pointer;
-      margin: auto
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerInformation__hwApG {
-      display: flex;
-      flex: 2;
-      align-items: center;
-      font-family: "nyt-franklin";
-      font-size: 16px;
-      font-size: 1rem;
-      line-height: 20.8px;
-      line-height: 1.3rem
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerInformation__hwApG i {
-      min-height: 35px;
-      min-width: 35px
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerInformation__hwApG.NonDismissalBanner-module_bannerMessageIcon__xCwfD {
-      align-items: flex-start
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerInformation__hwApG.NonDismissalBanner-module_bannerMessageIcon__xCwfD i {
-      min-height: 20px;
-      min-width: 20px
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerBody__ZtWzl {
-      flex: 1;
-      margin-left: .5rem
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerBody__ZtWzl .NonDismissalBanner-module_clickArea__oNUnX {
-      height: 26px;
-      padding: 4px 0
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerBody__ZtWzl h3 {
-      font-size: 14px;
-      font-size: 0.875rem;
-      line-height: 18.2px;
-      line-height: 1.1375rem;
-      font-weight: 700;
-      margin: 0
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerBody__ZtWzl h3.NonDismissalBanner-module_bannerMessageTitle__BJkZ4 {
-      text-transform: uppercase
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerBody__ZtWzl p {
-      font-size: 16px;
-      font-size: 1rem;
-      line-height: 20.8px;
-      line-height: 1.3rem
-    }
-
-    .NonDismissalBanner-module_banner__CqPDp a {
-      color: inherit;
-      text-decoration: none
-    }
-
-
-    .NonDismissalBanner-module_multiIconBannerTest__t8tvf.NonDismissalBanner-module_relative__fMePO {
-      position: relative
-    }
-
-    .NonDismissalBanner-module_multiIconBannerTest__t8tvf button.NonDismissalBanner-module_iconButtonTest__oaGgl {
-      background: #fff;
-      border: 0;
-      cursor: pointer;
-      padding: 0
-    }
-
-    .NonDismissalBanner-module_multiIconBannerTest__t8tvf button.NonDismissalBanner-module_iconButtonTest__oaGgl i {
-      margin-right: 0
-    }
-
-    .NonDismissalBanner-module_multiIconBannerTest__t8tvf .NonDismissalBanner-module_bannerInformationTest__Q0Dqp {
-      align-items: center;
-      font-family: "nyt-franklin";
-      margin: auto;
-      font-size: 16px;
-      font-size: 1rem;
-      line-height: 20.8px;
-      line-height: 1.3rem;
-      text-align: center
-    }
-
-    .NonDismissalBanner-module_multiIconBannerTest__t8tvf .NonDismissalBanner-module_bannerInformationTest__Q0Dqp i {
-      min-height: 25px;
-      min-width: 25px
-    }
-
-    .NonDismissalBanner-module_multiIconBannerTest__t8tvf .NonDismissalBanner-module_bannerBodyTest__UrtZZ {
-      flex: 1
-    }
-
-    .NonDismissalBanner-module_multiIconBannerTest__t8tvf .NonDismissalBanner-module_bannerBodyTest__UrtZZ h3 {
-      font-size: .85rem;
-      font-weight: 700;
-      margin: 0
-    }
-
-    .NonDismissalBanner-module_multiIconBannerTest__t8tvf a {
-      color: inherit;
-      text-decoration: none
-    }
-
-    .LargeCTABanner-module_flexContainer__fXybs {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .LargeCTABanner-module_expandToRow__Rfjkn {
-    }
-
-    @media (min-width: 444px) {
-      .LargeCTABanner-module_expandToRow__Rfjkn {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .LargeCTABanner-module_mobileColumn__kb9qG {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .LargeCTABanner-module_visually-hidden__j0wgs {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .LargeCTABanner-module_banner__Wrm0P {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      background-color: #fff;
-      min-height: 275px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      border-top-left-radius: 13px;
-      border-top-right-radius: 13px;
-      color: #000;
-      margin-top: 10px
-    }
-
-    .LargeCTABanner-module_banner__Wrm0P.LargeCTABanner-module_relative__vctEf {
-      position: relative
-    }
-
-    .LargeCTABanner-module_headline__Kv4ow {
-      font: 700 2.25rem/2.375rem nyt-karnakcondensed, Georgia;
-      text-align: center;
-      padding: 0 35px
-    }
-
-    .LargeCTABanner-module_smallHeadline__xt_vz {
-      font: 700 0.9375rem/1.125rem nyt-franklin, Arial;
-      margin-top: 5px
-    }
-
-    .LargeCTABanner-module_headline__Kv4ow + .LargeCTABanner-module_inlineGames__fenqr {
-      margin-top: 15px
-    }
-
-    .LargeCTABanner-module_playButton__if85L {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      font: 600 1rem nyt-franklin, Arial;
-      border: solid 1px #000;
-      border-radius: 24px;
-      padding: 10px 22px
-    }
-
-    .LargeCTABanner-module_inlineGames__fenqr + .LargeCTABanner-module_playButton__if85L {
-      margin-top: 20px
-    }
-
-    .LargeCTABanner-module_playButton__if85L i {
-      width: 27px;
-      height: 27px;
-      border-radius: 7px
-    }
-
-    .LargeCTABanner-module_iconTextWrapper__goI7a {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap
-    }
-
-    .LargeCTABanner-module_iconTextWrapper__goI7a + i {
-      position: absolute;
-      right: 10px
-    }
-
-    .LargeCTABanner-module_imageOverlay__E2_A0 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      min-height: 94px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #fff
-    }
-
-    .Skip-module_skipButton__m8KJ8 {
-      font-family: "nyt-franklin";
-      font-weight: 700;
-      display: flex;
-      justify-content: flex-end;
-      align-self: flex-end;
-      align-items: center;
-      padding-top: 12px;
-      padding-right: 20px;
-      padding-bottom: 14px;
-      width: 100%;
-      background-color: #e3e3e1;
-      z-index: 99;
-      max-height: var(--inter-ad-skip-button-height);
-      animation: Skip-module_fade__XWqBH 0.75s 1
-    }
-
-    .Skip-module_skipButton__m8KJ8 svg {
-      margin-left: .5rem
-    }
-
-    .Skip-module_skipButtonPlaceholder__j1_60 {
-      height: 52px
-    }
-
-    :root {
-      --inter-ad-skip-button-height: 52px;
-      --inter-ad-top-bar-height: 34px;
-      --inter-ad-bottom-bar-height: 24px
-    }
-
-    .AdInterstitial-module_interstitialPlaceholder__t7Hqq:before {
-      content: "advertisement";
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #363636;
-      font-size: 12px;
-      border: 1px solid #363636;
-      padding: 12px 18px;
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation: AdInterstitial-module_fadeIn__wjfza .5s ease-in-out
-    }
-
-    .AdInterstitial-module_ad__BAtlW {
-      max-height: calc(100dvh - (var(--inter-ad-skip-button-height) + var(--inter-ad-top-bar-height) + var(--inter-ad-bottom-bar-height)))
-    }
-
-    .AdInterstitial-module_adSlug__lH065 {
-      margin: auto;
-      width: 100%;
-      min-height: 250px;
-      text-align: center;
-      opacity: 0
-    }
-
-    .AdInterstitial-module_adSlug__lH065 h3 {
-      font-family: "nyt-franklin";
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 12px;
-      margin: 12px auto 10px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: #5a5a5a;
-      font-style: normal
-    }
-
-    .AdInterstitial-module_adSlug__lH065.AdInterstitial-module_adSlugVisible__rYpip {
-      padding-bottom: 24px;
-      background-color: #f8f8f8;
-      opacity: 1
-    }
-
-    .AdInterstitial-module_fluid__yLAYp {
-      width: 100%
-    }
-
-    .AdInterstitial-module_modalOverlay__LZ_UW {
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      padding: 0;
-      border: none;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #e3e3e1;
-      z-index: var(--modal-z-index)
-    }
-
-    .Welcome-module_flexContainer__lAdec {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .Welcome-module_expandToRow__QqRrS {
-    }
-
-    @media (min-width: 444px) {
-      .Welcome-module_expandToRow__QqRrS {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .Welcome-module_mobileColumn__CEB1a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .Welcome-module_visually-hidden__F4bCv {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .Welcome-module_flexCenter__HiNsS {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap
-    }
-
-    .Welcome-module_regiwallText__w0FKl {
-      letter-spacing: 0;
-      text-transform: none;
-      text-align: center;
-      display: block
-    }
-
-    .Welcome-module_regiwallText_heading__hG9eI {
-      font: 700 36px nyt-karnakcondensed, Georgia;
-      line-height: 115%;
-      margin: 8px 0
-    }
-
-    .Welcome-module_regiwallText_heading_condensed__wApvE {
-      font: 400 28px nyt-karnak, Georgia;
-      line-height: 115%;
-      margin: .5em 0
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .Welcome-module_regiwallText_heading_condensed__wApvE {
-        margin: .25em
-      }
-    }
-
-    @media (min-width: 768px)and (max-width: 1025px) {
-      .Welcome-module_regiwallText_heading_condensed__wApvE {
-        font-size: 32px
-      }
-    }
-
-    @media (min-width: 1025px) {
-      .Welcome-module_regiwallText_heading_condensed__wApvE {
-        font-size: 36px
-      }
-    }
-
-    .Welcome-module_regiwallText_subheading__NPTj1 {
-      font: 400 24px nyt-karnak, Georgia;
-      line-height: 120%
-    }
-
-    .Welcome-module_regiwallText_link__KEauX {
-      color: var(--color-tone-1);
-      font: 600 16px nyt-franklin, Arial;
-      line-height: 20.8px;
-      text-decoration: underline
-    }
-
-    .Welcome-module_contentWelcome__TL17B {
-      position: relative;
-      color: #000;
-      max-width: 100%;
-      width: 100%;
-      overflow-y: auto;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      background-color: #e3e3e1
-    }
-
-    .Welcome-module_contentWelcomeContainer__UO4Ei {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-direction: column;
-      padding: 50px 42px 0
-    }
-
-    .Welcome-module_contentWelcomeContainer__UO4Ei.Welcome-module_largeCTAVariant__HvqT5 {
-      padding-top: 25px
-    }
-
-    .Welcome-module_contentWelcomeMain__O6vot {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      flex-grow: 1
-    }
-
-    .Welcome-module_spinner__ko9gy {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%
-    }
-
-    .Welcome-module_title__uhLqe {
-      font-size: 36px;
-      line-height: 38px;
-      font-family: "nyt-karnakcondensed";
-      font-weight: bold;
-      margin-bottom: 12px
-    }
-
-    @media (min-width: 760px) {
-      .Welcome-module_title__uhLqe {
-        font-size: 44px;
-        line-height: 1.045em
-      }
-    }
-
-    @media (min-width: 992px) {
-      .Welcome-module_title__uhLqe {
-        font-size: 50px;
-        line-height: 52px
-      }
-    }
-
-    .Welcome-module_title__uhLqe.Welcome-module_small__gRQGu {
-      font-size: 1.125em;
-      line-height: 1.111
-    }
-
-    .Welcome-module_subtitle__rL8EE {
-      font-size: 28px;
-      line-height: 28px;
-      margin-bottom: 28px;
-      font-family: "nyt-karnak";
-      text-align: center;
-      font-weight: 400;
-      font-size: 24.8px
-    }
-
-    @media (min-width: 760px) {
-      .Welcome-module_subtitle__rL8EE {
-        max-width: 300px;
-        font-size: 32px;
-        line-height: 36px
-      }
-    }
-
-    @media (min-width: 992px) {
-      .Welcome-module_subtitle__rL8EE {
-        max-width: 375px;
-        font-size: 38px;
-        line-height: 44px;
-        margin-bottom: 36px
-      }
-    }
-
-    .Welcome-module_subtitle__rL8EE .Welcome-module_bold___70f6 {
-      font-family: "nyt-karnakcondensed"
-    }
-
-    .Welcome-module_icon__iYwGT {
-      height: 64px;
-      margin-bottom: 16px;
-      display: block;
-      width: 100%;
-      text-align: center;
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-image: var(--wordle-icon)
-    }
-
-    @media (max-width: 768px) {
-      .Welcome-module_largeCTAVariant__HvqT5 .Welcome-module_icon__iYwGT {
-        height: 50px
-      }
-    }
-
-    @media (min-width: 768px) {
-      .Welcome-module_icon__iYwGT {
-        height: 80px;
-        margin-bottom: 12px
-      }
-    }
-
-    .Welcome-module_icon__iYwGT.Welcome-module_small__gRQGu {
-      height: 40px;
-      margin-bottom: 8px
-    }
-
-    @media (min-width: 768px) {
-      .Welcome-module_icon__iYwGT.Welcome-module_small__gRQGu {
-        margin-top: 10px
-      }
-    }
-
-    .Welcome-module_dateContainer__GTeM2 {
-      text-align: center
-    }
-
-    .Welcome-module_noWrap__ThSVO {
-      white-space: nowrap
-    }
-
-    .Welcome-module_date__Fmbmx {
-      display: block;
-      font-size: 1em;
-      line-height: 1.25;
-      letter-spacing: .005em;
-      font-family: "nyt-franklin";
-      font-weight: 600
-    }
-
-    @media (max-width: 992px) {
-      .Welcome-module_date__Fmbmx {
-        font-size: 16px;
-        line-height: 20px
-      }
-    }
-
-    .Welcome-module_wordleMeta__P_0lJ {
-      display: block;
-      font-size: 1em;
-      line-height: 1.25;
-      letter-spacing: .005em
-    }
-
-    @media (max-width: 992px) {
-      .Welcome-module_wordleMeta__P_0lJ {
-        font-size: 14px;
-        line-height: 18px
-      }
-    }
-
-    .Welcome-module_buttonContainer__K4GEw {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column-reverse;
-      box-sizing: border-box;
-      width: 100%;
-      margin-bottom: 24px
-    }
-
-    @media (min-width: 760px) {
-      .Welcome-module_buttonContainer__K4GEw {
-        margin-bottom: 28px;
-        flex-direction: row
-      }
-    }
-
-    .Welcome-module_buttonContainer__K4GEw .Welcome-module_button__ZG0Zh {
-      position: relative;
-      border: none;
-      height: 3em;
-      border-radius: 1.5em;
-      align-content: center;
-      letter-spacing: .05em;
-      font-size: 16px;
-      font-family: "nyt-franklin";
-      line-height: 28px;
-      cursor: pointer;
-      padding: 0 2em;
-      background: #000;
-      color: #fff;
-      margin: 0 10px 8px;
-      font-weight: 400
-    }
-
-    @media (max-width: 760px) {
-      .Welcome-module_buttonContainer__K4GEw .Welcome-module_button__ZG0Zh {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 155px
-      }
-    }
-
-    @media (min-width: 760px) {
-      .Welcome-module_buttonContainer__K4GEw .Welcome-module_button__ZG0Zh {
-        width: 180px
-      }
-    }
-
-    .Welcome-module_buttonContainer__K4GEw .Welcome-module_button__ZG0Zh.Welcome-module_secondary__fv3cc {
-      background: none;
-      color: #000;
-      border: 1px solid;
-      letter-spacing: .01em
-    }
-
-    .Welcome-module_buttonContainer__K4GEw a {
-      all: inherit
-    }
-
-    .Welcome-module_back__cUvW3 {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      height: var(--header-height);
-      top: 0;
-      left: var(--header-padding-x)
-    }
-
-    .Welcome-module_back__cUvW3 button::before {
-      background: var(--hybrid-back) center no-repeat !important;
-      background-position-x: 0px !important
-    }
-
-    .Note-module_container__TXglF {
-      padding: 0 20px
-    }
-
-    .Note-module_note__lbrbA {
-      display: flex;
-      border-top: 1px solid rgba(0, 0, 0, .2);
-      padding: 20px 0
-    }
-
-    .Note-module_note__lbrbA .Note-module_statsIcon__RRy1C {
-      margin-right: 16px
-    }
-
-    .Note-module_note__lbrbA .Note-module_moreLink__uzCuy {
-      all: unset;
-      text-decoration: underline;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 16px;
-      color: var(--newsGray-85);
-      cursor: pointer
-    }
-
-    .Note-module_note__lbrbA .Note-module_noteHeader__jt707 {
-      color: var(--outlineBlue);
-      font-size: 11px;
-      font-weight: 700;
-      text-align: left
-    }
-
-    .Note-module_note__lbrbA .Note-module_noteDescription__QmvW2 {
-      color: var(--newsGray-100);
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 24px
-    }
-
-    .Note-module_note__lbrbA .Note-module_noteSummary__niOPe {
-      color: var(--newsGray-85);
-      font-size: 14px;
-      line-height: 16px
-    }
-
-    .Spinner-module_spinner__GJU3x {
-      animation: Spinner-module_spin__D72mN 1s linear infinite
-    }
-
-    .SkipNav-module_skipNav__MFptJ {
-      clip: rect(1px, 1px, 1px, 1px);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px;
-      border: 0
-    }
-
-    .SkipNav-module_skipNav__MFptJ:focus {
-      clip: auto;
-      height: auto;
-      overflow: auto;
-      position: absolute;
-      width: auto;
-      top: 0;
-      left: 0;
-      z-index: 200;
-      font-size: .75rem;
-      text-transform: uppercase;
-      font-weight: bold;
-      padding: .5rem .5rem .375rem;
-      border-radius: 3px;
-      text-decoration: none;
-      color: #000;
-      background: #fff
-    }
-
-    .Tile-module_tile__UWEHN {
-      font-family: "nyt-franklin";
-      width: 100%;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 3rem;
-      line-height: 1;
-      font-weight: bold;
-      vertical-align: middle;
-      box-sizing: border-box;
-      color: var(--tile-text-color);
-      text-transform: uppercase;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none
-    }
-
-    .Tile-module_tile__UWEHN::before {
-      content: "";
-      display: inline-block;
-      padding-bottom: 100%
-    }
-
-    .Tile-module_tile__UWEHN.Tile-module_small__dKW39 {
-      font-size: 1.6rem;
-      padding-top: 1px
-    }
-
-    @media (max-height: 600px) {
-      .Tile-module_tile__UWEHN {
-        font-size: 1em
-      }
-    }
-
-    .Tile-module_tile__UWEHN[data-state=empty] {
-      border: 2px solid var(--color-tone-4)
-    }
-
-    .Tile-module_tile__UWEHN[data-state=tbd] {
-      background-color: var(--color-tone-7);
-      border: 2px solid var(--color-tone-3);
-      color: var(--color-tone-1)
-    }
-
-    .Tile-module_tile__UWEHN[data-state=correct] {
-      background-color: var(--color-correct);
-      color: var(--key-evaluated-text-color)
-    }
-
-    .Tile-module_tile__UWEHN[data-state=present] {
-      background-color: var(--color-present);
-      color: var(--key-evaluated-text-color)
-    }
-
-    .Tile-module_tile__UWEHN[data-state=absent] {
-      background-color: var(--color-absent);
-      color: var(--key-evaluated-text-color-absent)
-    }
-
-    .Tile-module_tile__UWEHN[data-animation=pop] {
-      animation-name: Tile-module_PopIn__CmX51;
-      animation-duration: 100ms
-    }
-
-    .Tile-module_tile__UWEHN[data-animation=flip-in] {
-      animation-name: Tile-module_FlipIn__PCdh1;
-      animation-duration: 250ms;
-      animation-timing-function: ease-in
-    }
-
-    .Tile-module_tile__UWEHN[data-animation=flip-out] {
-      animation-name: Tile-module_FlipOut__xeJcb;
-      animation-duration: 250ms;
-      animation-timing-function: ease-in
-    }
-
-    .Row-module_row__pwpBq.Row-module_invalid__RNDXZ {
-      animation-name: Row-module_Shake__LeteU;
-      animation-duration: 600ms
-    }
-
-    .Row-module_win__U9cQp {
-      animation-name: Row-module_Bounce__TMGbC;
-      animation-duration: 1000ms
-    }
-
-    .Board-module_boardContainer__TBHNL {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-grow: 1;
-      overflow: hidden
-    }
-
-    .Loading-module_container__JOli8 {
-      display: flex;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      max-height: calc(100% - var(--header-height) - 1px);
-      left: 0;
-      justify-content: center;
-      background-color: var(--color-background);
-      z-index: var(--error-z-index)
-    }
-
-    .Loading-module_loadingContainer__bVEha {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      width: 82px;
-      height: 100%;
-      transition: opacity .2s;
-      opacity: 1
-    }
-
-    .Loading-module_hide__Z00E7 {
-      opacity: 0
-    }
-
-    .Help-module_help__fbOXF {
-      width: 100%;
-      margin: auto
-    }
-
-    .Help-module_subheading__mbRG9 {
-      font-family: "nyt-karnak";
-      font-weight: 500;
-      font-size: 20px;
-      line-height: 24px;
-      margin: 0
-    }
-
-    .Help-module_instructions__uXsG6 {
-      font-family: "nyt-franklin";
-      font-size: 16px;
-      line-height: 20px;
-      list-style-type: disc;
-      font-weight: 500;
-      -webkit-margin-before: 1em;
-      margin-block-start: 1em;
-      -webkit-margin-after: 1em;
-      margin-block-end: 1em;
-      -webkit-padding-start: 20px;
-      padding-inline-start: 20px;
-      color: var(--color-tone-1)
-    }
-
-    .Help-module_instructions__uXsG6 li {
-      margin-bottom: 4px
-    }
-
-    .Help-module_instructions__uXsG6 li::marker {
-      font-size: 18px
-    }
-
-    .Help-module_examples__W3VXL {
-      font-family: "nyt-franklin"
-    }
-
-    .Help-module_examples__W3VXL strong {
-      font-weight: bold
-    }
-
-    .Help-module_examples__W3VXL p {
-      margin: 0;
-      font-size: 16px;
-      line-height: 20px
-    }
-
-    .Help-module_example__gldBI {
-      margin-top: 8px;
-      margin-bottom: 20px
-    }
-
-    .Help-module_example__gldBI p {
-      font-size: 16px;
-      line-height: 20px;
-      margin-top: 8px
-    }
-
-    .Help-module_tileContainer__vGHuc {
-      display: inline-block;
-      width: 32px;
-      height: 32px;
-      margin-right: 4px
-    }
-
-    .Help-module_reminderSignUp__oQ42D {
-      font-family: "nyt-franklin";
-      font-size: 16px;
-      line-height: 20px;
-      margin-top: 20px
-    }
-
-    .Help-module_reminderSignUp__oQ42D a {
-      color: var(--inline-links);
-      -webkit-text-decoration: underline var(--inline-links);
-      text-decoration: underline var(--inline-links)
-    }
-
-    .Help-module_statsLogin__HkQec {
-      font-family: "nyt-franklin";
-      position: relative;
-      color: var(--color-tone-1);
-      font-size: 16px;
-      line-height: 20px;
-      display: flex;
-      width: 100%;
-      align-items: center;
-      justify-content: flex-start;
-      text-decoration: none;
-      padding: 17px 0;
-      border-top: 1px solid var(--gray-3);
-      border-bottom: 1px solid var(--gray-3);
-      margin: 0 auto 20px
-    }
-
-    .Help-module_statsLogin__HkQec button {
-      border: none;
-      background-color: rgba(0, 0, 0, 0);
-      font-family: "nyt-franklin";
-      font-size: 16px;
-      line-height: 20px;
-      text-align: left;
-      padding: 0px 0px 3px
-    }
-
-    .Help-module_statsLogin__HkQec a, .Help-module_statsLogin__HkQec button {
-      color: var(--inline-links);
-      -webkit-text-decoration: underline var(--inline-links);
-      text-decoration: underline var(--inline-links)
-    }
-
-    .Help-module_statsLogin__HkQec .Help-module_loginArrow__VYc4x {
-      text-decoration: none;
-      justify-self: flex-end
-    }
-
-    .Help-module_statsLogin__HkQec .Help-module_loginText__lhtLY {
-      flex-grow: 2
-    }
-
-    .Help-module_statsLogin__HkQec .Help-module_statsIcon__gZPRN {
-      margin-right: 10px
-    }
-
-    @media (max-width: 295px) {
-      .Help-module_tileContainer__vGHuc {
-        height: 32px
-      }
-    }
-
-    .MiniAuthCTA-module_container__c9Atk {
-      border-top: 1px solid var(--color-tone-9);
-      text-align: left;
-      display: flex
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .MiniAuthCTA-module_container__c9Atk {
-        display: none
-      }
-    }
-
-    @media (min-width: 500px) {
-      .MiniAuthCTA-module_container__c9Atk {
-        padding: 0px;
-        margin: auto;
-        width: 343px;
-        border-bottom: 1px solid var(--color-tone-9)
-      }
-    }
-
-    .MiniAuthCTA-module_icon__xDcPq {
-      content: var(--stats-auth);
-      padding-top: 10px;
-      padding-right: 2px;
-      height: 31px;
-      width: 31px;
-      margin-right: 8px
-    }
-
-    .MiniAuthCTA-module_buttonsContainer__IoQWk {
-      text-align: left;
-      margin: auto 0
-    }
-
-    .MiniAuthCTA-module_buttonsContainer__IoQWk .MiniAuthCTA-module_loginButton__x7_fR {
-      text-decoration: underline;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 16px;
-      color: var(--color-tone-1);
-      cursor: pointer
-    }
-
-    .MiniAuthCTA-module_buttonsContainer__IoQWk .MiniAuthCTA-module_loginButton__x7_fR > a {
-      color: inherit
-    }
-
-    @media (min-width: 500px) {
-      .MiniAuthCTA-module_buttonsContainer__IoQWk .MiniAuthCTA-module_loginButton__x7_fR {
-        width: 343px
-      }
-    }
-
-    .Stats-module_gameStats__X2eDU {
-      font-family: "nyt-franklin";
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      margin: 0 auto auto auto;
-      padding-top: 16px;
-      max-width: 520px
-    }
-
-    @media (min-width: 500px) {
-      .Stats-module_gameStats__X2eDU {
-        padding-top: 50px;
-        align-self: center
-      }
-    }
-
-    .Stats-module_gameStats__X2eDU .Stats-module_statsContainer__g23s0 {
-      align-self: center
-    }
-
-    @media (min-width: 500px) {
-      .Stats-module_gameStats__X2eDU .Stats-module_statsContainer__g23s0 {
-        width: 343px
-      }
-    }
-
-    .Stats-module_gameStats__X2eDU .Stats-module_statisticsHeading__CExdL {
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      margin: 0;
-      line-height: 20px;
-      margin-top: 0;
-      margin-bottom: 10px;
-      letter-spacing: .05em
-    }
-
-    @media (min-width: 500px) {
-      .Stats-module_gameStats__X2eDU .Stats-module_statisticsHeading__CExdL {
-        padding-top: 20px;
-        width: 250px;
-        margin-left: 22px
-      }
-    }
-
-    @media (min-width: 1000px) {
-      .Stats-module_gameStats__X2eDU .Stats-module_statisticsHeading__CExdL {
-        padding-top: 0px
-      }
-    }
-
-    .Stats-module_statistics__oFLEK {
-      display: flex;
-      width: 100%;
-      margin-bottom: 10px
-    }
-
-    @media (min-width: 500px) {
-      .Stats-module_statistics__oFLEK {
-        align-self: center
-      }
-    }
-
-    .Stats-module_statisticContainer__woJli {
-      flex: 1;
-      margin-left: 12px
-    }
-
-    .Stats-module_statisticContainer__woJli:last-child {
-      margin-right: 12px
-    }
-
-    .Stats-module_statisticContainer__woJli .Stats-module_statistic__u5db0 {
-      font-size: 24px;
-      font-weight: 400;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      letter-spacing: .05em;
-      font-variant-numeric: proportional-nums;
-      line-height: 34px
-    }
-
-    @media (min-width: 500px) {
-      .Stats-module_statisticContainer__woJli .Stats-module_statistic__u5db0:not(.Stats-module_small__zkkbW) {
-        font-size: 44px;
-        font-weight: 500
-      }
-    }
-
-    .Stats-module_statistic__u5db0.Stats-module_timer__ndCDz {
-      font-variant-numeric: initial;
-      font-size: 32px;
-      line-height: 34px;
-      letter-spacing: .025em
-    }
-
-    .Stats-module_statisticContainer__woJli .Stats-module_label__sQwFu {
-      font-size: 12px;
-      font-weight: 400;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      line-height: 14px;
-      letter-spacing: .1em
-    }
-
-    @media (min-width: 500px) {
-      .Stats-module_statisticContainer__woJli .Stats-module_label__sQwFu {
-        margin-top: 4px
-      }
-    }
-
-    .Stats-module_guessDistribution__ibfJS {
-      width: 80%;
-      margin-bottom: 10px
-    }
-
-    @media (min-width: 500px) {
-      .Stats-module_guessDistribution__ibfJS {
-        width: 58%;
-        margin-bottom: 20px;
-        margin-left: 22px
-      }
-    }
-
-    .Stats-module_graphContainer__Al4D1 {
-      width: 100%;
-      height: 18px;
-      display: flex;
-      align-items: center;
-      padding-bottom: 4px;
-      font-size: 14px;
-      line-height: 20px
-    }
-
-    .Stats-module_graphContainer__Al4D1 .Stats-module_graph__f4tUv {
-      width: 100%;
-      height: 100%;
-      padding-left: 4px
-    }
-
-    .Stats-module_graphContainer__Al4D1 .Stats-module_graph__f4tUv .Stats-module_graphBar__HvdG8 {
-      height: 100%;
-      width: 0%;
-      position: relative;
-      background-color: var(--color-absent);
-      display: flex;
-      justify-content: center
-    }
-
-    .Stats-module_graphContainer__Al4D1 .Stats-module_graph__f4tUv .Stats-module_graphBar__HvdG8.Stats-module_highlight__lrZJU {
-      background-color: var(--color-correct-high-contrast)
-    }
-
-    .Stats-module_graphContainer__Al4D1 .Stats-module_graph__f4tUv .Stats-module_graphBar__HvdG8.Stats-module_alignRight__ljKmf {
-      justify-content: flex-end;
-      padding-right: 8px
-    }
-
-    .Stats-module_graphContainer__Al4D1 .Stats-module_graph__f4tUv .Stats-module_numGuesses__jFa2m {
-      font-weight: bold;
-      color: var(--tile-text-color);
-      font-size: 12px;
-      line-height: 18px
-    }
-
-    .Stats-module_footer__jx3ae {
-      display: flex;
-      width: 100%
-    }
-
-    .Stats-module_countdown__C3zxv {
-      border-right: 1px solid var(--color-tone-1);
-      padding-right: 12px;
-      width: 50%
-    }
-
-    .Stats-module_share__EvF2C {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-left: 12px;
-      width: 50%
-    }
-
-    .Stats-module_noData__J1mBk {
-      margin-bottom: 10px
-    }
-
-    .Stats-module_shareButton__L4E0m {
-      background-color: var(--key-bg-correct);
-      color: var(--key-evaluated-text-color);
-      font-family: inherit;
-      font-weight: bold;
-      border-radius: 4px;
-      cursor: pointer;
-      border: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: row;
-      text-transform: uppercase;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, .3);
-      width: 80%;
-      font-size: 20px;
-      height: 52px;
-      filter: brightness(100%)
-    }
-
-    @media (max-width: 444px) {
-      .Stats-module_shareButton__L4E0m {
-        font-size: 16px
-      }
-    }
-
-    .Stats-module_shareButton__L4E0m:hover {
-      opacity: .9
-    }
-
-    .Stats-module_shareIconContainer__RUxSV {
-      width: 24px;
-      height: 24px;
-      padding-left: 8px
-    }
-
-    .Stats-module_statsBtnLeft__IyDkc {
-      justify-content: unset;
-      width: 80%;
-      margin: 0px 0px 10px 0
-    }
-
-    @media (min-width: 500px) {
-      .Stats-module_statsBtnLeft__IyDkc {
-        width: 250px;
-        margin-left: 22px
-      }
-    }
-
-    .Stats-module_statsBtnLeft__IyDkc h1 {
-      display: inline-block
-    }
-
-    .Stats-module_statsBtnLeft__IyDkc .Stats-module_guessDistributionCopy__ydhXT {
-      font-family: "nyt-franklin";
-      font-weight: bold;
-      text-transform: uppercase;
-      font-weight: 700;
-      font-size: 14px
-    }
-
-    .Stats-module_statsBtnLeft__IyDkc button {
-      margin-left: 10px
-    }
-
-    .Stats-module_statsBtnCenter__AG0A8 {
-      margin: 10px
-    }
-
-    .Stats-module_statsInfoBtn__bPz7C {
-      display: none;
-      align-self: center;
-      all: unset;
-      text-decoration: underline;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 16px;
-      margin-bottom: 20px;
-      color: var(--color-tone-10);
-      cursor: pointer;
-      width: 92%
-    }
-
-    @media (min-width: 500px) {
-      .Stats-module_statsInfoBtn__bPz7C {
-        display: block;
-        width: 250px;
-        align-self: center
-      }
-    }
-
-    .Stats-module_promoButton__AfY3n {
-      border: 1px solid var(--color-tone-1);
-      padding: 10px;
-      border-radius: 105px;
-      background: var(--color-tone-7);
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 16px;
-      color: inherit;
-      text-decoration: none;
-      width: 150px;
-      display: flex;
-      width: 66%;
-      align-items: center;
-      vertical-align: middle;
-      justify-content: center
-    }
-
-    .Stats-module_promoIcon__YEC17 {
-      width: 25px;
-      height: 25px;
-      background-image: var(--spelling-bee-promo);
-      background-size: 25px;
-      background-position: center;
-      margin-left: 5px
-    }
-
-    .Stats-module_promoButtonContainer__jGI1r {
-      border-top: 1px solid var(--color-tone-9);
-      width: 100%;
-      justify-content: center;
-      display: flex;
-      padding-top: 20px
-    }
-
-    .Stats-module_ctaContainer__1Krdy {
-      width: 100%
-    }
-
-    .Stats-module_guess__Fc0Xn {
-      font-weight: bold;
-      font-size: 12px;
-      line-height: 18px;
-      letter-spacing: .1em
-    }
-
-    .Stats-module_testGameStats__dznYC {
-      padding: 16px
-    }
-
-    .Stats-module_testGameStats_regiwall__oBOlx {
-      padding-top: 0
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .Stats-module_testGameStats__dznYC {
-        padding-bottom: 6px
-      }
-    }
-
-    .Stats-module_testTimer__GYTLQ {
-      font-family: "nyt-franklin";
-      font-size: 14px;
-      line-height: 20px;
-      font-weight: 700
-    }
-
-    .Header-module_flexContainer__ySFsd {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .Header-module_expandToRow__nhW3k {
-    }
-
-    @media (min-width: 444px) {
-      .Header-module_expandToRow__nhW3k {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .Header-module_mobileColumn___nCFN {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .Header-module_visually-hidden__cGU4S {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .Header-module_flexCenter__B5aPn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap
-    }
-
-    .Header-module_regiwallText__iNXVa {
-      letter-spacing: 0;
-      text-transform: none;
-      text-align: center;
-      display: block
-    }
-
-    .Header-module_regiwallText_heading__JhUCz {
-      font: 700 36px nyt-karnakcondensed, Georgia;
-      line-height: 115%;
-      margin: 8px 0
-    }
-
-    .Header-module_regiwallText_heading_condensed__Tv8Qb {
-      font: 400 28px nyt-karnak, Georgia;
-      line-height: 115%;
-      margin: .5em 0
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .Header-module_regiwallText_heading_condensed__Tv8Qb {
-        margin: .25em
-      }
-    }
-
-    @media (min-width: 768px)and (max-width: 1025px) {
-      .Header-module_regiwallText_heading_condensed__Tv8Qb {
-        font-size: 32px
-      }
-    }
-
-    @media (min-width: 1025px) {
-      .Header-module_regiwallText_heading_condensed__Tv8Qb {
-        font-size: 36px
-      }
-    }
-
-    .Header-module_regiwallText_subheading__x0Sp_ {
-      font: 400 24px nyt-karnak, Georgia;
-      line-height: 120%
-    }
-
-    .Header-module_regiwallText_link__grL8P {
-      color: var(--color-tone-1);
-      font: 600 16px nyt-franklin, Arial;
-      line-height: 20.8px;
-      text-decoration: underline
-    }
-
-    .Header-module_icon__g9flM {
-      width: 56px;
-      height: 56px;
-      margin-bottom: unset !important
-    }
-
-    .Header-module_icon_wordle__Ft04D {
-      background-image: var(--wordle-icon);
-      background-size: cover;
-      background-repeat: no-repeat
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .Header-module_icon__g9flM {
-        display: none
-      }
-    }
-
-    .SpellingBeeCTA-module_container__iJS15 {
-      margin-top: 20px;
-      width: 300px;
-      height: 60px
-    }
-
-    .SpellingBeeCTA-module_cardContainer__re6a6 {
-      display: flex;
-      flex-direction: column;
-      align-content: center;
-      margin: 0 auto
-    }
-
-    @media (min-width: 500px) {
-
-      .SpellingBeeCTA-module_cardContainer__re6a6 {
-        padding-bottom: 24px
-      }
-    }
-
-    .SpellingBeeCTA-module_spellingBeeCardEmphasis__OPJ36 {
-      background-color: var(--spellingBeeYellow);
-      display: flex;
-      padding: 12px 0;
-      border-radius: 4px
-    }
-
-    .SpellingBeeCTA-module_promoIcon__jOVZp {
-      width: 45px;
-      height: 40px;
-      background-image: var(--spelling-bee-promo);
-      background-size: contain;
-      background-position: center;
-      margin: auto 8px auto 8px
-    }
-
-    a {
-      text-decoration: none
-    }
-
-    .SpellingBeeCTA-module_cardText__mFOX0 {
-      align-self: center
-    }
-
-    .SpellingBeeCTA-module_cardText__mFOX0 + .SpellingBeeCTA-module_arrow__nLJJh {
-      width: 20px;
-      height: 20px;
-      background-size: contain;
-      background-position: center;
-      margin: auto
-    }
-
-    @media (min-width: 500px) {
-      .SpellingBeeCTA-module_promoIcon__jOVZp {
-        margin-right: 4px
-      }
-    }
-
-    .SpellingBeeCTA-module_gameTitle__LS_DG {
-      color: var(--newsGray-100);
-      display: block;
-      font-family: "nyt-karnakcondensed";
-      letter-spacing: .01em;
-      font-size: 14px;
-      line-height: 14px;
-      margin-bottom: 5px
-    }
-
-    .SpellingBeeCTA-module_cardDescription__C75jz {
-      color: var(--newsGray-100);
-      font-size: 16px;
-      line-height: 16px;
-      font-family: "nyt-franklin";
-      font-weight: 700;
-      margin-top: 4px;
-      display: inline-block
-    }
-
-    .Footer-module_container__Xnn0r {
-      border-top: 1px solid var(--color-tone-9);
-      text-align: left;
-      display: flex;
-      padding: 10px;
-      padding-bottom: 7px;
-      padding-left: 14px
-    }
-
-    @media (min-width: 500px) {
-      .Footer-module_container__Xnn0r {
-        padding: 15px 50px 10px 50px
-      }
-    }
-
-    .Footer-module_icon__S_vdW {
-      padding-top: 10px
-    }
-
-    .Footer-module_promoIcon__z2T7Q {
-      width: 25px;
-      height: 25px;
-      background-image: var(--spelling-bee-promo);
-      background-size: 25px;
-      background-position: center;
-      margin-left: 5px
-    }
-
-    .Footer-module_textContainer__LWkeW > p {
-      margin: 5px
-    }
-
-    .Footer-module_textContainer__LWkeW .Footer-module_bold__g62FY {
-      color: var(--color-tone-1);
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 20px
-    }
-
-    .Footer-module_textContainer__LWkeW .Footer-module_subText__cQvRy {
-      color: var(--color-tone-11);
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 16px;
-      margin-bottom: 12px
-    }
-
-    .Footer-module_textContainer__LWkeW .Footer-module_title__CzTdf {
-      color: var(--outlineBlue);
-      font-weight: 700;
-      font-size: 11px;
-      line-height: 12px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin-bottom: 2px
-    }
-
-    .Footer-module_textContainer__LWkeW .Footer-module_line1__lLInr {
-      margin-bottom: 0
-    }
-
-    .Footer-module_textContainer__LWkeW .Footer-module_line2__m1O4_ {
-      margin-top: 0;
-      margin-bottom: 4px
-    }
-
-    .Footer-module_buttonsContainer__YNxCQ {
-      text-align: center;
-      margin-top: 10px
-    }
-
-    .Footer-module_buttonsContainer__YNxCQ .Footer-module_moreLink__gHL9Q {
-      all: unset;
-      text-decoration: underline;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 16px;
-      color: var(--color-tone-11);
-      margin: 10px 20px 20px 20px;
-      cursor: pointer
-    }
-
-    .Footer-module_buttonsContainer__YNxCQ .Footer-module_loginButton__abKD3 {
-      background-color: var(--color-tone-7);
-      color: var(--color-tone-1);
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 12px;
-      line-height: 14px;
-      border: 1px solid var(--color-tone-1);
-      border-radius: 55px;
-      align-items: center;
-      text-align: center;
-      letter-spacing: .04em;
-      text-decoration: none;
-      padding: 14px 5px
-    }
-
-    .Footer-module_buttonsContainer__YNxCQ .Footer-module_loginButton__abKD3 > a {
-      color: inherit;
-      text-decoration: none
-    }
-
-    @media (min-width: 500px) {
-      .Footer-module_buttonsContainer__YNxCQ {
-        width: 80%;
-        margin: 0 auto
-      }
-
-      .Footer-module_loginButton__abKD3 {
-        font-size: 14px;
-        width: 90%;
-        margin: 0 auto
-      }
-    }
-
-    @media (max-width: 499px) {
-      .Footer-module_buttonsContainer__YNxCQ {
-        width: 70%;
-        margin: 0 auto
-      }
-
-      .Footer-module_loginButton__abKD3 {
-        width: 100%
-      }
-    }
-
-    .Footer-module_promoButton__UcPmY, .Footer-module_sbButtonFooter__X3LsB .Footer-module_sbPlayButton__kNigc {
-      border: 1px solid var(--color-tone-1);
-      padding: 10px;
-      border-radius: 105px;
-      background: var(--color-tone-7);
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 16px;
-      color: inherit;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      margin-right: 12px;
-      vertical-align: middle;
-      justify-content: center
-    }
-
-    .Footer-module_shareButton__cHprS {
-      background-color: var(--color-correct-high-contrast);
-      color: var(--key-evaluated-text-color);
-      border-radius: 104px;
-      border: none;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 16px;
-      vertical-align: middle;
-      cursor: pointer
-    }
-
-    #Footer-module_shareIcon__wOwOt {
-      vertical-align: middle;
-      margin-left: 10px
-    }
-
-    .Footer-module_shareText__m7yUa {
-      color: var(--key-evaluated-text-color)
-    }
-
-    @media (max-width: 295px) {
-      .Footer-module_promoIcon__z2T7Q {
-        width: 15px;
-        height: 15px;
-        background-size: 15px
-      }
-
-      .Footer-module_shareButton__cHprS {
-        font-size: 10px
-      }
-    }
-
-    .Footer-module_bottomSheet__XnX4f .Footer-module_bottomSheetContainer__rNfdr {
-      padding: 16px
-    }
-
-    .Footer-module_bottomSheet__XnX4f .Footer-module_shareButton__cHprS {
-      width: 200px;
-      height: 44px
-    }
-
-    @media (max-width: 500px) {
-      .Footer-module_bottomSheet__XnX4f .Footer-module_shareButton__cHprS {
-        width: 230px;
-        height: 44px
-      }
-    }
-
-    .Footer-module_bottomSheet__XnX4f .Footer-module_shareText__m7yUa {
-      font-family: "nyt-franklin";
-      font-size: 16px;
-      line-height: 22px;
-      letter-spacing: .04em
-    }
-
-    .Footer-module_bottomSheet__XnX4f .Footer-module_nextWordle__Bzpb0 {
-      font-family: "nyt-franklin";
-      font-size: 14px;
-      line-height: 20px;
-      font-weight: 700
-    }
-
-    .Footer-module_sbButtonFooter__X3LsB .Footer-module_bottomSheetContainer__rNfdr {
-      display: flex;
-      flex-direction: column;
-      align-content: center;
-      justify-content: center;
-      align-items: center
-    }
-
-    .Footer-module_sbButtonFooter__X3LsB .Footer-module_buttonContainer__hP4ut {
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      justify-content: space-between
-    }
-
-    .Footer-module_sbButtonFooter__X3LsB .Footer-module_shareText__m7yUa, .Footer-module_sbButtonFooter__X3LsB .Footer-module_sbPlayButton__kNigc {
-      font: 700 13px "nyt-franklin"
-    }
-
-    .Footer-module_sbButtonFooter__X3LsB .Footer-module_mediumText__jHtfj {
-      display: none
-    }
-
-    .Footer-module_sbButtonFooter__X3LsB .Footer-module_nextWordle__Bzpb0 {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      letter-spacing: .07em;
-      margin-bottom: 12px
-    }
-
-    .Footer-module_sbButtonFooter__X3LsB .Footer-module_nextWordle__Bzpb0 span {
-      margin-right: 4px
-    }
-
-    .Footer-module_sbButtonFooter__X3LsB .Footer-module_sbPlayButton__kNigc {
-      border: 0;
-      background-color: var(--spellingBeeYellow)
-    }
-
-    .Footer-module_sbButtonFooter__X3LsB .Footer-module_sbPlayButton__kNigc span {
-      color: #121212;
-      letter-spacing: normal
-    }
-
-    .Footer-module_sbButtonFooter__X3LsB .Footer-module_promoIcon__z2T7Q {
-      width: 16px;
-      background-size: 100%;
-      background-repeat: no-repeat
-    }
-
-    @media (min-width: 321px) {
-      .Footer-module_sbButtonFooter__X3LsB .Footer-module_sbPlayButton__kNigc {
-        font-size: 14px;
-        line-height: 18px
-      }
-
-      .Footer-module_sbButtonFooter__X3LsB .Footer-module_shareText__m7yUa {
-        font: 600 16px/20px "nyt-franklin"
-      }
-
-      .Footer-module_sbButtonFooter__X3LsB .Footer-module_mediumText__jHtfj {
-        display: block
-      }
-    }
-
-    .BotLink-module_botLink__uRdNy {
-      display: flex;
-      box-sizing: border-box;
-      width: 100%;
-      padding: 16px 0;
-      border-top: 1px solid var(--color-tone-9);
-      border-bottom: 1px solid var(--color-tone-9);
-      text-decoration: none;
-      color: inherit
-    }
-
-    @media (min-width: 500px) {
-      .BotLink-module_botLink__uRdNy {
-        padding: 16px 0px;
-        width: 343px;
-        align-self: center
-      }
-    }
-
-    .BotLink-module_botLink__uRdNy .BotLink-module_botIcon__fF161 {
-      content: var(--wordlebot-walking-icon);
-      padding-right: 2px;
-      height: 31px;
-      width: 31px;
-      margin-right: 8px
-    }
-
-    .BotLink-module_botLink__uRdNy .BotLink-module_botLinkContent__RR4ri {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1
-    }
-
-    .BotLink-module_botLink__uRdNy .BotLink-module_botLinkContent__RR4ri p {
-      font: 700 14px/17.5px "nyt-franklin";
-      margin: 0
-    }
-
-    .BotLink-module_botLink__uRdNy .BotLink-module_botLinkContent__RR4ri p span {
-      font-weight: 400;
-      text-decoration: underline
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .BotLink-module_botLink__uRdNy .BotLink-module_botLinkContent__RR4ri p {
-        font-size: 13px
-      }
-    }
-
-    .BotLink-module_botLink__uRdNy .BotLink-module_mobileOnly__XMO4b {
-      display: block
-    }
-
-    @media (min-width: 500px) {
-      .BotLink-module_botLink__uRdNy .BotLink-module_mobileOnly__XMO4b {
-        display: none
-      }
-    }
-
-    .RegiwallPrompt-module_flexContainer__kQLQ3 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .RegiwallPrompt-module_expandToRow__d8iMO {
-    }
-
-    @media (min-width: 444px) {
-      .RegiwallPrompt-module_expandToRow__d8iMO {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .RegiwallPrompt-module_mobileColumn__ralDy {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .RegiwallPrompt-module_visually-hidden__krkC5 {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .RegiwallPrompt-module_flexCenter__uO4pd {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap
-    }
-
-    .RegiwallPrompt-module_regiwallText__sKAdI {
-      letter-spacing: 0;
-      text-transform: none;
-      text-align: center;
-      display: block
-    }
-
-    .RegiwallPrompt-module_regiwallText_heading__NVhzp {
-      font: 700 36px nyt-karnakcondensed, Georgia;
-      line-height: 115%;
-      margin: 8px 0
-    }
-
-    .RegiwallPrompt-module_regiwallText_heading_condensed__D4F3u {
-      font: 400 28px nyt-karnak, Georgia;
-      line-height: 115%;
-      margin: .5em 0
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .RegiwallPrompt-module_regiwallText_heading_condensed__D4F3u {
-        margin: .25em
-      }
-    }
-
-    @media (min-width: 768px)and (max-width: 1025px) {
-      .RegiwallPrompt-module_regiwallText_heading_condensed__D4F3u {
-        font-size: 32px
-      }
-    }
-
-    @media (min-width: 1025px) {
-      .RegiwallPrompt-module_regiwallText_heading_condensed__D4F3u {
-        font-size: 36px
-      }
-    }
-
-    .RegiwallPrompt-module_regiwallText_subheading__deF_s {
-      font: 400 24px nyt-karnak, Georgia;
-      line-height: 120%
-    }
-
-    .RegiwallPrompt-module_regiwallText_link__S_3Z6 {
-      color: var(--color-tone-1);
-      font: 600 16px nyt-franklin, Arial;
-      line-height: 20.8px;
-      text-decoration: underline
-    }
-
-    .RegiwallPrompt-module_flexContainer__kQLQ3 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .RegiwallPrompt-module_expandToRow__d8iMO {
-    }
-
-    @media (min-width: 444px) {
-      .RegiwallPrompt-module_expandToRow__d8iMO {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .RegiwallPrompt-module_mobileColumn__ralDy {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .RegiwallPrompt-module_visually-hidden__krkC5 {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .RegiwallPrompt-module_parentContainer__liHHb {
-      width: 312px;
-      display: flex;
-      flex-direction: column
-    }
-
-    .RegiwallPrompt-module_regiButton__uaOG2 {
-      position: relative;
-      border: none;
-      height: 3em;
-      border-radius: 1.5em;
-      align-content: center;
-      letter-spacing: .05em;
-      font-size: 16px;
-      font-family: "nyt-franklin";
-      line-height: 28px;
-      cursor: pointer;
-      padding: 0 2em;
-      font-weight: 600;
-      color: var(--color-tone-7);
-      background-color: var(--color-tone-1);
-      margin: 1.25em 0 1.25em 0
-    }
-
-    .RegiwallPrompt-module_regiButtonContainer__g7g5M {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column-reverse;
-      box-sizing: border-box;
-      width: 100%
-    }
-
-    .RegiwallPrompt-module_loginButton__R6IJg {
-      background: none;
-      border: none;
-      cursor: pointer
-    }
-
-    .RegiwallPrompt-module_bot__ddO9Q {
-      margin-top: 2.5em;
-      width: 110%
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .RegiwallPrompt-module_bot__ddO9Q {
-        margin-top: 1em
-      }
-    }
-
-    .HardModeAwareness-module_hardModeText__Q6Rax {
-      padding: 40px
-    }
-
-    @media (max-width: 500px) {
-      .HardModeAwareness-module_hardModeText__Q6Rax {
-        padding: 32px
-      }
-    }
-
-    .HardModeAwareness-module_instructions__wSWO4 {
-      font-family: "nyt-franklin";
-      font-weight: 300;
-      font-size: 24px;
-      line-height: 30px;
-      margin-bottom: 28px
-    }
-
-    .HardModeAwareness-module_settingsButton__DGkRg {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 18px;
-      border: 1px solid;
-      border-radius: 16px;
-      padding: 6px 17px 7px;
-      background-color: rgba(0, 0, 0, 0);
-      color: var(--color-tone-1);
-      border-color: var(--color-tone-1)
-    }
-
-    .HardModeAwareness-module_settingsButton__DGkRg svg {
-      width: 12px;
-      height: 12px;
-      margin: 1px 0 0 5px;
-      display: inline-block
-    }
-
-    #hardModeAwareness-dialog > div:first-child {
-      padding: 0;
-      max-width: 440px
-    }
-
-    @media (max-width: 500px) {
-      #hardModeAwareness-dialog > div:first-child {
-        width: 90%;
-        height: auto;
-        min-height: unset;
-        align-self: center
-      }
-    }
-
-    @media (max-width: 500px) {
-      .HardModeAwareness-module_instructions__wSWO4 {
-        font-size: 20px;
-        line-height: 24px;
-        margin-bottom: 18px
-      }
-    }
-
-    .ActivationRegiModal-module_regiModalContainer__YtnuA {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding-top: 16px
-    }
-
-    .ActivationRegiModal-module_copyContainer__sveqD {
-      max-width: 260px;
-      margin-top: 35px
-    }
-
-    .ActivationRegiModal-module_copyContainer__sveqD .ActivationRegiModal-module_copyHeader__LnHo5 {
-      font-size: 16px;
-      line-height: 20px;
-      font-weight: 700;
-      margin-bottom: 14px
-    }
-
-    .ActivationRegiModal-module_copyContainer__sveqD .ActivationRegiModal-module_copyBody__Lpr_0 {
-      font-size: 14px;
-      line-height: 18px;
-      font-weight: 400
-    }
-
-    .ActivationRegiModal-module_loginLink__qqJOJ {
-      background-color: var(--color-tone-1);
-      color: var(--color-tone-7);
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 14px;
-      box-sizing: border-box;
-      border: 3px solid var(--color-tone-1);
-      border-radius: 55px;
-      align-items: center;
-      text-align: center;
-      letter-spacing: .04em;
-      text-decoration: none;
-      padding: 14px 5px;
-      margin: 40px 0 24px;
-      max-width: 340px;
-      width: 100%
-    }
-
-    .ActivationRegiModal-module_loginLink__qqJOJ > a {
-      color: inherit;
-      text-decoration: none
-    }
-
-    .ActivationRegiModal-module_statsIcon__E2E2U {
-      height: 148px;
-      width: 148px
-    }
-
-    .driveToMore {
-      display: flex;
-      align-items: center;
-      font-family: "nyt-franklin";
-      width: 100%;
-      flex-direction: column
-    }
-
-    .driveToMore::-webkit-scrollbar {
-      display: none
-    }
-
-    .driveToMore .DriveToMoreContent-module_bottom__v8mPw {
-      width: 100%
-    }
-
-    @media (min-height: 548px) {
-      .driveToMore .DriveToMoreContent-module_bottom__v8mPw {
-        margin-bottom: 20px
-      }
-    }
-
-    .pz-desktop .driveToMore .DriveToMoreContent-module_bottom__v8mPw {
-      max-width: 693px
-    }
-
-    .driveToMore h4 {
-      font: 700 0.6875rem/0.859375rem "nyt-franklin";
-      letter-spacing: .05em;
-      border-top: solid 2px var(--color-tone-1);
-      padding-top: 10px;
-      margin: 0 auto 18px;
-      width: calc(100% - 50px);
-      display: none
-    }
-
-    @media (min-height: 548px) {
-      .driveToMore h4 {
-        display: block
-      }
-    }
-
-    @media (min-width: 768px) {
-      .driveToMore h4 {
-        width: calc(100% - 100px)
-      }
-    }
-
-    .driveToMore .DriveToMoreContent-module_fitContent__h6S25 {
-      margin: auto
-    }
-
-    @media (min-width: 768px) {
-
-      .driveToMore .DriveToMoreContent-module_fitContent__h6S25 h4 {
-        width: 100%
-      }
-    }
-
-    .driveToMore .DriveToMoreContent-module_fitContentGrid__TDzaq h4 {
-      width: auto
-    }
-
-    .driveToMore .DriveToMoreContent-module_sb___maFR {
-      background-color: var(--spellingBeeYellow)
-    }
-
-    .driveToMore .DriveToMoreContent-module_sb___maFR .DriveToMoreContent-module_icon__p5Ui4 {
-      background-image: var(--spelling-bee-np)
-    }
-
-    .driveToMore .DriveToMoreContent-module_mini__Of3jv {
-      background-color: var(--miniCrosswordBlue)
-    }
-
-    .driveToMore .DriveToMoreContent-module_mini__Of3jv .DriveToMoreContent-module_icon__p5Ui4 {
-      background-image: var(--mini-np)
-    }
-
-    .driveToMore .DriveToMoreContent-module_connections__MMX1o {
-      background-color: var(--connectionsPeriwinkle)
-    }
-
-    .driveToMore .DriveToMoreContent-module_connections__MMX1o .DriveToMoreContent-module_icon__p5Ui4 {
-      background-image: var(--connections-np)
-    }
-
-    .driveToMore .DriveToMoreContent-module_sudoku__lqOay {
-      background-color: var(--sudoku-orange)
-    }
-
-    .driveToMore .DriveToMoreContent-module_sudoku__lqOay .DriveToMoreContent-module_icon__p5Ui4 {
-      background-image: var(--sudoku-np)
-    }
-
-    .driveToMore .DriveToMoreContent-module_tiles__sshIx {
-      background-color: var(--tiles-green)
-    }
-
-    .driveToMore .DriveToMoreContent-module_tiles__sshIx .DriveToMoreContent-module_icon__p5Ui4 {
-      background-image: var(--tiles-np)
-    }
-
-    .driveToMore .DriveToMoreContent-module_crossword__AAvxe {
-      background-color: var(--dailyCrosswordBlue)
-    }
-
-    .driveToMore .DriveToMoreContent-module_crossword__AAvxe .DriveToMoreContent-module_icon__p5Ui4 {
-      background-image: var(--daily-np)
-    }
-
-    .driveToMore .DriveToMoreContent-module_carouselContainer__buFnq {
-      display: flex;
-      flex-flow: row;
-      overflow-x: scroll;
-      scroll-snap-type: x mandatory;
-      width: 100%;
-      margin-bottom: 15px
-    }
-
-    .driveToMore .DriveToMoreContent-module_carouselContainer__buFnq::-webkit-scrollbar {
-      display: none
-    }
-
-    @media (min-height: 548px) {
-      .driveToMore .DriveToMoreContent-module_carouselContainer__buFnq {
-        margin-bottom: 30px
-      }
-    }
-
-    @media (min-width: 768px) {
-      .driveToMore .DriveToMoreContent-module_carouselContainer__buFnq {
-        width: auto;
-        margin: auto
-      }
-    }
-
-    .driveToMore .DriveToMoreContent-module_gridContainer__vWpCc:after {
-      content: ""
-    }
-
-    .pz-desktop .driveToMore .DriveToMoreContent-module_gridContainer__vWpCc:after {
-      display: none
-    }
-
-
-    @media (min-width: 768px) {
-      .driveToMore .DriveToMoreContent-module_gridContainer__vWpCc:after {
-        display: none
-      }
-    }
-
-    .driveToMore .DriveToMoreContent-module_gridContainer__vWpCc.DriveToMoreContent-module_gamesStack__pnYB2:after {
-      display: none
-    }
-
-    .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW {
-      height: 91px;
-      scroll-snap-align: center;
-      width: 100%
-    }
-
-    @media (min-height: 548px) {
-      .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW {
-        height: 123px;
-        flex: 0 0 123px
-      }
-    }
-
-    @media (min-width: 768px) {
-      .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW {
-        height: 100%;
-        width: 100%
-      }
-    }
-
-    .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku {
-      border-radius: .5rem;
-      color: #121212;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center
-    }
-
-    .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW .DriveToMoreContent-module_icon__p5Ui4, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku .DriveToMoreContent-module_icon__p5Ui4 {
-      background-size: contain;
-      background-repeat: no-repeat
-    }
-
-    .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW .DriveToMoreContent-module_icon__p5Ui4 {
-      width: 28px;
-      height: 28px
-    }
-
-    @media (min-width: 768px) {
-      .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW .DriveToMoreContent-module_icon__p5Ui4 {
-        width: 25px;
-        height: 25px
-      }
-    }
-
-    .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku .DriveToMoreContent-module_icon__p5Ui4 {
-      width: 25px;
-      height: 25px
-    }
-
-    .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW p, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku p {
-      font: 700 0.875rem/1.1875rem "nyt-karnakcondensed";
-      margin: 5px 0 2px
-    }
-
-    @media (min-height: 548px) {
-      .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW p, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku p {
-        font-size: 1rem
-      }
-    }
-
-    @media (min-width: 768px) {
-      .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW p, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku p {
-        font-size: 1rem
-      }
-    }
-
-    .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW span, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku span {
-      font: 500 0.75rem/1rem "nyt-franklin"
-    }
-
-    @media (min-height: 548px) {
-      .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW span, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku span {
-        font-size: 0.875rem;
-        line-height: 1.125rem
-      }
-    }
-
-    @media (min-width: 992px) {
-      .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW span, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku span {
-        font-size: 0.75rem
-      }
-    }
-
-    .NewsCarousel-module_flexContainer___yphX {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .NewsCarousel-module_expandToRow__zBHIU {
-    }
-
-    @media (min-width: 444px) {
-      .NewsCarousel-module_expandToRow__zBHIU {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .NewsCarousel-module_mobileColumn__BAz8m {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .NewsCarousel-module_visually-hidden__zhcAQ {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .NewsCarousel-module_carouselContainer__C6Bua {
-      display: flex;
-      flex-flow: row;
-      overflow-x: scroll;
-      scroll-snap-type: x mandatory;
-      width: 100%;
-      margin-top: 8px
-    }
-
-    .NewsCarousel-module_carouselContainer__C6Bua::-webkit-scrollbar {
-      display: none
-    }
-
-    .NewsCarousel-module_carouselGrid__eBW_S::after {
-      content: ""
-    }
-
-    .NewsCarousel-module_carouselNewsItem__iTjNZ {
-      width: 100%;
-      min-height: 96px;
-      flex-shrink: 0;
-      scroll-snap-align: center
-    }
-
-    .NewsCarousel-module_carouselNewsItem__iTjNZ p {
-      font: 500 0.875rem/1.09375rem nyt-cheltenham, Georgia;
-      color: var(--color-tone-1);
-      margin-top: 8px
-    }
-
-    img {
-      width: 100%;
-      animation: NewsCarousel-module_fadeIn__XJI1h 500ms
-    }
-
-    .NewsCarousel-module_imageBg__kauxU {
-      background-color: #ebebeb;
-      width: 100%;
-      height: 0;
-      padding-bottom: 66.6666666667%
-    }
-
-    .NewsCarousel-module_desktopCarouselNewsContainer__aXhc3 {
-      display: grid;
-      grid-auto-columns: 1fr;
-      grid-auto-flow: column;
-      transition: .3s cubic-bezier(0.49, 0.49, 0.55, 0.95);
-      width: 100%
-    }
-
-    .NewsCarousel-module_desktopCarouselNewsItem__pjK2M {
-      width: 100%
-    }
-
-    .NewsCarousel-module_desktopCarouselNewsItem__pjK2M p {
-      font: 500 1rem/1.25rem nyt-cheltenham, Georgia;
-      color: var(--color-tone-1);
-      margin-top: 8px
-    }
-
-    .NewsCarousel-module_controlContainer__bltE2 {
-      width: 100%;
-      position: absolute;
-      z-index: 1;
-      top: 29%
-    }
-
-    .NewsCarousel-module_carouselControl__P2VRs {
-      position: absolute;
-      background-color: rgba(0, 0, 0, 0);
-      height: 26px;
-      width: 26px;
-      fill: #fff;
-      border: 0;
-      padding: 0;
-      stroke: #121212;
-      pointer-events: all;
-      cursor: pointer
-    }
-
-    .NewsCarousel-module_carouselControl__P2VRs svg {
-      width: 100%;
-      height: 100%
-    }
-
-    .NewsCarousel-module_carouselControl__P2VRs:hover svg {
-      fill: #dfdfdf
-    }
-
-    .NewsCarousel-module_carouselControl__P2VRs:disabled {
-      visibility: hidden
-    }
-
-    .NewsCarousel-module_next__CFPgU {
-      right: calc(-26px / 2)
-    }
-
-    .NewsCarousel-module_previous__rNe9O {
-      left: calc(-26px / 2);
-      transform: rotate(180deg)
-    }
-
-    .Switch-module_container__PO0Ll {
-      display: flex;
-      justify-content: space-between
-    }
-
-    .Switch-module_switch__isHE_ {
-      height: 20px;
-      width: 32px;
-      background: var(--color-tone-3);
-      border: none;
-      border-radius: 999px;
-      display: block;
-      position: relative;
-      cursor: pointer
-    }
-
-    .Switch-module_disabled__I6C9c {
-      opacity: .5;
-      cursor: not-allowed
-    }
-
-    .Switch-module_knob__B3HtC {
-      display: block;
-      position: absolute;
-      left: 2px;
-      top: 2px;
-      height: calc(100% - 4px);
-      width: 50%;
-      border-radius: 8px;
-      background: var(--white);
-      transform: translateX(0);
-      transition: transform .3s
-    }
-
-    .Switch-module_checked__R4Ixx .Switch-module_switch__isHE_ {
-      background: var(--color-correct)
-    }
-
-    .Switch-module_checked__R4Ixx .Switch-module_knob__B3HtC {
-      transform: translateX(calc(100% - 4px))
-    }
-
-    .Settings-module_setting__EaMz6 a, .Settings-module_setting__EaMz6 a:visited {
-      color: var(--color-tone-8);
-      text-decoration: underline
-    }
-
-    .Settings-module_title__NWAOC {
-      font-size: 18px
-    }
-
-    .Settings-module_text__l3Wz3 {
-      padding-right: 8px
-    }
-
-    a.Settings-module_feedbackLink__xHvaM {
-      text-decoration: underline
-    }
-
-    .Settings-module_description__m0Tpo {
-      font-size: 12px;
-      color: var(--color-tone-12)
-    }
-
-    .Settings-module_footnote__TOUR0 {
-      padding-top: 16px;
-      color: var(--color-tone-12);
-      font-size: 12px;
-      text-align: right;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end
-    }
-
-    .Settings-module_container__utVKC {
-      flex: 1
-    }
-
-    @media (min-width: 501px) {
-      .Settings-module_footnote__TOUR0 {
-        padding-bottom: 16px
-      }
-    }
-
-    @media only screen and (min-device-width: 320px)and (max-device-width: 480px) {
-      .Settings-module_setting__EaMz6 {
-        padding: 16px
-      }
-    }
-
-    .LoginPrompt-module_flexContainer__hNNau {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .LoginPrompt-module_expandToRow__BR9Qn {
-    }
-
-    @media (min-width: 444px) {
-      .LoginPrompt-module_expandToRow__BR9Qn {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .LoginPrompt-module_mobileColumn__XfvZp {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .LoginPrompt-module_visually-hidden__BsBEE {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .LoginPrompt-module_flexCenter__pzLCi {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap
-    }
-
-    .LoginPrompt-module_regiwallText__LYKvu {
-      letter-spacing: 0;
-      text-transform: none;
-      text-align: center;
-      display: block
-    }
-
-    .LoginPrompt-module_regiwallText_heading__FtdSV {
-      font: 700 36px nyt-karnakcondensed, Georgia;
-      line-height: 115%;
-      margin: 8px 0
-    }
-
-    .LoginPrompt-module_regiwallText_heading_condensed__vx_V3, .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_heading__CdJSh {
-      font: 400 28px nyt-karnak, Georgia;
-      line-height: 115%;
-      margin: .5em 0
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .LoginPrompt-module_regiwallText_heading_condensed__vx_V3, .driveToMore .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_heading__CdJSh, .LoginPrompt-module_cta__mvqcL .driveToMore .LoginPrompt-module_heading__CdJSh {
-        margin: .25em
-      }
-    }
-
-    @media (min-width: 768px)and (max-width: 1025px) {
-      .LoginPrompt-module_regiwallText_heading_condensed__vx_V3, .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_heading__CdJSh {
-        font-size: 32px
-      }
-    }
-
-    @media (min-width: 1025px) {
-      .LoginPrompt-module_regiwallText_heading_condensed__vx_V3, .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_heading__CdJSh {
-        font-size: 36px
-      }
-    }
-
-    .LoginPrompt-module_regiwallText_subheading__OZCWi {
-      font: 400 24px nyt-karnak, Georgia;
-      line-height: 120%
-    }
-
-    .LoginPrompt-module_regiwallText_link__RI4mW {
-      color: var(--color-tone-1);
-      font: 600 16px nyt-franklin, Arial;
-      line-height: 20.8px;
-      text-decoration: underline
-    }
-
-    .LoginPrompt-module_parent___ZoZ4 {
-      max-width: 520px;
-      display: flex;
-      flex-direction: column;
-      margin: auto
-    }
-
-    .LoginPrompt-module_icon__ecPL6 {
-      width: 56px;
-      height: 56px;
-      margin-bottom: unset !important;
-      background-image: var(--wordle-icon);
-      background-size: cover;
-      background-repeat: no-repeat
-    }
-
-    .LoginPrompt-module_cta__mvqcL {
-      letter-spacing: 0;
-      text-transform: none;
-      text-align: center;
-      display: flex;
-      flex-direction: column
-    }
-
-    .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_heading__CdJSh {
-      width: 400px
-    }
-
-    @media (min-width: 768px)and (max-width: 1025px) {
-      .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_heading__CdJSh {
-        width: 470px
-      }
-    }
-
-    @media (min-width: 1025px) {
-      .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_heading__CdJSh {
-        width: 470px
-      }
-    }
-
-    .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_subheading__ajwOT {
-      font: 300 20px "nyt-franklin";
-      line-height: 120%;
-      width: 320px
-    }
-
-    @media (min-width: 768px)and (max-width: 1025px) {
-      .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_subheading__ajwOT {
-        font-size: 24px;
-        width: 390px
-      }
-    }
-
-    @media (min-width: 1025px) {
-      .LoginPrompt-module_cta__mvqcL .LoginPrompt-module_subheading__ajwOT {
-        font-size: 24px;
-        width: 420px
-      }
-    }
-
-    .Modal-module_modalOverlay__cdZDa {
-      display: flex;
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      padding: 0;
-      border: none;
-      justify-content: center;
-      align-items: center;
-      background-color: var(--opacity-50);
-      z-index: var(--modal-z-index)
-    }
-
-    .Modal-module_content__TrPIX {
-      position: relative;
-      border-radius: 8px;
-      border: 1px solid var(--color-tone-6);
-      background-color: var(--modal-content-bg);
-      color: var(--color-tone-1);
-      box-shadow: 0 4px 23px 0 rgba(0, 0, 0, .2);
-      width: 90%;
-      max-height: 100%;
-      overflow-y: auto;
-      animation: Modal-module_SlideIn__BF5gw 200ms;
-      max-width: var(--game-max-width);
-      box-sizing: border-box
-    }
-
-    .Modal-module_content__TrPIX:focus {
-      outline: none
-    }
-
-    .Modal-module_content__TrPIX.Modal-module_testExtraWidth__Dptic {
-      max-width: 520px
-    }
-
-    .Modal-module_content__TrPIX.Modal-module_testExtraWidth__Dptic.Modal-module_fullscreenStats__dzhYf {
-      height: 100%;
-      max-width: 100%;
-      width: 100%
-    }
-
-    .driveToMore.Modal-module_content__TrPIX {
-      border-radius: 0
-    }
-
-    .Modal-module_topWrapper__MvEd5 {
-      padding: 16px;
-      width: 100%;
-      box-sizing: border-box
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .Modal-module_topWrapper__MvEd5 {
-        padding-top: 0;
-        padding-bottom: 0
-      }
-    }
-
-    .Modal-module_paddingTop__xhWdR {
-      padding-top: 30px;
-      height: calc(100% - 30px)
-    }
-
-    .Modal-module_extraPadding__XGzkT {
-      padding: 32px
-    }
-
-    .Modal-module_content__TrPIX.Modal-module_closing__Ly9iT {
-      animation: Modal-module_SlideOut__cmGvu 200ms
-    }
-
-    .Modal-module_fullscreenStatsExit__DpWAs {
-      width: 100%;
-      display: flex;
-      justify-content: center
-    }
-
-    .Modal-module_fullscreenStatsExit__DpWAs .Modal-module_buttonContainer__aEMIr {
-      display: flex;
-      justify-content: flex-end;
-      width: 100%;
-      padding-top: 24px;
-      padding-right: 16px
-    }
-
-    @media (min-width: 500px) {
-      .Modal-module_fullscreenStatsExit__DpWAs .Modal-module_buttonContainer__aEMIr {
-        padding-top: 36px;
-        padding-right: 36px
-      }
-    }
-
-    @media (min-width: 770px) {
-      .Modal-module_fullscreenStatsExit__DpWAs .Modal-module_buttonContainer__aEMIr {
-        max-width: 520px;
-        padding-right: 0
-      }
-    }
-
-    .pz-desktop .Modal-module_fullscreenStatsExit__DpWAs .Modal-module_buttonContainer__aEMIr {
-      padding-top: 75px
-    }
-
-    .Modal-module_fullscreenStatsExit__DpWAs .Modal-module_buttonContainer__aEMIr .Modal-module_closeIconButton__y9b6c {
-      background: none;
-      border: none;
-      position: relative;
-      padding: 0;
-      cursor: pointer;
-      width: 27px;
-      height: 27px
-    }
-
-    @media (min-width: 500px) {
-      .Modal-module_fullscreenStatsExit__DpWAs .Modal-module_buttonContainer__aEMIr .Modal-module_closeIconButton__y9b6c {
-        width: 30px;
-        height: 30px
-      }
-    }
-
-    .Modal-module_fullscreenStatsExit__DpWAs .Modal-module_buttonContainer__aEMIr .Modal-module_closeIconButton__y9b6c svg {
-      width: 100%;
-      height: auto
-    }
-
-    .Modal-module_closeIcon__TcEKb {
-      background: none;
-      border: none;
-      padding: 0;
-      width: 27px;
-      height: 27px;
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-      cursor: pointer
-    }
-
-    @media (min-width: 500px) {
-      .Modal-module_closeIcon__TcEKb {
-        width: 30px;
-        height: 30px
-      }
-    }
-
-    .Modal-module_closeIcon__TcEKb svg {
-      width: 100%;
-      height: auto
-    }
-
-    .Modal-module_heading__u2uxI {
-      font-family: "nyt-franklin";
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 15px;
-      margin-top: 0px;
-      display: block
-    }
-
-    .Modal-module_newHeading__Ah45w {
-      font-family: "nyt-karnakcondensed";
-      font-weight: 700;
-      font-size: 28px;
-      letter-spacing: 0;
-      line-height: 30px;
-      text-transform: none;
-      text-align: left;
-      margin-bottom: 4px;
-      margin-top: 29px;
-      display: block
-    }
-
-    .Modal-module_flexContainer__avPDp {
-      display: flex;
-      flex-direction: column
-    }
-
-    @media (max-width: 500px) {
-      .Modal-module_modalOverlay__cdZDa {
-        align-items: flex-end
-      }
-
-      .Modal-module_content__TrPIX {
-        min-height: 70%;
-        width: 100%
-      }
-
-      .Modal-module_content__TrPIX.Modal-module_testNoMinHeight__w7_BF {
-        min-height: initial
-      }
-
-      .Modal-module_content__TrPIX.Modal-module_shortStatsModal__JqZJK {
-        min-height: unset;
-        width: 100%;
-        padding-bottom: 20px
-      }
-
-      .Modal-module_paddingTop__xhWdR .Modal-module_content__TrPIX {
-        height: 100%
-      }
-    }
-
-    .Modal-module_content__TrPIX.Modal-module_noPadding__O80OB {
-      padding: 0
-    }
-
-    .Nav-module_container__OHjbB {
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-      min-height: 100%
-    }
-
-    .Nav-module_container__OHjbB a.Nav-module_navLink__zndY2 {
-      text-decoration: none;
-      color: inherit;
-      display: block
-    }
-
-    .Nav-module_container__OHjbB hr {
-      border: 0;
-      border-top: 1px solid #dcdcdc;
-      width: calc(100% - 36px)
-    }
-
-    .Nav-module_gameList__IkaW6, .Nav-module_nytList__rVjMX {
-      list-style: none;
-      color: var(--color-tone-1);
-      padding: unset;
-      margin: unset
-    }
-
-    .Nav-module_nytList__rVjMX {
-      margin-top: 5px
-    }
-
-    .Nav-module_navItem__khSKK {
-      display: flex;
-      justify-content: left;
-      align-items: flex-start;
-      font-family: "nyt-franklin-500";
-      font-size: 16px;
-      line-height: 1.3em;
-      padding: 8px 0 8px 18px;
-      --hover-color: var(--color-nav-hover)
-    }
-
-    .Nav-module_navItem__khSKK .Nav-module_navDescription__UGPPw {
-      max-width: 280px
-    }
-
-    .Nav-module_navItem__khSKK:hover {
-      background-color: var(--hover-color)
-    }
-
-    .Nav-module_navHeader__JaDrY {
-      padding-top: 18px;
-      padding-left: 18px
-    }
-
-    .Nav-module_moreText__Jg_7K {
-      font-family: "nyt-franklin";
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 12px;
-      line-height: 12px;
-      margin: 32px 0px 24px 0px;
-      padding-left: 18px
-    }
-
-    .Nav-module_privacy__T32_r, .Nav-module_privacyStatic__cQ4AX {
-      letter-spacing: .5px;
-      font-family: "nyt-franklin-500";
-      color: var(--color-tone-1);
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      font-size: 12px
-    }
-
-    .Nav-module_privacyItem__tSFYv {
-      height: 40px;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      color: var(--color-tone-1);
-      padding-left: 18px;
-      text-decoration: underline
-    }
-
-    .Nav-module_ccpaIcon__q6Ohg {
-      width: 25px;
-      height: 12px;
-      background: var(--california-privacy-icon) 0 0/cover no-repeat;
-      margin-right: 4px
-    }
-
-    .Nav-module_privacyStatic__cQ4AX {
-      position: static
-    }
-
-    .NavAccount-module_navLoggedIn__DU0tY, .NavAccount-module_navLoggedOut__L52sW {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-evenly;
-      flex-wrap: nowrap;
-      padding: 8px
-    }
-
-    .NavAccount-module_navLoggedOut__L52sW {
-      padding: 16px
-    }
-
-    .NavAccount-module_navDrawerHeading__kKsMu {
-      font-family: "nyt-franklin";
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .75px;
-      line-height: 14px;
-      display: block;
-      padding: 0px 10px;
-      -webkit-margin-before: 1.33em;
-      margin-block-start: 1.33em;
-      -webkit-margin-after: 1.33em;
-      margin-block-end: 1.33em;
-      -webkit-margin-start: 0px;
-      margin-inline-start: 0px;
-      -webkit-margin-end: 0px;
-      margin-inline-end: 0px
-    }
-
-    .NavAccount-module_navProfileAccount__cyEAP {
-      padding: 5px
-    }
-
-    .NavAccount-module_navButton__UTgBV, .NavAccount-module_logoutButton__Xiu49, .NavAccount-module_subscribeButton__F3y0Z, .NavAccount-module_loginButton__p4LNv {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      font-family: "nyt-franklin";
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .047em;
-      text-transform: uppercase;
-      height: 36px;
-      border: 1px solid #f4f4f4;
-      border-radius: 3px;
-      color: #fff;
-      background-color: #000;
-      padding: 1px 33px 0;
-      cursor: pointer;
-      text-decoration: none
-    }
-
-    a + .NavAccount-module_navButton__UTgBV, a + .NavAccount-module_logoutButton__Xiu49, a + .NavAccount-module_subscribeButton__F3y0Z, a + .NavAccount-module_loginButton__p4LNv {
-      margin-left: 8px
-    }
-
-    .NavAccount-module_navDrawerLink__RNbG5 {
-      font-family: "nyt-franklin";
-      display: block;
-      height: 40px;
-      line-height: 40px;
-      font-size: 15px;
-      letter-spacing: .5px;
-      border-left: 4px solid rgba(0, 0, 0, 0);
-      padding: 0 16px 0 8px;
-      text-decoration: none;
-      color: inherit
-    }
-
-    .NavAccount-module_navDrawerLink__RNbG5:hover {
-      background-color: var(--color-nav-hover)
-    }
-
-    .NavAccount-module_loginButton__p4LNv {
-      color: #000;
-      border-color: #000;
-      background-color: #fff
-    }
-
-    .NavAccount-module_loginButton__p4LNv:hover {
-      color: #fff;
-      background-color: #000
-    }
-
-    .NavAccount-module_subscribeButton__F3y0Z {
-      color: #fff;
-      background-color: #000
-    }
-
-    .NavAccount-module_subscribeGamesSale__OSUGb {
-      padding: 1px 10px 0;
-      white-space: nowrap
-    }
-
-    .NavAccount-module_subscribeButton__F3y0Z:hover {
-      background-color: #797987;
-      border: none
-    }
-
-    .NavAccount-module_logoutButton__Xiu49 {
-      color: var(--color-tone-1);
-      background-color: var(--color-tone-7);
-      border: 1px solid var(--color-tone-1);
-      border-radius: 3px
-    }
-
-    .NavAccount-module_logoutButton__Xiu49:hover {
-      background-color: #ebebeb;
-      color: var(--black)
-    }
-
-    .NavAccount-module_navGamesSale__sZGtR {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-evenly;
-      flex-wrap: nowrap;
-      padding: 0 8px 8px
-    }
-
-    .NavAccount-module_navGamesSale__sZGtR .NavAccount-module_logoutButton__Xiu49 {
-      margin-left: 8px
-    }
-
-    .NavAccount-module_subscribeGamesSale__OSUGb {
-      padding: 1px 10px 0;
-      letter-spacing: .2px;
-      margin: 0 4px
-    }
-
-    .NavAccount-module_subscribeGamesSale__OSUGb:hover {
-      border: 1px solid var(--color-tone-1)
-    }
-
-    .NavIcon-module_burgerSvg__j9Cig {
-      width: 20px
-    }
-
-    @media (min-width: 1024px) {
-      .NavIcon-module_burgerSvg__j9Cig {
-        width: 24px
-      }
-    }
-
-    .AppHeader-module_appHeader__Jn4R7 {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      flex-wrap: nowrap;
-      padding: 0px var(--header-padding-x);
-      height: var(--header-height);
-      color: var(--color-tone-1);
-      border-bottom: 1px solid var(--color-tone-4)
-    }
-
-    .AppHeader-module_appHeader__Jn4R7 button {
-      cursor: pointer
-    }
-
-    .AppHeader-module_appHeader__Jn4R7 button.AppHeader-module_icon__qLz07 {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0 4px
-    }
-
-    .AppHeader-module_appHeader__Jn4R7 button.AppHeader-module_icon__qLz07:last-child {
-      padding-right: 0
-    }
-
-    .AppHeader-module_appHeader__Jn4R7 .AppHeader-module_subscribeLink__VBUGi {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font: 12px/18px "nyt-franklin-600";
-      color: var(--color-tone-1);
-      border: solid 1px var(--color-tone-1);
-      border-radius: 9999px;
-      min-height: 29px;
-      padding: 0 16px;
-      background-color: var(--color-tone-7)
-    }
-
-    @media (min-width: 400px) {
-      .AppHeader-module_appHeader__Jn4R7 .AppHeader-module_subscribeLink__VBUGi {
-        margin-left: 10px;
-        padding: 0 22px
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .AppHeader-module_appHeader__Jn4R7 .AppHeader-module_subscribeLink__VBUGi {
-        font: 14px/21px "nyt-franklin-600";
-        margin-left: 30px;
-        padding: 0 25px;
-        min-height: 35px
-      }
-    }
-
-    .AppHeader-module_appHeader__Jn4R7 .AppHeader-module_title__EQr6V {
-      flex-grow: 2;
-      font-family: "nyt-karnakcondensed";
-      font-weight: 700;
-      font-size: 28px;
-      letter-spacing: .01em;
-      text-align: left;
-      left: 0;
-      right: 0;
-      pointer-events: none;
-      position: relative
-    }
-
-    .AppHeader-module_menuLeft__q6t_Z {
-      display: flex;
-      margin: 0;
-      padding: 0;
-      align-items: center;
-      justify-content: flex-start
-    }
-
-    .AppHeader-module_menuRight__Noasd {
-      display: flex;
-      justify-content: flex-end
-    }
-
-    .AppHeader-module_menuRight__Noasd button svg {
-      vertical-align: middle
-    }
-
-    @media (max-width: 499px) {
-      .pz-web .AppHeader-module_menuRight__Noasd.AppHeader-module_longTextVariant__guJaD svg {
-        width: 20px
-      }
-    }
-
-    #AppHeader-module_navButton__nKv2h {
-      padding-top: 2px;
-      padding-left: 0px;
-      padding-right: 8px
-    }
-
-    @media (min-width: 1024px) {
-      .AppHeader-module_appHeader__Jn4R7 .AppHeader-module_title__EQr6V {
-        text-align: center;
-        font-size: 36px
-      }
-
-      .AppHeader-module_appHeader__Jn4R7 button.AppHeader-module_icon__qLz07 {
-        padding: 0 6px
-      }
-    }
-
-    @media (min-width: 768px) {
-      .AppHeader-module_appHeader__Jn4R7 .AppHeader-module_title__EQr6V {
-        text-align: center;
-        font-size: 32px
-      }
-
-      .AppHeader-module_appHeader__Jn4R7 .AppHeader-module_menuLeft__q6t_Z, .AppHeader-module_appHeader__Jn4R7 .AppHeader-module_menuRight__Noasd {
-        width: 350px
-      }
-    }
-
-    @media (min-width: 768px)and (min-width: 1024px) {
-      .AppHeader-module_appHeader__Jn4R7 .AppHeader-module_title__EQr6V {
-        font-size: 36px
-      }
-    }
-
-    @media (min-width: 768px) {
-      #AppHeader-module_navButton__nKv2h {
-        padding-top: 2px;
-        padding-left: 0px
-      }
-    }
-
-    .NavModal-module_overlayNav__EewdW {
-      display: flex;
-      flex-direction: column;
-      justify-content: left;
-      align-items: unset;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: var(--modal-z-index);
-      background-color: rgba(0, 0, 0, 0)
-    }
-
-    .NavModal-module_overlayNav__EewdW:focus {
-      outline: none
-    }
-
-    .NavModal-module_contentNav__gdDZp {
-      position: relative;
-      border: 1px solid var(--color-tone-6);
-      background-color: var(--modal-content-bg);
-      color: var(--color-tone-1);
-      overflow-y: auto;
-      animation: NavModal-module_SlideRight__OZJm6 200ms;
-      max-width: var(--game-max-width);
-      box-sizing: border-box;
-      width: 100%;
-      border-radius: 0px;
-      box-shadow: 3px 5px 5px rgba(0, 0, 0, .15);
-      height: calc(100% - var(--header-height) - 1px);
-      margin-top: calc(var(--header-height) + 1px);
-      padding: 0px
-    }
-
-    @media (min-width: 415px) {
-      .NavModal-module_contentNav__gdDZp {
-        width: 375px
-      }
-    }
-
-    .NavModal-module_contentNav__gdDZp.NavModal-module_closingNav__vsGdD {
-      animation: NavModal-module_SlideLeft__bnLDK 200ms
-    }
-
-    .NavModal-module_closeIconNav__P3kl2 {
-      background: none;
-      border: none;
-      padding: 0;
-      width: 24px;
-      height: 24px;
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-      cursor: pointer
-    }
-
-    .Explainer-module_title__pxagP {
-      font-family: "nyt-franklin";
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 28px;
-      letter-spacing: 0em;
-      text-align: left;
-      margin-left: 10px;
-      color: var(--color-tone-1)
-    }
-
-    .Explainer-module_containerLink__Eahjg {
-      padding: 30px
-    }
-
-    .Explainer-module_containerLink__Eahjg p:last-child {
-      font-weight: 700
-    }
-
-    .Explainer-module_containerProblems__YkeXK {
-      padding: 30px
-    }
-
-    .Explainer-module_containerLink__Eahjg, .Explainer-module_containerProblems__YkeXK {
-      padding-top: 14px
-    }
-
-    .Explainer-module_explainerFooterText__v5jPj {
-      margin: 30px;
-      padding-top: 30px;
-      border-top: 1px solid var(--gray-4);
-      font-size: 15px;
-      line-height: 130%
-    }
-
-    .Explainer-module_text__DosQz {
-      font-size: 14px;
-      line-height: 130%;
-      letter-spacing: .01em;
-      text-align: left;
-      margin-left: 10px;
-      color: var(--color-tone-1)
-    }
-
-    .Explainer-module_text__DosQz > a {
-      color: var(--inline-links);
-      -webkit-text-decoration: underline var(--inline-links);
-      text-decoration: underline var(--inline-links)
-    }
-
-    .Explainer-module_statsLinkContainer__UwtoZ {
-      margin-top: 40px;
-      display: flex;
-      flex-direction: column
-    }
-
-    .Explainer-module_actionButton__QMznh, .Explainer-module_helpButton__Y3kVe, .Explainer-module_loginButton__ndryx {
-      height: 44px;
-      border-radius: 104px;
-      box-sizing: border-box;
-      text-decoration: none;
-      font-weight: 600;
-      line-height: 14px;
-      font-size: 14px;
-      text-align: center;
-      padding: 0 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      letter-spacing: .05em;
-      cursor: pointer
-    }
-
-    .Explainer-module_actionButton__QMznh:last-child, .Explainer-module_helpButton__Y3kVe:last-child, .Explainer-module_loginButton__ndryx:last-child {
-      margin-top: 14px
-    }
-
-    .Explainer-module_loginButton__ndryx {
-      background: var(--color-tone-1);
-      color: var(--color-tone-7)
-    }
-
-    .Explainer-module_helpButton__Y3kVe {
-      background: var(--color-tone-7);
-      color: var(--color-tone-1);
-      border: 1px solid var(--color-tone-1)
-    }
-
-    .Explainer-module_gamesIcon___J53J {
-      width: 95px;
-      height: 18px
-    }
-
-    .Explainer-module_headerNew__y8y2y {
-      padding: 15px 0px
-    }
-
-    .Explainer-module_headerNew__y8y2y > p {
-      text-align: center;
-      margin: 10px 0px
-    }
-
-    .Explainer-module_close__wTSom {
-      background: none;
-      color: inherit;
-      border: none;
-      padding: 0;
-      font: inherit;
-      cursor: pointer;
-      outline: inherit;
-      position: absolute;
-      right: 0;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-      cursor: pointer;
-      margin: 0;
-      margin-right: 30px
-    }
-
-    .Page-module_page__Py6Ys {
-      display: flex;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      justify-content: center;
-      background-color: var(--color-background);
-      animation: Page-module_SlideIn__AgM2I 100ms linear;
-      z-index: var(--page-z-index)
-    }
-
-    .Page-module_page__Py6Ys.Page-module_closing__YdTL_ {
-      animation: Page-module_SlideOut__Kn9ZJ 150ms linear
-    }
-
-    .Page-module_page__Py6Ys header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative
-    }
-
-    .Page-module_page__Py6Ys h1 {
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 10px
-    }
-
-    .Page-module_pageNew__DnZEs {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-      top: 0;
-      left: 0;
-      justify-content: center;
-      background-color: var(--color-background);
-      animation: Page-module_SlideIn__AgM2I 100ms linear;
-      z-index: var(--page-z-index);
-      overflow-y: auto;
-      display: flex
-    }
-
-    .Page-module_pageNew__DnZEs .Page-module_gamesIcon__LZrZ6 {
-      width: 95px;
-      height: 18px
-    }
-
-    .Page-module_pageNew__DnZEs .Page-module_close__woWx7 {
-      margin-right: 30px
-    }
-
-    .Page-module_pageNew__DnZEs.Page-module_closing__YdTL_ {
-      animation: Page-module_SlideOut__Kn9ZJ 150ms linear
-    }
-
-    .Page-module_pageNew__DnZEs.Page-module_noDarkMode__g_QCc {
-      background-color: var(--white);
-      color: #000
-    }
-
-    .Page-module_pageNew__DnZEs.Page-module_noDarkMode__g_QCc > .Page-module_content__ZZpzo {
-      color: #000
-    }
-
-    .Page-module_pageFixed__Yu8Dx {
-      position: fixed
-    }
-
-    .Page-module_headerNew__FQAkL {
-      padding: 15px 0px
-    }
-
-    .Page-module_headerNew__FQAkL > p {
-      text-align: center;
-      margin: 10px 0px
-    }
-
-    .Page-module_content__ZZpzo {
-      position: relative;
-      color: var(--color-tone-1);
-      padding: 0 32px;
-      max-width: var(--game-max-width);
-      width: 100%;
-      overflow-y: auto;
-      height: 100%;
-      display: flex;
-      flex-direction: column
-    }
-
-    .Page-module_contentContainer__DXzS4 {
-      height: 100%
-    }
-
-    .Page-module_close__woWx7 {
-      background: none;
-      color: inherit;
-      border: none;
-      padding: 0;
-      font: inherit;
-      cursor: pointer;
-      outline: inherit;
-      position: absolute;
-      right: 0;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-      cursor: pointer;
-      margin: 0
-    }
-
-    @media only screen and (min-device-width: 320px)and (max-device-width: 480px) {
-      .Page-module_content__ZZpzo {
-        max-width: 100%;
-        padding: 0
-      }
-
-      .Page-module_close__woWx7 {
-        padding: 0 16px
-      }
-    }
-
-    .ToastContainer-module_toastContainer__SIgMB {
-      position: relative
-    }
-
-    #ToastContainer-module_gameToaster__HPkaC {
-      z-index: var(--toast-z-index)
-    }
-
-    #ToastContainer-module_systemToaster__K3Q61 {
-      z-index: var(--system-toast-z-index)
-    }
-
-    .Toast-module_flexContainer__UOBGz {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      width: 100%
-    }
-
-    .Toast-module_expandToRow__iaMp_ {
-    }
-
-    @media (min-width: 444px) {
-      .Toast-module_expandToRow__iaMp_ {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: nowrap
-      }
-    }
-
-    @media (max-width: 991.98px) {
-      .Toast-module_mobileColumn__vYBTF {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap
-      }
-    }
-
-    .Toast-module_visually-hidden__zpIcn {
-      clip: rect(0 0 0 0);
-      -webkit-clip-path: inset(50%);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px
-    }
-
-    .Toast-module_flexCenter__UiW52 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap
-    }
-
-    .Toast-module_regiwallText__BdjzX {
-      letter-spacing: 0;
-      text-transform: none;
-      text-align: center;
-      display: block
-    }
-
-    .Toast-module_regiwallText_heading__LRCi3 {
-      font: 700 36px nyt-karnakcondensed, Georgia;
-      line-height: 115%;
-      margin: 8px 0
-    }
-
-    .Toast-module_regiwallText_heading_condensed__yXSJ8 {
-      font: 400 28px nyt-karnak, Georgia;
-      line-height: 115%;
-      margin: .5em 0
-    }
-
-    @media (max-height: 548px) {
-      .driveToMore .Toast-module_regiwallText_heading_condensed__yXSJ8 {
-        margin: .25em
-      }
-    }
-
-    @media (min-width: 768px)and (max-width: 1025px) {
-      .Toast-module_regiwallText_heading_condensed__yXSJ8 {
-        font-size: 32px
-      }
-    }
-
-    @media (min-width: 1025px) {
-      .Toast-module_regiwallText_heading_condensed__yXSJ8 {
-        font-size: 36px
-      }
-    }
-
-    .Toast-module_regiwallText_subheading__Hh2EZ {
-      font: 400 24px nyt-karnak, Georgia;
-      line-height: 120%
-    }
-
-    .Toast-module_regiwallText_link__iSu8I {
-      color: var(--color-tone-1);
-      font: 600 16px nyt-franklin, Arial;
-      line-height: 20.8px;
-      text-decoration: underline
-    }
-
-    .Toast-module_toast__iiVsN {
-      font-family: "nyt-franklin";
-      position: relative;
-      margin: 16px;
-      background-color: var(--color-tone-8);
-      color: var(--color-tone-7);
-      padding: 13px;
-      border: none;
-      border-radius: 4px;
-      opacity: 1;
-      transition: opacity 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 16px
-    }
-
-    .Toast-module_toast_regiwall__oSBNY {
-      margin: 0;
-      width: 150%;
-      transform: translate(-20%, 0);
-      text-align: center
-    }
-
-    .Toast-module_win__kqUor {
-      background-color: var(--color-correct);
-      color: var(--tile-text-color)
-    }
-
-    .Toast-module_fade__hF7us {
-      opacity: 0
-    }
-
-    .Error-module_container__qq_q0 {
-      display: flex;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      max-height: calc(100% - var(--header-height) - 1px);
-      left: 0;
-      justify-content: center;
-      background-color: var(--error-background);
-      animation: Error-module_SlideIn__WlIVo 100ms linear;
-      z-index: var(--error-z-index)
-    }
-
-    .Error-module_errorContainer__guLQP {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 200px;
-      position: relative;
-      top: 166px;
-      font-family: "nyt-franklin"
-    }
-
-    .Error-module_errorText__m3mh6 {
-      font-family: "nyt-franklin-400";
-      text-align: center;
-      margin-top: 40px;
-      font-size: 20px;
-      line-height: 24px;
-      color: var(--color-tone-1)
-    }
-
-    .Error-module_errorTilesContainer__V7shi {
-      width: 208px;
-      display: inline-flex;
-      justify-content: space-between
-    }
-
-    .Error-module_errorTiles__AE9kN {
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 20px;
-      text-align: center;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--white);
-      border: 1.27px solid var(--gray-13);
-      width: 40px;
-      height: 40px;
-      box-sizing: border-box
-    }
-
-    .Error-module_backButton___ydkt {
-      margin-top: 24px;
-      border-radius: 24px;
-      width: 150px;
-      height: 48px;
-      font-family: "nyt-franklin-600";
-      font-size: 16px;
-      line-height: 20px;
-      text-align: center;
-      background-color: var(--color-tone-1);
-      box-shadow: none;
-      border: none;
-      color: var(--color-tone-7);
-      cursor: pointer
-    }
-
-    .Error-module_errorBannerContainer__pfK75 {
-      background-color: #323232;
-      color: #fff;
-      font-size: 14px;
-      height: auto;
-      opacity: 1;
-      transition: all .5s ease-in-out;
-      position: absolute;
-      width: 100%;
-      left: 0;
-      font-family: "nyt-franklin"
-    }
-
-    .Error-module_errorBannerContainer__pfK75 p {
-      font-weight: 400;
-      margin: 5px 5px 5px 10px
-    }
-
-    .Error-module_errorBannerContainer__pfK75 p.Error-module_errorTitle__rS8xm {
-      font-weight: 700
-    }
-
-    .Error-module_errorBannerContainer__pfK75 .Error-module_close__cXxlX {
-      color: #fff;
-      font-size: 14px;
-      line-height: 17px;
-      font-weight: 600;
-      cursor: pointer;
-      margin: 5px 5px 0px 0px
-    }
-
-    .Error-module_errorBannerContainer__pfK75 .Error-module_errorRow__No1ux {
-      display: flex;
-      justify-content: space-between
-    }
-
-    .Error-module_errorBannerContainer__pfK75.Error-module_hideBanner__Q6BVU {
-      opacity: 0;
-      height: 0
-    }
-
-    .Key-module_key__kchQI {
-      font-family: "nyt-franklin";
-      font-size: 1.25em;
-      font-weight: bold;
-      border: 0;
-      padding: 0;
-      margin: 0 6px 0 0;
-      height: 58px;
-      border-radius: 4px;
-      cursor: pointer;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-      background-color: var(--key-bg);
-      color: var(--key-text-color);
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-transform: uppercase;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, .3)
-    }
-
-    .Key-module_key__kchQI:last-of-type {
-      margin: 0
-    }
-
-    .Key-module_key__kchQI[data-state=correct] {
-      background-color: var(--key-bg-correct);
-      color: var(--key-evaluated-text-color)
-    }
-
-    .Key-module_key__kchQI[data-state=present] {
-      background-color: var(--key-bg-present);
-      color: var(--key-evaluated-text-color)
-    }
-
-    .Key-module_key__kchQI[data-state=absent] {
-      background-color: var(--key-bg-absent);
-      color: var(--key-evaluated-text-color-absent)
-    }
-
-    .Key-module_key__kchQI.Key-module_fade__dc3AW {
-      transition: background-color .1s ease, color .1s ease
-    }
-
-    .Key-module_half__HooWu {
-      flex: .5
-    }
-
-    .Key-module_one__zlfH6 {
-      flex: 1
-    }
-
-    .Key-module_oneAndAHalf__bq8Tw {
-      flex: 1.5;
-      font-size: 12px
-    }
-
-    .Keyboard-module_keyboard__uYuqf {
-      height: var(--keyboard-height);
-      margin: 0 8px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none
-    }
-
-    .Keyboard-module_row__ilOKU {
-      display: flex;
-      width: 100%;
-      margin: 0 auto 8px;
-      touch-action: manipulation
-    }
-
-    .Ad-module_adContainer__ZAFEc {
-      border-bottom: 1px solid #e6e6e6;
-      box-shadow: inset 0 0 60px -10px rgba(0, 0, 0, .07);
-      text-align: center;
-      min-height: 300px;
-      overflow: hidden;
-      position: relative
-    }
-
-    .Ad-module_adContainer__ZAFEc > *:first-child {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%)
-    }
-
-    .Ad-module_adContainer__ZAFEc:empty {
-      border: none
-    }
-
-    .Ad-module_hasAdLabel__IXofl:empty:before {
-      content: "advertisement";
-      color: #bbb;
-      font-size: 12px;
-      border: 1px solid #ccc;
-      padding: 8px 12px;
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%)
-    }
-
-    .App-module_gameContainer__K_CBh {
-      position: relative
-    }
-
-    .App-module_game__yruqo {
-      width: 100%;
-      max-width: var(--game-max-width);
-      margin: 0 auto;
-      height: calc(100% - var(--header-height));
-      display: flex;
-      flex-direction: column
-    }
-
-    .pz-offline-ticker {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      z-index: 2;
-      font-weight: bold
-    }
-
-    .pz-offline-ticker svg path {
-      fill: var(--white)
-    }
-
-    .StatsSelectionTool-module_container__meUAX {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 16px
-    }
-
-    .StatsSelectionTool-module_header__oZIc5 {
-      padding: 15px 0px;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 32px
-    }
-
-    .StatsSelectionTool-module_gamesIcon__spDD2 {
-      width: 95px;
-      height: 18px
-    }
-
-    .StatsSelectionTool-module_form__eOT7F {
-      flex: 1;
-      display: flex;
-      max-width: var(--game-max-width);
-      flex-direction: column
-    }
-
-    .StatsSelectionTool-module_form__eOT7F fieldset {
-      margin-bottom: 40px
-    }
-
-    .StatsSelectionTool-module_description__dmLIg {
-      font-family: "nyt-franklin-400";
-      font-size: 18px;
-      line-height: 1.5;
-      text-align: center;
-      margin-bottom: 1em;
-      padding: 0 24px;
-      color: var(--color-tone-1)
-    }
-
-    .StatsSelectionTool-module_description__dmLIg .StatsSelectionTool-module_bold__zqF2S {
-      font-family: "nyt-franklin-600"
-    }
-
-    .StatsSelectionTool-module_option___tbeV {
-      margin-top: 20px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      display: flex;
-      flex-direction: column;
-      align-items: stretch
-    }
-
-    .StatsSelectionTool-module_optionHeader__PN2q0 {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      width: calc(100% - 8px);
-      padding: 0 4px;
-      color: var(--color-tone-12)
-    }
-
-    .StatsSelectionTool-module_optionHeader__PN2q0 .StatsSelectionTool-module_label__HCsqe {
-      text-transform: uppercase;
-      font-family: "nyt-franklin";
-      font-size: 11px;
-      font-weight: 800
-    }
-
-    .StatsSelectionTool-module_optionHeader__PN2q0 .StatsSelectionTool-module_lastSaved__EBJVD {
-      font-family: "nyt-franklin-500";
-      font-size: 10px
-    }
-
-    .StatsSelectionTool-module_box__KSSH_ {
-      background-color: var(--color-tone-6);
-      padding: 12px;
-      margin: 0 3px;
-      outline: 1px solid var(--color-tone-1);
-      border-radius: 8px
-    }
-
-    .StatsSelectionTool-module_box__KSSH_.StatsSelectionTool-module_selected__UlXC4 {
-      outline-width: 3px
-    }
-
-    .StatsSelectionTool-module_box__KSSH_.StatsSelectionTool-module_unselected__CmIQE {
-      opacity: .4
-    }
-
-    .StatsSelectionTool-module_box__KSSH_ .StatsSelectionTool-module_boxTop__Jv24G {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 12px
-    }
-
-    .StatsSelectionTool-module_box__KSSH_ .StatsSelectionTool-module_boxBottom__aFGVF {
-      font-family: "nyt-franklin";
-      font-size: 12px;
-      display: flex;
-      justify-content: flex-end;
-      color: var(--color-tone-1)
-    }
-
-    .StatsSelectionTool-module_box__KSSH_ .StatsSelectionTool-module_boxBottom__aFGVF.StatsSelectionTool-module_incomplete__oy1ka {
-      color: var(--warning-red);
-      font-weight: bold;
-      font-size: 13px
-    }
-
-    .StatsSelectionTool-module_radio__aXqLj {
-      align-self: flex-start;
-      margin-top: 4px;
-      margin-left: 4px
-    }
-
-    .StatsSelectionTool-module_stats__f99Fo {
-      width: 75%;
-      color: var(--color-tone-1)
-    }
-
-    .StatsSelectionTool-module_buttonContainer__wiJe0 {
-      display: flex;
-      align-items: center
-    }
-
-    .StatsSelectionTool-module_submitButton__yazh7 {
-      border: none;
-      width: 100%;
-      height: 3em;
-      border-radius: 1.5em;
-      align-content: center;
-      letter-spacing: .05em;
-      margin: 0 10px 12px;
-      background: var(--color-tone-1);
-      color: var(--color-tone-7);
-      font-size: 16px;
-      font-family: "nyt-franklin-600";
-      line-height: 28px;
-      cursor: pointer;
-      padding: 0 2em
-    }
-
-    .StatsSelectionTool-module_submitButton__yazh7:disabled {
-      background: var(--color-tone-7);
-      color: var(--color-tone-1);
-      opacity: .4;
-      border: 1px solid var(--color-tone-1)
-    }
-
-    .StatsSelectionTool-module_back__fZ22v {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      height: var(--header-height);
-      top: 0;
-      left: var(--header-padding-x)
-    }
-
-    @media (max-height: 600px) {
-      .StatsSelectionTool-module_header__oZIc5 {
-        margin-bottom: 8px
-      }
-
-      .StatsSelectionTool-module_form__eOT7F fieldset {
-        margin-bottom: 16px
-      }
-
-      .StatsSelectionTool-module_option___tbeV {
-        margin-top: 12px
-      }
-    }
-
-    /*# sourceMappingURL=62.9d339ad0d09ddf80c92e.css.map*/
-
-  </style>`
-const htmlAfterStyle = `
-</head>
-<body>
-
-<div>
-  <div class="MomentSystem-module_moment__G9hyw">
-    <div class="App-module_gameContainer__K_CBh" data-testid="game-wrapper" style="height: calc(100% - 210px);">
-      <main class="App-module_game__yruqo" id="wordle-app-game">
-        <div class="Board-module_boardContainer__TBHNL" style="overflow: unset;">`
+    <style>
+
+        .pz-error__message h1 {
+            font-style: normal;
+            font-size: 2em;
+            font-size: min(2em, 90px);
+            line-height: 1.15;
+            font-weight: 700;
+            margin-bottom: 25px
+        }
+
+        .pz-error__message p {
+            font-size: 1.125em;
+            line-height: 1.39;
+            margin-bottom: 30px;
+            max-width: 510px
+        }
+
+
+        .pz-error__stack-trace pre {
+            white-space: normal
+        }
+
+        button, input, optgroup, select, textarea {
+            font-family: inherit;
+            font-size: 100%;
+            line-height: 1.15;
+            margin: 0
+        }
+
+        button, input {
+            overflow: visible
+        }
+
+        button, select {
+            text-transform: none
+        }
+
+        button, [type=button], [type=reset], [type=submit] {
+            -webkit-appearance: button
+        }
+
+        html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline
+        }
+
+        article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+            display: block
+        }
+
+        body {
+            line-height: 1
+        }
+
+        ol, ul {
+            list-style: none
+        }
+
+        blockquote, q {
+            quotes: none
+        }
+
+        blockquote:before, blockquote:after, q:before, q:after {
+            content: "";
+            content: none
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0
+        }
+
+
+
+
+        @font-face {
+            font-family: "nyt-franklin";
+            src: url("./franklin-normal-700.woff2") format("woff2");
+            font-weight: 700;
+            font-style: normal
+        }
+
+        :root {
+            --green: #6aaa64;
+            --green-4: #538d4e;
+            --wordle-high-contrast-green: #58a351;
+            --spellingBeeYellow: #f7da21;
+            --miniCrosswordBlue: #95befa;
+            --connectionsPeriwinkle: #b4a8ff;
+            --sudoku-orange: #fb9b00;
+            --tiles-green: #b5e352;
+            --dailyCrosswordBlue: #6493e6;
+            --yellow-3: #c9b458;
+            --yellow-4: #b59f3b;
+            --newsGray-10: #dfdfdf;
+            --newsGray-100: #121212;
+            --newsGray-85: #363636;
+            --gray-3: #ccc;
+            --gray-4: #dcdcdc;
+            --gray-6: #f4f4f4;
+            --gray-13: #d3d6da;
+            --gray-18: #787c7e;
+            --gray-19: #878a8c;
+            --gray-20: #edeff1;
+            --gray-21: #f6f7f8;
+            --gray-22: #e3e3e1;
+            --gray-23: #a6a6a6;
+            --gray-24: #818384;
+            --gray-25: #565758;
+            --gray-26: #3a3a3c;
+            --gray-27: #424242;
+            --gray-28: #59595a;
+            --gray-29: #afafaf;
+            --black: #000;
+            --white: #fff;
+            --newsDarkContentPrimary: #f8f8f8;
+            --wordleBlack: #212121;
+            --wordleBlack-2: #272729;
+            --wordleBlack-3: #1a1a1b;
+            --wordleBlack-4: #121213;
+            --wordleBlack-5: #2f2f31;
+            --linkBlue: #346eb7;
+            --linkDarkBlue: #6ba1dd;
+            --orange: #f5793a;
+            --blue: #85c0f9;
+            --outlineBlue: #2671dc;
+            --svg-arrow-fill: var(--white);
+            --svg-arrow-stroke: var(--black);
+            --svg-arrow-fill-hover: var(--black);
+            --svg-arrow-stroke-hover: var(--white)
+        }
+
+        :root {
+            --color-tone-1: var(--black);
+            --color-tone-2: var(--gray-18);
+            --color-tone-3: var(--gray-19);
+            --color-tone-4: var(--gray-13);
+            --color-tone-5: var(--gray-20);
+            --color-tone-6: var(--gray-21);
+            --color-tone-7: var(--white);
+            --color-tone-8: var(--newsGray-100);
+            --color-tone-9: var(--newsGray-10);
+            --color-tone-10: var(--black);
+            --color-tone-11: var(--gray-18);
+            --color-tone-12: var(--newsGray-85);
+            --color-nav-hover: var(--gray-6);
+            --opacity-50: rgba(255, 255, 255, 0.5);
+            --error-background: var(--gray-22);
+            --icon-disabled: var(--gray-23);
+            --background-gray: var(--gray-29);
+            --inline-links: var(--linkBlue);
+            --warning-red: #d0021b
+        }
+
+        .dark {
+            --color-tone-1: var(--newsDarkContentPrimary);
+            --color-tone-2: var(--gray-24);
+            --color-tone-3: var(--gray-25);
+            --color-tone-4: var(--gray-26);
+            --color-tone-5: var(--wordleBlack-2);
+            --color-tone-6: var(--wordleBlack-3);
+            --color-tone-7: var(--wordleBlack-4);
+            --color-tone-8: var(--newsDarkContentPrimary);
+            --color-tone-9: var(--gray-27);
+            --color-tone-10: var(--newsGray-10);
+            --color-tone-11: var(--newsGray-10);
+            --color-tone-12: var(--newsGray-10);
+            --color-nav-hover: var(--wordleBlack-5);
+            --opacity-50: rgba(0, 0, 0, 0.5);
+            --error-background: var(--color-tone-7);
+            --icon-disabled: var(--gray-28);
+            --svg-arrow-fill: var(--black);
+            --svg-arrow-stroke: var(--white);
+            --svg-arrow-fill-hover: var(--white);
+            --svg-arrow-stroke-hover: var(--black);
+            --inline-links: var(--linkDarkBlue);
+            --warning-red: #ea7980
+        }
+
+        :root, .dark {
+            --color-background: var(--color-tone-7)
+        }
+
+        :root {
+            --color-present: var(--yellow-3);
+            --color-correct: var(--green);
+            --color-absent: var(--color-tone-2);
+            --tile-text-color: var(--color-tone-7);
+            --key-text-color: var(--color-tone-1);
+            --key-evaluated-text-color: var(--color-tone-7);
+            --key-bg: var(--color-tone-4);
+            --key-bg-present: var(--color-present);
+            --key-bg-correct: var(--color-correct);
+            --key-bg-absent: var(--color-absent);
+            --key-evaluated-text-color: var(--color-tone-7);
+            --key-evaluated-text-color-absent: var(--white);
+            --modal-content-bg: var(--color-tone-7);
+            --outline-focus: var(--outlineBlue);
+            --color-correct-high-contrast: var(--wordle-high-contrast-green)
+        }
+
+        @font-face {
+            font-family: "nyt-franklin";
+            src: url("./franklin-normal-700.woff2") format("woff2");
+            font-weight: 700;
+            font-style: normal
+        }
+
+        html {
+            height: 100%
+        }
+
+        body {
+            height: 100%;
+            background-color: var(--color-background);
+            margin: 0;
+            padding: 0;
+            overflow-y: hidden
+        }
+
+        html, body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale
+        }
+
+        button:focus-visible, a:focus-visible {
+            outline: 2px solid var(--outline-focus)
+        }
+
+        @media (min-width: 415px) {
+            :root {
+                --header-height: 65px
+            }
+        }
+
+        @media (min-width: 1024px) {
+            :root {
+                --header-padding-x: 24px
+            }
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --header-padding-x: 20px
+            }
+        }
+
+        /*# sourceMappingURL=wordle.e3c9f95c41d06668a615.css.map*/
+
+    </style>
+    <style>
+        .MomentSystem-module_moment__G9hyw {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0
+        }
+
+
+        .LandscapeWarning-module_landscapeWarning__MFIwn i {
+            height: 30%;
+            width: 20%;
+            margin: 2rem
+        }
+
+        .LandscapeWarning-module_landscapeWarning__MFIwn p {
+            font-family: "nyt-franklin";
+            font-weight: 500;
+            margin: 0;
+            font-size: 16px;
+            font-size: 1rem;
+            line-height: 20.8px;
+            line-height: 1.3rem
+        }
+
+        .LandscapeWarning-module_landscapeWarning__MFIwn span {
+            font-family: "nyt-franklin";
+            font-weight: 700
+        }
+
+
+        .dark before {
+            background: var(--hybrid-back-dark-mode) center no-repeat;
+            background-position-x: 0px
+        }
+
+        .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerInformation__hwApG i {
+            min-height: 35px;
+            min-width: 35px
+        }
+
+        .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerInformation__hwApG.NonDismissalBanner-module_bannerMessageIcon__xCwfD i {
+            min-height: 20px;
+            min-width: 20px
+        }
+
+        .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerBody__ZtWzl h3 {
+            font-size: 14px;
+            font-size: 0.875rem;
+            line-height: 18.2px;
+            line-height: 1.1375rem;
+            font-weight: 700;
+            margin: 0
+        }
+
+
+
+        .NonDismissalBanner-module_banner__CqPDp .NonDismissalBanner-module_bannerBody__ZtWzl p {
+            font-size: 16px;
+            font-size: 1rem;
+            line-height: 20.8px;
+            line-height: 1.3rem
+        }
+
+        .NonDismissalBanner-module_banner__CqPDp a {
+            color: inherit;
+            text-decoration: none
+        }
+
+
+
+
+        .NonDismissalBanner-module_multiIconBannerTest__t8tvf button.NonDismissalBanner-module_iconButtonTest__oaGgl i {
+            margin-right: 0
+        }
+
+
+
+        .NonDismissalBanner-module_multiIconBannerTest__t8tvf .NonDismissalBanner-module_bannerInformationTest__Q0Dqp i {
+            min-height: 25px;
+            min-width: 25px
+        }
+
+
+        .NonDismissalBanner-module_multiIconBannerTest__t8tvf .NonDismissalBanner-module_bannerBodyTest__UrtZZ h3 {
+            font-size: .85rem;
+            font-weight: 700;
+            margin: 0
+        }
+
+        .NonDismissalBanner-module_multiIconBannerTest__t8tvf a {
+            color: inherit;
+            text-decoration: none
+        }
+
+
+        .LargeCTABanner-module_playButton__if85L i {
+            width: 27px;
+            height: 27px;
+            border-radius: 7px
+        }
+
+        .LargeCTABanner-module_iconTextWrapper__goI7a + i {
+            position: absolute;
+            right: 10px
+        }
+
+
+
+        .Skip-module_skipButton__m8KJ8 svg {
+            margin-left: .5rem
+        }
+
+
+        :root {
+            --inter-ad-skip-button-height: 52px;
+            --inter-ad-top-bar-height: 34px;
+            --inter-ad-bottom-bar-height: 24px
+        }
+
+        .AdInterstitial-module_adSlug__lH065 h3 {
+            font-family: "nyt-franklin";
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 12px;
+            margin: 12px auto 10px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #5a5a5a;
+            font-style: normal
+        }
+
+        .Welcome-module_buttonContainer__K4GEw a {
+            all: inherit
+        }
+
+        .Welcome-module_back__cUvW3 button::before {
+            background: var(--hybrid-back) center no-repeat !important;
+            background-position-x: 0px !important
+        }
+
+        .Tile-module_tile__UWEHN {
+            font-family: "nyt-franklin";
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            line-height: 1;
+            font-weight: bold;
+            vertical-align: middle;
+            box-sizing: border-box;
+            color: var(--tile-text-color);
+            text-transform: uppercase;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none
+        }
+
+        .Tile-module_tile__UWEHN::before {
+            content: "";
+            display: inline-block;
+            padding-bottom: 100%
+        }
+
+        @media (max-height: 600px) {
+            .Tile-module_tile__UWEHN {
+                font-size: 1em
+            }
+        }
+
+        .Tile-module_tile__UWEHN[data-state=empty] {
+            border: 2px solid var(--color-tone-4)
+        }
+
+        .Tile-module_tile__UWEHN[data-state=tbd] {
+            background-color: var(--color-tone-7);
+            border: 2px solid var(--color-tone-3);
+            color: var(--color-tone-1)
+        }
+
+        .Tile-module_tile__UWEHN[data-state=correct] {
+            background-color: var(--color-correct);
+            color: var(--key-evaluated-text-color)
+        }
+
+        .Tile-module_tile__UWEHN[data-state=present] {
+            background-color: var(--color-present);
+            color: var(--key-evaluated-text-color)
+        }
+
+        .Tile-module_tile__UWEHN[data-state=absent] {
+            background-color: var(--color-absent);
+            color: var(--key-evaluated-text-color-absent)
+        }
+
+        .Tile-module_tile__UWEHN[data-animation=pop] {
+            animation-name: Tile-module_PopIn__CmX51;
+            animation-duration: 100ms
+        }
+
+        .Tile-module_tile__UWEHN[data-animation=flip-in] {
+            animation-name: Tile-module_FlipIn__PCdh1;
+            animation-duration: 250ms;
+            animation-timing-function: ease-in
+        }
+
+        .Tile-module_tile__UWEHN[data-animation=flip-out] {
+            animation-name: Tile-module_FlipOut__xeJcb;
+            animation-duration: 250ms;
+            animation-timing-function: ease-in
+        }
+
+
+        .Board-module_boardContainer__TBHNL {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            overflow: hidden
+        }
+
+        .Help-module_instructions__uXsG6 li {
+            margin-bottom: 4px
+        }
+
+        .Help-module_instructions__uXsG6 li::marker {
+            font-size: 18px
+        }
+
+
+        .Help-module_examples__W3VXL strong {
+            font-weight: bold
+        }
+
+        .Help-module_examples__W3VXL p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 20px
+        }
+
+
+        .Help-module_example__gldBI p {
+            font-size: 16px;
+            line-height: 20px;
+            margin-top: 8px
+        }
+
+
+        .Help-module_reminderSignUp__oQ42D a {
+            color: var(--inline-links);
+            -webkit-text-decoration: underline var(--inline-links);
+            text-decoration: underline var(--inline-links)
+        }
+
+
+
+        .Help-module_statsLogin__HkQec button {
+            border: none;
+            background-color: rgba(0, 0, 0, 0);
+            font-family: "nyt-franklin";
+            font-size: 16px;
+            line-height: 20px;
+            text-align: left;
+            padding: 0px 0px 3px
+        }
+
+        .Help-module_statsLogin__HkQec a, .Help-module_statsLogin__HkQec button {
+            color: var(--inline-links);
+            -webkit-text-decoration: underline var(--inline-links);
+            text-decoration: underline var(--inline-links)
+        }
+
+
+        .MiniAuthCTA-module_buttonsContainer__IoQWk .MiniAuthCTA-module_loginButton__x7_fR > a {
+            color: inherit
+        }
+
+
+        .Stats-module_statsBtnLeft__IyDkc h1 {
+            display: inline-block
+        }
+
+        .Stats-module_statsBtnLeft__IyDkc button {
+            margin-left: 10px
+        }
+
+        .Footer-module_textContainer__LWkeW > p {
+            margin: 5px
+        }
+
+
+        .Footer-module_buttonsContainer__YNxCQ .Footer-module_loginButton__abKD3 > a {
+            color: inherit;
+            text-decoration: none
+        }
+
+
+        .Footer-module_sbButtonFooter__X3LsB .Footer-module_nextWordle__Bzpb0 span {
+            margin-right: 4px
+        }
+
+
+        .Footer-module_sbButtonFooter__X3LsB .Footer-module_sbPlayButton__kNigc span {
+            color: #121212;
+            letter-spacing: normal
+        }
+
+        .BotLink-module_botLink__uRdNy .BotLink-module_botLinkContent__RR4ri p {
+            font: 700 14px/17.5px "nyt-franklin";
+            margin: 0
+        }
+
+        .BotLink-module_botLink__uRdNy .BotLink-module_botLinkContent__RR4ri p span {
+            font-weight: 400;
+            text-decoration: underline
+        }
+
+        @media (max-height: 548px) {
+            .driveToMore .BotLink-module_botLink__uRdNy .BotLink-module_botLinkContent__RR4ri p {
+                font-size: 13px
+            }
+        }
+
+
+
+        .HardModeAwareness-module_settingsButton__DGkRg svg {
+            width: 12px;
+            height: 12px;
+            margin: 1px 0 0 5px;
+            display: inline-block
+        }
+
+        #hardModeAwareness-dialog > div:first-child {
+            padding: 0;
+            max-width: 440px
+        }
+
+        @media (max-width: 500px) {
+            #hardModeAwareness-dialog > div:first-child {
+                width: 90%;
+                height: auto;
+                min-height: unset;
+                align-self: center
+            }
+        }
+
+
+        .ActivationRegiModal-module_loginLink__qqJOJ > a {
+            color: inherit;
+            text-decoration: none
+        }
+
+
+        .driveToMore h4 {
+            font: 700 0.6875rem/0.859375rem "nyt-franklin";
+            letter-spacing: .05em;
+            border-top: solid 2px var(--color-tone-1);
+            padding-top: 10px;
+            margin: 0 auto 18px;
+            width: calc(100% - 50px);
+            display: none
+        }
+
+        @media (min-height: 548px) {
+            .driveToMore h4 {
+                display: block
+            }
+        }
+
+        @media (min-width: 768px) {
+            .driveToMore h4 {
+                width: calc(100% - 100px)
+            }
+        }
+
+
+        @media (min-width: 768px) {
+
+            .driveToMore .DriveToMoreContent-module_fitContent__h6S25 h4 {
+                width: 100%
+            }
+        }
+
+        .driveToMore .DriveToMoreContent-module_fitContentGrid__TDzaq h4 {
+            width: auto
+        }
+
+        .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW p, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku p {
+            font: 700 0.875rem/1.1875rem "nyt-karnakcondensed";
+            margin: 5px 0 2px
+        }
+
+        @media (min-height: 548px) {
+            .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW p, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku p {
+                font-size: 1rem
+            }
+        }
+
+        @media (min-width: 768px) {
+            .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW p, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku p {
+                font-size: 1rem
+            }
+        }
+
+        .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW span, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku span {
+            font: 500 0.75rem/1rem "nyt-franklin"
+        }
+
+        @media (min-height: 548px) {
+            .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW span, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku span {
+                font-size: 0.875rem;
+                line-height: 1.125rem
+            }
+        }
+
+        @media (min-width: 992px) {
+            .driveToMore .DriveToMoreContent-module_carouselGameItem__ypawW span, .driveToMore .DriveToMoreContent-module_gamesGridItem__hJIku span {
+                font-size: 0.75rem
+            }
+        }
+
+
+        .NewsCarousel-module_carouselNewsItem__iTjNZ p {
+            font: 500 0.875rem/1.09375rem nyt-cheltenham, Georgia;
+            color: var(--color-tone-1);
+            margin-top: 8px
+        }
+
+        img {
+            width: 100%;
+            animation: NewsCarousel-module_fadeIn__XJI1h 500ms
+        }
+
+
+        .NewsCarousel-module_desktopCarouselNewsItem__pjK2M p {
+            font: 500 1rem/1.25rem nyt-cheltenham, Georgia;
+            color: var(--color-tone-1);
+            margin-top: 8px
+        }
+
+
+        .NewsCarousel-module_carouselControl__P2VRs svg {
+            width: 100%;
+            height: 100%
+        }
+
+        .NewsCarousel-module_carouselControl__P2VRs:hover svg {
+            fill: #dfdfdf
+        }
+
+        .Settings-module_setting__EaMz6 a, .Settings-module_setting__EaMz6 a:visited {
+            color: var(--color-tone-8);
+            text-decoration: underline
+        }
+
+
+        .Modal-module_fullscreenStatsExit__DpWAs .Modal-module_buttonContainer__aEMIr .Modal-module_closeIconButton__y9b6c svg {
+            width: 100%;
+            height: auto
+        }
+
+        .Modal-module_closeIcon__TcEKb svg {
+            width: 100%;
+            height: auto
+        }
+
+
+        .AppHeader-module_menuRight__Noasd button svg {
+            vertical-align: middle
+        }
+
+        @media (max-width: 499px) {
+            .pz-web .AppHeader-module_menuRight__Noasd.AppHeader-module_longTextVariant__guJaD svg {
+                width: 20px
+            }
+        }
+
+        .Explainer-module_containerLink__Eahjg p:last-child {
+            font-weight: 700
+        }
+
+
+        .Explainer-module_text__DosQz > a {
+            color: var(--inline-links);
+            -webkit-text-decoration: underline var(--inline-links);
+            text-decoration: underline var(--inline-links)
+        }
+
+
+
+        .Explainer-module_headerNew__y8y2y > p {
+            text-align: center;
+            margin: 10px 0px
+        }
+
+
+
+        .Page-module_page__Py6Ys header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative
+        }
+
+        .Page-module_page__Py6Ys h1 {
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 10px
+        }
+
+
+
+        .Page-module_headerNew__FQAkL > p {
+            text-align: center;
+            margin: 10px 0px
+        }
+
+
+
+
+        .Error-module_errorBannerContainer__pfK75 p {
+            font-weight: 400;
+            margin: 5px 5px 5px 10px
+        }
+
+        .Ad-module_adContainer__ZAFEc > *:first-child {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%)
+        }
+
+        .App-module_gameContainer__K_CBh {
+            position: relative
+        }
+
+        .App-module_game__yruqo {
+            width: 100%;
+            max-width: var(--game-max-width);
+            margin: 0 auto;
+            height: calc(100% - var(--header-height));
+            display: flex;
+            flex-direction: column
+        }
+
+        .pz-offline-ticker svg path {
+            fill: var(--white)
+        }
+
+        .StatsSelectionTool-module_form__eOT7F fieldset {
+            margin-bottom: 40px
+        }
+
+        .dark.colorblind {
+            --color-absent: var(--color-tone-4);
+            --key-bg-absent: var(--color-tone-4)
+        }
+
+        .colorblind {
+            --color-correct: var(--orange);
+            --color-present: var(--blue);
+            --color-absent: var(--color-tone-2);
+            --tile-text-color: var(--white);
+            --key-bg-present: var(--color-present);
+            --key-bg-correct: var(--color-correct);
+            --key-bg-absent: var(--color-tone-2);
+            --key-evaluated-text-color: var(--black);
+            --key-evaluated-text-color-absent: var(--white);
+            --color-correct-high-contrast: var(--orange);
+            --modal-content-bg: var(--color-tone-7)
+        }
+
+        /*# sourceMappingURL=62.9d339ad0d09ddf80c92e.css.map*/
+
+    </style>`
+
