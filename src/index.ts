@@ -165,8 +165,10 @@ export interface GameRecord {
   wordGuess: string
   isRunning: boolean
   isHardMode: boolean
+  isUltraHardMode: boolean
   correctLetters: string[]
   presentLetters: string
+  presentLettersWithIndex: string[]
   absentLetters: string
   timestamp: number
   remainingWordsList: string[]
@@ -188,6 +190,7 @@ export interface ExtraGameRecord {
   wordGuess: string
   correctLetters: string[]
   presentLetters: string
+  presentLettersWithIndex: string[]
   absentLetters: string
   timestamp: number
   wordlesNum: number
@@ -224,6 +227,7 @@ interface WordData {
 
 interface PlayerStats {
   经典?: WinLoseStats;
+  Lewdle?: WinLoseStats;
   CET4?: WinLoseStats;
   CET6?: WinLoseStats;
   GMAT?: WinLoseStats;
@@ -244,6 +248,7 @@ interface WinLoseStats {
 
 const initialStats: PlayerStats = {
   经典: {win: 0, lose: 0},
+  Lewdle: {win: 0, lose: 0},
   CET4: {win: 0, lose: 0},
   CET6: {win: 0, lose: 0},
   GMAT: {win: 0, lose: 0},
@@ -259,6 +264,7 @@ const initialStats: PlayerStats = {
 
 const initialFastestGuessTime: Record<string, number> = {
   经典: 0,
+  Lewdle: 0,
   CET4: 0,
   CET6: 0,
   GMAT: 0,
@@ -280,47 +286,6 @@ interface LetterState {
 interface WordEntry {
   word: string;
   translation: string;
-}
-
-interface Definition {
-  part: string;
-  text: string;
-  example: string;
-  synonyms: string[];
-}
-
-interface WordData2 {
-  word: string;
-  id: number;
-  bases: {
-    scrabble_us: number;
-    scrabble_uk: number;
-    wwf: number;
-  };
-  definitions: {
-    n: Definition[];
-  };
-}
-
-interface PageData {
-  id: string;
-  type: string;
-  component: string;
-  slug: string;
-  title: string;
-  description: string;
-  keywords: string;
-  h1: string;
-  h2: string;
-  content: string;
-  bottom_content: string;
-  show_site_title: string;
-  visible: string;
-}
-
-interface ResponseData {
-  page: PageData;
-  word: WordData2;
 }
 
 // bl*
@@ -370,6 +335,8 @@ export function apply(ctx: Context, config: Config) {
     wordlesNum: 'unsigned',
     wordleIndex: 'unsigned',
     isWin: 'boolean',
+    isUltraHardMode: 'boolean',
+    presentLettersWithIndex: 'list',
   }, {
     primary: 'id',
     autoInc: true,
@@ -390,6 +357,7 @@ export function apply(ctx: Context, config: Config) {
     wordleIndex: 'unsigned',
     isWin: 'boolean',
     remainingGuessesCount: 'integer',
+    presentLettersWithIndex: 'list',
   }, {
     primary: 'id',
     autoInc: true,
@@ -445,6 +413,9 @@ export function apply(ctx: Context, config: Config) {
   // wordleGame帮助
   ctx.command('wordleGame', '猜单词游戏帮助')
     .action(async ({session}) => {
+      const {channelId, username, userId} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
       await session.execute(`wordleGame -h`)
     })
   // wordleGame.加入 j* jr*
@@ -458,7 +429,7 @@ export function apply(ctx: Context, config: Config) {
       if (gameInfo.isStarted) {
         if (!isInGame) {
           return await sendMessage(session, `【@${username}】\n不好意思你来晚啦~\n游戏已经开始了呢！`)
-        } else { // db*
+        } else {
           const wordlesNum = gameInfo.wordlesNum
           const isAbsurd = gameInfo.isAbsurd
           // 生成 html 字符串
@@ -587,10 +558,11 @@ export function apply(ctx: Context, config: Config) {
   // wordleGame.开始 s* ks*
   ctx.command('wordleGame.开始 [guessWordLength:number]', '开始游戏引导')
     .option('hard', '--hard 困难模式', {fallback: false})
+    .option('ultraHardMode', '--uhard 超困难模式', {fallback: false})
     .option('absurd', '--absurd 变态模式', {fallback: false})
     .option('challenge', '--challenge 变态挑战模式', {fallback: false})
     .option('wordles', '--wordles <value:number> 同时猜测多个单词', {fallback: 1})
-    .action(async ({session, options}, guessWordLength = config.defaultWordLengthForGuessing) => {
+    .action(async ({session, options}, guessWordLength) => {
       const {channelId, userId, username} = session;
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username);
@@ -609,17 +581,22 @@ export function apply(ctx: Context, config: Config) {
       // 判断 userInput 是否为有效输入
       const selectedExam = isNaN(parseInt(userInput)) ? userInput.toUpperCase() : exams[parseInt(userInput) - 1];
       if (exams.includes(selectedExam)) {
-        if (config.shouldPromptWordLengthInput && selectedExam !== '经典') {
-          await sendMessage(session, `【@${username}】\n请输入猜单词的长度：`);
-          const userInput = await session.prompt();
-          if (!userInput) return await sendMessage(session, `【@${username}】\n输入超时！`);
-          guessWordLength = parseInt(userInput)
+        if (!guessWordLength) {
+          if (config.shouldPromptWordLengthInput && selectedExam !== '经典' && selectedExam !== 'Lewdle') {
+            await sendMessage(session, `【@${username}】\n请输入猜单词的长度：`);
+            const userInput = await session.prompt();
+            if (!userInput) return await sendMessage(session, `【@${username}】\n输入超时！`);
+            guessWordLength = parseInt(userInput)
+          } else {
+            guessWordLength = config.defaultWordLengthForGuessing
+          }
         }
         const hardOption = options.hard ? ` --hard` : '';
+        const uhardOption = options.ultraHardMode ? ` --uhard` : '';
         const absurdOption = options.absurd ? ` --absurd` : '';
         const challengeOption = options.challenge ? ` --challenge` : '';
         const wordlesOption = options.wordles > 1 ? `--wordles ${options.wordles}` : '';
-        const command = `wordleGame.开始.${selectedExam}${hardOption}${absurdOption}${challengeOption}${wordlesOption} ${guessWordLength}`;
+        const command = `wordleGame.开始.${selectedExam}${hardOption}${uhardOption}${absurdOption}${challengeOption}${wordlesOption} ${guessWordLength}`;
         return await session.execute(command);
       } else {
         return await sendMessage(session, `【@${username}】\n无效的输入！`);
@@ -629,6 +606,7 @@ export function apply(ctx: Context, config: Config) {
   // wordleGame.开始.经典 jd*
   ctx.command('wordleGame.开始.经典', '开始经典猜单词游戏')
     .option('hard', '--hard 困难模式', {fallback: false})
+    .option('ultraHardMode', '--uhard 超困难模式', {fallback: false})
     .option('absurd', '--absurd 变态模式', {fallback: false})
     .option('challenge', '--challenge 变态挑战模式', {fallback: false})
     .option('wordles', '--wordles <value:number> 同时猜测多个单词', {fallback: 1})
@@ -672,14 +650,20 @@ export function apply(ctx: Context, config: Config) {
       selectedWords.push(randomWord);
 
       let isHardMode = options.hard;
+      let isUltraHardMode = options.ultraHardMode;
       let isChallengeMode = options.challenge;
       let isAbsurdMode = isChallengeMode ? true : options.absurd;
       const wordlesNum = options.wordles
-      if (options.wordles > 1) {
+      if (isUltraHardMode) {
+        isHardMode = true
+      }
+      if (wordlesNum > 1) {
         isHardMode = false
+        isUltraHardMode = false
         isChallengeMode = false
         isAbsurdMode = false
       }
+
 
       const correctLetters: string[] = new Array(5).fill('*');
 
@@ -694,6 +678,7 @@ export function apply(ctx: Context, config: Config) {
         gameMode: '经典',
         timestamp: timestamp,
         isHardMode: isHardMode,
+        isUltraHardMode,
         correctLetters: correctLetters,
         presentLetters: '',
         absentLetters: '',
@@ -743,7 +728,7 @@ export function apply(ctx: Context, config: Config) {
         imageBuffer = await generateWordlesImage(htmlImgString);
       }
 
-      const gameMode = `【经典${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? '（困难）' : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
+      const gameMode = `【经典${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
       const targetWord = isChallengeMode ? `\n目标单词为：【${randomWord}】` : '';
       const wordLength = '单词长度为：【5】';
       const guessChance = `猜单词机会为：【${isAbsurdMode ? '♾️' : `${6 + wordlesNum - 1}`}】`;
@@ -758,17 +743,31 @@ export function apply(ctx: Context, config: Config) {
     })
   const exams = [
     "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
-    "SAT", "TOEFL", "考研", "专八", "专四", "ALL"
+    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle",
   ];
   exams.forEach((exam) => {
     if (exam !== "经典") {
       // 10* fjd*
       ctx.command(`wordleGame.开始.${exam} [guessWordLength:number]`, `开始猜${exam}单词游戏`)
         .option('hard', '--hard 困难模式', {fallback: false})
+        .option('ultraHardMode', '--uhard 超困难模式', {fallback: false})
         .option('absurd', '--absurd 变态模式', {fallback: false})
         .option('challenge', '--challenge 变态挑战模式', {fallback: false})
         .option('wordles', '--wordles <value:number> 同时猜测多个单词', {fallback: 1})
-        .action(async ({session, options}, guessWordLength = config.defaultWordLengthForGuessing) => {
+        .action(async ({session, options}, guessWordLength) => {
+          const {channelId, username, userId} = session
+          // 更新玩家记录表中的用户名
+          await updateNameInPlayerRecord(userId, username)
+          if (!guessWordLength) {
+            if (config.shouldPromptForWordLengthOnNonClassicStart && exam !== 'Lewdle') {
+              await sendMessage(session, `【@${session.username}】\n请输入猜单词的长度：`);
+              const userInput = await session.prompt();
+              if (!userInput) return await sendMessage(session, `【@${session.username}】\n输入超时！`);
+              guessWordLength = parseInt(userInput)
+            } else {
+              guessWordLength = config.defaultWordLengthForGuessing
+            }
+          }
           return startWordleGame(exam, guessWordLength, session, options);
         });
     }
@@ -836,6 +835,8 @@ export function apply(ctx: Context, config: Config) {
         isChallengeMode,
         targetWord,
         wordlesNum,
+        isUltraHardMode,
+        presentLettersWithIndex,
       } = gameInfo;
       // 判断输入
       if (!/^[a-zA-Z]+$/.test(inputWord)) {
@@ -867,10 +868,6 @@ export function apply(ctx: Context, config: Config) {
         if (mergeSameLetters(containsAllLetters).length !== presentLetters.length && presentLetters.length !== 0) {
           isInputWordWrong = true;
         }
-        // 不包含
-        if (absentLetters.length !== 0 && lowercaseInputWord.split('').some(letter => absentLetters.includes(letter))) {
-          isInputWordWrong = true;
-        }
         // 正确
         for (let i = 0; i < lowercaseInputWord.length; i++) {
           if (correctLetters[i] !== '*' && correctLetters[i] !== lowercaseInputWord[i] && correctLetters.some(letter => letter !== '*')) {
@@ -878,10 +875,22 @@ export function apply(ctx: Context, config: Config) {
             break;
           }
         }
-
+        // 不包含 灰色的线索必须被遵守  超困难
+        if (isUltraHardMode && absentLetters.length !== 0 && checkAbsentLetters(lowercaseInputWord, absentLetters)) {
+          isInputWordWrong = true;
+        }
+        // 黄色字母必须远离它们被线索的地方 超困难
+        if (isUltraHardMode && presentLettersWithIndex.length !== 0 && checkPresentLettersWithIndex(lowercaseInputWord, presentLettersWithIndex)) {
+          isInputWordWrong = true
+        }
         if (isInputWordWrong) {
           await setGuessRunningStatus(channelId, false);
-          return await sendMessage(session, `【@${username}】\n当前难度为：【困难】\n【困难】：后续猜单词需要使用之前正确或出现的字母。\n您输入的单词字母不符合要求！\n您的输入为：【${inputWord}】\n单词字母要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? `` : `\n不包含字母：【${absentLetters}】`}`);
+          const difficulty = isUltraHardMode ? '超困难' : '困难';
+          const rule = `绿色字母必须保特固定，黄色字母必须重复使用。${isUltraHardMode ? `\n黄色字母必须远离它们被线索的地方，灰色的线索必须被遵守。` : ''}`
+
+          const message = `【@${username}】\n当前难度为：【${difficulty}】\n【${difficulty}】：${rule}\n您输入的单词字母不符合要求！\n您的输入为：【${inputWord}】\n单词字母要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 || !isUltraHardMode ? `` : `\n不包含字母：【${absentLetters}】`}${presentLettersWithIndex.length === 0 || !isUltraHardMode ? `` : `\n黄色字母远离：【${presentLettersWithIndex.join(', ')}】`}`;
+
+          return await sendMessage(session, message);
         }
       }
       // 初始化输
@@ -1067,7 +1076,8 @@ ${settlementResult}
   ctx.command('wordleGame.查询玩家记录 [targetUser:text]', '查询玩家记录')
     .action(async ({session}, targetUser) => {
       let {userId, username} = session;
-
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
       if (targetUser) {
         const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
         const match = targetUser.match(userIdRegex);
@@ -1107,6 +1117,8 @@ ${generateStatsInfo(stats, fastestGuessTime)}
   ctx.command('wordleGame.查询单词 [targetWord:text]', '在ALL词库中查询单词释义')
     .action(async ({session}, targetWord) => {
       let {userId, username} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
       targetWord = targetWord.trim();
       if (!targetWord) {
         // 提示输入
@@ -1132,6 +1144,8 @@ ${generateStatsInfo(stats, fastestGuessTime)}
   ctx.command('wordleGame.查找单词 [targetWord:text]', '在WordWord中查找单词定义')
     .action(async ({session}, targetWord) => {
       let {userId, username} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
       targetWord = targetWord.trim();
       if (!targetWord) {
         // 提示输入
@@ -1159,6 +1173,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
     })
   // dcczq*
   ctx.command('wordleGame.单词查找器', '使用WordFinder查找匹配的单词')
+    .option('auto', '-a 自动查找自动查找（根据游戏进程）', {fallback: false})
     .option('wordLength', '-l <length> 指定要搜索的单词长度', {fallback: undefined})
     .option('wordWithThreeWildcards', '-w <word> 搜索带有最多三个通配符字符的单词', {fallback: undefined})
     .option('containingLetters', '-c <letters> 搜索包含特定字母组合的单词', {fallback: undefined})
@@ -1167,7 +1182,11 @@ ${generateStatsInfo(stats, fastestGuessTime)}
     .option('startingWithTheseLetters', '--sw <letters> 搜索以特定字母开头的单词', {fallback: undefined})
     .option('endingWithTheseLetters', '--ew <letters> 搜索以特定字母结尾的单词', {fallback: undefined})
     .action(async ({session, options}) => {
-      const {
+      const {channelId, username, userId} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
+
+      let {
         wordLength,
         wordWithThreeWildcards,
         containingLetters,
@@ -1176,6 +1195,51 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         startingWithTheseLetters,
         endingWithTheseLetters
       } = options;
+
+      if (options.auto) {
+
+        const gameInfo = await getGameInfo(channelId)
+        const {isStarted, wordlesNum, guessWordLength, absentLetters, presentLetters} = gameInfo
+        if (!isStarted) {
+          return await sendMessage(session, `【${username}】\n未检测到任何游戏进度！\n无法使用自动查找功能！`);
+        }
+        if (wordlesNum === 1) {
+          wordLength = guessWordLength
+          containingTheseLetters = presentLetters
+          withoutTheseLetters = absentLetters
+        } else {
+          await sendMessage(session, `【${username}】\n检测到当前进度数量为：【${wordlesNum}】\n请输入【待查询序号（从左到右）】：\n支持输入多个（用空格隔开）\n例如：1 2`);
+          const userInput = await session.prompt()
+          if (!userInput) return await sendMessage(session, `【${username}】\n输入超时！`);
+          const stringArray = userInput.split(' ');
+
+          for (const element of stringArray) {
+
+            if (!isNaN(Number(element))) {
+              const index = parseInt(element);
+              if (index > 0 && index <= wordlesNum) {
+                if (index === 1) {
+                  wordLength = guessWordLength
+                  containingTheseLetters = presentLetters
+                  withoutTheseLetters = absentLetters
+                } else {
+                  const gameInfo2 = await getGameInfo2(channelId, index)
+                  const {wordlesNum, guessWordLength, absentLetters, presentLetters} = gameInfo2
+                  await session.execute(`wordleGame.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`)
+                }
+              } else {
+                await session.send(`序号 ${index} 超出范围（1~${wordlesNum}）。`);
+                continue;
+              }
+            } else {
+              continue;
+            }
+            //
+          }
+
+          // else
+        }
+      }
 
       const noOptionsSpecified = !wordLength &&
         !wordWithThreeWildcards &&
@@ -1186,8 +1250,8 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         !endingWithTheseLetters;
 
       if (noOptionsSpecified) {
-        const chineseTutorial = "欢迎使用单词查找器！\n你可以使用以下选项来搜索匹配的单词：\n- 使用 -l <length> 指定要搜索的单词长度\n- 使用 -w <word> 搜索带有最多三个通配符字符的单词\n- 使用 -c <letters> 搜索包含特定字母组合的单词\n- 使用 --ct <letters> 搜索只包含指定字母的单词\n- 使用 --wt <letters> 搜索不包含特定字母的单词\n- 使用 --sw <letters> 搜索以特定字母开头的单词\n- 使用 --ew <letters> 搜索以特定字母结尾的单词";
-        return sendMessage(session, chineseTutorial);
+        const chineseTutorial = "欢迎使用单词查找器！\n你可以使用以下选项来搜索匹配的单词：\n- 使用 -a 自动查找（根据游戏进程）\n- 使用 -l <length> 指定要搜索的单词长度\n- 使用 -w <word> 搜索带有最多三个通配符字符的单词\n- 使用 -c <letters> 搜索包含特定字母组合的单词\n- 使用 --ct <letters> 搜索只包含指定字母的单词\n- 使用 --wt <letters> 搜索不包含特定字母的单词\n- 使用 --sw <letters> 搜索以特定字母开头的单词\n- 使用 --ew <letters> 搜索以特定字母结尾的单词";
+        return await sendMessage(session, chineseTutorial);
       }
 
       const params = {
@@ -1204,7 +1268,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 
       const url = `https://wordword.org/search/${queryParams}`;
       const result = await fetchAndParseWords(url);
-      return sendMessage(session, `${result}`);
+      return await sendMessage(session, `${result}`);
     });
   // wordleGame.查询进度 jd* cxjd*
   ctx.command('wordleGame.查询进度', '查询当前游戏进度')
@@ -1229,13 +1293,15 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         isChallengeMode,
         targetWord,
         wordlesNum,
+        isUltraHardMode,
+        presentLettersWithIndex,
       } = gameInfo;
       const usernameMention = `【@${username}】`;
       const inputLengthMessage = `待猜单词的长度为：【${guessWordLength}】`;
       const processedResult = wordlesNum > 1 ? '\n' + await processExtraGameInfos(channelId) : ''
-      const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}${processedResult}`;
+      const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}${presentLettersWithIndex.length === 0 ? '' : `\n字母位置排除：【${presentLettersWithIndex.join(', ')}】`}${processedResult}`;
       const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000;
-      let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? '（困难）' : ''}${isAbsurd ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${targetWord}】` : ''}`;
+      let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurd ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${targetWord}】` : ''}`;
       if (config.enableWordGuessTimeLimit) {
         message += `\n剩余作答时间：【${timeDifferenceInSeconds}】秒`;
       }
@@ -1254,6 +1320,9 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 // r* phb*
   ctx.command('wordleGame.排行榜 [number:number]', '查看排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+      const {channelId, username, userId} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
@@ -1286,6 +1355,9 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     // phb*
     ctx.command(`wordleGame.排行榜.${type} [number:number]`, `查看${type}排行榜`)
       .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+        const {channelId, username, userId} = session
+        // 更新玩家记录表中的用户名
+        await updateNameInPlayerRecord(userId, username)
         if (typeof number !== 'number' || isNaN(number) || number < 0) {
           return '请输入大于等于 0 的数字作为排行榜的参数。';
         }
@@ -1314,6 +1386,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   // sy*
   ctx.command('wordleGame.排行榜.损益 [number:number]', '查看玩家损益排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+      const {channelId, username, userId} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
@@ -1322,6 +1397,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   // ccdccs*
   ctx.command('wordleGame.排行榜.猜出单词次数 [number:number]', '查看玩家猜出单词次数排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+      const {channelId, username, userId} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
@@ -1330,6 +1408,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   // zsc*
   ctx.command('wordleGame.排行榜.总.胜场 [number:number]', '查看玩家总胜场排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+      const {channelId, username, userId} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
@@ -1338,6 +1419,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   // zsc*
   ctx.command('wordleGame.排行榜.总.输场 [number:number]', '查看玩家总输场排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+      const {channelId, username, userId} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
@@ -1351,16 +1435,25 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   rankType4.forEach((type) => {
     ctx.command(`wordleGame.排行榜.${type}.胜场 [number:number]`, `查看${type}胜场排行榜`)
       .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+        const {channelId, username, userId} = session
+        // 更新玩家记录表中的用户名
+        await updateNameInPlayerRecord(userId, username)
         return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'win', '胜场'));
       });
 
     ctx.command(`wordleGame.排行榜.${type}.输场 [number:number]`, `查看${type}输场排行榜`)
       .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+        const {channelId, username, userId} = session
+        // 更新玩家记录表中的用户名
+        await updateNameInPlayerRecord(userId, username)
         return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'lose', '输场'));
       });
 
     ctx.command(`wordleGame.排行榜.${type}.最快用时 [number:number]`, `查看${type}最快用时排行榜`)
       .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+        const {channelId, username, userId} = session
+        // 更新玩家记录表中的用户名
+        await updateNameInPlayerRecord(userId, username)
         return await sendMessage(session, await getLeaderboardFastestGuessTime(type, number));
       });
   });
@@ -1371,10 +1464,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     const extraGameInfos: ExtraGameRecord[] = await ctx.database.get('extra_wordle_game_records', {channelId});
 
     return extraGameInfos
-      .map(({correctLetters, presentLetters, absentLetters}) => {
+      .map(({correctLetters, presentLetters, absentLetters, presentLettersWithIndex}) => {
         const present = presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`;
         const absent = absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`;
-        return `\n当前进度：【${correctLetters.join('')}】${present}${absent}`;
+        const presentWithoutIndex = presentLettersWithIndex.length === 0 ? '' : `\n字母位置排除：【${presentLettersWithIndex.join(', ')}】`;
+        return `\n当前进度：【${correctLetters.join('')}】${present}${absent}${presentWithoutIndex}`;
       })
       .join('\n');
   }
@@ -1481,6 +1575,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     const correctLetters: string[] = gameInfo.correctLetters;
     let presentLetters = gameInfo.presentLetters
     let absentLetters = gameInfo.absentLetters
+    let presentLettersWithIndex = gameInfo.presentLettersWithIndex
 
 
     for (const letter of wordGuess) {
@@ -1519,6 +1614,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
             letterCountMap[letter]--;
 
             presentLetters += letter;
+            presentLettersWithIndex.push(`${letter}-${i + 1}`)
           } else {
             wordHtml[htmlIndex] = wordHtml[htmlIndex].replace("data-state=\"unchecked\"", "data-state=\"absent\"");
             absentLetters += letter;
@@ -1536,6 +1632,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
         correctLetters,
         presentLetters: uniqueSortedLowercaseLetters(presentLetters),
         absentLetters: removeLetters(gameInfo.wordGuess, uniqueSortedLowercaseLetters(absentLetters)),
+        presentLettersWithIndex,
       });
     };
 
@@ -1705,15 +1802,32 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
   async function updateNameInPlayerRecord(userId: string, username: string): Promise<void> {
     const userRecord = await ctx.database.get('wordle_player_records', {userId});
+
     if (userRecord.length === 0) {
       await ctx.database.create('wordle_player_records', {
         userId,
         username,
       });
-    } else if (username !== userRecord[0].username) {
+      return;
+    }
+
+    const existingRecord = userRecord[0];
+
+    if (username !== existingRecord.username) {
       await ctx.database.set('wordle_player_records', {userId}, {username});
     }
+
+    if (!existingRecord.stats.hasOwnProperty("Lewdle")) {
+      existingRecord.stats["Lewdle"] = {win: 0, lose: 0};
+      await ctx.database.set('wordle_player_records', {userId}, {stats: existingRecord.stats});
+    }
+
+    if (!existingRecord.fastestGuessTime.hasOwnProperty("Lewdle")) {
+      existingRecord.fastestGuessTime["Lewdle"] = 0;
+      await ctx.database.set('wordle_player_records', {userId}, {fastestGuessTime: existingRecord.fastestGuessTime});
+    }
   }
+
 
   // csh*
   async function sendMessage(session: any, message: any): Promise<void> {
@@ -1751,15 +1865,8 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`);
     }
 
-    if (config.shouldPromptForWordLengthOnNonClassicStart) {
-      await sendMessage(session, `【@${username}】\n请输入猜单词的长度：`);
-      const userInput = await session.prompt();
-      if (!userInput) return await sendMessage(session, `【@${username}】\n输入超时！`);
-      guessWordLength = parseInt(userInput)
-    }
-
     // 判断输入
-    if (typeof guessWordLength !== 'number' || !isValidGuessWordLength(command, guessWordLength)) {
+    if (typeof guessWordLength !== 'number' || !isValidGuessWordLength(command, guessWordLength) && command !== 'Lewdle') {
       return await sendMessage(session, `【@${username}】\n无效的单词长度参数！\n${command}单词长度可选值范围：${getValidGuessWordLengthRange(command)}`);
     }
 
@@ -1780,31 +1887,51 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
     const selectedWords: string[] = [];
     // 开始游戏
-    const result = getRandomWordTranslation(command, guessWordLength);
-    const randomWord = result.word
+    let randomWord: string = ''
+    let translation: string = ''
+    let wordCount: number = 0
+    if (command === 'Lewdle') {
+      const badWordsList = ["BONER", "FELCH", "PUSSY", "TAINT", "SEMEN", "DILDO", "FARTS", "CHODE", "MINGE", "GONAD", "TWATS", "SPUNK", "QUEEF", "GAPED", "PRICK", "BUSSY", "SHART", "BALLS", "VULVA", "PORNO", "COOCH", "PONUT", "LOADS", "DADDY", "FROTS", "SKEET", "MILFS", "BOOTY", "QUIMS", "DICKS", "CUSSY", "BOOBS", "BONCH", "TWINK", "GROOL", "HORNY", "YIFFY", "THICC", "BULGE", "TITTY", "WANKS", "FUCKS", "HUSSY", "COCKS", "FANNY", "SHAFT", "TWERK", "PUBES", "GONZO", "HANDY", "NARDS", "RIMJOB", "ERECT", "SPANK", "SQUIRT", "CUNTS", "PRECUM", "SCREW", "EDGING", "GOATSE", "BOINK", "PUNANI", "ASSES", "PECKER", "HINEY", "WANKER", "GUMMY", "CUMRAG", "PEGGED", "LEWDS", "MOPED", "TEABAG", "SCROTE", "BEAVER", "NOOKIE", "CRABS", "FUCKED", "BUTTS", "GOOCH", "TAGNUT", "TRUMP", "COUGAR", "SHTUP", "TOOBIN", "KANCHO", "KINKY", "WILLY", "SYBIAN", "GLUCK", "BONED", "GOBBLE", "TRIBS", "BROJOB", "DOGGY", "DOCKS", "CHUBBY", "TOSSER", "SHAGS", "FISTED", "STIFFY", "NASTY", "CLIMAX", "JOBBY", "BONERS", "RAWDOG", "PLUMS", "RANDY", "CLUNGE", "FEMDOM", "ZADDY", "SMEGMA", "THROB", "MERKIN", "CLITS", "MOMMY", "TITJOB", "MOIST", "GAGGED", "GUSHER", "FLAPS", "TODGER", "YONIC", "FRICK", "PROBE", "GIRTH", "PERVY", "AROUSE", "AHEGAO", "FLEDGE", "HENTAI", "GROWER", "SIMBA", "MENAGE", "LENGTH", "DOMME", "DIDDLE", "SHOWER", "BOYTOY", "SMANG", "GILFS", "NYASH", "LIGMA", "FACIAL", "OPPAI", "ASSJOB", "LUBED", "PAYPIG", "SPAFF", "PENGUS", "RIMBOW", "CUMPT", "FROMBE", "MILKER", "HIMBO", "FAPPY", "CUCKED", "HOOHA", "REAMED", "TOEJOB", "BEMHO", "BOOFED", "SEXILE", "GOOSE", "BANGED", "NORKS", "CHONES", "GLANS", "GLORP", "EPEEN", "JELQS", "CRANK", "ASSMAN", "SPURT", "BLOWIE", "ECCHI", "DICKED", "COOZE", "BEWBS", "BONKED", "BUGGER", "CUMWAD", "HANDY", "PORNO", "DILDO", "FELCH", "WANKS", "LOADS", "BOOBS", "QUIMS", "TITTY", "MILFS", "TWATS", "SCREW", "BUSSY", "DADDY", "BULGE", "BONER", "COOCH", "CUNTS", "FANNY", "TAINT", "SPUNK", "GONAD", "CUMRAG", "RIMJOB", "SHAFT", "SEMEN", "SCROTE", "TWERK", "HINEY", "SKEET", "CUSSY", "FROTS", "BONCH", "BOOTY", "BUTTS", "TAGNUT", "GAPED", "TOOBIN", "SYBIAN", "DICKS", "KINKY", "NARDS", "BONED", "DOGGY", "PUSSY", "WANKER", "PEGGED", "DOCKS", "KANCHO", "PONUT", "CHODE", "FUCKED", "THICC", "CRABS", "JOBBY", "TEABAG", "STIFFY", "EDGING", "COUGAR", "BALLS", "RAWDOG", "SMEGMA", "SQUIRT", "NASTY", "HUSSY", "FEMDOM", "PECKER", "TENTED", "SPLOSH", "BLUMPY", "CUMET", "SUCKLE", "SEXTS", "SUGMA", "SCROG", "BRAIN", "HOOKUP", "HICKEY", "AHOLE", "ANALLY", "COOMER", "ENEMA", "BARSE", "BOOBA", "CLUSSY", "HUMMER", "BEZOS", "CANING", "CHOKER", "BENWA", "CUMJAR", "DUMPER", "FIGGED", "GOONER", "INCEST", "SNUSNU", "SOUND", "ASSHAT", "BUNDA", "BREED", "CAGING", "MOIST", "FACIAL", "MOPED", "SHTUP", "GUMMY", "GOOCH", "LEWDS", "COCKS", "ASSES", "ZADDY", "MINGE", "LENGTH", "BOYTOY", "SEXILE", "PRECUM", "SHART", "PENGUS", "GOBBLE", "LUBED", "SMANG", "GUSHER", "CUMPT", "GONZO", "MERKIN", "JELQS", "TRIBS", "PERVY", "PROBE", "PUBES", "NORKS", "BUGGER", "SIMBA", "CUMWAD", "PRICK", "FISTED", "YONIC", "AROUSE", "BOOBS", "GAGGED", "YIFFY", "CLIMAX", "CRANK", "SPANK", "MILKER", "RANDY", "SHAGS", "GOOSE", "TOSSER", "SCREW", "LOADS", "CHONES", "RIMBOW", "BULGE", "BEWBS", "TITTY", "CLUNGE", "OPPAI", "HANDY", "EPEEN", "MILFS", "GILFS", "PAYPIG", "PUNANI", "SPAFF", "TWERK", "FAPPY", "CUNTS", "GAPED", "BLOWIE", "BOOTY", "CUMRAG", "TOOBIN", "DICKED", "FROMBE", "COOZE", "NARDS", "BONERS", "FUCKS", "TAGNUT", "PLUMS", "GONAD", "AHEGAO", "SYBIAN", "FUCKED", "GOATSE", "TWINK", "HOOHA", "CLITS", "COUGAR", "ERECT", "BONED", "SEMEN", "TWATS", "TITJOB", "CRABS", "THROB", "MOMMY", "VULVA", "DILDO", "PORNO", "KINKY", "SMEGMA", "NASTY", "TOEJOB", "LIGMA", "SPURT", "BEMHO", "TODGER", "FEMDOM", "EDGING", "NOOKIE", "KANCHO", "FLAPS", "TRUMP", "GROOL", "JOBBY", "BUSSY", "HICKEY", "BEZOS", "PUSSY", "BUTTS", "SCROG", "FELCH", "DUMPER", "REAMED", "HIMBO", "FIGGED", "ASSJOB", "CHUBBY", "BROJOB", "SPLOSH", "NYASH", "SHOWER", "FRICK", "TAINT", "BOOFED", "CHODE", "SEXTS", "BLUMPY", "FROTS", "SQUIRT", "LEWDS", "WANKS", "COOMER", "BREED", "CHOKER", "WANKER", "GLANS", "HUSSY", "BOINK", "BALLS", "HORNY", "QUIMS", "COOCH", "WILLY", "SPUNK", "BARSE", "BONKED", "DADDY", "MOPED", "FLEDGE", "PROBE", "SHAFT", "SCROTE", "PUBES", "HINEY", "CUMET", "BONCH", "BENWA", "SUCKLE", "ECCHI", "TENTED", "GUSHER", "FISTED", "BUNDA", "CUCKED", "MILKER", "SOUND", "SIMBA", "DIDDLE", "CAGING", "PRECUM", "YONIC", "CUSSY", "TEABAG", "BEWBS", "SPANK", "PEGGED", "FANNY", "RIMBOW", "GIRTH", "RAWDOG", "TRIBS", "INCEST", "HUMMER", "TWERK", "DOCKS", "YIFFY", "MERKIN", "CUMJAR", "ANALLY", "AHOLE", "SHTUP", "TOSSER", "FROMBE", "LOADS", "ASSES", "BEAVER", "DOMME", "BOOBA", "DICKED", "CUMPT", "CUMWAD", "ZADDY", "LUBED", "GONZO", "GAPED", "CUNTS", "RIMJOB", "PECKER", "GOOCH", "FARTS", "COUGAR", "DOGGY", "PLUMS", "PENGUS", "ENEMA", "BLOWIE", "FUCKED", "CLUNGE", "TOOBIN", "CUMRAG", "SHAGS", "OPPAI", "GLORP", "GOBBLE", "MINGE", "TAGNUT", "MOIST", "CLUSSY", "COOZE", "EPEEN", "STIFFY", "PUNANI", "TITJOB", "GUMMY", "HOOHA", "TODGER", "RANDY", "VULVA", "PORNO", "CLITS", "SMANG", "GILFS", "THROB", "FACIAL", "FAPPY", "BUGGER", "GROWER", "NOOKIE", "DILDO", "BOOTY", "FUCKS", "NORKS", "SEMEN", "CLIMAX", "FIGGED", "JELQS", "PRICK", "SUGMA", "ASSHAT", "FLAPS", "SQUIRT", "BRAIN", "EDGING", "GAGGED", "BULGE", "DICKS", "GOONER", "BANGED", "BOINK", "GOOSE", "BUTTS", "COOMER", "CANING", "SMEGMA", "GROOL", "KANCHO", "SEXILE", "NYASH", "TRUMP", "TWINK", "WILLY", "BLUMPY", "BOOBS", "FRICK", "HICKEY", "PUSSY", "SHART", "GOATSE", "HIMBO", "BONER", "LEWDS", "GLANS", "TOEJOB", "BEMHO", "HORNY", "ECCHI", "WANKER", "BARSE", "GUSHER", "FROTS", "CHOKER", "SOUND", "BREED", "QUIMS", "FEMDOM", "BENWA", "PUBES", "CAGING", "SUCKLE", "HINEY", "BONKED", "ERECT", "BONERS", "SHAFT", "SEXTS", "HENTAI", "PEGGED", "CRABS", "ASSJOB", "GIRTH", "TENTED", "BUSSY", "LIGMA", "ASSMAN", "MERKIN", "BROJOB", "NARDS", "PAYPIG", "SCROTE", "INCEST", "COCKS", "SPURT", "FELCH", "TRIBS", "TITTY", "CUMWAD", "PONUT", "MILKER", "BOOFED", "REAMED", "HUMMER", "MOPED", "MENAGE", "BEZOS", "DOGGY", "SPLOSH", "RIMJOB", "TWERK", "TAINT", "CLUNGE", "AHOLE", "DIDDLE", "ENEMA", "QUEEF", "WANKS", "HANDY", "SHAGS", "SNUSNU", "KINKY", "AHEGAO", "ASSES", "CUMJAR", "YIFFY", "GOOCH", "FLEDGE", "HOOKUP", "GOBBLE", "GUMMY", "OPPAI", "BEAVER", "CUMRAG", "GLUCK", "SIMBA", "FANNY", "PENGUS", "EPEEN", "BUGGER", "COUGAR", "CUMPT", "SKEET", "DOCKS", "MILFS", "FARTS", "BONCH", "THROB", "BLOWIE", "PERVY", "HUSSY", "HOOHA", "SEMEN", "MOMMY", "CLUSSY", "SCREW", "AROUSE", "CHONES", "FISTED", "THICC", "SYBIAN", "VULVA", "PECKER", "DADDY", "BOYTOY", "JOBBY", "SQUIRT", "ANALLY", "ZADDY", "BOOTY", "SHTUP", "DOMME", "TOOBIN", "CUNTS", "BOOBA", "SEXILE", "BOOBS", "TWATS", "CUSSY", "CANING", "STIFFY", "SHOWER", "NYASH", "NORKS", "RIMBOW", "COOCH", "TOSSER", "FLAPS", "SCROG", "BRAIN", "GILFS", "FRICK", "TODGER", "GONZO", "FUCKS", "CLIMAX", "LOADS", "BEMHO", "PUSSY", "PRECUM", "CHODE", "COOMER", "BUNDA", "HIMBO", "GOONER", "SPUNK", "KANCHO", "FROTS", "HINEY", "BARSE", "BONERS", "LENGTH", "BOINK", "PROBE", "SHAFT", "SUCKLE", "SUGMA", "WILLY", "BULGE", "ASSHAT", "GAGGED", "JELQS", "SMEGMA", "TRUMP", "SOUND", "BONKED", "SPURT", "TITJOB", "CAGING", "RANDY", "PUBES", "COOZE", "NOOKIE", "HORNY", "ERECT", "CRABS", "LUBED", "SMANG", "ASSJOB", "BLUMPY", "DICKS", "SPAFF", "BUTTS", "MENAGE", "GAPED", "PLUMS", "LIGMA", "PEGGED", "HENTAI", "TWINK", "BROJOB", "WANKS", "PUNANI", "GOOSE", "DUMPER", "FEMDOM", "NARDS", "FIGGED", "CUMET", "DILDO", "TEABAG", "EDGING", "AHOLE", "RAWDOG", "INCEST", "PORNO", "ASSES", "GROOL", "CUMWAD", "DICKED", "HOOKUP", "GOOCH", "TAGNUT", "LEWDS", "GUSHER", "GLANS", "BUGGER", "PAYPIG", "FUCKED", "CHOKER", "OPPAI", "SCROTE", "CUCKED", "TRIBS", "TENTED", "SPANK", "EPEEN", "AROUSE", "BONER", "QUEEF", "NASTY", "TITTY", "YIFFY", "GOATSE", "AHEGAO", "TWERK", "GUMMY", "DOGGY", "MILFS", "FISTED", "CLITS", "FAPPY", "KINKY", "JOBBY", "VULVA", "THICC", "MERKIN", "BUSSY", "DIDDLE", "MILKER", "GLORP", "FACIAL", "FROMBE", "SHAGS", "BONCH", "SPLOSH", "COCKS", "DOCKS", "GONAD", "GROWER", "COOCH", "SHOWER", "SIMBA", "PENGUS", "QUIMS", "RIMJOB", "TOOBIN", "BOOBA", "FARTS", "BONED", "CHUBBY", "SQUIRT", "SKEET", "GONZO", "SHART", "HUSSY", "THROB", "TAINT", "MOPED", "LOADS", "CRANK", "BEZOS", "DADDY", "CUMJAR", "SYBIAN", "NYASH", "SCREW", "BENWA", "CLIMAX", "HIMBO", "BONERS", "FLEDGE", "FUCKS", "BULGE", "SPUNK", "PECKER", "ASSHAT", "BOYTOY", "TITJOB", "WANKER", "JELQS", "SPURT", "BOINK", "SOUND", "FANNY", "LENGTH", "STIFFY", "MINGE", "FRICK", "BEAVER", "SMEGMA", "YONIC", "CHONES", "CUMRAG", "CLUSSY", "NORKS", "LUBED", "CUSSY", "ZADDY", "PUSSY", "TWATS", "PLUMS", "DICKS", "SEXILE", "CRABS", "COUGAR", "BREED", "HORNY", "GOBBLE", "HUMMER", "ERECT", "CHODE", "HINEY", "BARSE", "DILDO", "GOOSE", "WANKS", "COOMER", "BRAIN", "HICKEY", "SMANG", "CAGING", "AHOLE", "BALLS", "BUTTS", "ASSES", "NARDS", "SEMEN", "FIGGED", "TWINK", "SEXTS", "FELCH", "PORNO", "RIMBOW", "PROBE", "LIGMA", "PUNANI", "ASSJOB", "GOOCH", "REAMED", "PRICK", "PRECUM", "DUMPER", "TOSSER", "HOOHA", "QUEEF", "GROOL", "RANDY", "GIRTH", "SCROG", "GUSHER", "BONKED", "LEWDS", "PUBES", "TAGNUT", "FAPPY", "TRUMP", "SHTUP", "KINKY", "CLUNGE", "DIDDLE", "CLITS", "MILFS", "OPPAI", "SHAGS", "SPAFF", "BLUMPY", "BEMHO", "AROUSE", "ANALLY", "GROWER", "DICKED", "GLORP", "DOMME", "TWERK", "FLAPS", "BROJOB", "CUCKED", "BUNDA", "CUMET", "EDGING", "DOGGY", "SQUIRT", "RIMJOB", "HENTAI", "INCEST", "SUCKLE", "YIFFY", "BOOFED"];
+
+      const randomLowerCaseWord = getRandomLowerCaseWord(badWordsList);
+      guessWordLength = randomLowerCaseWord.length
+      const foundWord = findWord(randomLowerCaseWord)
+      randomWord = randomLowerCaseWord
+      translation = foundWord ? foundWord.translation : ''
+    } else {
+      const result = getRandomWordTranslation(command, guessWordLength);
+      randomWord = result.word
+      translation = result.translation
+      wordCount = result.wordCount
+    }
     selectedWords.push(randomWord);
     let isHardMode = options.hard;
+    let isUltraHardMode = options.ultraHardMode;
     let isChallengeMode = options.challenge;
     let isAbsurdMode = isChallengeMode ? true : options.absurd;
     const wordlesNum = options.wordles
-    if (options.wordles > 1) {
+    if (isUltraHardMode) {
+      isHardMode = true
+    }
+    if (wordlesNum > 1) {
       isHardMode = false
+      isUltraHardMode = false
       isChallengeMode = false
       isAbsurdMode = false
     }
 
     const correctLetters: string[] = new Array(guessWordLength).fill('*');
 
-    const translation = result.translation
     await ctx.database.set('wordle_game_records', {channelId}, {
       isStarted: true,
       wordGuess: randomWord,
-      wordAnswerChineseDefinition: translation,
+      wordAnswerChineseDefinition: replaceEscapeCharacters(translation),
       remainingGuessesCount: guessWordLength + 1 + wordlesNum - 1,
       guessWordLength,
       gameMode: command,
       timestamp: timestamp,
       isHardMode: isHardMode,
+      isUltraHardMode,
       correctLetters: correctLetters,
       presentLetters: '',
       absentLetters: '',
@@ -1832,7 +1959,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
           remainingGuessesCount: guessWordLength + 1 + wordlesNum - 1,
           guessWordLength,
           wordGuess: randomWordExtra,
-          wordAnswerChineseDefinition: translation,
+          wordAnswerChineseDefinition: replaceEscapeCharacters(translation),
           gameMode: command,
           timestamp: timestamp,
           correctLetters: correctLetters,
@@ -1856,21 +1983,50 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       imageBuffer = await generateWordlesImage(htmlImgString);
     }
 
-    const gameMode = `游戏开始！\n当前游戏模式为：【${command}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? '（困难）' : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
-    const challengeInfo = isChallengeMode ? `\n目标单词为：【${result.word}】` : '';
+    const gameMode = `游戏开始！\n当前游戏模式为：【${command}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
+    const challengeInfo = isChallengeMode ? `\n目标单词为：【${randomWord}】` : '';
     const wordLength = `单词长度为：【${guessWordLength}】`;
     const guessChance = `猜单词机会为：【${isAbsurdMode ? '♾️' : guessWordLength + 1 + wordlesNum - 1}】`;
-    const wordCount = `待猜单词数量为：【${result.wordCount}】`;
+    const wordCount2 = `待猜单词数量为：【${command === 'Lewdle' ? '1000' : wordCount}】`;
     const timeLimit = config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : '';
     const image = h.image(imageBuffer, `image/${config.imageType}`);
 
-    return await sendMessage(session, `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${wordCount}${timeLimit}\n${image}`);
+    return await sendMessage(session, `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${wordCount2}${timeLimit}\n${image}`);
   }
 
   // apply
 
 
   // hs*
+  function checkAbsentLetters(lowercaseInputWord: string, absentLetters: string): boolean {
+    for (let i = 0; i < lowercaseInputWord.length; i++) {
+      if (absentLetters.includes(lowercaseInputWord[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function checkPresentLettersWithIndex(lowercaseInputWord: string, presentLettersWithIndex: string[]): boolean {
+    let isInputWordWrong = false;
+
+    presentLettersWithIndex.forEach(item => {
+      const [letter, indexStr] = item.split('-');
+      const index = parseInt(indexStr, 10) - 1;
+
+      if (lowercaseInputWord.length > index && lowercaseInputWord[index] === letter) {
+        isInputWordWrong = true;
+      }
+    });
+
+    return isInputWordWrong;
+  }
+
+  function getRandomLowerCaseWord(words: string[]): string {
+    const randomIndex = Math.floor(Math.random() * words.length);
+    return words[randomIndex].toLowerCase();
+  }
+
   async function fetchAndParseWords(url: string) {
 
     try {
@@ -2152,7 +2308,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 // }
 
   function generateGameEndMessage(gameInfo: GameRecord): string {
-    return `答案是：【${gameInfo.wordGuess}】${gameInfo.wordAnswerChineseDefinition !== '' ? `\n单词释义如下：\n${gameInfo.wordAnswerChineseDefinition}` : ''}`;
+    return `答案是：【${gameInfo.wordGuess}】${gameInfo.wordAnswerChineseDefinition !== '' ? `\n单词释义如下：\n${replaceEscapeCharacters(gameInfo.wordAnswerChineseDefinition)}` : ''}`;
   }
 
   function getRandomWordTranslation(command: string, guessWordLength: number): WordData {
