@@ -53,6 +53,11 @@ npm install koishi-plugin-wordle-game
   - 猜单词经典模式赢了之后奖励的货币倍率。默认值为 `2`.
 - `maxSimultaneousGuesses: number`
   - 最多同时猜测单词的数量，默认值为 `4`。
+- `compositeImagePageWidth: number`
+  - 合成图片页面宽度，默认值为 `800`。
+- `compositeImagePageHeight: number`
+  - 合成图片页面高度，默认值为 `100`。
+
 
 ### 游戏行为设置
 

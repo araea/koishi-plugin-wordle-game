@@ -81,6 +81,8 @@ export interface Config {
   maxInvestmentCurrency: number
   defaultRewardMultiplier: number
   maxSimultaneousGuesses: number
+  compositeImagePageWidth: number
+  compositeImagePageHeight: number
 
   allowNonPlayersToGuess: boolean
   enableWordGuessMiddleware: boolean
@@ -106,6 +108,8 @@ export const Config: Schema<Config> = Schema.intersect([
     maxInvestmentCurrency: Schema.number().min(0).default(50).description(`加入游戏时可投入的最大货币数额。`),
     defaultRewardMultiplier: Schema.number().min(0).default(2).description(`猜单词经典模式赢了之后奖励的货币倍率。`),
     maxSimultaneousGuesses: Schema.number().min(1).default(4).description(`最多同时猜测单词的数量。`),
+    compositeImagePageWidth: Schema.number().min(1).default(800).description(`合成图片页面宽度。`),
+    compositeImagePageHeight: Schema.number().min(1).default(100).description(`合成图片页面高度。`),
   }).description('游戏设置'),
 
   Schema.intersect([
@@ -909,7 +913,7 @@ export function apply(ctx: Context, config: Config) {
         const foundWord = findWord(randomWord)
         if (isLose && isChallengeMode) {
           // 生成 html 字符串
-          const letterTilesHtml = '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(foundWord.word.toLowerCase(), inputWord, channelId, 1) + '</div>';
+          const letterTilesHtml = '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(foundWord.word.toLowerCase(), inputWord, channelId, 1, gameInfo) + '</div>';
           const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
           const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
           // 图
@@ -959,7 +963,7 @@ export function apply(ctx: Context, config: Config) {
         if (!isWin && gameInfo.remainingGuessesCount - 1 === 0 && !isAbsurd) {
           isLose = true
         }
-        const letterTilesHtml = gameInfo.isWin ? '' : '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(gameInfo.wordGuess, inputWord, channelId, wordleIndex) + '</div>';
+        const letterTilesHtml = gameInfo.isWin ? '' : '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo) + '</div>';
         const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(isWin ? 0 : 1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.isWin ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
         const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
         // 图
@@ -973,7 +977,7 @@ export function apply(ctx: Context, config: Config) {
             remainingGuessesCount: remainingGuessesCount,
             wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
           })
-        } else if(wordleIndex > 1 && !gameInfo.isWin) {
+        } else if (wordleIndex > 1 && !gameInfo.isWin) {
           await ctx.database.set('extra_wordle_game_records', {channelId, wordleIndex}, {
             isWin,
             remainingGuessesCount: remainingGuessesCount,
@@ -1373,7 +1377,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
   async function generateWordlesImage(htmlImgString: string,) {
     const page = await ctx.puppeteer.page();
-    await page.setViewport({width: 500, height: 100, deviceScaleFactor: 1})
+    await page.setViewport({
+      width: config.compositeImagePageWidth,
+      height: config.compositeImagePageHeight,
+      deviceScaleFactor: 1
+    })
     const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
     await page.goto('file://' + filePath);
 
@@ -1452,11 +1460,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     return `${type}模式最快用时排行榜：\n${leaderboard}`;
   };
 
-  async function generateLetterTilesHtml(wordGuess: string, inputWord: string, channelId: string, wordleIndex: number): Promise<string> {
+  async function generateLetterTilesHtml(wordGuess: string, inputWord: string, channelId: string, wordleIndex: number, gameInfo: GameRecord | ExtraGameRecord): Promise<string> {
     const wordHtml: string[] = new Array(inputWord.length);
     const letterCountMap: { [key: string]: number } = {};
 
-    const gameInfo = await getGameInfo(channelId)
     const correctLetters: string[] = gameInfo.correctLetters;
     let presentLetters = gameInfo.presentLetters
     let absentLetters = gameInfo.absentLetters
@@ -1510,7 +1517,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       htmlIndex++;
     }
 
-    const setWordleGameRecord = async (collection: any, keys: Record<string, any>, values: Record<string, any>) => {
+    const setWordleGameRecord = async (collection: any, keys: any) => {
       await ctx.database.set(collection, keys, {
         correctLetters,
         presentLetters: uniqueSortedLowercaseLetters(presentLetters),
@@ -1519,13 +1526,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     };
 
     if (wordleIndex === 1) {
-      await setWordleGameRecord('wordle_game_records', {channelId}, {correctLetters, presentLetters, absentLetters});
+      await setWordleGameRecord('wordle_game_records', {channelId});
     } else {
-      await setWordleGameRecord('extra_wordle_game_records', {channelId, wordleIndex}, {
-        correctLetters,
-        presentLetters,
-        absentLetters
-      });
+      await setWordleGameRecord('extra_wordle_game_records', {channelId, wordleIndex});
     }
     return wordHtml.join("\n");
   }
