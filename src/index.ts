@@ -1189,6 +1189,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       await updateNameInPlayerRecord(userId, username)
 
       let {
+        auto,
         wordLength,
         wordWithThreeWildcards,
         containingLetters,
@@ -1198,7 +1199,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         endingWithTheseLetters
       } = options;
 
-      if (options.auto) {
+      if (auto) {
 
         const gameInfo = await getGameInfo(channelId)
         const {isStarted, wordlesNum, guessWordLength, absentLetters, presentLetters} = gameInfo
@@ -1243,7 +1244,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         }
       }
 
-      const noOptionsSpecified = !wordLength &&
+      const noOptionsSpecified = !auto && !wordLength &&
         !wordWithThreeWildcards &&
         !containingLetters &&
         !containingTheseLetters &&
