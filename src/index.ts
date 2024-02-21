@@ -1175,8 +1175,8 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         });
     })
   // dcczq*
-  ctx.command('wordleGame.单词查找器', '使用WordFinder查找匹配的单词')
-    .option('auto', '-a 自动查找自动查找（根据游戏进程）', {fallback: false})
+  ctx.command('wordleGame.单词查找器 [wordleIndexs:text]', '使用WordFinder查找匹配的单词')
+    .option('auto', '-a 自动查找（根据游戏进程）', {fallback: false})
     .option('wordLength', '-l <length> 指定要搜索的单词长度', {fallback: undefined})
     .option('wordWithThreeWildcards', '-w <word> 搜索带有最多三个通配符字符的单词', {fallback: undefined})
     .option('containingLetters', '-c <letters> 搜索包含特定字母组合的单词', {fallback: undefined})
@@ -1184,7 +1184,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
     .option('withoutTheseLetters', '--wt <letters> 搜索不包含特定字母的单词', {fallback: undefined})
     .option('startingWithTheseLetters', '--sw <letters> 搜索以特定字母开头的单词', {fallback: undefined})
     .option('endingWithTheseLetters', '--ew <letters> 搜索以特定字母结尾的单词', {fallback: undefined})
-    .action(async ({session, options}) => {
+    .action(async ({session, options}, wordleIndexs) => {
       const {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username)
@@ -1208,13 +1208,17 @@ ${generateStatsInfo(stats, fastestGuessTime)}
           return await sendMessage(session, `【${username}】\n未检测到任何游戏进度！\n无法使用自动查找功能！`);
         }
         if (wordlesNum === 1) {
-          wordLength = guessWordLength
-          containingTheseLetters = presentLetters
-          withoutTheseLetters = absentLetters
+          await session.execute(`wordleGame.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`)
         } else {
-          await sendMessage(session, `【${username}】\n检测到当前进度数量为：【${wordlesNum}】\n请输入【待查询序号（从左到右）】：\n支持输入多个（用空格隔开）\n例如：1 2`);
-          const userInput = await session.prompt()
-          if (!userInput) return await sendMessage(session, `【${username}】\n输入超时！`);
+          let userInput: string = ''
+          if (!wordleIndexs) {
+            await sendMessage(session, `【${username}】\n检测到当前进度数量为：【${wordlesNum}】\n请输入【待查询序号（从左到右）】：\n支持输入多个（用空格隔开）\n例如：1 2`);
+            userInput = await session.prompt()
+            if (!userInput) return await sendMessage(session, `【${username}】\n输入超时！`);
+          } else {
+            userInput = wordleIndexs
+          }
+
           const stringArray = userInput.split(' ');
 
           for (const element of stringArray) {
@@ -1223,12 +1227,10 @@ ${generateStatsInfo(stats, fastestGuessTime)}
               const index = parseInt(element);
               if (index > 0 && index <= wordlesNum) {
                 if (index === 1) {
-                  wordLength = guessWordLength
-                  containingTheseLetters = presentLetters
-                  withoutTheseLetters = absentLetters
+                  await session.execute(`wordleGame.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`)
                 } else {
                   const gameInfo2 = await getGameInfo2(channelId, index)
-                  const {wordlesNum, guessWordLength, absentLetters, presentLetters} = gameInfo2
+                  const {guessWordLength, absentLetters, presentLetters} = gameInfo2
                   await session.execute(`wordleGame.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`)
                 }
               } else {
@@ -1245,7 +1247,11 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         }
       }
 
-      const noOptionsSpecified = !auto && !wordLength &&
+      if (auto) {
+        return
+      }
+
+      const noOptionsSpecified = !wordLength &&
         !wordWithThreeWildcards &&
         !containingLetters &&
         !containingTheseLetters &&
