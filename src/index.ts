@@ -1951,8 +1951,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
         while (selectedWords.length < wordleIndex) {
           if (command === 'Lewdle') {
-            const randomLowerCaseWord = getRandomLowerCaseWord(badWordsList);
-            guessWordLength = randomLowerCaseWord.length
+            let randomLowerCaseWord = getRandomLowerCaseWord(badWordsList);
+            while (randomLowerCaseWord.length !== guessWordLength) {
+              randomLowerCaseWord = getRandomLowerCaseWord(badWordsList);
+            }
             const foundWord = findWord(randomLowerCaseWord)
             randomWordExtra = randomLowerCaseWord
             translation = foundWord ? foundWord.translation : ''
