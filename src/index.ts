@@ -37,7 +37,7 @@ export const usage = `## 🎣 使用
 - \`wordleGame.开始.经典\`
   - 开始经典猜单词游戏，需要投入货币，赢了有奖励。
 
-- \`wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL [guessWordLength:number]\`
+- \`wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle [guessWordLength:number]\`
   - 开始猜不同考试/类别的单词游戏，可选参数为猜单词的长度。
     - \`--hard\`
       - 困难模式，绿色字母必须保特固定，黄色字母必须重复使用。
@@ -70,7 +70,7 @@ export const usage = `## 🎣 使用
 - \`wordleGame.单词查找器\` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
 - \`wordleGame.查询玩家记录 [targetUser:text]\` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - \`wordleGame.排行榜 [number:number]\` - 查看排行榜，可选参数为排行榜的人数。
-- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL.胜场/输场/最快用时 [number:number]\` -
+- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle.胜场/输场/最快用时 [number:number]\` -
   查看不同模式的玩家排行榜，可选参数为排行榜的人数。`
 
 // pz* pzx*
@@ -1316,7 +1316,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 
   const rankType = [
     "总", "损益", "猜出单词次数", "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
-    "SAT", "TOEFL", "考研", "专八", "专四", "ALL"
+    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle",
   ];
 
 // r* phb*
@@ -1350,7 +1350,7 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
   const rankType2 = [
     "总", "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
-    "SAT", "TOEFL", "考研", "专八", "专四", "ALL"
+    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle",
   ];
 
   rankType2.forEach(type => {
@@ -1431,7 +1431,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     });
   const rankType4 = [
     "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
-    "SAT", "TOEFL", "考研", "专八", "专四", "ALL"
+    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle",
   ];
   // 注册胜场、输场、用时排行榜指令
   rankType4.forEach((type) => {
