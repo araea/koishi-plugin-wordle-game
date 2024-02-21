@@ -453,17 +453,31 @@ export function apply(ctx: Context, config: Config) {
       const {channelId, userId, username, user} = session
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username)
-      const gameInfo = await getGameInfo(channelId)
+      let gameInfo: any = await getGameInfo(channelId)
       const isInGame = await isPlayerInGame(channelId, userId);
       if (gameInfo.isStarted) {
         if (!isInGame) {
           return await sendMessage(session, `【@${username}】\n不好意思你来晚啦~\n游戏已经开始了呢！`)
-        } else {
+        } else { // db*
+          const wordlesNum = gameInfo.wordlesNum
+          const isAbsurd = gameInfo.isAbsurd
           // 生成 html 字符串
-          const emptyGridHtml = generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
-          const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
-          // 图
-          const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+          let imageBuffers: Buffer[] = [];
+          let imageBuffer: Buffer = Buffer.from('initial value', 'utf-8');
+          for (let wordleIndex = 1; wordleIndex < wordlesNum + 1; wordleIndex++) {
+            if (wordleIndex > 1) {
+              gameInfo = await getGameInfo2(channelId, wordleIndex)
+            }
+            const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
+            const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+            // 图
+            imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+            imageBuffers.push(imageBuffer);
+          }
+          if (wordlesNum > 1) {
+            const htmlImgString = generateImageTags(imageBuffers);
+            imageBuffer = await generateWordlesImage(htmlImgString);
+          }
           // 返回提示和游戏进程图
           return await sendMessage(session, `【@${username}】\n你已经在游戏里了哦~\n且游戏正在进行中，加油！\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
         }
