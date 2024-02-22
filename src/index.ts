@@ -1122,7 +1122,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       let {userId, username} = session
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username)
-      targetWord = targetWord.trim();
+      targetWord = targetWord?.trim();
       if (!targetWord) {
         // 提示输入
         await sendMessage(session, `【@${username}】\n请输入【待查询的单词】或【取消】：`);
@@ -1149,13 +1149,13 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       let {userId, username} = session
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username)
-      targetWord = targetWord.trim();
+      targetWord = targetWord?.trim();
       if (!targetWord) {
         // 提示输入
-        await sendMessage(session, `【@${username}】\n请输入【待查询的单词】或【取消】：`);
+        await sendMessage(session, `【@${username}】\n请输入【待查找的单词】或【取消】：`);
         const userInput = await session.prompt();
         if (!userInput) return await sendMessage(session, `【@${username}】\n输入超时！`);
-        if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查询单词操作已取消。`);
+        if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查找单词操作已取消。`);
         targetWord = userInput.trim();
       }
       // 判断输入
@@ -1173,6 +1173,35 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         .catch((error) => {
           return sendMessage(session, `【@${username}】\n未在WordWord中找到该单词。`);
         });
+    })
+  // czcy*
+  ctx.command('wordleGame.查找成语 [targetIdiom:text]', '在汉典中查找成语解释')
+    .action(async ({session}, targetIdiom) => {
+      let {userId, username} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
+      targetIdiom = targetIdiom?.trim();
+      if (!targetIdiom) {
+        // 提示输入
+        await sendMessage(session, `【@${username}】\n请输入【待查找的成语】或【取消】：`);
+        const userInput = await session.prompt();
+        if (!userInput) return await sendMessage(session, `【@${username}】\n输入超时！`);
+        if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查找成语操作已取消。`);
+        targetIdiom = userInput.trim();
+      }
+      // 判断输入
+      if (!isFourCharacterIdiom(targetIdiom)) {
+        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字成语吗？`);
+      }
+
+      // 寻找
+      const idiomInfo = await getIdiomInfo(targetIdiom)
+      console.log('pinyin: ',idiomInfo.pinyin)
+      console.log('explanation: ',idiomInfo.explanation)
+      if (idiomInfo.pinyin === '未找到拼音') {
+        return await sendMessage(session, `【@${username}】\n未在汉典中找到该成语。`);
+      }
+      return await sendMessage(session, `【@${username}】\n【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n${idiomInfo.explanation}`);
     })
   // dcczq*
   ctx.command('wordleGame.单词查找器 [wordleIndexs:text]', '使用WordFinder查找匹配的单词')
@@ -2018,6 +2047,50 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
 
   // hs*
+  function isFourCharacterIdiom(targetIdiom: string): boolean {
+    // 判断字符串长度是否为四
+    if (targetIdiom.length !== 4) {
+      return false;
+    }
+
+    // 使用正则表达式判断是否为中文字符
+    const chineseRegex = /^[\u4e00-\u9fa5]+$/;
+    if (!chineseRegex.test(targetIdiom)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  async function getIdiomInfo(idiom: string): Promise<{ pinyin: string, explanation: string }> {
+    try {
+      const response = await fetch(`https://www.zdic.net/hans/${idiom}`);
+      if (!response.ok) {
+        throw new Error('未能提取数据。');
+      }
+
+      const html = await response.text();
+      // 保存HTML到当前目录下
+      fs.writeFileSync(`${idiom}.html`, html, 'utf8');
+      const $ = load(html);
+
+      const pinyin = $('.ciif.noi.zisong .dicpy').first().text().replace(/\s+/g, ' ').trim();
+      // const explanation = $('#cyjs .content.definitions.cnr').text().replace(/\s+/g, ' ').trim();
+      const cyjsDiv = $("#cyjs");
+      cyjsDiv.find("h3").remove();
+      const explanation = cyjsDiv.find("p").map((_, p) => $(p).text()).get().join("\n");
+
+      if (!pinyin || !explanation) {
+        throw new Error('找不到拼音或解释。');
+      }
+
+      return { pinyin, explanation };
+    } catch (error) {
+      // logger.error(error);
+      return { pinyin: '未找到拼音', explanation: '未找到解释' };
+    }
+  }
+
   function checkAbsentLetters(lowercaseInputWord: string, absentLetters: string): boolean {
     for (let i = 0; i < lowercaseInputWord.length; i++) {
       if (absentLetters.includes(lowercaseInputWord[i])) {
