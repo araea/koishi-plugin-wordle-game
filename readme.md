@@ -4,7 +4,7 @@
 
 ### 🎮 简介
 
-`koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html)|[汉兜](https://handle.antfu.me/) 猜单词|成语小游戏插件。
+`koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) 猜单词|成语小游戏插件。
 
 主要功能：
 
