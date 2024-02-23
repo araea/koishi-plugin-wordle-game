@@ -59,19 +59,21 @@ export const usage = `## 🎣 使用
 
 ### 游戏操作
 
-- \`wordleGame.猜 [inputWord:text]\` - 猜单词，参数为输入的单词。
+- \`wordleGame.猜 [inputWord:text]\` - 猜单词|成语，参数为输入的词。
   - \`-r\`
-    - 随机一个单词。
+    - 随机一个单词|成语。
 - \`wordleGame.查询进度\` - 查询当前游戏进度。
 
 ### 数据查询
 
-- \`wordleGame.查询单词 [targetWord:text]\` - 在 ALL 词库中查询单词信息（翻译）。
-- \`wordleGame.查找单词 [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
+- \`wordleGame.查单词.ALL [targetWord:text]\` - 在 ALL 词库中查询单词信息（翻译）。
+- \`wordleGame.查单词.WordWord [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
+- \`wordleGame.查成语.百度汉语 [targetWord:text]\` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
+- \`wordleGame.查成语.汉典 [targetWord:text]\` - 在 [汉典](https://www.zdic.net/) 中查询成语信息（台湾词典）。
 - \`wordleGame.单词查找器\` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
 - \`wordleGame.查询玩家记录 [targetUser:text]\` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - \`wordleGame.排行榜 [number:number]\` - 查看排行榜，可选参数为排行榜的人数。
-- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle.胜场/输场/最快用时 [number:number]\` -
+- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜.胜场/输场/最快用时 [number:number]\` -
   查看不同模式的玩家排行榜，可选参数为排行榜的人数。`
 
 // pz* pzx*
