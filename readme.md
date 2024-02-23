@@ -149,6 +149,7 @@ npm install koishi-plugin-wordle-game
 - [WordlePlay](https://wordleplay.com/wordle-games) - 拓展玩法/单词列表补充
 - [LewdleGame](https://www.lewdlegame.com/App) - Lewdle 模式单词列表
 - [百度汉语](https://hanyu.baidu.com/) - 查找成语
+- [汉典](https://www.zdic.net/) - 查找成语
 - [汉兜](https://handle.antfu.me/) - 汉兜游戏样式
 
 ## ✨ License
