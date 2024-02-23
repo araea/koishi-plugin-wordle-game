@@ -937,7 +937,7 @@ export function apply(ctx: Context, config: Config) {
           const challengeInfo = isChallengeMode ? `\n目标单词为：【${randomWord}】` : '';
           const wordLength = `单词长度为：【${guessWordLength}】`;
           const guessChance = `猜${exam === '汉兜' ? '成语' : '单词'}机会为：【${isAbsurdMode ? '♾️' : exam === '汉兜' ? '10' : guessWordLength + 1 + wordlesNum - 1}】`;
-          const wordCount2 = exam === '汉兜' ? `待猜成语数量为：【26359】` : `待猜单词数量为：【${exam === 'Lewdle' ? '1000' : wordCount}】`;
+          const wordCount2 = exam === '汉兜' ? `待猜成语数量为：【${idiomsList.length}】` : `待猜单词数量为：【${exam === 'Lewdle' ? '1000' : wordCount}】`;
           const timeLimit = config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : '';
           const image = h.image(imageBuffer, `image/${config.imageType}`);
 
