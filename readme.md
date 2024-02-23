@@ -4,9 +4,13 @@
 
 ### 🎮 简介
 
-`koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 Wordle 猜单词小游戏插件。主要功能：
+`koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html)|[汉兜](https://handle.antfu.me/) 猜单词|成语小游戏插件。
+
+主要功能：
 
 - **经典模式**：随机从经典的 Wordle 英文单词中抽选，投入金币获得奖励。
+
+- **汉兜模式**：汉兜猜成语，投入金币获得奖励。
 
 - **多种题库模式**：涵盖 CET4/6、GRE、GMAT、IELTS、SAT、TOEFL、考研、ALL等考试和类别的热点单词。
 
@@ -96,7 +100,7 @@ npm install koishi-plugin-wordle-game
 - `wordleGame.开始.经典`
   - 开始经典猜单词游戏，需要投入货币，赢了有奖励。
 
-- `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle [guessWordLength:number]`
+- `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜 [guessWordLength:number]`
   - 开始猜不同考试/类别的单词游戏，可选参数为猜单词的长度。
     - `--hard`
       - 困难模式，绿色字母必须保特固定，黄色字母必须重复使用。
@@ -129,7 +133,7 @@ npm install koishi-plugin-wordle-game
 - `wordleGame.单词查找器` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
 - `wordleGame.查询玩家记录 [targetUser:text]` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - `wordleGame.排行榜 [number:number]` - 查看排行榜，可选参数为排行榜的人数。
-- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle.胜场/输场/最快用时 [number:number]` -
+- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜.胜场/输场/最快用时 [number:number]` -
   查看不同模式的玩家排行榜，可选参数为排行榜的人数。
 
 ## 🍰 致谢
@@ -144,7 +148,8 @@ npm install koishi-plugin-wordle-game
 - [WordFinder](https://wordword.org/) - 单词查找
 - [WordlePlay](https://wordleplay.com/wordle-games) - 拓展玩法/单词列表补充
 - [LewdleGame](https://www.lewdlegame.com/App) - Lewdle 模式单词列表
-- [汉典](https://www.zdic.net/aboutus/) - 查找成语
+- [百度汉语](https://hanyu.baidu.com/) - 查找成语
+- [汉兜](https://handle.antfu.me/) - 汉兜游戏样式
 
 ## ✨ License
 
