@@ -7,7 +7,6 @@ import {} from 'koishi-plugin-markdown-to-image-service'
 import {load} from "cheerio";
 import * as path from 'path';
 import * as fs from 'fs';
-import {channel} from "node:diagnostics_channel";
 
 export const inject = {
   required: ['monetary', 'database', 'puppeteer'],
@@ -59,9 +58,9 @@ export const usage = `## 🎣 使用
 
 ### 游戏操作
 
-- \`wordleGame.猜 [inputWord:text]\` - 猜单词|成语，参数为输入的词。
+- \`wordleGame.猜 [inputWord:text]\` - 猜单词|成语|四字词语，参数为输入的词。
   - \`-r\`
-    - 随机一个单词|成语。
+    - 随机一个单词|成语|四字词语。
 - \`wordleGame.查询进度\` - 查询当前游戏进度。
 
 ### 数据查询
@@ -177,6 +176,14 @@ export interface GameRecord {
   presentLetters: string
   presentLettersWithIndex: string[]
   absentLetters: string
+  correctPinyinsWithIndex: string[]
+  presentPinyins: string[]
+  presentTones: string[]
+  presentPinyinsWithIndex: string[]
+  absentPinyins: string[]
+  correctTonesWithIndex: string[]
+  presentTonesWithIndex: string[]
+  absentTones: string[]
   timestamp: number
   remainingWordsList: string[]
   isAbsurd: boolean
@@ -200,6 +207,14 @@ export interface ExtraGameRecord {
   presentLetters: string
   presentLettersWithIndex: string[]
   absentLetters: string
+  correctPinyinsWithIndex: string[]
+  presentPinyinsWithIndex: string[]
+  absentPinyins: string[]
+  presentPinyins: string[]
+  presentTones: string[]
+  correctTonesWithIndex: string[]
+  presentTonesWithIndex: string[]
+  absentTones: string[]
   timestamp: number
   wordlesNum: number
   wordleIndex: number
@@ -339,6 +354,14 @@ export function apply(ctx: Context, config: Config) {
     isUltraHardMode: 'boolean',
     presentLettersWithIndex: 'list',
     pinyin: 'string',
+    presentTonesWithIndex: 'list',
+    absentPinyins: 'list',
+    absentTones: 'list',
+    presentPinyinsWithIndex: 'list',
+    correctTonesWithIndex: 'list',
+    correctPinyinsWithIndex: 'list',
+    presentPinyins: 'list',
+    presentTones: 'list',
   }, {
     primary: 'id',
     autoInc: true,
@@ -361,6 +384,14 @@ export function apply(ctx: Context, config: Config) {
     remainingGuessesCount: 'integer',
     presentLettersWithIndex: 'list',
     pinyin: 'string',
+    presentTonesWithIndex: 'list',
+    absentPinyins: 'list',
+    absentTones: 'list',
+    presentPinyinsWithIndex: 'list',
+    correctTonesWithIndex: 'list',
+    correctPinyinsWithIndex: 'list',
+    presentPinyins: 'list',
+    presentTones: 'list',
   }, {
     primary: 'id',
     autoInc: true,
@@ -836,8 +867,8 @@ export function apply(ctx: Context, config: Config) {
           //   isAbsurdMode = false
           // }
           if (wordlesNum > 1 || exam === '汉兜') {
-            isHardMode = false
-            isUltraHardMode = false
+            // isHardMode = false
+            // isUltraHardMode = false
             isChallengeMode = false
             isAbsurdMode = false
           }
@@ -848,7 +879,7 @@ export function apply(ctx: Context, config: Config) {
             isStarted: true,
             wordGuess: randomWord,
             wordAnswerChineseDefinition: replaceEscapeCharacters(translation),
-            remainingGuessesCount: exam === '汉兜' ? 10 : guessWordLength + 1 + wordlesNum - 1,
+            remainingGuessesCount: exam === '汉兜' ? 10 + wordlesNum - 1 : guessWordLength + 1 + wordlesNum - 1,
             guessWordLength,
             gameMode: exam,
             timestamp: timestamp,
@@ -898,7 +929,7 @@ export function apply(ctx: Context, config: Config) {
               }
               await ctx.database.create('extra_wordle_game_records', {
                 channelId,
-                remainingGuessesCount: exam === '汉兜' ? 10 : guessWordLength + 1 + wordlesNum - 1,
+                remainingGuessesCount: exam === '汉兜' ? 10 + wordlesNum - 1 : guessWordLength + 1 + wordlesNum - 1,
                 guessWordLength,
                 wordGuess: randomWordExtra,
                 wordAnswerChineseDefinition: replaceEscapeCharacters(translation),
@@ -936,8 +967,8 @@ export function apply(ctx: Context, config: Config) {
           const gameMode = `游戏开始！\n当前游戏模式为：【${exam}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
           const challengeInfo = isChallengeMode ? `\n目标单词为：【${randomWord}】` : '';
           const wordLength = `单词长度为：【${guessWordLength}】`;
-          const guessChance = `猜${exam === '汉兜' ? '成语' : '单词'}机会为：【${isAbsurdMode ? '♾️' : exam === '汉兜' ? '10' : guessWordLength + 1 + wordlesNum - 1}】`;
-          const wordCount2 = exam === '汉兜' ? `待猜成语数量为：【${idiomsList.length}】` : `待猜单词数量为：【${exam === 'Lewdle' ? '1000' : wordCount}】`;
+          const guessChance = `猜${exam === '汉兜' ? '词语|成语' : '单词'}机会为：【${isAbsurdMode ? '♾️' : exam === '汉兜' ? `${10 + wordlesNum - 1}` : guessWordLength + 1 + wordlesNum - 1}】`;
+          const wordCount2 = exam === '汉兜' ? `待猜词语|成语数量为：【${idiomsList.length}】` : `待猜单词数量为：【${exam === 'Lewdle' ? '1000' : wordCount}】`;
           const timeLimit = config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : '';
           const image = h.image(imageBuffer, `image/${config.imageType}`);
 
@@ -1060,7 +1091,7 @@ export function apply(ctx: Context, config: Config) {
           const idiomInfo = await getIdiomInfo(inputWord)
           if (idiomInfo.pinyin === '未找到拼音') {
             await setGuessRunningStatus(channelId, false)
-            return await sendMessage(session, `【@${username}】\n你确定存在这样的四字成语吗？`);
+            return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`);
           } else {
             userInptPinyin = idiomInfo.pinyin
           }
@@ -1096,9 +1127,9 @@ export function apply(ctx: Context, config: Config) {
         if (isInputWordWrong) {
           await setGuessRunningStatus(channelId, false);
           const difficulty = isUltraHardMode ? '超困难' : '困难';
-          const rule = `绿色字母必须保特固定，黄色字母必须重复使用。${isUltraHardMode ? `\n黄色字母必须远离它们被线索的地方，灰色的线索必须被遵守。` : ''}`
+          const rule = `绿色线索必须保特固定，黄色线索必须重复使用。${isUltraHardMode ? `\n黄色线索必须远离它们被线索的地方，灰色的线索必须被遵守。` : ''}`
 
-          const message = `【@${username}】\n当前难度为：【${difficulty}】\n【${difficulty}】：${rule}\n您输入的单词字母不符合要求！\n您的输入为：【${inputWord}】\n单词字母要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含字母：【${presentLetters}】`}${absentLetters.length === 0 || !isUltraHardMode ? `` : `\n不包含字母：【${absentLetters}】`}${presentLettersWithIndex.length === 0 || !isUltraHardMode ? `` : `\n黄色字母远离：【${presentLettersWithIndex.join(', ')}】`}`;
+          const message = `【@${username}】\n当前难度为：【${difficulty}】\n【${difficulty}】：${rule}\n您输入的词不符合要求！\n您的输入为：【${inputWord}】\n要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含：【${presentLetters}】`}${absentLetters.length === 0 || !isUltraHardMode ? `` : `\n不包含：【${absentLetters}】`}${presentLettersWithIndex.length === 0 || !isUltraHardMode ? `` : `\n远离黄色线索：【${presentLettersWithIndex.join(', ')}】`}`;
 
           return await sendMessage(session, message);
         }
@@ -1464,7 +1495,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       }
       // 判断输入
       if (!isFourCharacterIdiom(targetIdiom)) {
-        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字成语吗？`);
+        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`);
       }
 
       // 寻找
@@ -1492,7 +1523,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       }
       // 判断输入
       if (!isFourCharacterIdiom(targetIdiom)) {
-        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字成语吗？`);
+        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`);
       }
       // 寻找
       const idiomInfo = await getIdiomInfo2(targetIdiom);
@@ -1632,11 +1663,38 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         wordlesNum,
         isUltraHardMode,
         presentLettersWithIndex,
+        correctPinyinsWithIndex,
+        presentPinyins,
+        presentPinyinsWithIndex,
+        absentPinyins,
+        absentTones,
+        presentTonesWithIndex,
+        correctTonesWithIndex,
+        presentTones
       } = gameInfo;
       const usernameMention = `【@${username}】`;
       const inputLengthMessage = `待猜${gameMode === '汉兜' ? '词语' : '成语'}的长度为：【${guessWordLength}】`;
-      const processedResult = wordlesNum > 1 ? '\n' + await processExtraGameInfos(channelId) : ''
-      const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLetters.length === 0 ? '' : `\n包含：【${presentLetters}】`}${absentLetters.length === 0 ? '' : `\n不包含：【${absentLetters}】`}${presentLettersWithIndex.length === 0 ? '' : `\n位置排除：【${presentLettersWithIndex.join(', ')}】`}${processedResult}`;
+      const extraGameInfo = wordlesNum > 1 ? `\n${await processExtraGameInfos(channelId)}` : '';
+      const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
+      const progressInfo = `当前${gameDuration}\n当前进度：【${correctLetters.join('')}】`;
+
+      const presentInfo = presentLetters.length !== 0 ? `\n包含：【${presentLetters}】` : '';
+      const absentInfo = absentLetters.length !== 0 ? `\n不包含：【${absentLetters}】` : '';
+      const presentWithIndexInfo = presentLettersWithIndex.length !== 0 ? `\n位置排除：【${presentLettersWithIndex.join(', ')}】` : '';
+
+      const pinyinsCorrectInfo = correctPinyinsWithIndex.length !== 0 ? `\n正确拼音：【${correctPinyinsWithIndex.join(', ')}】` : '';
+      const pinyinsPresentInfo = presentPinyins.length !== 0 ? `\n包含拼音：【${presentPinyins.join(', ')}】` : '';
+      const pinyinsAbsentInfo = absentPinyins.length !== 0 ? `\n不包含拼音：【${absentPinyins.join(', ')}】` : '';
+      const pinyinsPresentWithIndexInfo = presentPinyinsWithIndex.length !== 0 ? `\n拼音位置排除：【${presentPinyinsWithIndex.join(', ')}】` : '';
+
+      const tonesCorrectInfo = correctTonesWithIndex.length !== 0 ? `\n正确声调：【${correctTonesWithIndex.join(', ')}】` : '';
+      const tonesPresentInfo = presentTones.length !== 0 ? `\n包含声调：【${presentTones.join(', ')}】` : '';
+      const tonesAbsentInfo = absentTones.length !== 0 ? `\n不包含声调：【${absentTones.join(', ')}】` : '';
+      const tonesPresentWithIndexInfo = presentTonesWithIndex.length !== 0 ? `\n声调位置排除：【${presentTonesWithIndex.join(', ')}】` : '';
+
+
+      const progressMessage = `${progressInfo}${presentInfo}${absentInfo}${presentWithIndexInfo}${pinyinsCorrectInfo}${pinyinsPresentInfo}${pinyinsAbsentInfo}${pinyinsPresentWithIndexInfo}${tonesCorrectInfo}${tonesPresentInfo}${tonesAbsentInfo}${tonesPresentWithIndexInfo}${extraGameInfo}`;
+
       const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000;
       let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurd ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${targetWord}】` : ''}`;
       if (config.enableWordGuessTimeLimit) {
@@ -1818,11 +1876,21 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     const extraGameInfos: ExtraGameRecord[] = await ctx.database.get('extra_wordle_game_records', {channelId});
 
     return extraGameInfos
-      .map(({correctLetters, presentLetters, absentLetters, presentLettersWithIndex}) => {
-        const present = presentLetters.length === 0 ? '' : `\n包含字母：【${presentLetters}】`;
-        const absent = absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`;
-        const presentWithoutIndex = presentLettersWithIndex.length === 0 ? '' : `\n字母位置排除：【${presentLettersWithIndex.join(', ')}】`;
-        return `\n当前进度：【${correctLetters.join('')}】${present}${absent}${presentWithoutIndex}`;
+      .map(({correctLetters, presentLetters, absentLetters, presentLettersWithIndex,presentPinyinsWithIndex,correctPinyinsWithIndex,correctTonesWithIndex,presentTonesWithIndex,presentTones,absentTones,absentPinyins,presentPinyins}) => {
+        const present = presentLetters.length === 0 ? '' : `\n包含：【${presentLetters}】`;
+        const absent = absentLetters.length === 0 ? '' : `\n不包含：【${absentLetters}】`;
+        const presentWithoutIndex = presentLettersWithIndex.length === 0 ? '' : `\n位置排除：【${presentLettersWithIndex.join(', ')}】`;
+
+        const pinyinsCorrectInfo = correctPinyinsWithIndex.length !== 0 ? `\n正确拼音：【${correctPinyinsWithIndex.join(', ')}】` : '';
+        const pinyinsPresentInfo = presentPinyins.length !== 0 ? `\n包含拼音：【${presentPinyins.join(', ')}】` : '';
+        const pinyinsAbsentInfo = absentPinyins.length !== 0 ? `\n不包含拼音：【${absentPinyins.join(', ')}】` : '';
+        const pinyinsPresentWithIndexInfo = presentPinyinsWithIndex.length !== 0 ? `\n拼音位置排除：【${presentPinyinsWithIndex.join(', ')}】` : '';
+
+        const tonesCorrectInfo = correctTonesWithIndex.length !== 0 ? `\n正确声调：【${correctTonesWithIndex.join(', ')}】` : '';
+        const tonesPresentInfo = presentTones.length !== 0 ? `\n包含声调：【${presentTones.join(', ')}】` : '';
+        const tonesAbsentInfo = absentTones.length !== 0 ? `\n不包含声调：【${absentTones.join(', ')}】` : '';
+        const tonesPresentWithIndexInfo = presentTonesWithIndex.length !== 0 ? `\n声调位置排除：【${presentTonesWithIndex.join(', ')}】` : '';
+        return `\n当前进度：【${correctLetters.join('')}】${present}${absent}${presentWithoutIndex}${pinyinsCorrectInfo}${pinyinsPresentInfo}${pinyinsAbsentInfo}${pinyinsPresentWithIndexInfo}${tonesCorrectInfo}${tonesPresentInfo}${tonesAbsentInfo}${tonesPresentWithIndexInfo}`;
       })
       .join('\n');
   }
@@ -2002,6 +2070,16 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     let presentLetters = gameInfo.presentLetters
     let absentLetters = gameInfo.absentLetters
     let presentLettersWithIndex = gameInfo.presentLettersWithIndex
+    let correctPinyinsWithIndex = gameInfo.correctPinyinsWithIndex
+    let presentPinyinsWithIndex = gameInfo.presentPinyinsWithIndex
+    let absentPinyins = gameInfo.absentPinyins
+    let correctTonesWithIndex = gameInfo.correctTonesWithIndex
+    let presentTonesWithIndex = gameInfo.presentTonesWithIndex
+    let absentTones = gameInfo.absentTones
+    let presentPinyins = gameInfo.presentPinyins
+    let presentTones = gameInfo.presentTones
+
+//db*
 
     interface WordInfo {
       word: string;
@@ -2039,6 +2117,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     // 声调统计
     const userInputTones = countNumericTones(processedUserInputPinyin);
     const answerIdiomTones = countNumericTones(processedAnswerIdiomPinyin);
+    const answerIdiomTonesCopy = answerIdiomTones
 
     for (const char in userInputIdiomCharCount) {
       if (char in answerIdiomCharCount) {
@@ -2100,6 +2179,8 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
             }
           }
 
+          correctPinyinsWithIndex.push(`${element}-${position + 1}`)
+
           userInputElementInfo.count -= 1;
           userInputElementInfo.positions = userInputElementInfo.positions.filter(i => i !== position);
 
@@ -2120,9 +2201,13 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
                 userInputIdiomAllRecords[userPosition].pinyin[i] = userInputIdiomAllRecords[userPosition].pinyin[i].replace('absent', 'present')
               }
             }
+            presentPinyins.push(element)
+            presentPinyinsWithIndex.push(`${element}-${userPosition + 1}`)
             answerElementInfo.count -= 1;
           }
         });
+      } else {
+        absentPinyins.push(element)
       }
     }
 
@@ -2140,6 +2225,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
           if (matchIndex !== -1) {
             userInputIdiomAllRecords[position].pinyin[matchIndex] = userInputIdiomAllRecords[position].pinyin[matchIndex].replace(`-${tone}-absent`, `-${tone}-correct`);
           }
+          correctTonesWithIndex.push(`第${tone}声-${position + 1}`)
           userInputToneInfo.count -= 1;
           userInputToneInfo.positions = userInputToneInfo.positions.filter(i => i !== position);
 
@@ -2155,9 +2241,13 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
             if (matchIndex !== -1) {
               userInputIdiomAllRecords[userPosition].pinyin[matchIndex] = pinyinArray[matchIndex].replace(`-${tone}-absent`, `-${tone}-present`);
             }
+            presentTones.push(`第${tone}声`)
+            presentTonesWithIndex.push(`第${tone}声-${userPosition + 1}`)
             answerToneInfo.count -= 1;
           }
         });
+      } else {
+        absentTones.push(`第${tone}声`)
       }
     }
 
@@ -2178,7 +2268,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       wordStatus = statusMap[wordStatus] || wordStatus;
 
       const statusMap2: { [key: string]: string } = {
-        'absent': 'op40',
+        'absent': 'op35',
         'present': 'text-mis',
         'correct': 'text-ok'
       };
@@ -2231,12 +2321,33 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     }
     htmlResult.push(`</div>`)
 
+    const pinyinSet = new Set(Object.keys(answerIdiomPinyinOccurrences.initialsOccurrences)
+      .concat(Object.keys(answerIdiomPinyinOccurrences.finalsOccurrences)));
+
+    const filteredAbsentPinyins = absentPinyins.filter(pinyin => !pinyinSet.has(pinyin));
+    absentTones.forEach((tone, index) => {
+      const toneNumber = tone.match(/\d+/);
+      if (toneNumber) {
+        const key = toneNumber[0];
+        if (answerIdiomTonesCopy[key]) {
+          absentTones.splice(index, 1);
+        }
+      }
+    });
     const setWordleGameRecord = async (collection: any, keys: any) => {
       await ctx.database.set(collection, keys, {
         correctLetters,
-        presentLetters: removeDuplicates(presentLetters), // db*
+        presentLetters: removeDuplicates(presentLetters),
         absentLetters: removeLetters(gameInfo.wordGuess, removeDuplicates(absentLetters)),
         presentLettersWithIndex: mergeDuplicates(presentLettersWithIndex),
+        correctPinyinsWithIndex: mergeDuplicates(correctPinyinsWithIndex),
+        presentPinyinsWithIndex: mergeDuplicates(presentPinyinsWithIndex),
+        correctTonesWithIndex: mergeDuplicates(correctTonesWithIndex),
+        presentTonesWithIndex: mergeDuplicates(presentTonesWithIndex),
+        presentPinyins: mergeDuplicates(presentPinyins),
+        presentTones: mergeDuplicates(presentTones),
+        absentPinyins: mergeDuplicates(filteredAbsentPinyins),
+        absentTones: mergeDuplicates(absentTones),
       });
     };
     if (wordleIndex === 1) {
@@ -2526,6 +2637,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     }
     return result;
   }
+
   function mergeDuplicates(arr: string[]): string[] {
     const uniqueArr = arr.reduce((acc: string[], current: string) => {
       if (!acc.includes(current)) {
@@ -2842,7 +2954,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       const jsonData = JSON.stringify(idiomsList, null, 2);
       fs.writeFileSync(filePath, jsonData, 'utf-8');
     } catch (error) {
-      logger.error("将成语写入文件时出错：", error);
+      logger.error("将词语|成语写入文件时出错：", error);
     }
   }
 
