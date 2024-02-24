@@ -34,7 +34,7 @@ npm install koishi-plugin-wordle-game
 
 - 启动必要的服务。您需要启用 `monetary`，`database` 和 `puppeteer` 插件，以实现货币系统，数据存储和图片生成的功能。
 - 建议自行添加指令别名，以方便您和您的用户使用。
-- 享受猜单词游戏吧！😊
+- 享受猜单词|四字词语|成语游戏吧！😊
 
 ## 🎛 配置
 
@@ -97,15 +97,15 @@ npm install koishi-plugin-wordle-game
 - `wordleGame.开始 [guessWordLength:number]`
   - 开始游戏引导，可选参数为猜单词的长度。
 
-- `wordleGame.开始.经典`
-  - 开始经典猜单词游戏，需要投入货币，赢了有奖励。
+- `wordleGame.开始.经典/汉兜`
+  - 开始经典猜单词|四字词语游戏，可投入货币，赢了有奖励。
 
-- `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜 [guessWordLength:number]`
+- `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle [guessWordLength:number]`
   - 开始猜不同考试/类别的单词游戏，可选参数为猜单词的长度。
     - `--hard`
-      - 困难模式，绿色字母必须保特固定，黄色字母必须重复使用。
+      - 困难模式，绿色线索必须保特固定，黄色线索必须重复使用。
     - `--uhard`
-      - 超困难模式，在困难模式的基础上，黄色字母必须远离它们被线索的地方，灰色的线索必须被遵守。
+      - 超困难模式，在困难模式的基础上，黄色线索必须远离它们被线索的地方，灰色的线索必须被遵守。
     - `--absurd`
       - 荒谬/变态模式，AI将尽量避免给出答案，每次猜测时都会尽可能少地透露信息，甚至可能更换秘密词。
       - 在这种模式下，你将面对一个极具挑战性的对手。
@@ -115,9 +115,9 @@ npm install koishi-plugin-wordle-game
       - 仅建议高级玩家尝试。
       - [如何玩？](https://qntm.org/challenge)
     - `--wordles <value:number>`
-      - 同时猜测多个单词，默认范围为 1 ~ 4，可自定义。
+      - 同时猜测多个单词|词语，默认范围为 1 ~ 4，可自定义。
 
-> Tip：可以同时启用困难模式和变态模式，且经典模式也同样适用。
+> Tip：可以同时启用困难模式和变态模式，经典与汉兜模式同样适用。
 
 ### 游戏操作
 
