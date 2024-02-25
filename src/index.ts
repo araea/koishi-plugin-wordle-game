@@ -1711,18 +1711,22 @@ ${generateStatsInfo(stats, fastestGuessTime)}
   ctx.command('wordleGame.拼音速查表', '查看拼音速查表')
     .action(async ({session}) => {
       const page = await ctx.puppeteer.page();
-      await page.setViewport({width: 500, height: 570, deviceScaleFactor: 1})
+      await page.setViewport({width: 420, height: 570, deviceScaleFactor: 1})
       const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
       await page.goto('file://' + filePath);
 
-      const html = `<html lang="en" class="${config.isDarkThemeEnabled ? 'dark' : ''}" style="--vh: 7.55px;">
+      const html = `<html lang="en" class="${config.isDarkThemeEnabled ? 'dark' : ''}" style="--vh: 6.04px;">
 <head>
     <meta charset="UTF-8">
     <title>汉兜 - 汉字 Wordle</title>
     <link rel="stylesheet" href="./handle.css">
 </head>
 <body>
-${pinyinHtml}
+<div id="app" data-v-app="">
+    <main font-sans="" text="center gray-700 dark:gray-300" select-none="" class=""><!---->
+        <div fixed="" z-40="" class="bottom-0 left-0 right-0 top-0"><div class="bg-base left-0 right-0 top-0 bottom-0 absolute transition-opacity duration-500 ease-out opacity-50"></div><div class="bg-base border-base absolute transition-all duration-200 ease-out max-w-screen max-h-screen overflow-auto scrolls top-0 left-0 right-0 border-b" style=""><div p8="" pt4="" flex="~ col center" relative=""><p text-xl="" font-serif="" mb8=""><b>拼音速查表</b></p><div grid="~ cols-[1fr_3fr] gap-x-10 gap-y-4" font-mono="" font-light=""><div text-center="">声母</div><div text-center="">韵母</div><div grid="~ cols-2 gap-3" h-min=""><div class="">b</div><div class="">p</div><div class="">m</div><div class="">f</div><div class="">d</div><div class="">t</div><div class="">n</div><div class="">l</div><div class="">g</div><div class="">k</div><div class="">h</div><div class="">j</div><div class="">q</div><div class="">r</div><div class="">x</div><div class="">w</div><div class="">y</div><div class="">zh</div><div class="">ch</div><div class="">sh</div><div class="">z</div><div class="">c</div><div class="">s</div></div><div grid="~ cols-3 gap-3" h-min=""><div class="">a</div><div class="">ai</div><div class="">an</div><div class="">ang</div><div class="">ao</div><div class="">e</div><div class="">ei</div><div class="">en</div><div class="">eng</div><div class="">er</div><div class="">i</div><div class="">ia</div><div class="">ian</div><div class="">iang</div><div class="">iao</div><div class="">ie</div><div class="">in</div><div class="">ing</div><div class="">io</div><div class="">iong</div><div class="">iu</div><div class="">o</div><div class="">ong</div><div class="">ou</div><div class="">u</div><div class="">ua</div><div class="">uai</div><div class="">uan</div><div class="">uang</div><div class="">ui</div><div class="">un</div><div class="">uo</div><div class="">ü</div><div class="">üan</div><div class="">üe</div><div class="">ün</div></div></div></div></div></div>
+    </main>
+</div>
 </body>
 </html>`;
 
@@ -4383,81 +4387,5 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       <main class="App-module_game__yruqo" id="wordle-app-game">
         <div class="Board-module_boardContainer__TBHNL" style="overflow: unset;">`
 
-  const pinyinHtml = `<div fixed="" z-40="" class="bottom-0 left-0 right-0 top-0">
-    <div class="bg-base left-0 right-0 top-0 bottom-0 absolute transition-opacity ease-out opacity-50"></div>
-    <div class="bg-base border-base absolute transition-all ease-out max-w-screen max-h-screen overflow-auto scrolls top-0 left-0 right-0 border-b"
-         style="">
-        <div p8="" pt4="" flex="~ col center" relative=""><p text-xl="" font-serif="" mb8=""><b>拼音速查表</b></p>
-            <div grid="~ cols-[1fr_3fr] gap-x-10 gap-y-4" font-mono="" font-light="">
-                <div text-center="">声母</div>
-                <div text-center="">韵母</div>
-                <div grid="~ cols-2 gap-3" h-min="">
-                    <div class="">b</div>
-                    <div class="">p</div>
-                    <div class="">m</div>
-                    <div class="">f</div>
-                    <div class="">d</div>
-                    <div class="">t</div>
-                    <div class="">n</div>
-                    <div class="">l</div>
-                    <div class="">g</div>
-                    <div class="">k</div>
-                    <div class="">h</div>
-                    <div class="">j</div>
-                    <div class="">q</div>
-                    <div class="">r</div>
-                    <div class="">x</div>
-                    <div class="">w</div>
-                    <div class="">y</div>
-                    <div class="">zh</div>
-                    <div class="">ch</div>
-                    <div class="">sh</div>
-                    <div class="">z</div>
-                    <div class="">c</div>
-                    <div class="">s</div>
-                </div>
-                <div grid="~ cols-3 gap-3" h-min="">
-                    <div class="">a</div>
-                    <div class="">ai</div>
-                    <div class="">an</div>
-                    <div class="">ang</div>
-                    <div class="">ao</div>
-                    <div class="">e</div>
-                    <div class="">ei</div>
-                    <div class="">en</div>
-                    <div class="">eng</div>
-                    <div class="">er</div>
-                    <div class="">i</div>
-                    <div class="">ia</div>
-                    <div class="">ian</div>
-                    <div class="">iang</div>
-                    <div class="">iao</div>
-                    <div class="">ie</div>
-                    <div class="">in</div>
-                    <div class="">ing</div>
-                    <div class="">io</div>
-                    <div class="">iong</div>
-                    <div class="">iu</div>
-                    <div class="">o</div>
-                    <div class="">ong</div>
-                    <div class="">ou</div>
-                    <div class="">u</div>
-                    <div class="">ua</div>
-                    <div class="">uai</div>
-                    <div class="">uan</div>
-                    <div class="">uang</div>
-                    <div class="">ui</div>
-                    <div class="">un</div>
-                    <div class="">uo</div>
-                    <div class="">ü</div>
-                    <div class="">üan</div>
-                    <div class="">üe</div>
-                    <div class="">ün</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    </div>`
-  // apply
+ // apply
 }
