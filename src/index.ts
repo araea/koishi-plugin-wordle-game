@@ -1126,7 +1126,7 @@ export async function apply(ctx: Context, config: Config) {
               userInputPinyin = foundItem.pinyin
             } else {
               userInputPinyin = await sendPostRequestForGPT1106(inputWord)
-              if (userInputPinyin !== 'wǒ chū cuò le') {
+              if (userInputPinyin !== '') {
                 const newItem: PinyinItem2 = {
                   term: inputWord,
                   pinyin: userInputPinyin
@@ -1134,6 +1134,8 @@ export async function apply(ctx: Context, config: Config) {
                 pinyinData.push(newItem);
 
                 fs.writeFileSync(pinyinKoishiFilePath, JSON.stringify(pinyinData, null, 2), 'utf8');
+              } else {
+                userInputPinyin = 'wǒ chū cuò le'
               }
             }
           } else {
@@ -2787,11 +2789,11 @@ ${content}
         return data.choices[0].message.content
       } else {
         logger.error('未能提取数据:', response.status);
-        return 'wǒ chū cuò le'
+        return ''
       }
     } catch (error) {
       logger.error('读取数据时出错：', error);
-      return 'wǒ chū cuò le'
+      return ''
     }
   }
 
