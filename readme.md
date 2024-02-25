@@ -132,6 +132,7 @@ npm install koishi-plugin-wordle-game
 - `wordleGame.查单词.WordWord [targetWord:text]` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
 - `wordleGame.查成语.百度汉语 [targetWord:text]` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
 - `wordleGame.查成语.汉典 [targetWord:text]` - 在 [汉典](https://www.zdic.net/) 中查询成语信息（台湾词典）。
+- `wordleGame.拼音速查表` - 查看拼音速查表。
 - `wordleGame.单词查找器` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
 - `wordleGame.查询玩家记录 [targetUser:text]` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - `wordleGame.排行榜 [number:number]` - 查看排行榜，可选参数为排行榜的人数。
