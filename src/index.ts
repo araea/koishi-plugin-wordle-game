@@ -2820,10 +2820,12 @@ ${content}
       console.error('发生错误：', error);
     }
   }
+
   async function writeJSONFile(filePath: string, data: any) {
     const jsonData = JSON.stringify(data, null, 2);
     fs.writeFileSync(filePath, jsonData, 'utf-8');
   }
+
   async function readJSONFile(filePath: string) {
     if (fs.existsSync(filePath)) {
       const data = fs.readFileSync(filePath, 'utf-8');
@@ -2831,16 +2833,19 @@ ${content}
     }
     return [];
   }
+
   async function ensureFileExists(filePath: string) {
     if (!fs.existsSync(filePath)) {
       fs.writeFileSync(filePath, '[]', 'utf-8');
     }
   }
+
   async function ensureDirExists(dirPath: string) {
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath, {recursive: true});
     }
   }
+
   function removeDuplicates(inputString: string): string {
     let result = '';
     for (let i = 0; i < inputString.length; i++) {
@@ -3196,7 +3201,7 @@ ${content}
         const newIdiom: Idiom = {
           idiom,
           pinyin,
-          explanation
+          explanation: '【解释】' + explanation,
         };
         idiomsList.push(newIdiom);
         writeIdiomsToFile(idiomsKoishiFilePath, idiomsList);
