@@ -99,6 +99,8 @@ npm install koishi-plugin-wordle-game
 
 - `wordleGame.开始.经典/汉兜`
   - 开始经典猜单词|四字词语游戏，可投入货币，赢了有奖励。
+    - `--free`
+      - 自由模式，任意四字词语都可作为猜测词。
 
 - `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle [guessWordLength:number]`
   - 开始猜不同考试/类别的单词游戏，可选参数为猜单词的长度。
