@@ -336,7 +336,7 @@ export async function apply(ctx: Context, config: Config) {
   const logger = ctx.logger('wordleGame')
   // wj*
   const wordleGameDirPath = path.join(ctx.baseDir, 'data', 'wordleGame');
-  const idiomsFilePath = path.join(__dirname, 'idioms.json');//db*
+  const idiomsFilePath = path.join(__dirname, 'idioms.json');
   const pinyinFilePath = path.join(__dirname, 'pinyin.json');
   const idiomsKoishiFilePath = path.join(wordleGameDirPath, 'idioms.json');
   const pinyinKoishiFilePath = path.join(wordleGameDirPath, 'pinyin.json');
@@ -2799,16 +2799,16 @@ ${content}
   async function updateDataInTargetFile(newFilePath: string, targetFilePath: string, missingProperty: string): Promise<void> {
     try {
       // 读取文件中的数据
-      const newData = await readJSONFile(newFilePath);
-      let targetData = await readJSONFile(targetFilePath);
+      const [newData, targetData] = await Promise.all([readJSONFile(newFilePath), readJSONFile(targetFilePath)]);
+
+      // 创建一个 Map 以提高查找性能
+      const targetDataMap = new Map(targetData.map((item: any) => [item[missingProperty], item]));
 
       // 查找缺失的对象
-      const missingData = newData.filter((dataItem: any) => {
-        return !targetData.some((targetDataItem: any) => targetDataItem[missingProperty] === dataItem[missingProperty]);
-      });
+      const missingData = newData.filter((dataItem: any) => !targetDataMap.has(dataItem[missingProperty]));
 
       // 将缺失的对象添加到目标文件中
-      targetData = targetData.concat(missingData);
+      targetData.push(...missingData);
       await writeJSONFile(targetFilePath, targetData);
 
       // 如果 missingData 数组不为空，则打印添加的对象
@@ -2820,6 +2820,7 @@ ${content}
       console.error('发生错误：', error);
     }
   }
+
 
   async function writeJSONFile(filePath: string, data: any) {
     const jsonData = JSON.stringify(data, null, 2);
