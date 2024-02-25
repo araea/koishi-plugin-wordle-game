@@ -4,13 +4,14 @@ import {Context, h, Schema} from 'koishi'
 import {} from 'koishi-plugin-puppeteer'
 import {} from 'koishi-plugin-monetary'
 import {} from 'koishi-plugin-markdown-to-image-service'
+import {} from 'koishi-plugin-rr-gpt'
 import {load} from "cheerio";
 import * as path from 'path';
 import * as fs from 'fs';
 
 export const inject = {
   required: ['monetary', 'database', 'puppeteer'],
-  optional: ['markdownToImage'],
+  optional: ['markdownToImage', 'gpt'],
 }
 export const name = 'wordle-game'
 export const usage = `## 🎣 使用
@@ -194,6 +195,7 @@ export interface GameRecord {
   wordleIndex: number
   isWin: boolean
   pinyin: string
+  isFreeMode: boolean
 }
 
 export interface ExtraGameRecord {
@@ -363,6 +365,7 @@ export function apply(ctx: Context, config: Config) {
     correctPinyinsWithIndex: 'list',
     presentPinyins: 'list',
     presentTones: 'list',
+    isFreeMode: 'boolean'
   }, {
     primary: 'id',
     autoInc: true,
@@ -779,6 +782,7 @@ export function apply(ctx: Context, config: Config) {
     if (exam !== "经典") {
       // 10* fjd*
       ctx.command(`wordleGame.开始.${exam} [guessWordLength:number]`, `开始猜${exam}单词游戏`)
+        .option('free', '--free 自由模式（仅限汉兜）', {fallback: false})
         .option('hard', '--hard 困难模式', {fallback: false})
         .option('ultraHardMode', '--uhard 超困难模式', {fallback: false})
         .option('absurd', '--absurd 变态模式', {fallback: false})
@@ -852,6 +856,7 @@ export function apply(ctx: Context, config: Config) {
             wordCount = result.wordCount
           }
           selectedWords.push(randomWord);
+          let isFreeMode = options.free;
           let isHardMode = options.hard;
           let isUltraHardMode = options.ultraHardMode;
           let isChallengeMode = options.challenge;
@@ -895,6 +900,7 @@ export function apply(ctx: Context, config: Config) {
             wordlesNum: wordlesNum,
             wordleIndex: 1,
             pinyin,
+            isFreeMode,
           })
 
           if (wordlesNum > 1) {
@@ -965,7 +971,7 @@ export function apply(ctx: Context, config: Config) {
             imageBuffer = await generateWordlesImage(htmlImgString);
           }
 
-          const gameMode = `游戏开始！\n当前游戏模式为：【${exam}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
+          const gameMode = `游戏开始！\n当前游戏模式为：【${exam}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isFreeMode && exam === '汉兜' ? `（自由）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
           const challengeInfo = isChallengeMode ? `\n目标单词为：【${randomWord}】` : '';
           const wordLength = `单词长度为：【${guessWordLength}】`;
           const guessChance = `猜${exam === '汉兜' ? '词语|成语' : '单词'}机会为：【${isAbsurdMode ? '♾️' : exam === '汉兜' ? `${10 + wordlesNum - 1}` : guessWordLength + 1 + wordlesNum - 1}】`;
@@ -1060,6 +1066,7 @@ export function apply(ctx: Context, config: Config) {
         wordlesNum,
         isUltraHardMode,
         presentLettersWithIndex,
+        isFreeMode,
       } = gameInfo;
       // 判断输入
       if (!/^[a-zA-Z]+$/.test(inputWord) && gameMode !== '汉兜') {
@@ -1091,13 +1098,18 @@ export function apply(ctx: Context, config: Config) {
       let userInptPinyin: string = ''
       if (gameMode === '汉兜') {
         if (!isIdiomInList(inputWord, idiomsList)) {
-          const idiomInfo = await getIdiomInfo(inputWord)
-          if (idiomInfo.pinyin === '未找到拼音') {
-            await setGuessRunningStatus(channelId, false)
-            return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`);
+          if (isFreeMode) {
+            userInptPinyin = await sendPostRequestForGPT1106(inputWord)
           } else {
-            userInptPinyin = idiomInfo.pinyin
+            const idiomInfo = await getIdiomInfo(inputWord)
+            if (idiomInfo.pinyin === '未找到拼音') {
+              await setGuessRunningStatus(channelId, false)
+              return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`);
+            } else {
+              userInptPinyin = idiomInfo.pinyin
+            }
           }
+
         }
       }
       const foundIdiom = findIdiomByIdiom(inputWord, idiomsList);
@@ -1736,7 +1748,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
       await page.close();
 
-      return sendMessage(session,`${h.image(imageBuffer, `image/${config.imageType}`)}`);
+      return sendMessage(session, `${h.image(imageBuffer, `image/${config.imageType}`)}`);
     })
 
   const rankType = [
@@ -1908,7 +1920,20 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     const extraGameInfos: ExtraGameRecord[] = await ctx.database.get('extra_wordle_game_records', {channelId});
 
     return extraGameInfos
-      .map(({correctLetters, presentLetters, absentLetters, presentLettersWithIndex,presentPinyinsWithIndex,correctPinyinsWithIndex,correctTonesWithIndex,presentTonesWithIndex,presentTones,absentTones,absentPinyins,presentPinyins}) => {
+      .map(({
+              correctLetters,
+              presentLetters,
+              absentLetters,
+              presentLettersWithIndex,
+              presentPinyinsWithIndex,
+              correctPinyinsWithIndex,
+              correctTonesWithIndex,
+              presentTonesWithIndex,
+              presentTones,
+              absentTones,
+              absentPinyins,
+              presentPinyins
+            }) => {
         const present = presentLetters.length === 0 ? '' : `\n包含：【${presentLetters}】`;
         const absent = absentLetters.length === 0 ? '' : `\n不包含：【${absentLetters}】`;
         const presentWithoutIndex = presentLettersWithIndex.length === 0 ? '' : `\n位置排除：【${presentLettersWithIndex.join(', ')}】`;
@@ -2653,6 +2678,84 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       }
     } else {
       await session.send(message);
+    }
+  }
+
+  interface ChatCompletion {
+    id: string;
+    object: string;
+    created: number;
+    model: string;
+    choices: Choice[];
+    usage: {
+      prompt_tokens: number;
+      completion_tokens: number;
+      total_tokens: number;
+    };
+    system_fingerprint: string;
+  }
+
+  interface Choice {
+    index: number;
+    message: {
+      role: string;
+      content: string;
+    };
+    logprobs: any;
+    finish_reason: string;
+  }
+
+  async function sendPostRequestForGPT1106(content: string): Promise<string> {
+    const url = 'https://ngedlktfticp.cloud.sealos.io/v1/chat/completions';
+    const headers = {
+      'Authorization': 'sk-0HXyYeM287tS1qsI8bAb5f0c3dB746E9A3Bf416dBf99228d',
+      'Content-Type': 'application/json'
+    };
+
+    const requestBody = {
+      "messages": [
+        {
+          "role": "user",
+          "content": `Model Prompt:
+- Please provide a four-character Chinese word and expect to receive the corresponding Pinyin.
+- Only the Pinyin is required, without any other irrelevant content.
+
+Sample Input:
+戒奢宁俭
+
+Expected Output:
+jiè shē nìng jiǎn
+
+Input:
+${content}
+
+Output:`
+        }
+      ],
+      "stream": false,
+      "model": "gpt-3.5-turbo-1106",
+      "temperature": 0.5,
+      "presence_penalty": 2
+    };
+
+    const requestOptions = {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(requestBody)
+    };
+
+    try {
+      const response = await fetch(url, requestOptions);
+      if (response.ok) {
+        const data =  await response.json() as ChatCompletion;
+        return data.choices[0].message.content
+      } else {
+        logger.error('未能提取数据:', response.status);
+        return 'wǒ chū cuò le'
+      }
+    } catch (error) {
+      logger.error('读取数据时出错：', error);
+      return 'wǒ chū cuò le'
     }
   }
 
@@ -4389,5 +4492,5 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       <main class="App-module_game__yruqo" id="wordle-app-game">
         <div class="Board-module_boardContainer__TBHNL" style="overflow: unset;">`
 
- // apply
+  // apply
 }
