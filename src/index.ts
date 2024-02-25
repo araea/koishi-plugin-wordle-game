@@ -997,6 +997,10 @@ export function apply(ctx: Context, config: Config) {
         return await sendMessage(session, `【@${username}】\n操作太快了哦~\n再试一次吧！`);
       }
 
+      if (options.random) {
+        inputWord = gameInfo.gameMode === '汉兜' ? getRandomIdiom(idiomsList).idiom : getRandomWordTranslation('ALL', gameInfo.guessWordLength).word
+      }
+
       if (!inputWord) {
         await sendMessage(session, `【@${username}】\n请输入【猜测词】或【取消】：`);
         const userInput = await session.prompt()
@@ -1004,9 +1008,7 @@ export function apply(ctx: Context, config: Config) {
         if (userInput === '取消') return await sendMessage(session, `【${username}】\n猜测操作已取消！`);
         inputWord = userInput.trim()
       }
-      if (options.random) {
-        inputWord = gameInfo.gameMode === '汉兜' ? getRandomIdiom(idiomsList).idiom : getRandomWordTranslation('ALL', gameInfo.guessWordLength).word
-      }
+
       // 运行状态
       await setGuessRunningStatus(channelId, true)
       // 更新玩家记录表中的用户名
