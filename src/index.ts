@@ -1614,9 +1614,12 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       if (auto) {
 
         const gameInfo = await getGameInfo(channelId)
-        const {isStarted, wordlesNum, guessWordLength, absentLetters, presentLetters} = gameInfo
+        const {isStarted, wordlesNum, guessWordLength, absentLetters, presentLetters, gameMode} = gameInfo
         if (!isStarted) {
           return await sendMessage(session, `【@${username}】\n未检测到任何游戏进度！\n无法使用自动查找功能！`);
+        }
+        if (gameMode === '汉兜') {
+          return await sendMessage(session, `【@${username}】\n你拿单词查找器查四字词语？`);
         }
         if (wordlesNum === 1) {
           await session.execute(`wordleGame.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`)
