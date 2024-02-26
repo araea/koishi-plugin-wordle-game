@@ -506,10 +506,15 @@ export async function apply(ctx: Context, config: Config) {
             if (wordleIndex > 1) {
               gameInfo = await getGameInfo2(channelId, wordleIndex)
             }
-            const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
-            const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
-            // 图
-            imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+            if (gameInfo.gameMode === '汉兜') {
+              const emptyGridHtml = generateEmptyGridHtmlForHandle(1, 4)
+              imageBuffer = await generateImageForHandle(`${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+            } else {
+              const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
+              const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+              // 图
+              imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+            }
             imageBuffers.push(imageBuffer);
           }
           if (wordlesNum > 1) {
@@ -1612,7 +1617,6 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       } = options;
 
       if (auto) {
-
         const gameInfo = await getGameInfo(channelId)
         const {isStarted, wordlesNum, guessWordLength, absentLetters, presentLetters, gameMode} = gameInfo
         if (!isStarted) {
@@ -1764,31 +1768,47 @@ ${generateStatsInfo(stats, fastestGuessTime)}
     })
   // pyscb* pysc*
   ctx.command('wordleGame.拼音速查表', '查看拼音速查表')
-    .action(async ({session}) => {
-      const page = await ctx.puppeteer.page();
-      await page.setViewport({width: 420, height: 570, deviceScaleFactor: 1})
-      const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
-      await page.goto('file://' + filePath);
+    .action(async ({session}) => { //db*
+      const {channelId} = session
+      let gameInfo: any = await getGameInfo(channelId)
 
-      const html = `<html lang="en" class="${config.isDarkThemeEnabled ? 'dark' : ''}" style="--vh: 6.04px;">
-<head>
-    <meta charset="UTF-8">
-    <title>汉兜 - 汉字 Wordle</title>
-    <link rel="stylesheet" href="./handle.css">
-</head>
-<body>
-<div id="app" data-v-app="">
-    <main font-sans="" text="center gray-700 dark:gray-300" select-none="" class=""><!---->
-        <div fixed="" z-40="" class="bottom-0 left-0 right-0 top-0"><div class="bg-base left-0 right-0 top-0 bottom-0 absolute transition-opacity duration-500 ease-out opacity-50"></div><div class="bg-base border-base absolute transition-all duration-200 ease-out max-w-screen max-h-screen overflow-auto scrolls top-0 left-0 right-0 border-b" style=""><div p8="" pt4="" flex="~ col center" relative=""><p text-xl="" font-serif="" mb8=""><b>拼音速查表</b></p><div grid="~ cols-[1fr_3fr] gap-x-10 gap-y-4" font-mono="" font-light=""><div text-center="">声母</div><div text-center="">韵母</div><div grid="~ cols-2 gap-3" h-min=""><div class="">b</div><div class="">p</div><div class="">m</div><div class="">f</div><div class="">d</div><div class="">t</div><div class="">n</div><div class="">l</div><div class="">g</div><div class="">k</div><div class="">h</div><div class="">j</div><div class="">q</div><div class="">r</div><div class="">x</div><div class="">w</div><div class="">y</div><div class="">zh</div><div class="">ch</div><div class="">sh</div><div class="">z</div><div class="">c</div><div class="">s</div></div><div grid="~ cols-3 gap-3" h-min=""><div class="">a</div><div class="">ai</div><div class="">an</div><div class="">ang</div><div class="">ao</div><div class="">e</div><div class="">ei</div><div class="">en</div><div class="">eng</div><div class="">er</div><div class="">i</div><div class="">ia</div><div class="">ian</div><div class="">iang</div><div class="">iao</div><div class="">ie</div><div class="">in</div><div class="">ing</div><div class="">io</div><div class="">iong</div><div class="">iu</div><div class="">o</div><div class="">ong</div><div class="">ou</div><div class="">u</div><div class="">ua</div><div class="">uai</div><div class="">uan</div><div class="">uang</div><div class="">ui</div><div class="">un</div><div class="">uo</div><div class="">ü</div><div class="">üan</div><div class="">üe</div><div class="">ün</div></div></div></div></div></div>
-    </main>
-</div>
-</body>
-</html>`;
+      if (!gameInfo.isStarted || gameInfo.gameMode !== '汉兜') {
+        const imageBuffer = await generateHandlePinyinsImage(defaultPinyinsHtml)
+        return sendMessage(session, `${h.image(imageBuffer, `image/${config.imageType}`)}`);
+      }
+      const wordlesNum = gameInfo.wordlesNum
+      // 生成 html 字符串
+      let imageBuffers: Buffer[] = [];
+      let imageBuffer: Buffer = Buffer.from('initial value', 'utf-8');
+      for (let wordleIndex = 1; wordleIndex < wordlesNum + 1; wordleIndex++) {
+        if (wordleIndex > 1) {
+          gameInfo = await getGameInfo2(channelId, wordleIndex)
+        }
+        const {presentPinyins, correctPinyinsWithIndex, absentPinyins} = gameInfo
+        const correctPinyins: string[] = removeIndexFromPinyins(correctPinyinsWithIndex);
+        if (gameInfo.gameMode === '汉兜') {
+          const $ = load(defaultPinyinsHtml);
 
-      await page.setContent(html, {waitUntil: 'load'});
-      const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
-      await page.close();
+          $('div').each((index, element) => {
+            const text = $(element).text();
+            if (presentPinyins.includes(text)) {
+              $(element).attr('class', 'text-mis');
+            } else if (correctPinyins.includes(text)) {
+              $(element).attr('class', 'text-ok');
+            } else if (absentPinyins.includes(text)) {
+              $(element).attr('class', 'op30');
+            }
+          });
 
+          const modifiedHTML = $.html();
+          imageBuffer = await generateHandlePinyinsImage(modifiedHTML)
+        }
+        imageBuffers.push(imageBuffer);
+      }
+      if (wordlesNum > 1) {
+        const htmlImgString = generateImageTags(imageBuffers);
+        imageBuffer = await generateWordlesImage(htmlImgString);
+      }
       return sendMessage(session, `${h.image(imageBuffer, `image/${config.imageType}`)}`);
     })
 
@@ -1940,6 +1960,46 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
 
   // ch*
+  async function generateHandlePinyinsImage(pinyinsHtml: string) {
+    const page = await ctx.puppeteer.page();
+    await page.setViewport({width: 420, height: 570, deviceScaleFactor: 1});
+    const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
+    await page.goto('file://' + filePath);
+
+    const html = `<html lang="en" class="${config.isDarkThemeEnabled ? 'dark' : ''}" style="--vh: 6.04px;">
+    <head>
+        <meta charset="UTF-8">
+        <title>汉兜 - 汉字 Wordle</title>
+        <link rel="stylesheet" href="./handle.css">
+    </head>
+    <body>
+        <div id="app" data-v-app="">
+            <main font-sans="" text="center gray-700 dark:gray-300" select-none="" class=""><!---->
+                <div fixed="" z-40="" class="bottom-0 left-0 right-0 top-0">
+                    <div class="bg-base left-0 right-0 top-0 bottom-0 absolute transition-opacity duration-500 ease-out opacity-50"></div>
+                    <div class="bg-base border-base absolute transition-all duration-200 ease-out max-w-screen max-h-screen overflow-auto scrolls top-0 left-0 right-0 border-b"
+                         style="">
+                        <div p8="" pt4="" flex="~ col center" relative=""><p text-xl="" font-serif="" mb8=""><b>拼音速查表</b></p>
+                            <div grid="~ cols-[1fr_3fr] gap-x-10 gap-y-4" font-mono="" font-light="">
+                                <div text-center="">声母</div>
+                                <div text-center="">韵母</div>
+                                    ${pinyinsHtml}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>`;
+
+    await page.setContent(html, {waitUntil: 'load'});
+    const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
+    await page.close();
+
+    return imageBuffer;
+  }
+
   async function deductMoney(channelId: string, platform: string) {
     const getPlayers = await ctx.database.get('wordle_gaming_player_records', {channelId});
     for (const thisGamingPlayer of getPlayers) {
@@ -2801,12 +2861,16 @@ ${content}
   }
 
   // hs*
+  function removeIndexFromPinyins(pinyinsWithIndex: string[]): string[] {
+    return pinyinsWithIndex.map((item) => {
+      return item.split('-')[0];
+    });
+  }
+
   async function updateDataInTargetFile(newFilePath: string, targetFilePath: string, missingProperty: string): Promise<void> {
     try {
-      // 读取文件中的数据
       const [newData, targetData] = await Promise.all([readJSONFile(newFilePath), readJSONFile(targetFilePath)]);
 
-      // 创建一个 Map 以提高查找性能
       const targetDataMap = new Map(targetData.map((item: any) => [item[missingProperty], item]));
 
       // 查找缺失的对象
@@ -2821,8 +2885,7 @@ ${content}
         logger.success('添加的对象：', missingData);
       }
     } catch (error) {
-      // 处理错误
-      console.error('发生错误：', error);
+      logger.error('发生错误：', error);
     }
   }
 
@@ -4584,5 +4647,68 @@ ${content}
       <main class="App-module_game__yruqo" id="wordle-app-game">
         <div class="Board-module_boardContainer__TBHNL" style="overflow: unset;">`
 
+  const defaultPinyinsHtml = `                    <div grid="~ cols-2 gap-3" h-min="">
+                        <div class="">b</div>
+                        <div class="">p</div>
+                        <div class="">m</div>
+                        <div class="">f</div>
+                        <div class="">d</div>
+                        <div class="">t</div>
+                        <div class="">n</div>
+                        <div class="">l</div>
+                        <div class="">g</div>
+                        <div class="">k</div>
+                        <div class="">h</div>
+                        <div class="">j</div>
+                        <div class="">q</div>
+                        <div class="">r</div>
+                        <div class="">x</div>
+                        <div class="">w</div>
+                        <div class="">y</div>
+                        <div class="">zh</div>
+                        <div class="">ch</div>
+                        <div class="">sh</div>
+                        <div class="">z</div>
+                        <div class="">c</div>
+                        <div class="">s</div>
+                    </div>
+                    <div grid="~ cols-3 gap-3" h-min="">
+                        <div class="">a</div>
+                        <div class="">ai</div>
+                        <div class="">an</div>
+                        <div class="">ang</div>
+                        <div class="">ao</div>
+                        <div class="">e</div>
+                        <div class="">ei</div>
+                        <div class="">en</div>
+                        <div class="">eng</div>
+                        <div class="">er</div>
+                        <div class="">i</div>
+                        <div class="">ia</div>
+                        <div class="">ian</div>
+                        <div class="">iang</div>
+                        <div class="">iao</div>
+                        <div class="">ie</div>
+                        <div class="">in</div>
+                        <div class="">ing</div>
+                        <div class="">io</div>
+                        <div class="">iong</div>
+                        <div class="">iu</div>
+                        <div class="">o</div>
+                        <div class="">ong</div>
+                        <div class="">ou</div>
+                        <div class="">u</div>
+                        <div class="">ua</div>
+                        <div class="">uai</div>
+                        <div class="">uan</div>
+                        <div class="">uang</div>
+                        <div class="">ui</div>
+                        <div class="">un</div>
+                        <div class="">uo</div>
+                        <div class="">ü</div>
+                        <div class="">üan</div>
+                        <div class="">üe</div>
+                        <div class="">ün</div>
+                    </div>`
   // apply
 }
