@@ -2462,7 +2462,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
                                         <div class="${statusMap2[final.status]}">${final.value === 'i' ? 'ı' : final.value}</div>
                                         <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
                                              class="${statusMap2[toneStatus]}" absolute="" w="86%" left="8%"
-                                             style="bottom: 1.3rem;">
+                                             style="bottom: 1.5rem;">
                                             ${tonesPaths[toneValue]}
                                         </svg>
                                     </div>`)
@@ -3208,11 +3208,15 @@ ${content}
 
     splitPinyin.forEach((word) => {
       const processedWord: string[] = [];
-      for (let i = 0; i < word.length; i++) {
-        if (toneMap[word[i]]) {
-          processedWord.push(toneMap[word[i]]);
+      let tempWord = word;
+      if (/[jqxy]u/.test(tempWord)) {
+        tempWord = tempWord.replace(/u/g, 'ü');
+      }
+      for (let i = 0; i < tempWord.length; i++) {
+        if (toneMap[tempWord[i]]) {
+          processedWord.push(toneMap[tempWord[i]]);
         } else {
-          processedWord.push(word[i]);
+          processedWord.push(tempWord[i]);
         }
       }
       result.push(processedWord);
