@@ -2,7 +2,24 @@
 
 [![npm](https://img.shields.io/npm/v/koishi-plugin-wordle-game?style=flat-square)](https://www.npmjs.com/package/koishi-plugin-wordle-game)
 
-### 🎮 简介
+## 📚 目录
+
+- [🎮 简介](#-简介)
+- [🚀 安装](#-安装)
+- [🎣 使用](#-使用)
+- [🎛 配置](#-配置)
+  - [主题设置](#主题设置)
+  - [游戏设置](#游戏设置)
+  - [游戏行为设置](#游戏行为设置)
+- [🎳 游戏指令](#-游戏指令)
+  - [游戏操作](#游戏操作)
+  - [游戏模式](#游戏模式)
+  - [游戏操作](#游戏操作)
+  - [数据查询](#数据查询)
+- [🍰 致谢](#-致谢)
+- [✨ License](#-license)
+
+## 🎮 简介
 
 `koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) 猜单词|成语|... 的小游戏插件。
 
@@ -156,6 +173,8 @@ npm install koishi-plugin-wordle-game
 - [百度汉语](https://hanyu.baidu.com/) - 查找成语
 - [汉典](https://www.zdic.net/) - 查找成语
 - [汉兜](https://handle.antfu.me/) - 汉兜游戏样式
+- [Numberle](https://numberle.org/) - 数学方程式猜测游戏
+- [Numberle](https://dduarte.github.io/numberle/) - 数字猜测游戏
 
 ## ✨ License
 
