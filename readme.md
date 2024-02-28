@@ -4,7 +4,7 @@
 
 ### 🎮 简介
 
-`koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) 猜单词|成语小游戏插件。
+`koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) 猜单词|成语|... 的小游戏插件。
 
 主要功能：
 
@@ -34,7 +34,7 @@ npm install koishi-plugin-wordle-game
 
 - 启动必要的服务。您需要启用 `monetary`，`database` 和 `puppeteer` 插件，以实现货币系统，数据存储和图片生成的功能。
 - 建议自行添加指令别名，以方便您和您的用户使用。
-- 享受猜单词|四字词语|成语游戏吧！😊
+- 享受猜单词|四字词语|成语|数字|...游戏吧！😊
 
 ## 🎛 配置
 
@@ -72,7 +72,7 @@ npm install koishi-plugin-wordle-game
 - `shouldPromptWordLengthInput: boolean`
   - 是否在开始游戏引导中提示输入猜单词的长度，不开启则为默认长度。默认值为 `true`.
 - `shouldPromptForWordLengthOnNonClassicStart: boolean`
-  - 是否在开始非经典模式时提示输入猜单词的长度，不开启则为默认长度。默认值为 `false`.
+  - 是否在开始非经典模式时提示输入猜单词的长度，不开启则为默认长度。默认值为 `true`.
 - `enableWordGuessTimeLimit: boolean`
   - 是否开启猜单词游戏作答时间限制功能。默认值为 `false`.
   - `wordGuessTimeLimitInSeconds: number`
@@ -102,8 +102,8 @@ npm install koishi-plugin-wordle-game
     - `--free`
       - 自由模式，任意四字词语都可作为猜测词。
 
-- `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle [guessWordLength:number]`
-  - 开始猜不同考试/类别的单词游戏，可选参数为猜单词的长度。
+- `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/Numberle/Math [guessWordLength:number]`
+  - 开始猜不同考试/类别的单词|数字|...游戏，可选参数为猜单词的长度。
     - `--hard`
       - 困难模式，绿色线索必须保特固定，黄色线索必须重复使用。
     - `--uhard`
@@ -123,9 +123,9 @@ npm install koishi-plugin-wordle-game
 
 ### 游戏操作
 
-- `wordleGame.猜 [inputWord:text]` - 猜单词|成语，参数为输入的词。
+- `wordleGame.猜 [inputWord:text]` - 猜单词|成语|...，参数为输入的词。
   - `-r`
-    - 随机一个单词|成语。
+    - 随机一个单词|成语|数字|方程式。
 - `wordleGame.查询进度` - 查询当前游戏进度。
 
 ### 数据查询
@@ -134,11 +134,11 @@ npm install koishi-plugin-wordle-game
 - `wordleGame.查单词.WordWord [targetWord:text]` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
 - `wordleGame.查成语.百度汉语 [targetWord:text]` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
 - `wordleGame.查成语.汉典 [targetWord:text]` - 在 [汉典](https://www.zdic.net/) 中查询成语信息（台湾词典）。
-- `wordleGame.拼音速查表` - 查看拼音速查表。
+- `wordleGame.拼音速查表` - 查看拼音速查表（会根据汉兜游戏进度自动变化）。
 - `wordleGame.单词查找器` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
 - `wordleGame.查询玩家记录 [targetUser:text]` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - `wordleGame.排行榜 [number:number]` - 查看排行榜，可选参数为排行榜的人数。
-- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜.胜场/输场/最快用时 [number:number]` -
+- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]` -
   查看不同模式的玩家排行榜，可选参数为排行榜的人数。
 
 ## 🍰 致谢
