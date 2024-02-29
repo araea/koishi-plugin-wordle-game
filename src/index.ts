@@ -3610,7 +3610,8 @@ ${content}
       '考研',
       '专八',
       '专四',
-      'ALL'
+      'ALL',
+      "Lewdle", "汉兜", 'Numberle', 'Math',
     ];
 
     let statsInfo = '';
