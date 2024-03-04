@@ -21,7 +21,7 @@
 
 ## 🎮 简介
 
-`koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) |... 猜单词|成语|数字|方程式... 的小游戏插件。
+`koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) |... 猜单词|猜成语|猜数字|猜数学方程式... 的小游戏插件。
 
 主要功能：
 
@@ -117,7 +117,9 @@ npm install koishi-plugin-wordle-game
 - `wordleGame.开始.经典/汉兜`
   - 开始经典猜单词|四字词语游戏，可投入货币，赢了有奖励。
     - `--free`
-      - 自由模式，任意四字词语都可作为猜测词。
+      - 汉兜自由模式，任意四字词语都可作为猜测词。
+    - `--all`
+      - 汉兜全模式，成语|四字词语的数量会增加到 29766 个，若不开启，则为常用成语 7208 个。
 
 - `wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/Numberle/Math [guessWordLength:number]`
   - 开始猜不同考试/类别的单词|数字|...游戏，可选参数为猜单词的长度。
