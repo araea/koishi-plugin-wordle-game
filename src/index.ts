@@ -346,9 +346,9 @@ export async function apply(ctx: Context, config: Config) {
   const logger = ctx.logger('wordleGame')
   // wj*
   const wordleGameDirPath = path.join(ctx.baseDir, 'data', 'wordleGame');
-  const idiomsFilePath = path.join(__dirname, 'idioms.json');
-  const pinyinFilePath = path.join(__dirname, 'pinyin.json');
-  const equationsFilePath = path.join(__dirname, 'equations.json');
+  const idiomsFilePath = path.join(__dirname, 'assets', 'idioms.json');
+  const pinyinFilePath = path.join(__dirname, 'assets', 'pinyin.json');
+  const equationsFilePath = path.join(__dirname, 'assets', 'equations.json');
   const idiomsKoishiFilePath = path.join(wordleGameDirPath, 'idioms.json');
   const pinyinKoishiFilePath = path.join(wordleGameDirPath, 'pinyin.json');
 
@@ -2026,7 +2026,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     <head>
         <meta charset="UTF-8">
         <title>汉兜 - 汉字 Wordle</title>
-        <link rel="stylesheet" href="./handle.css">
+        <link rel="stylesheet" href="./assets/handle.css">
     </head>
     <body>
         <div id="app" data-v-app="">
@@ -2703,7 +2703,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 <head>
     <meta charset="UTF-8">
     <title>汉兜 - 汉字 Wordle</title>
-    <link rel="stylesheet" href="./handle.css">
+    <link rel="stylesheet" href="./assets/handle.css">
     <style>
         .container {
             padding-top: 30px;
@@ -3759,7 +3759,7 @@ ${content}
     filePath: string;
     wordCount: number
   } | null {
-    const folderPath = path.join(__dirname, '词汇', command);
+    const folderPath = path.join(__dirname, 'assets', '词汇', command);
     const files = fs.readdirSync(folderPath);
     for (const file of files) {
       const match = file.match(new RegExp(`${command}_(\\d+)_(\\d+)\\.json`));
@@ -3992,12 +3992,9 @@ ${content}
             border-spacing: 0
         }
 
-
-
-
         @font-face {
             font-family: "nyt-franklin";
-            src: url("./franklin-normal-700.woff2") format("woff2");
+            src: url("./assets/franklin-normal-700.woff2") format("woff2");
             font-weight: 700;
             font-style: normal
         }
@@ -4123,7 +4120,7 @@ ${content}
 
         @font-face {
             font-family: "nyt-franklin";
-            src: url("./franklin-normal-700.woff2") format("woff2");
+            src: url("./assets/franklin-normal-700.woff2") format("woff2");
             font-weight: 700;
             font-style: normal
         }
