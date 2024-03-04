@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-wordle-game",
-  "description": "[Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) | ... 猜单词|猜成语|猜数字|猜数学方程式|... 小游戏，全本地原生实现，包含多种游戏模式以及排行榜系统等。",
-  "version": "1.9.0",
+  "description": "欢迎来到 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) | ... 猜单词|猜成语|猜数字|猜数学方程式|... 的小游戏，包含多种词库、多种主题、多种游戏设置和排行榜系统。",
+  "version": "1.9.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [

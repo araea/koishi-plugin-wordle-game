@@ -49,7 +49,8 @@ npm install koishi-plugin-wordle-game
 
 ## 🎣 使用
 
-- 启动必要的服务。您需要启用 `monetary`，`database` 和 `puppeteer` 插件，以实现货币系统，数据存储和图片生成的功能。
+- 启动必要的服务。您需要启用 `monetary`，`database` 和 `puppeteer` 插件。
+  - 以实现货币系统，数据存储和图片生成的功能。
 - 建议自行添加指令别名，以方便您和您的用户使用。
 - 享受猜单词|四字词语|成语|数字|...游戏吧！😊
 
@@ -128,12 +129,13 @@ npm install koishi-plugin-wordle-game
     - `--uhard`
       - 超困难模式，在困难模式的基础上，黄色线索必须远离它们被线索的地方，灰色的线索必须被遵守。
     - `--absurd`
-      - 荒谬/变态模式，AI将尽量避免给出答案，每次猜测时都会尽可能少地透露信息，甚至可能更换秘密词。
       - 在这种模式下，你将面对一个极具挑战性的对手。
+      - 荒谬/变态模式，AI将尽量避免给出答案。
+      - 每次猜测时都会尽可能少地透露信息，甚至可能更换秘密词。
       - [如何玩？](https://qntm.org/absurdle)
     - `--challenge`
-      - 荒谬/变态挑战模式，要求你从一个给定的目标词出发，通过某种方式使其变成秘密词。
       - 仅建议高级玩家尝试。
+      - 荒谬/变态挑战模式，要求你从一个给定的目标词出发，通过某种方式使其变成秘密词。
       - [如何玩？](https://qntm.org/challenge)
     - `--wordles <value:number>`
       - 同时猜测多个单词|词语，默认范围为 1 ~ 4，可自定义。
@@ -149,34 +151,33 @@ npm install koishi-plugin-wordle-game
 
 ### 数据查询
 
-- `wordleGame.查单词.ALL [targetWord:text]` - 在 ALL 词库中查询单词信息（翻译）。
-- `wordleGame.查单词.WordWord [targetWord:text]` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
-- `wordleGame.查成语.百度汉语 [targetWord:text]` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
-- `wordleGame.查成语.汉典 [targetWord:text]` - 在 [汉典](https://www.zdic.net/) 中查询成语信息（台湾词典）。
-- `wordleGame.拼音速查表` - 查看拼音速查表（会根据汉兜游戏进度自动变化）。
 - `wordleGame.单词查找器` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
-- `wordleGame.查询玩家记录 [targetUser:text]` - 查询玩家记录，可选参数为目标玩家的 at 信息。
+- `wordleGame.拼音速查表` - 查看拼音速查表（会根据汉兜游戏进度自动变化）。
 - `wordleGame.排行榜 [number:number]` - 查看排行榜，可选参数为排行榜的人数。
-- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]` -
-  查看不同模式的玩家排行榜，可选参数为排行榜的人数。
+- `wordleGame.查单词.ALL [targetWord:text]` - 在 ALL 词库中查询单词信息（翻译）。
+- `wordleGame.查成语.汉典 [targetWord:text]` - 在 [汉典](https://www.zdic.net/) 中查询成语信息（台湾词典）。
+- `wordleGame.查询玩家记录 [targetUser:text]` - 查询玩家记录，可选参数为目标玩家的 at 信息。
+- `wordleGame.查成语.百度汉语 [targetWord:text]` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
+- `wordleGame.查单词.WordWord [targetWord:text]` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
+- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]` - 查看不同模式的玩家排行榜，可选参数为排行榜的人数。
 
 ## 🍰 致谢
 
 - [Koishi](https://koishi.chat/) - 机器人框架
 - [Akisa](https://forum.koishi.xyz/u/akisa/summary) - Akisa 大人我爱你 💕
-- [Wordle](https://www.nytimes.com/games/wordle/index.html) - 原版 Wordle 游戏网页样式
-- [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle) - Wordle 经典模式词典
-- [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典
-- [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT) - 英汉语词典数据库
-- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典 Wordle 的单词列表
-- [WordFinder](https://wordword.org/) - 单词查找
-- [WordlePlay](https://wordleplay.com/wordle-games) - 拓展玩法/单词列表补充
-- [LewdleGame](https://www.lewdlegame.com/App) - Lewdle 模式单词列表
-- [百度汉语](https://hanyu.baidu.com/) - 查找成语
 - [汉典](https://www.zdic.net/) - 查找成语
 - [汉兜](https://handle.antfu.me/) - 汉兜游戏样式
-- [Numberle](https://numberle.org/) - 数学方程式猜测游戏
+- [百度汉语](https://hanyu.baidu.com/) - 查找成语
+- [WordFinder](https://wordword.org/) - 单词查找
 - [Numberle](https://dduarte.github.io/numberle/) - 数字猜测游戏
+- [Numberle](https://numberle.org/) - 数学方程式猜测游戏
+- [LewdleGame](https://www.lewdlegame.com/App) - Lewdle 模式单词列表
+- [WordlePlay](https://wordleplay.com/wordle-games) - 拓展玩法/单词列表补充
+- [Wordle](https://www.nytimes.com/games/wordle/index.html) - 原版 Wordle 游戏网页样式
+- [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT) - 英汉语词典数据库
+- [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle) - Wordle 经典模式词典
+- [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典
+- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典 Wordle 的单词列表
 
 ## ✨ License
 
