@@ -25,17 +25,17 @@
 
 主要功能：
 
-- **经典模式**：随机从经典的 Wordle 英文单词中抽选，投入金币获得奖励。
-
 - **汉兜模式**：汉兜猜成语，投入金币获得奖励。
-
-- **多种题库模式**：涵盖 CET4/6、GRE、GMAT、IELTS、SAT、TOEFL、考研、ALL等考试和类别的热点单词。
 
 - **可自定义游戏设置**：支持自定义猜词长度等设置，让游戏更有挑战性。
 
 - **排行榜系统**：支持查询不同模式下的总胜负场次，为游戏增添竞技氛围。
 
-共同游戏，提高英语水平，增进友谊，尽情享受游戏的乐趣。
+- **经典模式**：随机从经典的 Wordle 英文单词中抽选，投入金币获得奖励。
+
+- **多种题库模式**：涵盖 CET4/6、GRE、GMAT、IELTS、SAT、TOEFL、考研、ALL等考试和类别的热点单词。
+
+> 共同游戏，提高英语水平，增进友谊，尽情享受游戏的乐趣。
 
 ## 🚀 安装
 
@@ -106,9 +106,9 @@ npm install koishi-plugin-wordle-game
 
 ### 游戏操作
 
-- `wordleGame.加入 [money:number]` - 加入游戏，可选参数为投入的货币数额。
 - `wordleGame.退出` - 退出游戏，只能在游戏未开始时使用。
 - `wordleGame.结束` - 结束游戏，只能在游戏已开始时使用。
+- `wordleGame.加入 [money:number]` - 加入游戏，可选参数为投入的货币数额。
 
 ### 游戏模式
 
@@ -160,6 +160,54 @@ npm install koishi-plugin-wordle-game
 - `wordleGame.查成语.百度汉语 [targetWord:text]` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
 - `wordleGame.查单词.WordWord [targetWord:text]` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
 - `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]` - 查看不同模式的玩家排行榜，可选参数为排行榜的人数。
+
+## 🌸测试图
+<details>
+<summary>点击这里展开/折叠内容</summary>
+
+### 经典模式
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/dd55af6e-f38d-4f95-9bed-9d6ba967c429)
+
+### 汉兜模式
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/d968f7fe-544b-4d29-a825-8ae59109a50b)
+
+### 方程式模式
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/b792df4b-baa2-4453-83f6-6fb58784b921)
+
+### 开始游戏引导
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/80bb3c2b-d41c-44e0-8a4d-acd1845c1644)
+
+### 查询进度
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/65e28147-feef-4794-bbbb-9565c65cae36)
+
+### 同时猜多个
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/86db4fcf-9a6f-4b15-8c50-6f2d7ea017e3)
+
+### 拼音速查表
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/669c625a-9360-4d88-a0ec-01103e82d9f4)
+
+### 查单词
+#### 英译中
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/c1913df7-1e1a-4324-a228-ed1679e4e330)
+
+#### 英译英
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/18f7806e-641c-4135-8255-73e139e7e427)
+
+### 查成语
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/76f88dd3-e0b1-48d4-bac7-6cafb0d996c7)
+
+### 查询玩家记录
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/a14dd774-4148-4a0e-b7bc-deab8180c919)
+
+### 单词查找器
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/4bad2757-8b49-4e39-b2b3-a311e6cfc08f)
+
+### 排行榜引导
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/9d87c34f-353c-49ed-a885-5ac8128dbd4a)
+
+
+</details>
+
 
 ## 🍰 致谢
 

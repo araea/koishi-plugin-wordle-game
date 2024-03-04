@@ -27,9 +27,9 @@ export const usage = `## 🎣 使用
 
 ### 游戏操作
 
-- \`wordleGame.加入 [money:number]\` - 加入游戏，可选参数为投入的货币数额。
 - \`wordleGame.退出\` - 退出游戏，只能在游戏未开始时使用。
 - \`wordleGame.结束\` - 结束游戏，只能在游戏已开始时使用。
+- \`wordleGame.加入 [money:number]\` - 加入游戏，可选参数为投入的货币数额。
 
 ### 游戏模式
 
@@ -50,12 +50,13 @@ export const usage = `## 🎣 使用
     - \`--uhard\`
       - 超困难模式，在困难模式的基础上，黄色线索必须远离它们被线索的地方，灰色的线索必须被遵守。
     - \`--absurd\`
-      - 荒谬/变态模式，AI将尽量避免给出答案，每次猜测时都会尽可能少地透露信息，甚至可能更换秘密词。
       - 在这种模式下，你将面对一个极具挑战性的对手。
+      - 荒谬/变态模式，AI将尽量避免给出答案。
+      - 每次猜测时都会尽可能少地透露信息，甚至可能更换秘密词。
       - [如何玩？](https://qntm.org/absurdle)
     - \`--challenge\`
-      - 荒谬/变态挑战模式，要求你从一个给定的目标词出发，通过某种方式使其变成秘密词。
       - 仅建议高级玩家尝试。
+      - 荒谬/变态挑战模式，要求你从一个给定的目标词出发，通过某种方式使其变成秘密词。
       - [如何玩？](https://qntm.org/challenge)
     - \`--wordles <value:number>\`
       - 同时猜测多个单词|词语，默认范围为 1 ~ 4，可自定义。
@@ -66,21 +67,21 @@ export const usage = `## 🎣 使用
 
 - \`wordleGame.猜 [inputWord:text]\` - 猜单词|成语|...，参数为输入的词。
   - \`-r\`
-    - 随机一个单词|成语|数字|公式。
+    - 随机一个单词|成语|数字|方程式。
 - \`wordleGame.查询进度\` - 查询当前游戏进度。
 
 ### 数据查询
 
-- \`wordleGame.查单词.ALL [targetWord:text]\` - 在 ALL 词库中查询单词信息（翻译）。
-- \`wordleGame.查单词.WordWord [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
-- \`wordleGame.查成语.百度汉语 [targetWord:text]\` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
-- \`wordleGame.查成语.汉典 [targetWord:text]\` - 在 [汉典](https://www.zdic.net/) 中查询成语信息（台湾词典）。
-- \`wordleGame.拼音速查表\` - 查看拼音速查表（会根据汉兜游戏进度自动变化）。
 - \`wordleGame.单词查找器\` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
-- \`wordleGame.查询玩家记录 [targetUser:text]\` - 查询玩家记录，可选参数为目标玩家的 at 信息。
+- \`wordleGame.拼音速查表\` - 查看拼音速查表（会根据汉兜游戏进度自动变化）。
 - \`wordleGame.排行榜 [number:number]\` - 查看排行榜，可选参数为排行榜的人数。
-- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]\` -
-  查看不同模式的玩家排行榜，可选参数为排行榜的人数。`
+- \`wordleGame.查单词.ALL [targetWord:text]\` - 在 ALL 词库中查询单词信息（翻译）。
+- \`wordleGame.查成语.汉典 [targetWord:text]\` - 在 [汉典](https://www.zdic.net/) 中查询成语信息（台湾词典）。
+- \`wordleGame.查询玩家记录 [targetUser:text]\` - 查询玩家记录，可选参数为目标玩家的 at 信息。
+- \`wordleGame.查成语.百度汉语 [targetWord:text]\` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
+- \`wordleGame.查单词.WordWord [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
+- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]\` - 查看不同模式的玩家排行榜，可选参数为排行榜的人数。
+`
 
 // pz* pzx*
 export interface Config {
