@@ -1057,7 +1057,7 @@ export async function apply(ctx: Context, config: Config) {
             const emptyGridHtml = generateEmptyGridHtmlForCiying(6 + wordlesNum - 1 - 1, 4, false)
             imageBuffer = await generateImageForCiying(emptyGridHtmlWithBorder + emptyGridHtml, 6 + wordlesNum - 1);
           } else {
-            const emptyGridHtml = isAbsurdMode ? generateEmptyGridHtml(1, guessWordLength) : exam === 'Math' ? generateEmptyGridHtml(6, guessWordLength) : generateEmptyGridHtml(guessWordLength + 1 + wordlesNum - 1, guessWordLength);
+            const emptyGridHtml = isAbsurdMode ? generateEmptyGridHtml(1, guessWordLength) : exam === 'Math' ? generateEmptyGridHtml(6 + wordlesNum - 1, guessWordLength) : generateEmptyGridHtml(guessWordLength + 1 + wordlesNum - 1, guessWordLength);
             const styledHtml = generateStyledHtml(guessWordLength + 1);
             imageBuffer = await generateImage(styledHtml, emptyGridHtml);
           }

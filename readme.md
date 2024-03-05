@@ -169,6 +169,10 @@ npm install koishi-plugin-wordle-game
 ### 汉兜模式
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/d968f7fe-544b-4d29-a825-8ae59109a50b)
 
+### 词影模式
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/b11d911b-f534-4800-aef6-e42ef184803c)
+![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/45810d3f-732e-4338-9351-b21f4dd9a814)
+
 ### 方程式模式
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/b792df4b-baa2-4453-83f6-6fb58784b921)
 
