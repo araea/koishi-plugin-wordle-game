@@ -235,7 +235,7 @@ const Gl = "1.1.2"
 //     }
 //   })
 // }
-var Hl =""
+var Hl = ""
 
 class Ul {
   constructor(e) {
@@ -328,7 +328,7 @@ function cl(n) {
 // }
 // const gt = Ql()
 //   const he = Fl();
-export function Kl(isHardMode) {
+const Kl = function(isHardMode) {
   const n = {
     boardState: new Array(Ne).fill(!1).map(() => new Array(ce).fill(!1).map(() => "")),
     rowIndex: 0,
@@ -339,30 +339,13 @@ export function Kl(isHardMode) {
     hardMode: isHardMode,
     dailyConsumedQuota: 0
   };
-  // let e = ze(Me({}, n), {
-  //   updateSolution: function (t) {
-  //     this.update(l => ze(Me({}, l), {
-  //       boardState: new Array(Ne).fill(!1).map(() => new Array(ce).fill(!1).map(() => "")),
-  //       rowIndex: 0,
-  //       solution: t,
-  //       gameStatus: le.IN_PROGRESS,
-  //       lastPlayedTs: null
-  //     }))
-  //   }
-  // });
-  return n
-  // he && (
-  //   e = ze(Me({}, e), {
-  //     commit: ()=>{}
-  //   }),
-  // gt !== void 0 && e.update(t=>ze(Me({}, t), {
-  //   hardMode: gt != null ? gt : !1
-  // }))),
-
+  return n;
 }
 
-export const ae = Kl()
-  , Vl = {
+module.exports.Kl = Kl;
+
+const ae = Kl()
+const Vl = {
   keepShadow: !0,
   correctThreshold: .5,
   presentThreshold: 1,
@@ -1880,7 +1863,7 @@ function $s(n, e, t) {
   return Math.sqrt(l) / 1024
 }
 
-export function Ot(n, e, t, Ct) {
+module.exports.Ot = function (n, e, t, Ct) {
   const l = je(Ct)
   // console.log(l)
   const s = [...(t == null ? void 0 : t.shadows) || n.medians.map(() => ({
@@ -3236,32 +3219,32 @@ const Vs = "modulepreload"
 //     // console.error(`Can not initialize firebase logger with ${o}`)
 //   }
 
-  // class s {
-  //   constructor(i) {
-  //     this.firebaseAnalytics = i,
-  //       // et.subscribe(u=>{
-  //       //     this.updateCollectionPolicy(u)
-  //       //   }
-  //       // ),
-  //       this.updateCollectionPolicy(je(et))
-  //   }
-  //
-  //   updateCollectionPolicy(i) {
-  //     l.then(u => {
-  //         this.firebaseAnalytics && u.setAnalyticsCollectionEnabled(this.firebaseAnalytics, i)
-  //       }
-  //     )
-  //   }
-  //
-  //   logEvent(i) {
-  //     !this.firebaseAnalytics || !je(et) || l.then(u => {
-  //         u.logEvent(this.firebaseAnalytics, i.name, i.params)
-  //       }
-  //     )
-  //   }
-  // }
-  //
-  // return new s(e)
+// class s {
+//   constructor(i) {
+//     this.firebaseAnalytics = i,
+//       // et.subscribe(u=>{
+//       //     this.updateCollectionPolicy(u)
+//       //   }
+//       // ),
+//       this.updateCollectionPolicy(je(et))
+//   }
+//
+//   updateCollectionPolicy(i) {
+//     l.then(u => {
+//         this.firebaseAnalytics && u.setAnalyticsCollectionEnabled(this.firebaseAnalytics, i)
+//       }
+//     )
+//   }
+//
+//   logEvent(i) {
+//     !this.firebaseAnalytics || !je(et) || l.then(u => {
+//         u.logEvent(this.firebaseAnalytics, i.name, i.params)
+//       }
+//     )
+//   }
+// }
+//
+// return new s(e)
 // }
 //
 // const Oe = Zs()
