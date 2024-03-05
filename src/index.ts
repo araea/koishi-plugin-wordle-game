@@ -2155,7 +2155,8 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     const extraGameInfos: ExtraGameRecord[] = await ctx.database.get('extra_wordle_game_records', {channelId})
 
     const resultStrings: string[] = extraGameInfos.map(info => {
-      return `\n答案是：【${info.wordGuess}】${info.pinyin === '' ? '' : `\n拼音为：【${info.pinyin}】`}\n释义如下：\n${info.wordAnswerChineseDefinition}`
+      // return `\n答案是：【${info.wordGuess}】${info.pinyin === '' ? '' : `\n拼音为：【${info.pinyin}】`}\n释义如下：\n${info.wordAnswerChineseDefinition}`
+      return `\n答案是：【${info.wordGuess}】${info.wordAnswerChineseDefinition !== '' ? `${info.pinyin === '' ? '' : `\n拼音为：【${info.pinyin}】`}\n释义如下：\n${replaceEscapeCharacters(info.wordAnswerChineseDefinition)}` : ''}`;
     })
 
     return resultStrings.join('\n')
