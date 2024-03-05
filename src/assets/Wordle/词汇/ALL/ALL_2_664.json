@@ -1,0 +1,2658 @@
+[
+  {
+    "word": "AA",
+    "translation": "[计] 绝对地址, 农业自动化, 自动应答\\n[医] 各, 各个"
+  },
+  {
+    "word": "ab",
+    "translation": "prep. 从, 自\\n[计] 地址总线"
+  },
+  {
+    "word": "AC",
+    "translation": "公元前\\n[计] 存取周期, 累加器, 声耦合器, 交流, 应用控制, 自动检查, 自动计算机"
+  },
+  {
+    "word": "ad",
+    "translation": "n. 广告\\n[计] 地址, 模拟-数字"
+  },
+  {
+    "word": "AE",
+    "translation": "[计] 绝对误差, 运算器"
+  },
+  {
+    "word": "AF",
+    "translation": "n. 音频\\n[计] 高级功能, 运算标志"
+  },
+  {
+    "word": "ag",
+    "translation": "a. 农业的\\n[计] 应用生成器, 结合图, 属性语法"
+  },
+  {
+    "word": "ah",
+    "translation": "interj. 啊, 哈"
+  },
+  {
+    "word": "AI",
+    "translation": "[计] 附加信息, 人工智能\\n[化] 人工智能"
+  },
+  {
+    "word": "aj",
+    "translation": "n. 合金结（抗干扰）"
+  },
+  {
+    "word": "AK",
+    "translation": "[计] 确认, 肯定, 收悉"
+  },
+  {
+    "word": "AL",
+    "translation": "[计] 算法语言, 字母, 汇编语言\\n[医] 铝(13号元素)"
+  },
+  {
+    "word": "AM",
+    "translation": "be的单数第一人称\\n[计] 存取管理程序, 寻址方式, 地址标记, 变址数, 调幅, 辅助存储器"
+  },
+  {
+    "word": "an",
+    "translation": "art. 一"
+  },
+  {
+    "word": "AO",
+    "translation": "[医] 阳极断电, 房室瓣张开"
+  },
+  {
+    "word": "AP",
+    "translation": "[计] 应付款, 美国专利, 应用程序, 运算处理器, 阵列处理器, 汇编程序\\n             自动程序设计"
+  },
+  {
+    "word": "aq",
+    "translation": "abbr. 逆境商数（Adversity Quotient）；南极洲（Antarctica）"
+  },
+  {
+    "word": "AR",
+    "translation": "[计] 应收款, 自动再启动, 辅助程式\\n[医] 紧急反应"
+  },
+  {
+    "word": "as",
+    "translation": "adv. 同样地, 例如\\nprep. 做为, 当作\\nconj. 当...之时, 以...的方式, 像...一样, 因为\\n[计] 高级系统, 先进系统, 辅助存储器, 自治系统"
+  },
+  {
+    "word": "at",
+    "translation": "prep. 在, 向, 对\\n[计] 地址转换器, 异常传输, 自动订票"
+  },
+  {
+    "word": "AU",
+    "translation": "[计] 加法器, 运算器, 声频\\n[医] 金(79号元素)"
+  },
+  {
+    "word": "AV",
+    "translation": "[计] 数组/向量, 属性值, 有效, 平均值"
+  },
+  {
+    "word": "aw",
+    "translation": "int. 哦！噢！（表示抗议, 厌恶, 讨厌等）"
+  },
+  {
+    "word": "ax",
+    "translation": "n. 斧头\\nvt. 用斧削或砍, 削减"
+  },
+  {
+    "word": "ay",
+    "translation": "n. 赞成票, 投赞成票者\\nadv. 永远\\ninterj. (表决时说)赞成"
+  },
+  {
+    "word": "az",
+    "translation": "abbr. 阿塞拜疆（Azerbaijan）；美国亚利桑那州（Arizona）；[医]氮鸟嘌呤（azaguanine）；台湾衡欣；意大利航空公司"
+  },
+  {
+    "word": "BA",
+    "translation": "文学士\\n[计] 基本汇编程序, 布尔代数, 总线可用"
+  },
+  {
+    "word": "bb",
+    "translation": "abbr. 滚珠轴承（ball bearing）；铅笔芯（double black）"
+  },
+  {
+    "word": "BC",
+    "translation": "公元前"
+  },
+  {
+    "word": "BD",
+    "translation": "[计] 空白显示, 框图, 布尔差分"
+  },
+  {
+    "word": "be",
+    "translation": "v. 是, 表示, 在\\n[计] 后端, 总线允许"
+  },
+  {
+    "word": "bf",
+    "translation": "黑体, 粗体\\n[计] 块因子"
+  },
+  {
+    "word": "BG",
+    "translation": "[计] 后台"
+  },
+  {
+    "word": "BH",
+    "translation": "abbr. 布氏硬度（Brinell hardness）；营业时间（Business Hours）"
+  },
+  {
+    "word": "BI",
+    "translation": "[计] 成批输入, 总线接口\\n[医] 铋(83号元素)"
+  },
+  {
+    "word": "bj",
+    "translation": "n. 新闻学士（Bachelor of Journalism）"
+  },
+  {
+    "word": "Bk",
+    "translation": "[医] 锫(97号元素)"
+  },
+  {
+    "word": "bl",
+    "translation": "abbr. 法学士（Bachelor of Law）；架桥装置（Bridge-Layer）；提货单（bill of lading）"
+  },
+  {
+    "word": "BM",
+    "translation": "医学士, 不列颠博物馆\\n[计] 主机, 基准, 标准检查程序, 商用机器"
+  },
+  {
+    "word": "bn",
+    "translation": "abbr. 护理学士（Bachelor of Nursing）；平衡网络（Balancing Network）"
+  },
+  {
+    "word": "bo",
+    "translation": "n. 体臭, 汗臭, 狐臭, 暂时无法满足的订货, 戏院票房, 戏院售票处, 分支机构"
+  },
+  {
+    "word": "bp",
+    "translation": "[化] 碱基对"
+  },
+  {
+    "word": "bq",
+    "translation": "abbr. [医]对苯醌（p-benzoquinone）"
+  },
+  {
+    "word": "BR",
+    "translation": "[计] 总线请求\\n[化] 生物试剂"
+  },
+  {
+    "word": "BS",
+    "translation": "理学士\\n[计] 退格, 退位, 英国标准, 商用系统"
+  },
+  {
+    "word": "bt",
+    "translation": "abbr. 英国电信（British Telecom）"
+  },
+  {
+    "word": "bu",
+    "translation": "[经] 英斗"
+  },
+  {
+    "word": "BV",
+    "translation": "abbr. 法国国际检验局（Bureau Veritas）；圣母玛利亚（Blessed Virgin）；票面价值（Book Value）；布韦岛（Bouvet Island）"
+  },
+  {
+    "word": "BW",
+    "translation": "细菌战"
+  },
+  {
+    "word": "bx",
+    "translation": "abbr. 军营杂货店（Base Exchange）；[医]活组织检查（biopsy）"
+  },
+  {
+    "word": "by",
+    "translation": "prep. 被, 经, 由, 在...之旁\\nadv. 经过, 在近处"
+  },
+  {
+    "word": "BZ",
+    "translation": "[机] 苯酰, 苯"
+  },
+  {
+    "word": "Ca",
+    "translation": "[医] 钙(20号元素); 阴极, 负极"
+  },
+  {
+    "word": "CB",
+    "translation": "n. 平民波段\\n[医] 钶(41号元素铌的旧名)"
+  },
+  {
+    "word": "CC",
+    "translation": "复写本\\n[计] 中央计算机, 中央控制台, 通道命令, 通信中心, 条件码, 循环检验, 抄送"
+  },
+  {
+    "word": "CD",
+    "translation": "n. 镭射碟, 镭射唱片\\n[计] 光盘, 压缩盘, 载波检测, DOS内部命令:显示或改变当前目录"
+  },
+  {
+    "word": "CE",
+    "translation": "[计] 组件选通\\n[医] 铈(58号元素)"
+  },
+  {
+    "word": "CF",
+    "translation": "[医] 克里斯马斯因子, 补体结合"
+  },
+  {
+    "word": "CG",
+    "translation": "重心\\n[医] 光气"
+  },
+  {
+    "word": "CH",
+    "translation": "[计] 改变, 通道, 信道, 字符, 检验"
+  },
+  {
+    "word": "CI",
+    "translation": "[计] 输入, 通信接口, 计算机工业, 配置项\\n[化] 化学电离"
+  },
+  {
+    "word": "CJ",
+    "translation": "审判长, 法院院长, 首席法官"
+  },
+  {
+    "word": "ck",
+    "translation": "abbr. 肌酸激酶（creatine kinase）；美国第一大设计师品牌（Calvin Klein）；呼叫键（Call Key）"
+  },
+  {
+    "word": "CL",
+    "translation": "[计] 命令语言, 编译程序语言, 计算机语言, 控制线\\n[化] 中心线"
+  },
+  {
+    "word": "CM",
+    "translation": "[计] 厘米, 中央存储器, 通信多路转换器, 控制标志, 磁心存储器\\n[医] 锔(96号元素)"
+  },
+  {
+    "word": "CN",
+    "translation": "[计] 通信网络"
+  },
+  {
+    "word": "Co",
+    "translation": "[医] 钴(27号元素)"
+  },
+  {
+    "word": "CP",
+    "translation": "[计] 调用处理程序, 字符打印机, 通信处理器, 编译程序包, 控制部件\\n[经] 商业本票"
+  },
+  {
+    "word": "cq",
+    "translation": "abbr. 内务值班（charge of quarters）；广播开始信号（Call to Quarters）"
+  },
+  {
+    "word": "CR",
+    "translation": "[计] 回车, 调用请求\\n[医] 铬(24号元素)蟹; 山查子"
+  },
+  {
+    "word": "CS",
+    "translation": "文职人员, 行政机构\\n[计] 通道状态, 通信仿真器, 公用源, 计算机软件"
+  },
+  {
+    "word": "CT",
+    "translation": "计算机断层扫描\\n[计] 通信终端, 计算机终端, 计算机断层造影, 计数器"
+  },
+  {
+    "word": "CU",
+    "translation": "[计] 控制器, 立方, 用户占用\\n[医] 铜(29号元素)"
+  },
+  {
+    "word": "cv",
+    "translation": "abbr. 简历（Curriculum Vitae）"
+  },
+  {
+    "word": "CW",
+    "translation": "等幅波, 连续波, 余弦波\\n[计] 调用等待, 顺时针方向, 代码字, 命令字, 控制字"
+  },
+  {
+    "word": "CX",
+    "translation": "[计] 上下文环境命令"
+  },
+  {
+    "word": "cy",
+    "translation": "abbr. 日历年度（calendar year）"
+  },
+  {
+    "word": "cz",
+    "translation": "abbr. [域]捷克（Czech Republic）；运河区"
+  },
+  {
+    "word": "DA",
+    "translation": "美国地方检察官\\n[计] 数据采集, 数据管理员, 数据分析, 设计自动化"
+  },
+  {
+    "word": "DB",
+    "translation": "[计] 数据库, 数据位, 数据总线, 分贝, 判定功能块\\n[化] 分贝"
+  },
+  {
+    "word": "DC",
+    "translation": "直流电\\n[计] 数据单元, 数据中心, 数据代码, 数据通信, 数据控制, 数字控制, 直流"
+  },
+  {
+    "word": "DD",
+    "translation": "神学博士\\n[计] 数据定义, 数据词典, 磁盘驱动器, 双密度"
+  },
+  {
+    "word": "de",
+    "translation": "[化] 非对映体过量\\n[医] 铥(69号元素铥的别名,1916年Eder离得的假想元素)"
+  },
+  {
+    "word": "DF",
+    "translation": "[计] 数据区, 目的区, 设备标志, 磁盘文件, 倍频"
+  },
+  {
+    "word": "dG",
+    "translation": "[化] 脱氧鸟苷\\n[医] 分克"
+  },
+  {
+    "word": "DH",
+    "translation": "[计] 设计手册, 设备处理程序"
+  },
+  {
+    "word": "DI",
+    "translation": "[计] 数据输入, 数据项, 设备独立性, 双整数"
+  },
+  {
+    "word": "DJ",
+    "translation": "n. 唱片流行音乐节目播音员, 唱片骑师"
+  },
+  {
+    "word": "dk",
+    "translation": "abbr. 丹麦（Denmark）"
+  },
+  {
+    "word": "DL",
+    "translation": "[计] 数据语言, 数据长度, 数据表, 描述语言\\n[医] 分升"
+  },
+  {
+    "word": "DM",
+    "translation": "数学博士, 医学博士\\n[计] 数据管理, 数据模型, 诊断监视器, 频分多路技术"
+  },
+  {
+    "word": "dn",
+    "translation": "[医] 分能母, 十分之一能母\\n[经] 下跌"
+  },
+  {
+    "word": "do",
+    "translation": "v. 做, 进行, 完成"
+  },
+  {
+    "word": "DP",
+    "translation": "[计] 数据处理, 诊断程序, 数字绘图机, 数据指示字, 动态规划"
+  },
+  {
+    "word": "dq",
+    "translation": "abbr. 冰激凌品牌（Dairy Queen）；定量（definite quantity）；[律]直接讯问（direct question）"
+  },
+  {
+    "word": "Dr",
+    "translation": "n. 博士, 医生\\n[医] 英钱"
+  },
+  {
+    "word": "DS",
+    "translation": "[计] 数据系列, 数据集, 数据同步, 调试系统, 定义符号, 开发系统\\n             磁盘存储器, 磁盘系统, 分布式系统"
+  },
+  {
+    "word": "dT",
+    "translation": "[化] 脱氧胸苷"
+  },
+  {
+    "word": "du",
+    "translation": "[计] 定义使用\\n[化] 贫化铀"
+  },
+  {
+    "word": "dv",
+    "translation": "abbr. 煤油机船（Diesel Vessel）；稀释容积（Dilute Volume）；数码摄像机（Digital Video）"
+  },
+  {
+    "word": "dw",
+    "translation": "abbr. 发展的宽度（Developed Width）；蒸馏水（Distilled Water）；双重墙（Double Wall）；双重载（Double Weight）"
+  },
+  {
+    "word": "dx",
+    "translation": "abbr. 试验驱逐舰（Destroyer Experimental）；远程接收或传输（Distance Reception or Transmission）；远程无线电通信（Distant Radio Communication）；双工接收器（Duplex Repeater）；高级的（deluxe）"
+  },
+  {
+    "word": "Dy",
+    "translation": "[医] 镝(656号元素)"
+  },
+  {
+    "word": "dz",
+    "translation": "n. 阿尔及利亚的域名"
+  },
+  {
+    "word": "EA",
+    "translation": "[计] 有效地址, 单元动作, 外部访问\\n[医] 卵白蛋白, 红细胞抗体"
+  },
+  {
+    "word": "eb",
+    "translation": "abbr. 电子束（Electron Beam）"
+  },
+  {
+    "word": "EC",
+    "translation": "[计] 电子计算机, 仿真器控制, 工程更改, 错误纠正\\n[经] 欧市"
+  },
+  {
+    "word": "ED",
+    "translation": "[计] 电子设备, 密码设备, 数据结束, 工程设计, 错误检测, 外部设备"
+  },
+  {
+    "word": "EE",
+    "translation": "电机工程师\\n[化] 对映体过量"
+  },
+  {
+    "word": "ef",
+    "translation": "abbr. 每面（each face）；超精度（extremely fine）；仰角指示器（Elevation Finder）"
+  },
+  {
+    "word": "eg",
+    "translation": "abbr. [拉]例如（exempli gratia）；[网络用语]邪恶的笑（Evil Grin）"
+  },
+  {
+    "word": "eh",
+    "translation": "interj. 啊!嗯!是吗?好吗?\\n[医] 氧化还原电位"
+  },
+  {
+    "word": "EI",
+    "translation": "[计] 允许中断, 错误指示字"
+  },
+  {
+    "word": "ej",
+    "translation": "n. 电喷射穿孔"
+  },
+  {
+    "word": "EK",
+    "translation": "柯达公司"
+  },
+  {
+    "word": "el",
+    "translation": "abbr. 预期损失（Expected Loss）"
+  },
+  {
+    "word": "EM",
+    "translation": "[计] 媒体用毕符\\n[化] 射气"
+  },
+  {
+    "word": "en",
+    "translation": "n. 字母N, (铅字)半方\\nprep. 在...中, 作为"
+  },
+  {
+    "word": "EO",
+    "translation": "[计] 基本操作, 允许输出, 操作结束, 执行命令"
+  },
+  {
+    "word": "ep",
+    "translation": "abbr. EP盘唱片（extended-play record）"
+  },
+  {
+    "word": "EQ",
+    "translation": "abbr. 情商（Emotional Quotient）；均衡器；电器极（Electrical Quadrupole）"
+  },
+  {
+    "word": "Er",
+    "translation": "[医] 铒(68号元素)"
+  },
+  {
+    "word": "ES",
+    "translation": "[化] 电子能谱; 电子能谱学; 专家系统\\n[医] 低于模糊意识(低于下意识)"
+  },
+  {
+    "word": "Et",
+    "translation": "[化] 乙基"
+  },
+  {
+    "word": "EU",
+    "translation": "[化] 富集铀; 浓缩铀\\n[医] 铕(63号元素)"
+  },
+  {
+    "word": "ev",
+    "translation": "[电] 电子伏特"
+  },
+  {
+    "word": "ew",
+    "translation": "abbr. 电子战（Electronic Warfare）"
+  },
+  {
+    "word": "ex",
+    "translation": "n. 已离婚的配偶\\n[经] 不附资本增殖, (在船边码头)交货, 无(红利)...之外"
+  },
+  {
+    "word": "ey",
+    "translation": "abbr. 医院；阿联酋阿提哈德航空公司"
+  },
+  {
+    "word": "ez",
+    "translation": "abbr. 电零点（electrical zero）；东区（eastern zone）"
+  },
+  {
+    "word": "FA",
+    "translation": "(英国)足球协会, 战地救护车, 野战救护队, 野战炮, 野战炮兵, 美术, 急救\\n[医] 脂肪酸"
+  },
+  {
+    "word": "FB",
+    "translation": "消防队, 水上飞机, 飞船, 运货单, 后卫\\n[计] 文件块, 固定块"
+  },
+  {
+    "word": "FC",
+    "translation": "消防, 火力控制, 足球俱乐部\\n[计] 信息流控制, 字形改变, 操作码, 功能码\\nDOS外部命令:比较两个文件的内容"
+  },
+  {
+    "word": "FD",
+    "translation": "[计] 文件定义, 文件描述, 软磁盘, 功能相关性\\n[化] 场解吸"
+  },
+  {
+    "word": "Fe",
+    "translation": "[计] 现场工程师\\n[医] 铁(26号元素)"
+  },
+  {
+    "word": "FF",
+    "translation": "[计] 快进, 触发器, 换页"
+  },
+  {
+    "word": "fg",
+    "translation": "abbr. 悬浮式陀螺（Floated Gyro）；细粒（Fine-Grain）"
+  },
+  {
+    "word": "FH",
+    "translation": "消防栓, 灭火龙头, 消防龙头\\n[计] 文件处理器"
+  },
+  {
+    "word": "FI",
+    "translation": "[计] 格式标识码, 前端处理器接口\\n[化] 场电离"
+  },
+  {
+    "word": "fj",
+    "translation": "n. 斐济"
+  },
+  {
+    "word": "fk",
+    "translation": "abbr. 外键（foreign key）"
+  },
+  {
+    "word": "fl",
+    "translation": "abbr. 焦距（focal length）；外国语（foreign language）；[物]呎朗伯（亮度单位）；佛罗里达州（美国州名, Florida）"
+  },
+  {
+    "word": "FM",
+    "translation": "(英)陆军元帅, 外国使团, 调频, 频率调制\\n[计] 设备管理, 快速存储器, 文件管理, 调频"
+  },
+  {
+    "word": "fn",
+    "translation": "n. 功能, 函数"
+  },
+  {
+    "word": "FO",
+    "translation": "(英)空军中尉, (英国)外交部, 前进观察员, 校官, 野战命令"
+  },
+  {
+    "word": "FP",
+    "translation": "总保单, 总保险单, 全部付讫, 冰点, 凝固点\\n[计] 浮点, 函数处理器"
+  },
+  {
+    "word": "fq",
+    "translation": "abbr. 会计季度（fiscal quarter）"
+  },
+  {
+    "word": "Fr",
+    "translation": "[医] 钫(87号元素)"
+  },
+  {
+    "word": "FS",
+    "translation": "[计] 字段分隔符, 文件结构, 有限态, 功能选择, 频移"
+  },
+  {
+    "word": "ft",
+    "translation": "n. 英尺"
+  },
+  {
+    "word": "FU",
+    "translation": "[计] 字段单元, 功能部件"
+  },
+  {
+    "word": "fv",
+    "translation": "abbr. [军]战斗车辆（Fighting Vehicle）"
+  },
+  {
+    "word": "fw",
+    "translation": "abbr. 给水（Feed Water）；磁场减弱；淡水；隔火墙"
+  },
+  {
+    "word": "fx",
+    "translation": "abbr. 外汇（Foreign Exchange）；固定电台（Fixed Station）"
+  },
+  {
+    "word": "Fy",
+    "translation": "[经] 会计年度"
+  },
+  {
+    "word": "fz",
+    "translation": "abbr. 自由贸易区（Free Zone）"
+  },
+  {
+    "word": "Ga",
+    "translation": "[医] 镓(31号元素)"
+  },
+  {
+    "word": "GB",
+    "translation": "[计] 千兆字节"
+  },
+  {
+    "word": "GC",
+    "translation": "[化] 气相色谱法; 气相层析"
+  },
+  {
+    "word": "GD",
+    "translation": "[计] 图形显示\\n[医] 钆(64号元素)"
+  },
+  {
+    "word": "GE",
+    "translation": "通用电气公司\\n[计] 通用电气公司, 通用图形编辑程序"
+  },
+  {
+    "word": "GF",
+    "translation": "[化] 凝胶过滤法; 凝胶过滤色谱法; 生长因子"
+  },
+  {
+    "word": "gg",
+    "translation": "abbr. 地面制导（Ground Guidance）；煤气发生器（Gas Generator）"
+  },
+  {
+    "word": "GH",
+    "translation": "[化] 促生长素"
+  },
+  {
+    "word": "gi",
+    "translation": "a. 军用的；美国军人的"
+  },
+  {
+    "word": "gj",
+    "translation": "abbr. 缝隙连接（Gap Junction）"
+  },
+  {
+    "word": "gk",
+    "translation": "abbr. 车库里做出的模型（Garage Kit）；守门员（Goal Keeper）；希腊人, 希腊的（Greek）；卡林加社区发展基金会（Gawad Kalinga, 菲律宾的社会组织）"
+  },
+  {
+    "word": "Gl",
+    "translation": "[医] 铍(4号元素铍的别名)"
+  },
+  {
+    "word": "GM",
+    "translation": "通用汽车公司, 总经理, 导弹\\n[经] 通用汽车公司"
+  },
+  {
+    "word": "gn",
+    "translation": "n. 几内亚（等于Guinea）"
+  },
+  {
+    "word": "go",
+    "translation": "vi. 去, 走, 达到, 运转, 查阅, 消失, 结束, 放弃, 花费, 流传, 趋于, 打算, 剩下\\nvt. 以...打赌, 对付, 忍受, 出产, 为被捕者出(保释金)\\nn. 去, 尝试, 进行"
+  },
+  {
+    "word": "GP",
+    "translation": "普通医师, 普通医生开业医生\\n[计] 通用程序设计, 图形处理器"
+  },
+  {
+    "word": "gq",
+    "translation": "abbr. 全船战备部署（general quarters）"
+  },
+  {
+    "word": "GR",
+    "translation": "射击场, 总预备队\\n[医] 喱, 格令, 谷(英国重量单位)"
+  },
+  {
+    "word": "GS",
+    "translation": "总书记, 秘书长, 一般参谋, 参谋部\\n[计] 组分隔"
+  },
+  {
+    "word": "GT",
+    "translation": "[计] 博奕论, 图形终端"
+  },
+  {
+    "word": "gu",
+    "translation": "abbr. 关岛（Guam）"
+  },
+  {
+    "word": "gv",
+    "translation": "abbr. 地面能见度（Ground Visibility）；胃容量（Ground Visibility）；督脉经（Governor Vessel）"
+  },
+  {
+    "word": "gw",
+    "translation": "abbr. 十亿瓦特（gigawatt）；毛重（Gross Weight）；制导武器（Guided Weapon）"
+  },
+  {
+    "word": "gx",
+    "translation": "abbr. 邻二甲苯"
+  },
+  {
+    "word": "gy",
+    "translation": "abbr. 灰色（gray）；圭亚那（Guyana）"
+  },
+  {
+    "word": "gz",
+    "translation": "abbr. 地面零点；爆心投影点；地面爆炸点（ground zero）"
+  },
+  {
+    "word": "ha",
+    "translation": "interj. 嘿, 哈, 哈哈"
+  },
+  {
+    "word": "hb",
+    "translation": "abbr. [军] 厚膛壁身管（Heavy Barrel）"
+  },
+  {
+    "word": "HC",
+    "translation": "[计] 处理能力, 大容量, 主机"
+  },
+  {
+    "word": "HD",
+    "translation": "[计] 层次相关性, 高密度"
+  },
+  {
+    "word": "he",
+    "translation": "pron. 他\\nn. 男孩, 男人, 雄性动物"
+  },
+  {
+    "word": "Hf",
+    "translation": "[医] 铃(72号元素)"
+  },
+  {
+    "word": "hg",
+    "translation": "abbr. 标准德语（High German）；手摇发电机（Hand Generator）"
+  },
+  {
+    "word": "hh",
+    "translation": "abbr. 倍硬（指铅笔心硬度 double- hard）；半硬的（Half Hard）；重氢, 氚（Heavy Hydrogen）；高功率不定向无线电归航信标（High-powered, non-directional radio homing beacon）；殿下（His Highness）；陛下（His Holiness）；阁下, 先生（His Honour）"
+  },
+  {
+    "word": "hi",
+    "translation": "interj. 喂"
+  },
+  {
+    "word": "hj",
+    "translation": "abbr. （拉）hic jacet"
+  },
+  {
+    "word": "hk",
+    "translation": "abbr. 加热器箱（Heater Kit）；香港（Hong Kong）"
+  },
+  {
+    "word": "hl",
+    "translation": "[医] 百升"
+  },
+  {
+    "word": "Hm",
+    "translation": "[医] 显性远视"
+  },
+  {
+    "word": "hn",
+    "translation": "n. 血凝素神经氨酸酶"
+  },
+  {
+    "word": "HO",
+    "translation": "interj. 嗬(表示惊讶或引人注意)\\n[医] 钬(67号元素)"
+  },
+  {
+    "word": "HP",
+    "translation": "n. 马力, 分期付款购买法\\n[计] 惠普公司"
+  },
+  {
+    "word": "HQ",
+    "translation": "司令部, 指挥部, 总部, 总店"
+  },
+  {
+    "word": "hr",
+    "translation": "[经] 小时"
+  },
+  {
+    "word": "hs",
+    "translation": "abbr. 手持式受送话器（Handset）；头戴式耳机（Head Set）；高速（High Speed）"
+  },
+  {
+    "word": "HT",
+    "translation": "[计] 手控终端, 处理时间"
+  },
+  {
+    "word": "hu",
+    "translation": "abbr. 海南航空公司在国际航空运输协会中的二字代码；匈牙利（Hungary）；英国无国界卫生组织（Health Limited）"
+  },
+  {
+    "word": "hv",
+    "translation": "[电] 高压"
+  },
+  {
+    "word": "hw",
+    "translation": "abbr. 半波（Half Wave）；热水（hot water）；硬件（Hardware）"
+  },
+  {
+    "word": "HX",
+    "translation": "abbr. 卤化氢；香港航空（Hong Kong Airlines）"
+  },
+  {
+    "word": "hy",
+    "translation": "abbr. 亨利（Henry, 男子名）；高产（high yield）"
+  },
+  {
+    "word": "Hz",
+    "translation": "[计] 赫兹"
+  },
+  {
+    "word": "IA",
+    "translation": "[计] 指令地址, 集成转接器\\n[医] 肠下垂"
+  },
+  {
+    "word": "IB",
+    "translation": "[计] 识别字符块, 输入总线, 内部总线, 接口总线"
+  },
+  {
+    "word": "IC",
+    "translation": "集成电路\\n[计] 识别码, 指令单元, 互连, 内部通信, 集成电路"
+  },
+  {
+    "word": "id",
+    "translation": "n. 遗传素质, 本能冲动\\n[计] 识别, 标识符, 项目说明"
+  },
+  {
+    "word": "IE",
+    "translation": "[计] 中断启动"
+  },
+  {
+    "word": "if",
+    "translation": "conj. 如果, 是否, 无论何时, 假设, 即使\\nn. 条件\\n[计] DOS批处理命令:根据所测试的条件决定是否执行另一条命令"
+  },
+  {
+    "word": "ig",
+    "translation": "abbr. 监察主任（Inspector General）"
+  },
+  {
+    "word": "ih",
+    "translation": "abbr. 测量端（Instrument Head）；间接加热（Indirect Heating）；反时针（Inverted Hour）"
+  },
+  {
+    "word": "ii",
+    "translation": "abbr. 微光（Image Intensification）"
+  },
+  {
+    "word": "ij",
+    "translation": "abbr. 长城航空二字代码"
+  },
+  {
+    "word": "ik",
+    "translation": "abbr. 钾电流；反向动力学（Inverse Kinematics）"
+  },
+  {
+    "word": "IL",
+    "translation": "[计] 指令表, 中间语言, 解释语言\\n[医] 钷(61号元素)"
+  },
+  {
+    "word": "IM",
+    "translation": "[计] 中断屏蔽, 指令存储器"
+  },
+  {
+    "word": "in",
+    "translation": "prep. 在...期间, 在...之内, 处于...之中, 从事于, 按照, 穿着\\nadv. 进入, 朝里, 在里面, 在屋里\\na. 在里面的, 在朝的\\nn. 执政者, 交情"
+  },
+  {
+    "word": "IO",
+    "translation": "[计] 输入输出"
+  },
+  {
+    "word": "IP",
+    "translation": "[计] 初始排列, 指令指示器, 互连网协议"
+  },
+  {
+    "word": "IQ",
+    "translation": "智商, 智力商数"
+  },
+  {
+    "word": "IR",
+    "translation": "[化] 红外光谱法\\n[医] 铱(77号原素)"
+  },
+  {
+    "word": "is",
+    "translation": "be的现在式第三人称\\n[计] 加下标次序, 信息系统, 国际标准, 中间系统"
+  },
+  {
+    "word": "it",
+    "translation": "pron. 它\\n[计] 信息论, 输入终端, 智能终端, 内捕获"
+  },
+  {
+    "word": "IU",
+    "translation": "国际单位\\n[计] 信息单元, 输入设备, 指令部件, 接口部件"
+  },
+  {
+    "word": "iv",
+    "translation": "abbr. 输入阀；交互式视讯；自变量（Independent Variable）"
+  },
+  {
+    "word": "iw",
+    "translation": "abbr. 感应焊接（Induction Welding）；断续电波（Interrupted Wave）；[化]同位素量（Isotopic Weight）"
+  },
+  {
+    "word": "ix",
+    "translation": "abbr. 离子交换（Ion Exchange）"
+  },
+  {
+    "word": "iy",
+    "translation": "n. [五笔]济；注；泳；游"
+  },
+  {
+    "word": "iz",
+    "translation": "n. (Iz)人名；(土)伊兹"
+  },
+  {
+    "word": "JA",
+    "translation": "数人共有的银行存款帐户, 联合代理人, 军法官, 军法检查官"
+  },
+  {
+    "word": "jb",
+    "translation": "abbr. 分线盒（Junction Box）"
+  },
+  {
+    "word": "jc",
+    "translation": "abbr. 法学家（jurisconsult）"
+  },
+  {
+    "word": "JD",
+    "translation": "法学博士"
+  },
+  {
+    "word": "je",
+    "translation": "abbr. 作业评估；工作估计（job estimate）"
+  },
+  {
+    "word": "jf",
+    "translation": "abbr. 纪念邮资信封"
+  },
+  {
+    "word": "jg",
+    "translation": "abbr. 少尉（junior grade）"
+  },
+  {
+    "word": "jh",
+    "translation": "abbr. 保幼激素（juvenile hormone）"
+  },
+  {
+    "word": "ji",
+    "translation": "abbr. 共同减量（Joint Implementation）；亚洲的一个恐怖组织（Jemaah Islamiyah）"
+  },
+  {
+    "word": "JJ",
+    "translation": "n. 林俊杰；约瑟夫逊结"
+  },
+  {
+    "word": "jk",
+    "translation": "n. 工作, 作业；杰克（等于jack）"
+  },
+  {
+    "word": "jl",
+    "translation": "abbr. 日本航空（Japan Airlines）"
+  },
+  {
+    "word": "jm",
+    "translation": "abbr. 牙买加（Jamaica）；法律硕士（Master of Law）"
+  },
+  {
+    "word": "jn",
+    "translation": "abbr. 扭振减震器总成；供应臭氧设备；约翰（John）；珍妮（June）"
+  },
+  {
+    "word": "jo",
+    "translation": "abbr. 乔（女子名, 等于Joseph, Josephine）"
+  },
+  {
+    "word": "JP",
+    "translation": "n. 治安官, 地方司法官\\n[计] 作业处理器"
+  },
+  {
+    "word": "jq",
+    "translation": "abbr. 判断力商数（Judgment Quotient）"
+  },
+  {
+    "word": "jr",
+    "translation": "abbr. 初级, 小 Junior"
+  },
+  {
+    "word": "js",
+    "translation": "abbr. 射流研究"
+  },
+  {
+    "word": "jt",
+    "translation": "abbr. 连接（joint）；接合（joint）"
+  },
+  {
+    "word": "ju",
+    "translation": "abbr. 六月（June）"
+  },
+  {
+    "word": "jv",
+    "translation": "abbr. 资浅代表队（Junior Varsity）"
+  },
+  {
+    "word": "jw",
+    "translation": "abbr. 水套（jacket of water）"
+  },
+  {
+    "word": "jx",
+    "translation": "abbr. juxtaglomerular radius 肾小球旁的半径"
+  },
+  {
+    "word": "jy",
+    "translation": "abbr. 七月（July）"
+  },
+  {
+    "word": "jz",
+    "translation": "abbr. 南斯拉夫国家铁路（塞尔维亚-克罗地亚语缩写, Jugoslav State Railways）"
+  },
+  {
+    "word": "ka",
+    "translation": "[电] 千安培"
+  },
+  {
+    "word": "KB",
+    "translation": "[计] 键盘, 千位, 千字节, 知识库\\n[化] 知识库"
+  },
+  {
+    "word": "kc",
+    "translation": "[计] 千周, 千赫\\n[医] 千周"
+  },
+  {
+    "word": "KD",
+    "translation": "[医] 阴极期间"
+  },
+  {
+    "word": "ke",
+    "translation": "abbr. 动能（kinetic energy）；键入错误（Key Error）"
+  },
+  {
+    "word": "kf",
+    "translation": "abbr. 知识模块（knowledge fusion）；关键帧（KeyFrame）"
+  },
+  {
+    "word": "kg",
+    "translation": "n. 千克, 公斤\\n[医] 千克, 公斤"
+  },
+  {
+    "word": "kh",
+    "translation": "abbr. 柬埔寨；碳酸盐硬度"
+  },
+  {
+    "word": "KI",
+    "translation": "abbr. 基瓦尼斯国际（Kiwanis International）；爆震输入装置（Knoch Input）；碘化钾的分子式（Potassium iodide）"
+  },
+  {
+    "word": "kj",
+    "translation": "abbr. [物]千焦耳（功的单位, kilojoule）"
+  },
+  {
+    "word": "kk",
+    "translation": "abbr. 千开（kilokelvin ）"
+  },
+  {
+    "word": "kl",
+    "translation": "[医] 音响, 千升"
+  },
+  {
+    "word": "km",
+    "translation": "[医] 千米, 公里"
+  },
+  {
+    "word": "kn",
+    "translation": "abbr. 海里（knot）；克朗（krona）"
+  },
+  {
+    "word": "KO",
+    "translation": "vt. 击倒, 打倒\\nn. 击倒, 打倒"
+  },
+  {
+    "word": "kp",
+    "translation": "abbr. 键控脉冲（Key Pulse）；键盘穿孔机（Keyboard Perforator）；公里标杆（Kilometer Post）"
+  },
+  {
+    "word": "kq",
+    "translation": "abbr. Kenya Airways 肯尼亚航空公司（基什航空公司）（代码）"
+  },
+  {
+    "word": "Kr",
+    "translation": "[医] 氪(36号元素)"
+  },
+  {
+    "word": "ks",
+    "translation": "abbr. 韩国标准（Korean Standards）；敲缸传感器（Knock Sensor）；闸刀开关（knifeswitch）"
+  },
+  {
+    "word": "kt",
+    "translation": "abbr. 千吨（kiloton）；[棋]马（knight）；节（knot）"
+  },
+  {
+    "word": "ku",
+    "translation": "abbr. 堪萨斯大学（University of Kansas）；科威特航空公司（Kuwait Airways）；哥本哈根大学（Kobenhavns Universitet）"
+  },
+  {
+    "word": "kv",
+    "translation": "[医] 千伏[特]"
+  },
+  {
+    "word": "kw",
+    "translation": "[医] 千瓦[特]"
+  },
+  {
+    "word": "kx",
+    "translation": "abbr. Buckinghamshire 白金汉郡（不列颠群岛车辆登记符号）; Cayman Airways 英国开曼航空公司（代码）; coaxial cable 同轴电缆（代号）"
+  },
+  {
+    "word": "KY",
+    "translation": "abbr. 美国肯塔基州（Kentucky）"
+  },
+  {
+    "word": "kz",
+    "translation": "abbr. 哈萨克斯坦（Kazakhstan）"
+  },
+  {
+    "word": "La",
+    "translation": "[医] 镧(57号元素)"
+  },
+  {
+    "word": "lb",
+    "translation": "磅, 文学士\\n[经] 磅"
+  },
+  {
+    "word": "LC",
+    "translation": "国会图书馆\\n[计] 信用证, 小写体"
+  },
+  {
+    "word": "LD",
+    "translation": "致死剂量"
+  },
+  {
+    "word": "LE",
+    "translation": "[计] 小于或等于"
+  },
+  {
+    "word": "LF",
+    "translation": "[计] 换行, 低频\\n[医] 絮凝单位, 絮凝限度"
+  },
+  {
+    "word": "lg",
+    "translation": "abbr. 水平规, 水准仪（Level Gauge ）；直线发生器, 矢量发生器（Line Generator）"
+  },
+  {
+    "word": "LH",
+    "translation": "[计] DOS内部命令:将常驻程序装入上层内存区\\n[化] 促黄体素"
+  },
+  {
+    "word": "Li",
+    "translation": "[医] 锂(3号元素)"
+  },
+  {
+    "word": "lj",
+    "translation": "abbr. 救生短上衣（Life Jacket）；上诉法院法官（Lord Justice）"
+  },
+  {
+    "word": "lk",
+    "translation": "abbr. 斯里兰卡（Sri Lanka）"
+  },
+  {
+    "word": "LL",
+    "translation": "[计] 低电瓶逻辑"
+  },
+  {
+    "word": "lm",
+    "translation": "n. 地上移动式无线电设备（Land Mobile）；登月舱（Lagrange multiplier）；光学显微镜"
+  },
+  {
+    "word": "ln",
+    "translation": "abbr. 自然对数（Napierian Logarithm）；液态氮（Liquid Nitrogen）"
+  },
+  {
+    "word": "lo",
+    "translation": "interj. 瞧, 看"
+  },
+  {
+    "word": "LP",
+    "translation": "n. 密纹唱片\\n[计] 语言处理程序, 主程序员, 光笔, 线性协议, 表处理, 逻辑探头"
+  },
+  {
+    "word": "lq",
+    "translation": "abbr. 液体（liquid）；最下弦（lowest quartile）；线性计量器（linear quantifier）"
+  },
+  {
+    "word": "lr",
+    "translation": "abbr. 书面报告（Letter Report）；远距离, 远程（Long Range）；实验室反应堆（Laboratory Reactor）；液体燃料火箭（Liquid Rocket）"
+  },
+  {
+    "word": "ls",
+    "translation": "[计] 目录显示命令"
+  },
+  {
+    "word": "Lt",
+    "translation": "[电] LT线上末端"
+  },
+  {
+    "word": "LU",
+    "translation": "[计] 逻辑单元, 逻辑部件\\n[医] 镥(71号元素)"
+  },
+  {
+    "word": "lv",
+    "translation": "abbr. 低压（low voltage）；激光视盘（Laser Vision）；登陆车辆（Landing Vehicle）；活动发射装置（Lanuch Vehicle）"
+  },
+  {
+    "word": "Lw",
+    "translation": "[医] 铹(103号元素)"
+  },
+  {
+    "word": "lx",
+    "translation": "abbr. 勒克斯（lux, 光照度单位）"
+  },
+  {
+    "word": "ly",
+    "translation": "abbr. 林业行业标准；淋巴细胞；铅合金"
+  },
+  {
+    "word": "lz",
+    "translation": "abbr. 登陆区（Landing Zone）"
+  },
+  {
+    "word": "MA",
+    "translation": "n. 妈\\n[计] 存储器地址, 多路存取"
+  },
+  {
+    "word": "MB",
+    "translation": "兆字节\\n[计] 兆字节"
+  },
+  {
+    "word": "MC",
+    "translation": "国会议员, 典礼官, 司仪, 医疗队\\n[计] 机器周期, 磁卡片, 主脉冲, 主控制"
+  },
+  {
+    "word": "MD",
+    "translation": "医学博士, 总经理, 常务董事\\n[计] 宏数据, 磁盘, 维护设备, 信息数据, 彼此相关性\\nDOS内部命令:该命令用于在软盘或硬盘上建立新的子目录"
+  },
+  {
+    "word": "me",
+    "translation": "pron. 我"
+  },
+  {
+    "word": "MF",
+    "translation": "中频\\n[化] 三聚氰胺-甲醛树脂; 三聚氰酰胺-甲醛树脂"
+  },
+  {
+    "word": "MG",
+    "translation": "[化] 微粒剂\\n[医] 镁(12号元素)"
+  },
+  {
+    "word": "mh",
+    "translation": "abbr. 报文处理程序（message handler）"
+  },
+  {
+    "word": "MI",
+    "translation": "检疫, 军事情报"
+  },
+  {
+    "word": "mj",
+    "translation": "abbr. 玛帝脂接缝（Mastic Joint）；[物]兆焦耳（megajoule）"
+  },
+  {
+    "word": "mk",
+    "translation": "abbr. （圣经）马可福音（Mark）"
+  },
+  {
+    "word": "ML",
+    "translation": "法学硕士, 摩托艇, 汽艇\\n[医] 毫升"
+  },
+  {
+    "word": "mm",
+    "translation": "毫米\\n[计] 毫米"
+  },
+  {
+    "word": "Mn",
+    "translation": "[医] 锰(25号元素)"
+  },
+  {
+    "word": "mo",
+    "translation": "n. 顷刻, 瞬间, 函购, 邮购, 军医, 军医主任, 汇票, 邮政汇票\\n[化] 分子轨道"
+  },
+  {
+    "word": "MP",
+    "translation": "国会议员, 下院议员\\n[计] 宏处理程序, 维护程序, 线性规划, 微程序, 多处理器"
+  },
+  {
+    "word": "mq",
+    "translation": "abbr. 乘数-商寄存器（Memory Quotient）；[域]马提尼克岛（法属）（Martinique）"
+  },
+  {
+    "word": "Mr",
+    "translation": "先生\\n[计] 存储器回收程序, 多重请求"
+  },
+  {
+    "word": "MS",
+    "translation": "美国微软公司\\n[计] 主存储器, 制造系统, 毫秒, 微软公司"
+  },
+  {
+    "word": "Mt",
+    "translation": "峰, 山\\n[计] 磁带, 平均时间, 机器翻译, 测量时间, 多终端"
+  },
+  {
+    "word": "mu",
+    "translation": "n. 希腊字母(M,μ)\\n[计] 多用户, 存储"
+  },
+  {
+    "word": "MV",
+    "translation": "市面价值, 平均变化, 中压, 商船, 内燃机船, 初速\\n[计] 毫伏"
+  },
+  {
+    "word": "mw",
+    "translation": "[计] 毫瓦"
+  },
+  {
+    "word": "mx",
+    "translation": "abbr. 麦克斯韦（maxwell, 磁通量单位）；中性（Middlesex）"
+  },
+  {
+    "word": "my",
+    "translation": "pron. 我的\\n[医] 迈尔(热容单位)"
+  },
+  {
+    "word": "mz",
+    "translation": "abbr. 平均粒度（Mean Grain Size）；地中海区域（Mediterranean Zone）；中带（Middle Zone）；莫桑比克（Mozambique）"
+  },
+  {
+    "word": "NA",
+    "translation": "北美洲, 国立研究院院士, 国立研究院, 国民军\\n[医] 钠(11号元素)"
+  },
+  {
+    "word": "NB",
+    "translation": "注意, 留心\\n[医] 铌(41号元素)"
+  },
+  {
+    "word": "NC",
+    "translation": "北卡罗来纳\\n[计] 网络控制, 不连接, 数控"
+  },
+  {
+    "word": "ND",
+    "translation": "北达科地\\n[医] 钕(60号元素)"
+  },
+  {
+    "word": "ne",
+    "translation": "a. 原姓...的, 原名...的\\n[医] 氖(10元素)"
+  },
+  {
+    "word": "nf",
+    "translation": "[电] 千亿分之一法"
+  },
+  {
+    "word": "NG",
+    "translation": "[化] 硝化甘油"
+  },
+  {
+    "word": "nh",
+    "translation": "abbr. 不吸湿的（nonhygroscopic）；全日空航空公司；美国地名, 新罕布什尔（New Hampshire）"
+  },
+  {
+    "word": "Ni",
+    "translation": "[医] 镍(28号元素)"
+  },
+  {
+    "word": "nj",
+    "translation": "abbr. 新泽西（New Jersey）"
+  },
+  {
+    "word": "nk",
+    "translation": "abbr. 日本海事协会（Nippon Kaiji Kyokai）；北加拿大航空公司（North Canada Air Ltd）"
+  },
+  {
+    "word": "NL",
+    "translation": "[计] 换行, 无标号"
+  },
+  {
+    "word": "NM",
+    "translation": "[计] 纳米, 毫微米\\n[医] 新霉素, 弗氏霉素"
+  },
+  {
+    "word": "nn",
+    "translation": "abbr. neural network 神经网络；Network Node 网络结点"
+  },
+  {
+    "word": "no",
+    "translation": "n. 不, 拒绝, 否决票\\na. 没有, 不是, 绝非\\nadv. 不"
+  },
+  {
+    "word": "Np",
+    "translation": "[医] 镎(93号元素)"
+  },
+  {
+    "word": "nr",
+    "translation": "abbr. 天然橡胶（Natural Rubber）；水平调节控制"
+  },
+  {
+    "word": "ns",
+    "translation": "[计] 毫微秒, 纳秒"
+  },
+  {
+    "word": "Nt",
+    "translation": "[医] 氡, 镭射气(86号元素)"
+  },
+  {
+    "word": "nu",
+    "translation": "n. 希腊字母第13字"
+  },
+  {
+    "word": "nv",
+    "translation": "[电] 十亿分之一伏"
+  },
+  {
+    "word": "nw",
+    "translation": "[电] 十亿分之一瓦"
+  },
+  {
+    "word": "nx",
+    "translation": "abbr. 非消耗品（Nonexpendable Item）；澳门航空公司"
+  },
+  {
+    "word": "NY",
+    "translation": "纽约\\n[经] 纽约"
+  },
+  {
+    "word": "NZ",
+    "translation": "[计] 非零\\n[经] 新西兰"
+  },
+  {
+    "word": "OA",
+    "translation": "办公自动化\\n[计] 办公自动化, 运算分析"
+  },
+  {
+    "word": "ob",
+    "translation": "abbr. 养地（Ocean Bottom）；实况无线电广播（Outside Broadcasting）；向船外（Out Board）"
+  },
+  {
+    "word": "OC",
+    "translation": "[计] 操作码, 操作控制器"
+  },
+  {
+    "word": "OD",
+    "translation": "n. 自然力\\n[医] 动物磁力(旧名)"
+  },
+  {
+    "word": "OE",
+    "translation": "abbr. （常印在账单上）遗漏不在此限（omissions excepted）；古英语（Old English）"
+  },
+  {
+    "word": "of",
+    "translation": "prep. 的, 属于"
+  },
+  {
+    "word": "og",
+    "translation": "abbr. 奥运会（Olympic Games）"
+  },
+  {
+    "word": "oh",
+    "translation": "interj. (表示惊讶、恐怖、赞叹)哦"
+  },
+  {
+    "word": "oi",
+    "translation": "n. 操作说明"
+  },
+  {
+    "word": "oj",
+    "translation": "abbr. 橙汁（Orange Juice）"
+  },
+  {
+    "word": "OK",
+    "translation": "a. 好, 不错, 可以\\nadv. 好, 不错, 可以\\nn. 批准, 认可\\n[计] 确定"
+  },
+  {
+    "word": "Ol",
+    "translation": "[医] 油"
+  },
+  {
+    "word": "om",
+    "translation": "abbr. 英国功劳勋章（Order of Merit）"
+  },
+  {
+    "word": "on",
+    "translation": "prep. 在...之上\\nadv. ...上去\\na. 正起作用的\\n[计] 打开"
+  },
+  {
+    "word": "oo",
+    "translation": "abbr. 面向对象程式设计（Object Oriented）；已订购而尚未交货的（on order）"
+  },
+  {
+    "word": "OP",
+    "translation": "观测所\\n[计] 操作, 运算, 算符"
+  },
+  {
+    "word": "oq",
+    "translation": "abbr. oil quench 油淬火的; overmation quotient 过量信息份额"
+  },
+  {
+    "word": "or",
+    "translation": "conj. 或, 或者\\n[计] 或"
+  },
+  {
+    "word": "os",
+    "translation": "n. 骨, 孔, 穴裂口\\n[计] 办公系统, 操作系统"
+  },
+  {
+    "word": "ot",
+    "translation": "abbr. 加班（Overtime ）；圣经旧约（Old Testament）；职业疗法（Occupational therapy）"
+  },
+  {
+    "word": "ou",
+    "translation": "abbr. 开放大学（Open University）；牛津大学（Oxford University）"
+  },
+  {
+    "word": "ov",
+    "translation": "abbr. 观测速度（observed velocity）；输出阀（output valve）；过电压（overvoltage）"
+  },
+  {
+    "word": "ow",
+    "translation": "interj. 啊唷"
+  },
+  {
+    "word": "ox",
+    "translation": "n. 牛"
+  },
+  {
+    "word": "oy",
+    "translation": "abbr. 橙黄色（Orange Yellow）"
+  },
+  {
+    "word": "oz",
+    "translation": "abbr. 盎司（ounce）"
+  },
+  {
+    "word": "PA",
+    "translation": "私人秘书, (露天)扩音系统\\n[计] 程序存取, 程序地址, 程序分析"
+  },
+  {
+    "word": "PB",
+    "translation": "[计] 10的15次方字节\\n[医] 铅(82号元素)"
+  },
+  {
+    "word": "PC",
+    "translation": "个人计算机\\n[计] 外部控制, 个人计算机, 光电导体, 伪码"
+  },
+  {
+    "word": "Pd",
+    "translation": "[医] 钯(46号元素)"
+  },
+  {
+    "word": "PE",
+    "translation": "[计] 相位编码\\n[化] 磷脂酰乙醇胺"
+  },
+  {
+    "word": "pf",
+    "translation": "[电] Picofarad的简写"
+  },
+  {
+    "word": "PG",
+    "translation": "部分不适合儿童观看的(电影)\\n[化] 前列腺素; 磷脂酰甘油"
+  },
+  {
+    "word": "pH",
+    "translation": "氢离子指数\\n[医] 药典; 苯基"
+  },
+  {
+    "word": "pi",
+    "translation": "n. 圆周率\\n[计] 处理器接口, 程序中断"
+  },
+  {
+    "word": "pj",
+    "translation": "abbr. 有功电度表；圆周喷射（Peripheral Jet）"
+  },
+  {
+    "word": "pk",
+    "translation": "[建] pK"
+  },
+  {
+    "word": "PL",
+    "translation": "[化] 磷脂"
+  },
+  {
+    "word": "PM",
+    "translation": "出纳员, 军需官\\n[计] 调相, 性能管理, 处理模块, 程序存储器"
+  },
+  {
+    "word": "PN",
+    "translation": "清注意, 本票, 期票\\n[计] 页编号, 可编程网络"
+  },
+  {
+    "word": "PO",
+    "translation": "邮局, 邮政汇票\\n[医] 口服, 经口"
+  },
+  {
+    "word": "PP",
+    "translation": "包裹邮递, 包裹邮件, 邮包, 包裹邮务处, 过去分词\\n[计] 并行打印, 并行处理器, 打印位置"
+  },
+  {
+    "word": "pq",
+    "translation": "abbr. 魁北克省（Province of Quebec）；渗透系数（Permeability Quotient）"
+  },
+  {
+    "word": "PR",
+    "translation": "与公众的关系, 公关\\n[计] 模式识别, 实际记录, 前缀, 程序寄存器"
+  },
+  {
+    "word": "PS",
+    "translation": "[计] 实际顺序, 图象系统, 电源, 保护状态\\n[化] 磷脂酰丝氨酸"
+  },
+  {
+    "word": "PT",
+    "translation": "[计] 点, 处理时间, 可编程序终端\\n[医] 铂(78号元素)"
+  },
+  {
+    "word": "PU",
+    "translation": "[计] 物理单元\\n[医] 钚(94号元素)"
+  },
+  {
+    "word": "pv",
+    "translation": "abbr. 产品鉴定（Production Validation）；票面值（Par Value）；撑杆跳高（Pole Vault）；卯酉圈（prime vertical）"
+  },
+  {
+    "word": "pw",
+    "translation": "abbr. 女警（policewoman）；现在价值（present worth）；电动窗（power window）"
+  },
+  {
+    "word": "px",
+    "translation": "abbr. 专用小交换机（Private Exchange）；二苯甲（p-Xylene）"
+  },
+  {
+    "word": "py",
+    "translation": "n. 巴拉圭, 南美洲国家（Paraguay）"
+  },
+  {
+    "word": "pz",
+    "translation": "abbr. 永久载重线区（Permanent Zones）；二甲基二硫代氨基甲酸锌"
+  },
+  {
+    "word": "qa",
+    "translation": "abbr. 品质保证（Quality Assurance）；质量评价（Quality Assessment）"
+  },
+  {
+    "word": "qb",
+    "translation": "abbr. 定量（电生理）电池（quantitative（electrophysiological）battery）"
+  },
+  {
+    "word": "QC",
+    "translation": "[化] 质量管理"
+  },
+  {
+    "word": "qd",
+    "translation": "abbr. 俯角（Quadrant Depression）；军需申请（Quartermaster Demand）"
+  },
+  {
+    "word": "qe",
+    "translation": "abbr. 量子电子学（Quantum Electronics）"
+  },
+  {
+    "word": "qf",
+    "translation": "abbr. 速射的（Quick-Firing）"
+  },
+  {
+    "word": "qh",
+    "translation": "abbr. （拉）每小时（quaque hora）"
+  },
+  {
+    "word": "qi",
+    "translation": "abbr. 质量指标（Quality Index）"
+  },
+  {
+    "word": "qj",
+    "translation": "abbr. Jet Airways 喷气机航空公司（代码）; queue jockey 候话音乐播放师"
+  },
+  {
+    "word": "ql",
+    "translation": "abbr. 查询语言（query language）"
+  },
+  {
+    "word": "qm",
+    "translation": "abbr. 质量管理（Quality Management）；军需官（quartermaster）"
+  },
+  {
+    "word": "qn",
+    "translation": "abbr. 问题（question）；（国际象棋中的）后翼马（queen's knight）"
+  },
+  {
+    "word": "qo",
+    "translation": "abbr. quick outlet 快速出口"
+  },
+  {
+    "word": "qp",
+    "translation": "abbr. 静等离子区（quiescent plasma）；国际象棋中的后前兵（queen's pawn）；（拉）随意（quantum placet, 等于as much as you please）"
+  },
+  {
+    "word": "qq",
+    "translation": "n. 中国腾讯公司开发的个人电子网络传呼软件"
+  },
+  {
+    "word": "QR",
+    "translation": "[计] 商, 二次余数"
+  },
+  {
+    "word": "qs",
+    "translation": "abbr. 质量标准（Quality Standard）；质量规范（Quality Specification）"
+  },
+  {
+    "word": "qt",
+    "translation": "abbr. 夸脱（液量单位, quart）；鉴定试验（Qualification Test）"
+  },
+  {
+    "word": "qu",
+    "translation": "n. 合格单位"
+  },
+  {
+    "word": "qv",
+    "translation": "abbr. quivering 颤抖; quod vide (Latin=which see) （拉丁语）参见…; quality verification 质量确认; quantum vis (Latin=as much as you wish) （拉丁语）随意量"
+  },
+  {
+    "word": "qw",
+    "translation": "abbr. 量子阱（quantum well）"
+  },
+  {
+    "word": "qx",
+    "translation": "abbr. quasi-crystalline 准结晶的，准晶体的; quintaux (French=hundred-weights) （法语）百个计量单位"
+  },
+  {
+    "word": "qy",
+    "translation": "abbr. 量子产额（Quantum Yield）；千叶（Qian Ye）；奇岩镇（网络游戏剑斗转职中的地名, Qi Yan）"
+  },
+  {
+    "word": "RA",
+    "translation": "正规陆军(美国), (英国)皇家艺术学会, 常备军, 正规军\\n[计] 重复地址"
+  },
+  {
+    "word": "RB",
+    "translation": "[计] 归偏制\\n[医] 铷(37号元素)"
+  },
+  {
+    "word": "RC",
+    "translation": "红十字, 红十字会\\n[计] 遥控, 补码, 远程集中器"
+  },
+  {
+    "word": "RD",
+    "translation": "[计] 报表描述; DOS内部命令:该命令用于删除磁盘中的空白子目录\\n[医] 卢[瑟福](放射物质的蜕变单位)"
+  },
+  {
+    "word": "re",
+    "translation": "prep. 关于\\nn. 不动产, 房地产\\n[计] 赖斯编码"
+  },
+  {
+    "word": "RF",
+    "translation": "射频, 测距计, 测远仪\\n[计] 射频"
+  },
+  {
+    "word": "rg",
+    "translation": "abbr. 角速度陀螺仪（Rate Gyroscope）；巴西航空（Brazilian Airlines）"
+  },
+  {
+    "word": "RH",
+    "translation": "[计] 报表头"
+  },
+  {
+    "word": "RI",
+    "translation": "[化] 放射性同位素"
+  },
+  {
+    "word": "rj",
+    "translation": "abbr. 交叉路口（road junction）"
+  },
+  {
+    "word": "rk",
+    "translation": "abbr. [医]放射状角膜切开术（Radial Keratotomy）；可爱卡通（手机主题软件, Rouroni Kenshin）；岩石（rock）"
+  },
+  {
+    "word": "RL",
+    "translation": "[计] 现实社会"
+  },
+  {
+    "word": "RM",
+    "translation": "[计] 识别方式, 资源管理程序, 删除\\n[化] 标准物质"
+  },
+  {
+    "word": "RN",
+    "translation": "(英国)皇家海军, 注册护士\\n[计] 新闻阅读程序"
+  },
+  {
+    "word": "RO",
+    "translation": "[计] 只接收"
+  },
+  {
+    "word": "RP",
+    "translation": "[计] 阅读器/打印机"
+  },
+  {
+    "word": "RQ",
+    "translation": "[化] 呼吸商"
+  },
+  {
+    "word": "rr",
+    "translation": "abbr. 无线电航向信标（Radio Range-beacon）；雷达测距（Radar Ranging）；无线电接受器（Radio Receptor）；连流继电器（Reverse Relay）；阻力比（Resistance Ratio）"
+  },
+  {
+    "word": "RS",
+    "translation": "[计] 实寄存器, 寄存器和存储器, 复位"
+  },
+  {
+    "word": "RT",
+    "translation": "[计] 实时, 接收终端, 运行时间"
+  },
+  {
+    "word": "RU",
+    "translation": "[计] 请求回答单元\\n[医] 钌(44号元素)"
+  },
+  {
+    "word": "rv",
+    "translation": "abbr. （设有床位、厨房等野营用的）娱乐车（Recreational Vehicle）；重返大气层飞行器（Reentry Vehicle）；《圣经》的修订本（Revised Version）"
+  },
+  {
+    "word": "rw",
+    "translation": "abbr. 卢旺达（Rwanda）；辐射武器（radiation weapon）；辐射战（radiological warfare）；阁下（Right worshipful）"
+  },
+  {
+    "word": "rx",
+    "translation": "n. 处方；治疗方案"
+  },
+  {
+    "word": "ry",
+    "translation": "abbr. 铁路（railway）"
+  },
+  {
+    "word": "RZ",
+    "translation": "[计] 归零制"
+  },
+  {
+    "word": "SA",
+    "translation": "救世军, 南非, 南美, 南澳大利亚, 性的魅力, 性感\\n[计] 源地址, 结构分析, 系统分析"
+  },
+  {
+    "word": "SB",
+    "translation": "[计] 栈底, 标准二进制, 减, 备用设备\\n[医] 锑(51号元素)"
+  },
+  {
+    "word": "SC",
+    "translation": "[计] 系统控制, 存储容量, 半导体, 会话控制\\n[医] 钪(21号元素)"
+  },
+  {
+    "word": "SD",
+    "translation": "[化] 磺胺嘧啶"
+  },
+  {
+    "word": "SE",
+    "translation": "[计] 栈空, 系统扩充\\n[医] 硒(34号元素)"
+  },
+  {
+    "word": "SF",
+    "translation": "[计] 比例因子, 栈前, 栈满"
+  },
+  {
+    "word": "SG",
+    "translation": "[计] 系统生成程序\\n[医] 磺胺胍"
+  },
+  {
+    "word": "sh",
+    "translation": "interj. 嘘"
+  },
+  {
+    "word": "SI",
+    "translation": "[计] 国际单位制, 串行接口, 移入\\n[医] 硅(14号元素,旧名矽)"
+  },
+  {
+    "word": "sj",
+    "translation": "abbr. 耶稣会（Society of Jesus）；软焊接头（Soldered Joint）"
+  },
+  {
+    "word": "SK",
+    "translation": "[医] 链球菌激酶, 链球菌致活酶"
+  },
+  {
+    "word": "SL",
+    "translation": "[计] 仿真语言, 源语言, 系统语言"
+  },
+  {
+    "word": "SM",
+    "translation": "理科硕士\\n[计] 仿真器, 同步调制解调器"
+  },
+  {
+    "word": "SN",
+    "translation": "[计] 顺序号\\n[医] 锡(50号元素)"
+  },
+  {
+    "word": "so",
+    "translation": "adv. 如此, 如是, 如...那样\\nconj. 所以, 因此\\npron. 这样"
+  },
+  {
+    "word": "SP",
+    "translation": "岸上宪兵, 基地宪兵\\n[计] 结构程序设计, 用户过程处理"
+  },
+  {
+    "word": "sq",
+    "translation": "n. 正方形, 方形物, 平方, 广场, 直角尺, 矩尺, 棋盘上的方格, 纵横字谜, 方阵"
+  },
+  {
+    "word": "SR",
+    "translation": "[计] 开关寄存器\\n[化] 同步辐射"
+  },
+  {
+    "word": "SS",
+    "translation": "[计] 子系统, 卫星系统, 源语句, 同步分类, 系统管理程序\\n[医] 半"
+  },
+  {
+    "word": "ST",
+    "translation": "[计] 段表, 状态, 系统测试, 直端连接器\\n[化] 磺胺噻唑"
+  },
+  {
+    "word": "SU",
+    "translation": "[计] 可选部件"
+  },
+  {
+    "word": "SV",
+    "translation": "[计] 单值, 状态有效"
+  },
+  {
+    "word": "SW",
+    "translation": "[计] 软件, 状态字, 开关"
+  },
+  {
+    "word": "sx",
+    "translation": "abbr. 山西（中国省名）"
+  },
+  {
+    "word": "sy",
+    "translation": "abbr. 平方码（square yard）；石油天然气行业标准；叙利亚（Syria）；苏丹黄（Sudan yellow）"
+  },
+  {
+    "word": "sz",
+    "translation": "abbr. 尺码（size）"
+  },
+  {
+    "word": "ta",
+    "translation": "interj. 谢谢\\n[计] 终端适配器"
+  },
+  {
+    "word": "TB",
+    "translation": "n. 结核, 肺结核, 结核病, 结核杆菌\\n[计] 太字节(万亿字节)"
+  },
+  {
+    "word": "TC",
+    "translation": "[计] 任务控制, 终端控制, 传输控制\\n[医] 锝(43号元素)"
+  },
+  {
+    "word": "td",
+    "translation": "abbr. （美）财政部（Treasury Department）；任务说明书（Task Description）；反坦克自行火炮（Tank Destroyer）"
+  },
+  {
+    "word": "Te",
+    "translation": "[医] 碲(52号元素); 破伤风"
+  },
+  {
+    "word": "TF",
+    "translation": "[化] 转移因子"
+  },
+  {
+    "word": "TG",
+    "translation": "[化] 热重法"
+  },
+  {
+    "word": "Th",
+    "translation": "[医] 钍(90号元素)"
+  },
+  {
+    "word": "TI",
+    "translation": "[计] 终端接口, 得州仪器公司, 变换实现\\n[医] 钛(22号元素)"
+  },
+  {
+    "word": "tj",
+    "translation": "涡轮喷气发动机（Turbo-Jet）"
+  },
+  {
+    "word": "tk",
+    "translation": "abbr. 菊池武夫（品牌名, TAKEO KIKUCHI的缩写）"
+  },
+  {
+    "word": "TL",
+    "translation": "[计] 目标语言, 测试语言"
+  },
+  {
+    "word": "TM",
+    "translation": "商标\\n[计] 磁带标记, 磁带模块, 终端监控程序"
+  },
+  {
+    "word": "TN",
+    "translation": "[计] 终端节点, 传送网络"
+  },
+  {
+    "word": "to",
+    "translation": "prep. 到, 向, 趋于\\nadv. 向前"
+  },
+  {
+    "word": "TP",
+    "translation": "[计] 磁带, 终端打印机, 终端处理器, 终端协议, 测试程序, 事务处理"
+  },
+  {
+    "word": "tq",
+    "translation": "abbr. 洽谈通（网上沟通软件）；关断时间；全人智商（Triune Intelligence）"
+  },
+  {
+    "word": "TR",
+    "translation": "[计] 磁带记录器, 磁道, 磁带驻留, 故障报告"
+  },
+  {
+    "word": "TS",
+    "translation": "[计] 正文段"
+  },
+  {
+    "word": "TT",
+    "translation": "电汇\\n[计] 电传打字机, 用户终端"
+  },
+  {
+    "word": "TU",
+    "translation": "工会, 训练单位"
+  },
+  {
+    "word": "TV",
+    "translation": "电视\\n[计] 电视, 转移向量"
+  },
+  {
+    "word": "tw",
+    "translation": "abbr. 工具车（Tool Wagon）；双心导线（Twin Wire）；台风警报（Typhoon Warning）"
+  },
+  {
+    "word": "TX",
+    "translation": "[计] 终端执行程序\\n[医] 结核菌素X(接触性结核菌素的衍生物)"
+  },
+  {
+    "word": "ty",
+    "translation": "abbr. 总产量；总收率（total yield）"
+  },
+  {
+    "word": "tz",
+    "translation": "abbr. 坦桑尼亚（Tanzania）；时区（time zone）"
+  },
+  {
+    "word": "UA",
+    "translation": "[计] 一致阵列, 用户区, 用户代理程序"
+  },
+  {
+    "word": "UB",
+    "translation": "[计] 上限"
+  },
+  {
+    "word": "UC",
+    "translation": "[计] 单通道, 设备校验"
+  },
+  {
+    "word": "ud",
+    "translation": "abbr. 水下爆破（Underwater Demolition）；联合乳品公司（United Dairies）"
+  },
+  {
+    "word": "ue",
+    "translation": "abbr. 统一标准装置（Unified Equipment）；用户体验设计（Users Experience Design）"
+  },
+  {
+    "word": "uf",
+    "translation": "abbr. 脲甲醛树脂；超声频率（Ultrasonic Frequency）"
+  },
+  {
+    "word": "ug",
+    "translation": "abbr. 地下（underground）"
+  },
+  {
+    "word": "uh",
+    "translation": "int. 嗯啊"
+  },
+  {
+    "word": "UI",
+    "translation": "[计] 用户接口"
+  },
+  {
+    "word": "UK",
+    "translation": "n. 联合王国"
+  },
+  {
+    "word": "ul",
+    "translation": "abbr. （美）保险商实验所（Underwriters' Laboratories）"
+  },
+  {
+    "word": "um",
+    "translation": "int. 嗯（表示迟疑）"
+  },
+  {
+    "word": "UN",
+    "translation": "pron. 家伙, 东西\\n[经] 联合国"
+  },
+  {
+    "word": "uo",
+    "translation": "abbr. 尚未发出的定货单（undelivered orders）；网络创世纪（Ultima Online）"
+  },
+  {
+    "word": "up",
+    "translation": "a. 向上的, 起床的, 涨的\\nadv. 向上, 上涨\\nprep. 在...上面, 向...的较高处"
+  },
+  {
+    "word": "uq",
+    "translation": "abbr. 昆士兰大学（The University of Queensland）；上四分值（upper quartile）"
+  },
+  {
+    "word": "UR",
+    "translation": "[计] 单元记录"
+  },
+  {
+    "word": "us",
+    "translation": "pron. 我们\\n[经] 美国"
+  },
+  {
+    "word": "UT",
+    "translation": "世界时, 格林威治时"
+  },
+  {
+    "word": "uu",
+    "translation": "abbr. 从用户到用户（User to User）；最终用户（Ultimate Use）；解脲支原体"
+  },
+  {
+    "word": "uv",
+    "translation": "abbr. 紫外的（ultraviolet）"
+  },
+  {
+    "word": "uw",
+    "translation": "abbr. 华盛顿大学（University of Washington）；水下的（Underwater）；超声波（Ultrasonic Wave）"
+  },
+  {
+    "word": "UX",
+    "translation": "abbr. 用户体验（User Experience）"
+  },
+  {
+    "word": "uy",
+    "translation": "abbr. 乌拉圭（Uruguay）"
+  },
+  {
+    "word": "uz",
+    "translation": "abbr. 乌兹别克斯坦（Uzbekistan）；乌兹别克"
+  },
+  {
+    "word": "VA",
+    "translation": "[医] 视敏度"
+  },
+  {
+    "word": "vb",
+    "translation": "abbr. 可视化基础（Visual Basic）"
+  },
+  {
+    "word": "VC",
+    "translation": "[计] 虚拟计算机"
+  },
+  {
+    "word": "VD",
+    "translation": "性病, 花柳病"
+  },
+  {
+    "word": "ve",
+    "translation": "委内瑞拉"
+  },
+  {
+    "word": "vf",
+    "translation": "abbr. 很好（very fine）；可变频率（variable frequency）；视频（vision frequency）"
+  },
+  {
+    "word": "vg",
+    "translation": "abbr. 音频段（Voice Grade）；电压增益（Voltage Gain）；很好（Very Good）；代理监督（Vicar General）"
+  },
+  {
+    "word": "vh",
+    "translation": "abbr. 场幅；重链可变区"
+  },
+  {
+    "word": "vi",
+    "translation": "[计] vi文本编辑器\\n[医] ㄉ(87号元素钫的旧名)"
+  },
+  {
+    "word": "vj",
+    "translation": "abbr. 电视综艺节目主持人（Video Jockey）"
+  },
+  {
+    "word": "vk",
+    "translation": "abbr. 维生素k（vitamin k）"
+  },
+  {
+    "word": "vl",
+    "translation": "abbr. 轻链可变区（Light Chain Variable Region）；虚拟图书馆（Virtual Library）；真空限制器（Vacuum Limitter）"
+  },
+  {
+    "word": "VM",
+    "translation": "[计] 虚拟机, 虚拟存储机"
+  },
+  {
+    "word": "vn",
+    "translation": "abbr. 越南（Vietnam）"
+  },
+  {
+    "word": "vo",
+    "translation": "abbr. 口头命令（Verbal Order）"
+  },
+  {
+    "word": "VP",
+    "translation": "[计] 虚存处理器"
+  },
+  {
+    "word": "vr",
+    "translation": "abbr. 虚拟现实（virtual reality）"
+  },
+  {
+    "word": "vs",
+    "translation": "prep. 对\\n[经] 对"
+  },
+  {
+    "word": "VT",
+    "translation": "[计] 视频终端, 虚拟终端"
+  },
+  {
+    "word": "vu",
+    "translation": "abbr. 瓦努阿图（Vanuatu）"
+  },
+  {
+    "word": "vv",
+    "translation": "abbr. 诗（verses）；卷（volumes ）"
+  },
+  {
+    "word": "vw",
+    "translation": "abbr. 大众汽车（Volkswagen）"
+  },
+  {
+    "word": "VX",
+    "translation": "[化] 甲硫膦酸丙胺乙酯"
+  },
+  {
+    "word": "vy",
+    "translation": "abbr. 不同年代（various years）；小牛肉酵母（培养基）（veal yeast）"
+  },
+  {
+    "word": "vz",
+    "translation": "abbr. virtual zero 虚零"
+  },
+  {
+    "word": "wa",
+    "translation": "abbr. 华盛顿州（Washington State）；担保单独海损（with average）"
+  },
+  {
+    "word": "WB",
+    "translation": "世界银行"
+  },
+  {
+    "word": "WC",
+    "translation": "厕所"
+  },
+  {
+    "word": "WD",
+    "translation": "[计] 字, 写数据, 字描述"
+  },
+  {
+    "word": "we",
+    "translation": "pron. 我们"
+  },
+  {
+    "word": "wf",
+    "translation": "abbr. 滤水器（Water Filter）；非同一型号的铅字（wrong font）"
+  },
+  {
+    "word": "wg",
+    "translation": "abbr. 水表（Water Gauge）；波导管（Wave Guide）；线规（Wire Gauge）；威尔士禁卫军（Welsh Guards）"
+  },
+  {
+    "word": "wh",
+    "translation": "abbr. 瓦特小时（Watt Hours）；白宫（White House）；白色（white）"
+  },
+  {
+    "word": "wi",
+    "translation": "abbr. 熟铁（Wrought Iron）；妇女协会（Women 's Institute）；西印度群岛（West Indies）"
+  },
+  {
+    "word": "wj",
+    "translation": "abbr. 结构性投资工具（Whistle Jacket）；周刊少年JUMP（Weekly Jump）；兵工民品行业标准"
+  },
+  {
+    "word": "wk",
+    "translation": "abbr. 星期（week）；工作（work）；弱点（weak）"
+  },
+  {
+    "word": "wl",
+    "translation": "abbr. 水位（waterline或water line）"
+  },
+  {
+    "word": "wm",
+    "translation": "abbr. 水表（water flowmeter）；威廉（William）"
+  },
+  {
+    "word": "wn",
+    "translation": "abbr. 绞盘（winch）；营养良好的（well nourished）；西尼罗河（West Nile）；波数（wave number）"
+  },
+  {
+    "word": "wo",
+    "translation": "abbr. 准尉军官（warrant officer）；陆军部（war office）"
+  },
+  {
+    "word": "WP",
+    "translation": "[计] 字处理, 工作区指示字"
+  },
+  {
+    "word": "wq",
+    "translation": "abbr. 一系列污水污物潜水泵型号；志商（Will Intelligence Quotient）；无功电量"
+  },
+  {
+    "word": "WR",
+    "translation": "[计] 写入"
+  },
+  {
+    "word": "WS",
+    "translation": "[计] 工作区, 工作存储器, 工作站"
+  },
+  {
+    "word": "WT",
+    "translation": "[计] 字终端, 预查"
+  },
+  {
+    "word": "wu",
+    "translation": "abbr. 西联（Western Union）；工作单位（Work Unit）；武汉航空公司"
+  },
+  {
+    "word": "wv",
+    "translation": "abbr. 工作电压（Working Voltage）；西弗吉尼亚（West Virginia）"
+  },
+  {
+    "word": "ww",
+    "translation": "abbr. 栈单（Warehouse Warrant）"
+  },
+  {
+    "word": "wx",
+    "translation": "abbr. 女式特大号（women's extra large size）"
+  },
+  {
+    "word": "wy",
+    "translation": "abbr. 美国怀俄明州邮递区号（Wyoming）"
+  },
+  {
+    "word": "wz",
+    "translation": "n. 五庄观（游戏名）"
+  },
+  {
+    "word": "xa",
+    "translation": "abbr. 辅助放大器（Auxiliary Amplifier）"
+  },
+  {
+    "word": "xb",
+    "translation": "abbr. crossbar 纵横开关; 交叉棒; 闩; exploding bridgewire 爆炸桥丝点火器（代号）"
+  },
+  {
+    "word": "xc",
+    "translation": "abbr. 电抗；电容（Capacitive Reactance）"
+  },
+  {
+    "word": "xd",
+    "translation": "abbr. 无红利（ex-dividend）"
+  },
+  {
+    "word": "Xe",
+    "translation": "[医] 氙(45号元素)"
+  },
+  {
+    "word": "xf",
+    "translation": "abbr. 特优（形容白兰地酒的规格）（Extra Fine）"
+  },
+  {
+    "word": "xg",
+    "translation": "abbr. crossing 横越，交叉口（代号）"
+  },
+  {
+    "word": "xh",
+    "translation": "abbr. extra hard 特硬的（代号）; extra heavy 特重的（代号）; extra high 特高的（代号）"
+  },
+  {
+    "word": "xi",
+    "translation": "n. 希腊字母的第14个字母；粒子（等于xi particle）"
+  },
+  {
+    "word": "xj",
+    "translation": "abbr. Manchester 曼彻斯特（代号）; Mesaba Airlines 梅莎巴航空公司（代码）; Xinjiang <中国>新疆"
+  },
+  {
+    "word": "xl",
+    "translation": "abbr. 特大号（extra large）"
+  },
+  {
+    "word": "XM",
+    "translation": "[计] 执行节点"
+  },
+  {
+    "word": "xn",
+    "translation": "abbr. 无新股票权（ex new）"
+  },
+  {
+    "word": "xo",
+    "translation": "abbr. 藏窖年份40-75年的白兰地规格（extra old）"
+  },
+  {
+    "word": "xp",
+    "translation": "abbr. 加快费已付（Express Paid）；运用优先权（Exercise Priority）"
+  },
+  {
+    "word": "xq",
+    "translation": "abbr. 交叉问题, 相互提问（Cross-Question）"
+  },
+  {
+    "word": "XR",
+    "translation": "[计] 外部复位"
+  },
+  {
+    "word": "XS",
+    "translation": "[计] 余三码"
+  },
+  {
+    "word": "xt",
+    "translation": "abbr. 串音（Cross Talk）"
+  },
+  {
+    "word": "xu",
+    "translation": "n. 北越货币单位；许（姓氏）"
+  },
+  {
+    "word": "xv",
+    "translation": "n. 罗马数字之十五；十五人组成的球队"
+  },
+  {
+    "word": "xw",
+    "translation": "abbr. 无认股证书（ex warrants）"
+  },
+  {
+    "word": "xx",
+    "translation": "abbr. 血型（xue xing, 汉语拼音）"
+  },
+  {
+    "word": "xy",
+    "translation": "n. 正常男性染色体组型"
+  },
+  {
+    "word": "xz",
+    "translation": "abbr. 行政类；旋转字注解（排版用词）；缅甸（航空器国籍标志）"
+  },
+  {
+    "word": "ya",
+    "translation": "abbr. 年轻人（young adult）；偏航轴（yaw axis）"
+  },
+  {
+    "word": "Yb",
+    "translation": "[医] 镱"
+  },
+  {
+    "word": "yc",
+    "translation": "abbr. 云南商务管理体系（Yunnan Commodity和Yunnan Commerce的缩写）；重型橡套软电缆的一种型号"
+  },
+  {
+    "word": "yd",
+    "translation": "abbr. 码（yard）"
+  },
+  {
+    "word": "ye",
+    "translation": "abbr. 亚萨卡, 乒乓底板（Yasaka Extra）；酵母抽提物（Yeast Extracts）"
+  },
+  {
+    "word": "yf",
+    "translation": "abbr. 黄热病（Yellow Fever）"
+  },
+  {
+    "word": "yg",
+    "translation": "abbr. 黄绿色的（yellowish green）"
+  },
+  {
+    "word": "yh",
+    "translation": "abbr. 青年招待所（\tyouth hostel）；电焊机电缆；改性氯丁胶"
+  },
+  {
+    "word": "yi",
+    "translation": "n. 彝人；彝语"
+  },
+  {
+    "word": "yj",
+    "translation": "abbr. radar homing beacon 归航雷达信标（代号）"
+  },
+  {
+    "word": "yl",
+    "translation": "abbr. 年轻女士（young lady）；屈服极限（yield limit）"
+  },
+  {
+    "word": "ym",
+    "translation": "abbr. 基督教青年会（Young Men's Christian Association）"
+  },
+  {
+    "word": "yn",
+    "translation": "abbr. 云南（Yun Nan）"
+  },
+  {
+    "word": "yo",
+    "translation": "int. 唷（表示鼓励, 警告）；嗨（表示应答）"
+  },
+  {
+    "word": "yp",
+    "translation": "abbr. 黄页（yellow pages）；风光邮资明信片；屈服点（yield point）"
+  },
+  {
+    "word": "YR",
+    "translation": "[计] 年\\n[经] 年"
+  },
+  {
+    "word": "ys",
+    "translation": "abbr. 屈服强度（Yield Strength）；黄斑（Yellow Spot）"
+  },
+  {
+    "word": "Yt",
+    "translation": "[医] 钇(39号元素)"
+  },
+  {
+    "word": "yu",
+    "translation": "n. 禹（传说的中国古代圣君）"
+  },
+  {
+    "word": "yv",
+    "translation": "abbr. yellow virescent 黄带绿色"
+  },
+  {
+    "word": "yw",
+    "translation": "abbr. 基督教女青年会（Young Women's Christian Association）"
+  },
+  {
+    "word": "yx",
+    "translation": "n. [暗黑破坏神]you xing,有形的"
+  },
+  {
+    "word": "yy",
+    "translation": "n. 尤尼克斯（羽毛球品牌）；多玩歪歪（软件名）；影牙城堡（游戏名）"
+  },
+  {
+    "word": "yz",
+    "translation": "abbr. Aer Guinea-Bissau 几内亚比绍航空公司（代码）; Londonderry 伦敦德里（不列颠群岛车辆登记符号）; Yokohama Shipbuilding Co; Ltd. <日本>横滨造船公司"
+  },
+  {
+    "word": "za",
+    "translation": "n. 南非"
+  },
+  {
+    "word": "zb",
+    "translation": "abbr. 硼酸锌（zinc borate）"
+  },
+  {
+    "word": "zc",
+    "translation": "abbr. 泽迦利亚（Zechariah, 希伯来先知）"
+  },
+  {
+    "word": "zd",
+    "translation": "n. 天顶距（zenith distance）；零色散（Zero Dispersion）"
+  },
+  {
+    "word": "ze",
+    "translation": "abbr. 玉米纤维；区带电泳（zone electrophoresis）"
+  },
+  {
+    "word": "zf",
+    "translation": "abbr. 零频率（Zero Frequency）"
+  },
+  {
+    "word": "zg",
+    "translation": "abbr. 动物园（zoological garden）；零重量（zero gravity）"
+  },
+  {
+    "word": "zh",
+    "translation": "abbr. 深圳航空公司；溶剂型氯化天然橡胶胶粘剂"
+  },
+  {
+    "word": "zi",
+    "translation": "abbr. 美国本土, 后方地带（等于zone of interior）"
+  },
+  {
+    "word": "zj",
+    "translation": "abbr. zipper(ed) jacket 拉链夹克; zonder jaartel (Dutch=without date of publication) （丹麦语）没有出版日"
+  },
+  {
+    "word": "zk",
+    "translation": "[医][=z line]z线（即间板）"
+  },
+  {
+    "word": "zl",
+    "translation": "abbr. 零位线, 基准线（zero line）"
+  },
+  {
+    "word": "ZM",
+    "translation": "[计] 调零; 零调制"
+  },
+  {
+    "word": "Zn",
+    "translation": "[医] 锌(30号元素)"
+  },
+  {
+    "word": "zo",
+    "translation": "abbr. 无输出（zero output）"
+  },
+  {
+    "word": "zp",
+    "translation": "abbr. 锌羟基吡啶硫酮（Zinc pyrithione）；补零（Zero Padding）；透明带（zona pellucida）；零功率（zero power）；电势（zeta potential）"
+  },
+  {
+    "word": "Zr",
+    "translation": "[医] 锆(40号元素)"
+  },
+  {
+    "word": "zs",
+    "translation": "abbr. 零偏移（zero shift）；（英国）动物协会（ Zoological Society）"
+  },
+  {
+    "word": "zt",
+    "translation": "abbr. 区时（zone time）"
+  },
+  {
+    "word": "zu",
+    "translation": "n. 巴比伦神话中的风雨神"
+  },
+  {
+    "word": "zw",
+    "translation": "abbr. 津巴布韦（Zimbabwe）；一种自吸无堵塞排污泵"
+  },
+  {
+    "word": "zy",
+    "translation": "abbr. 区域业务代表；中国渔检；中医药行业标准"
+  },
+  {
+    "word": "zz",
+    "translation": "n. Z字形, 锯齿形（等于zigzag）"
+  }
+]

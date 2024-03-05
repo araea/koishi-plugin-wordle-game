@@ -9,6 +9,17 @@ import {load} from "cheerio";
 import * as path from 'path';
 import * as fs from 'fs';
 
+import {
+  Ot as compareStrokes,
+  // Kl as createGameState,
+  Xl as hardModeSettings,
+  Vl as defaultModeSettings
+} from './assets/词影/main.js';
+// import {
+//   pi as processInputsFromVendorJS,
+// } from './assets/词影/vendor.js';
+// import {pi} from "./assets/词影/vendor";
+
 export const inject = {
   required: ['monetary', 'database', 'puppeteer'],
   optional: ['markdownToImage'],
@@ -34,19 +45,13 @@ export const usage = `## 🎣 使用
 ### 游戏模式
 
 - \`wordleGame.开始 [guessWordLength:number]\`
-  - 开始游戏引导，可选参数为猜单词的长度。
+  - 开始游戏引导，可选参数为待猜测项目的长度。
 
-- \`wordleGame.开始.经典/汉兜\`
-  - 开始经典猜单词|四字词语游戏，可投入货币，赢了有奖励。
-    - \`--free\`
-      - 汉兜自由模式，任意四字词语都可作为猜测词。
-    - \`--all\`
-      - 汉兜全模式，成语|四字词语的数量会增加到 29766 个，若不开启，则为常用成语 7208 个。
-
-- \`wordleGame.开始.CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/Numberle/Math [guessWordLength:number]\`
-  - 开始猜不同考试/类别的单词|数字|...游戏，可选参数为猜单词的长度。
+- \`wordleGame.开始.经典/CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/Numberle/Math/汉兜/词影 [guessWordLength:number]\`
+  - 开始猜不同类别的单词|数字|...游戏，可选参数为猜单词的长度。
+  - 对于经典模式和汉兜模式，可投入货币，赢了有奖励。
     - \`--hard\`
-      - 困难模式，绿色线索必须保特固定，黄色线索必须重复使用。
+      - 困难模式，绿色线索必须保特固定，黄色线索必须重复使用。在词影模式下，将提高匹配难度。
     - \`--uhard\`
       - 超困难模式，在困难模式的基础上，黄色线索必须远离它们被线索的地方，灰色的线索必须被遵守。
     - \`--absurd\`
@@ -60,8 +65,12 @@ export const usage = `## 🎣 使用
       - [如何玩？](https://qntm.org/challenge)
     - \`--wordles <value:number>\`
       - 同时猜测多个单词|词语，默认范围为 1 ~ 4，可自定义。
+    - \`--free\`
+      - 汉兜或词影的自由模式，任意四字词语都可作为猜测词。
+    - \`--all\`
+      - 汉兜或词影的全成语模式，成语|四字词语的数量会增加到 29766 个，若不开启，则为常用成语 7208 个。
 
-> Tip：可以同时启用困难模式和变态模式，经典与汉兜模式同样适用。
+> Tip：可以同时启用困难模式和变态模式。
 
 ### 游戏操作
 
@@ -81,6 +90,7 @@ export const usage = `## 🎣 使用
 - \`wordleGame.查成语.百度汉语 [targetWord:text]\` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
 - \`wordleGame.查单词.WordWord [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
 - \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]\` - 查看不同模式的玩家排行榜，可选参数为排行榜的人数。
+
 `
 
 // pz* pzx*
@@ -173,6 +183,7 @@ export interface GameRecord {
   isStarted: boolean
   gameMode: string
   wordGuessHtmlCache: string
+  strokesHtmlCache: string[][]
   remainingGuessesCount: number
   wordAnswerChineseDefinition: string
   guessWordLength: number
@@ -202,6 +213,8 @@ export interface GameRecord {
   isWin: boolean
   pinyin: string
   isFreeMode: boolean
+  previousGuess: string[]
+  previousGuessIdioms: string[]
 }
 
 export interface ExtraGameRecord {
@@ -209,6 +222,7 @@ export interface ExtraGameRecord {
   channelId: string
   gameMode: string
   wordGuessHtmlCache: string
+  strokesHtmlCache: string[][]
   wordAnswerChineseDefinition: string
   guessWordLength: number
   wordGuess: string
@@ -230,6 +244,8 @@ export interface ExtraGameRecord {
   isWin: boolean
   remainingGuessesCount: number
   pinyin: string
+  previousGuess: string[]
+  previousGuessIdioms: string[]
 }
 
 export interface GamingPlayer {
@@ -346,8 +362,9 @@ export async function apply(ctx: Context, config: Config) {
   const logger = ctx.logger('wordleGame')
   // wj*
   const wordleGameDirPath = path.join(ctx.baseDir, 'data', 'wordleGame');
-  const idiomsFilePath = path.join(__dirname, 'assets', 'idioms.json');
-  const pinyinFilePath = path.join(__dirname, 'assets', 'pinyin.json');
+  const idiomsFilePath = path.join(__dirname, 'assets', '汉兜', 'idioms.json');
+  const pinyinFilePath = path.join(__dirname, 'assets', '汉兜', 'pinyin.json');
+  const strokesFilePath = path.join(__dirname, 'assets', '词影', 'strokes.json');
   const equationsFilePath = path.join(__dirname, 'assets', 'equations.json');
   const idiomsKoishiFilePath = path.join(wordleGameDirPath, 'idioms.json');
   const pinyinKoishiFilePath = path.join(wordleGameDirPath, 'pinyin.json');
@@ -360,6 +377,7 @@ export async function apply(ctx: Context, config: Config) {
   await updateDataInTargetFile(pinyinFilePath, pinyinKoishiFilePath, 'term');
 
   const idiomsData = fs.readFileSync(idiomsKoishiFilePath, 'utf-8');
+  const strokesData = JSON.parse(fs.readFileSync(strokesFilePath, 'utf-8'));
   const pinyinData: PinyinItem2[] = JSON.parse(fs.readFileSync(pinyinKoishiFilePath, 'utf8'));
   const equations: string[][] = JSON.parse(fs.readFileSync(equationsFilePath, 'utf8'));
   const idiomsList = JSON.parse(idiomsData);
@@ -369,6 +387,7 @@ export async function apply(ctx: Context, config: Config) {
     channelId: 'string',
     isStarted: 'boolean',
     remainingGuessesCount: 'integer',
+    strokesHtmlCache: {type: 'json', initial: [[], [], [], []]},
     wordAnswerChineseDefinition: 'string',
     wordGuess: 'string',
     wordGuessHtmlCache: 'text',
@@ -398,7 +417,9 @@ export async function apply(ctx: Context, config: Config) {
     correctPinyinsWithIndex: 'list',
     presentPinyins: 'list',
     presentTones: 'list',
-    isFreeMode: 'boolean'
+    isFreeMode: 'boolean',
+    previousGuess: 'list',
+    previousGuessIdioms: 'list',
   }, {
     primary: 'id',
     autoInc: true,
@@ -409,6 +430,7 @@ export async function apply(ctx: Context, config: Config) {
     wordAnswerChineseDefinition: 'string',
     wordGuess: 'string',
     wordGuessHtmlCache: 'text',
+    strokesHtmlCache: {type: 'json', initial: [[], [], [], []]},
     guessWordLength: 'unsigned',
     gameMode: 'string',
     timestamp: {type: 'integer', length: 20},
@@ -429,6 +451,8 @@ export async function apply(ctx: Context, config: Config) {
     correctPinyinsWithIndex: 'list',
     presentPinyins: 'list',
     presentTones: 'list',
+    previousGuess: 'list',
+    previousGuessIdioms: 'list',
   }, {
     primary: 'id',
     autoInc: true,
@@ -471,7 +495,7 @@ export async function apply(ctx: Context, config: Config) {
       return await next();
     }
     // 判断输入
-    if (gameInfo.gameMode === '汉兜') {
+    if (gameInfo.gameMode === '汉兜' || gameInfo.gameMode === '词影') {
       if (!isFourCharacterIdiom(content)) {
         return await next();
       }
@@ -674,7 +698,7 @@ export async function apply(ctx: Context, config: Config) {
       const examsInUpperCase = exams.map(exam => exam.toUpperCase());
       if (examsInUpperCase.includes(selectedExam)) {
         if (!guessWordLength) {
-          if (config.shouldPromptWordLengthInput && selectedExam !== '经典' && selectedExam !== 'Lewdle' && selectedExam !== '汉兜') {
+          if (config.shouldPromptWordLengthInput && selectedExam !== '经典' && selectedExam !== 'Lewdle' && selectedExam !== '汉兜' && selectedExam !== '词影') {
             await sendMessage(session, `【@${username}】\n长度可选值范围：${getValidGuessWordLengthRange(selectedExam)}\n请输入待猜项目的的长度：`);
             const userInput = await session.prompt();
             if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`);
@@ -822,14 +846,14 @@ export async function apply(ctx: Context, config: Config) {
     })
   const exams = [
     "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
-    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle", "汉兜", 'Numberle', 'Math',
+    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle", "汉兜", 'Numberle', 'Math', '词影',
   ];
   exams.forEach((exam) => {
     if (exam !== "经典") {
       // 10* fjd*
       ctx.command(`wordleGame.开始.${exam} [guessWordLength:number]`, `开始猜${exam}单词游戏`)
-        .option('free', '--free 自由模式（仅限汉兜）', {fallback: false})
-        .option('all', '--all 全成语模式（仅限汉兜）', {fallback: false})
+        .option('free', '--free 自由模式（仅限汉兜与词影）', {fallback: false})
+        .option('all', '--all 全成语模式（仅限汉兜与词影）', {fallback: false})
         .option('hard', '--hard 困难模式', {fallback: false})
         .option('ultraHardMode', '--uhard 超困难模式', {fallback: false})
         .option('absurd', '--absurd 变态模式', {fallback: false})
@@ -840,7 +864,7 @@ export async function apply(ctx: Context, config: Config) {
           // 更新玩家记录表中的用户名
           await updateNameInPlayerRecord(userId, username)
           if (!guessWordLength) {
-            if (config.shouldPromptForWordLengthOnNonClassicStart && exam !== 'Lewdle' && exam !== '汉兜') {
+            if (config.shouldPromptForWordLengthOnNonClassicStart && exam !== 'Lewdle' && exam !== '汉兜' && exam !== '词影') {
               await sendMessage(session, `【@${session.username}】\n长度可选值范围：${getValidGuessWordLengthRange(exam)}\n请输入待猜测项目的长度：`);
               const userInput = await session.prompt();
               if (!userInput) return await sendMessage(session, `【@${session.username}】\n输入无效或超时。`);
@@ -854,7 +878,7 @@ export async function apply(ctx: Context, config: Config) {
           }
 
           // 判断输入
-          if (typeof guessWordLength !== 'number' || !isValidGuessWordLength(exam, guessWordLength) && exam !== 'Lewdle' && exam !== '汉兜') {
+          if (typeof guessWordLength !== 'number' || !isValidGuessWordLength(exam, guessWordLength) && exam !== 'Lewdle' && exam !== '汉兜' && exam !== '词影') {
             return await sendMessage(session, `【@${username}】\n无效的长度参数！\n${exam} 长度可选值范围：${getValidGuessWordLengthRange(exam)}`);
           }
 
@@ -890,7 +914,7 @@ export async function apply(ctx: Context, config: Config) {
             const foundWord = findWord(randomLowerCaseWord)
             randomWord = randomLowerCaseWord
             translation = foundWord ? foundWord.translation : ''
-          } else if (exam === '汉兜') {
+          } else if (exam === '汉兜' || exam === '词影') {
             const randomIdiom = getRandomFromStringList(commonIdiomsList);
             let selectedIdiom;
 
@@ -933,7 +957,7 @@ export async function apply(ctx: Context, config: Config) {
           //   isChallengeMode = false
           //   isAbsurdMode = false
           // }
-          if (wordlesNum > 1 || exam === '汉兜' || exam === 'Numberle' || exam === 'Math') {
+          if (wordlesNum > 1 || exam === '汉兜' || exam === 'Numberle' || exam === 'Math' || exam === '词影') {
             // isHardMode = false
             // isUltraHardMode = false
             isChallengeMode = false
@@ -946,7 +970,7 @@ export async function apply(ctx: Context, config: Config) {
             isStarted: true,
             wordGuess: randomWord,
             wordAnswerChineseDefinition: replaceEscapeCharacters(translation),
-            remainingGuessesCount: exam === '汉兜' ? 10 + wordlesNum - 1 : exam === 'Math' ? 6 : guessWordLength + 1 + wordlesNum - 1,
+            remainingGuessesCount: exam === '汉兜' ? 10 + wordlesNum - 1 : exam === 'Math' || exam === '词影' ? 6 + wordlesNum - 1 : guessWordLength + 1 + wordlesNum - 1,
             guessWordLength,
             gameMode: exam,
             timestamp: timestamp,
@@ -979,7 +1003,7 @@ export async function apply(ctx: Context, config: Config) {
                   const foundWord = findWord(randomLowerCaseWord)
                   randomWordExtra = randomLowerCaseWord
                   translation = foundWord ? foundWord.translation : ''
-                } else if (exam === '汉兜') {
+                } else if (exam === '汉兜' || exam === '词影') {
                   const randomIdiom = getRandomFromStringList(commonIdiomsList);
                   let selectedIdiom;
 
@@ -1011,7 +1035,7 @@ export async function apply(ctx: Context, config: Config) {
               }
               await ctx.database.create('extra_wordle_game_records', {
                 channelId,
-                remainingGuessesCount: exam === '汉兜' ? 10 + wordlesNum - 1 : exam === 'Math' ? 6 : guessWordLength + 1 + wordlesNum - 1,
+                remainingGuessesCount: exam === '汉兜' ? 10 + wordlesNum - 1 : exam === 'Math' || exam === '词影' ? 6 + wordlesNum - 1 : guessWordLength + 1 + wordlesNum - 1,
                 guessWordLength,
                 wordGuess: randomWordExtra,
                 wordAnswerChineseDefinition: replaceEscapeCharacters(translation),
@@ -1031,6 +1055,10 @@ export async function apply(ctx: Context, config: Config) {
           if (exam === '汉兜') {
             const emptyGridHtml = generateEmptyGridHtmlForHandle(1, 4)
             imageBuffer = await generateImageForHandle(emptyGridHtml);
+          } else if (exam === '词影') {
+            const emptyGridHtmlWithBorder = generateEmptyGridHtmlForCiying(1, 4, true)
+            const emptyGridHtml = generateEmptyGridHtmlForCiying(6 + wordlesNum - 1 - 1, 4, false)
+            imageBuffer = await generateImageForCiying(emptyGridHtmlWithBorder + emptyGridHtml, 6 + wordlesNum - 1);
           } else {
             const emptyGridHtml = isAbsurdMode ? generateEmptyGridHtml(1, guessWordLength) : exam === 'Math' ? generateEmptyGridHtml(6, guessWordLength) : generateEmptyGridHtml(guessWordLength + 1 + wordlesNum - 1, guessWordLength);
             const styledHtml = generateStyledHtml(guessWordLength + 1);
@@ -1049,12 +1077,12 @@ export async function apply(ctx: Context, config: Config) {
           const gameMode = `游戏开始！\n当前游戏模式为：【${exam}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isFreeMode && exam === '汉兜' ? `（自由）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
           const challengeInfo = isChallengeMode ? `\n目标单词为：【${randomWord}】` : '';
           const wordLength = `${exam === 'Numberle' ? '数字' : exam === 'Math' ? '数学方程式' : '单词'}长度为：【${guessWordLength}】`;
-          const guessChance = `猜${exam === '汉兜' ? '词语|成语' : exam === 'Numberle' ? '数字' : exam === 'Math' ? '数学方程式' : '单词'}机会为：【${isAbsurdMode ? '♾️' : exam === '汉兜' ? `${10 + wordlesNum - 1}` : exam === 'Math' ? '6' : guessWordLength + 1 + wordlesNum - 1}】`;
-          const wordCount2 = exam === '汉兜' ? `待猜词语|成语数量为：【${options.all ? idiomsList.length : commonIdiomsList.length}】` : exam === 'Math' ? `待猜方程式数量为：【${equations[guessWordLength].length}】` : `待猜单词数量为：【${exam === 'Lewdle' ? '1000' : wordCount}】`;
+          const guessChance = `猜${exam === '汉兜' || exam === '词影' ? '词语|成语' : exam === 'Numberle' ? '数字' : exam === 'Math' ? '数学方程式' : '单词'}机会为：【${isAbsurdMode ? '♾️' : exam === '汉兜' ? `${10 + wordlesNum - 1}` : exam === 'Math' ? `${6 + wordlesNum - 1}` : exam === '词影' ? `${6 + wordlesNum - 1}` : guessWordLength + 1 + wordlesNum - 1}】`;
+          const wordCount2 = exam === '汉兜' || exam === '词影' ? `待猜词语|成语数量为：【${options.all ? idiomsList.length : commonIdiomsList.length}】` : exam === 'Math' ? `待猜方程式数量为：【${equations[guessWordLength].length}】` : `待猜单词数量为：【${exam === 'Lewdle' ? '1000' : wordCount}】`;
           const timeLimit = config.enableWordGuessTimeLimit ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒` : '';
           const image = h.image(imageBuffer, `image/${config.imageType}`);
 
-          if (exam === '汉兜') {
+          if (exam === '汉兜' || exam === '词影') {
             return await sendMessage(session, `${gameMode}\n${guessChance}\n${wordCount2}${timeLimit}\n${image}`);
           } else {
             return await sendMessage(session, `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${exam === 'Numberle' ? '' : wordCount2}${timeLimit}\n${image}`);
@@ -1078,7 +1106,7 @@ export async function apply(ctx: Context, config: Config) {
       }
 
       if (options.random) {
-        inputWord = gameInfo.gameMode === '汉兜' ? getRandomIdiom(idiomsList).idiom : gameInfo.gameMode === 'Numberle' ? generateNumberString(gameInfo.guessWordLength) : gameInfo.gameMode === 'Math' ? getRandomFromStringList(equations[gameInfo.guessWordLength]) : getRandomWordTranslation('ALL', gameInfo.guessWordLength).word
+        inputWord = gameInfo.gameMode === '汉兜' || gameInfo.gameMode === '词影' ? getRandomIdiom(idiomsList).idiom : gameInfo.gameMode === 'Numberle' ? generateNumberString(gameInfo.guessWordLength) : gameInfo.gameMode === 'Math' ? getRandomFromStringList(equations[gameInfo.guessWordLength]) : getRandomWordTranslation('ALL', gameInfo.guessWordLength).word
       }
 
       if (!inputWord) {
@@ -1143,11 +1171,11 @@ export async function apply(ctx: Context, config: Config) {
         isFreeMode,
       } = gameInfo;
       // 判断输入
-      if (!/^[a-zA-Z]+$/.test(inputWord) && gameMode !== '汉兜' && gameMode !== 'Numberle' && gameMode !== 'Math') {
+      if (!/^[a-zA-Z]+$/.test(inputWord) && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
         await setGuessRunningStatus(channelId, false)
         return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`);
       }
-      if (!isFourCharacterIdiom(inputWord) && gameMode === '汉兜') {
+      if (!isFourCharacterIdiom(inputWord) && gameMode === '汉兜' || !isFourCharacterIdiom(inputWord) && gameMode === '词影') {
         return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`);
       }
       if (gameMode === 'Numberle' && !isNumericString(inputWord)) {
@@ -1156,7 +1184,7 @@ export async function apply(ctx: Context, config: Config) {
       if (gameMode === 'Math' && !isMathEquationValid(inputWord)) {
         return await sendMessage(session, `【@${username}】\n请使用+-*/=运算符和0-9之间的数字！\n并组成正确的数学方程式！`);
       }
-      if (inputWord.length !== gameInfo.guessWordLength && gameMode !== '汉兜' && gameMode !== 'Numberle' && gameMode !== 'Math') {
+      if (inputWord.length !== gameInfo.guessWordLength && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
         await setGuessRunningStatus(channelId, false)
         const usernameMention = `【@${username}】`;
         const inputLengthMessage = `输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】`;
@@ -1167,8 +1195,8 @@ export async function apply(ctx: Context, config: Config) {
       }
       // 是否存在该单词
       // 小写化
-      const lowercaseInputWord = gameMode === '汉兜' ? inputWord : inputWord.toLowerCase();
-      if (gameMode !== '汉兜' && gameMode !== 'Numberle' && gameMode !== 'Math') {
+      const lowercaseInputWord = gameMode === '汉兜' || gameMode === '词影' ? inputWord : inputWord.toLowerCase();
+      if (gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
         const foundWord = findWord(lowercaseInputWord)
         if (!foundWord) {
           await setGuessRunningStatus(channelId, false)
@@ -1176,6 +1204,17 @@ export async function apply(ctx: Context, config: Config) {
         }
       }
       let userInputPinyin: string = ''
+      if (gameMode === '词影') {
+        if (!isIdiomInList(inputWord, idiomsList) && !isFreeMode) {
+          const idiomInfo = await getIdiomInfo(inputWord)
+          if (idiomInfo.pinyin === '未找到拼音') {
+            await setGuessRunningStatus(channelId, false)
+            return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`);
+          } else {
+            userInputPinyin = idiomInfo.pinyin
+          }
+        }
+      }
       if (gameMode === '汉兜') {
         if (!isIdiomInList(inputWord, idiomsList)) {
           if (isFreeMode) {
@@ -1214,7 +1253,7 @@ export async function apply(ctx: Context, config: Config) {
         userInputPinyin = foundIdiom.pinyin
       }
       // 困难模式
-      if (isHardMode) {
+      if (isHardMode && gameMode !== '词影') {
         let isInputWordWrong = false;
         // 包含
         const containsAllLetters = lowercaseInputWord.split('').filter(letter => presentLetters.includes(letter) && letter !== '*');
@@ -1346,6 +1385,8 @@ export async function apply(ctx: Context, config: Config) {
         } else {
           if (gameMode === '汉兜') {
             letterTilesHtml = await generateLetterTilesHtmlForHandle(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo, gameInfo.pinyin, userInputPinyin);
+          } else if (gameMode === '词影') {
+            letterTilesHtml = await generateLetterTilesHtmlForCiying(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo, isHardMode);
           } else {
             const generatedHtml = await generateLetterTilesHtml(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo);
             letterTilesHtml = '<div class="Row-module_row__pwpBq">' + generatedHtml + '</div>';
@@ -1357,6 +1398,8 @@ export async function apply(ctx: Context, config: Config) {
         } else {
           if (gameMode === '汉兜') {
             emptyGridHtml = generateEmptyGridHtmlForHandle(gameInfo.isWin || isWin ? 0 : isLose ? 0 : 1, 4)
+          } else if (gameMode === '词影') {
+            emptyGridHtml = generateEmptyGridHtmlForCiying(gameInfo.isWin || isWin ? 0 : isLose ? 0 : 1, 4, true) + generateEmptyGridHtmlForCiying(gameInfo.isWin ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1 - 1, 4, false)
           } else {
             emptyGridHtml = generateEmptyGridHtml(gameInfo.isWin ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
           }
@@ -1365,6 +1408,8 @@ export async function apply(ctx: Context, config: Config) {
         // 图
         if (gameMode === '汉兜') {
           imageBuffer = await generateImageForHandle(`${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
+        } else if (gameMode === '词影') {
+          imageBuffer = await generateImageForCiying(`${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`, 6 + wordlesNum - 1);
         } else {
           imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
         }
@@ -1870,7 +1915,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 
   const rankType = [
     "总", "损益", "猜出次数", "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
-    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle", "汉兜", 'Numberle', 'Math',
+    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle", "汉兜", 'Numberle', 'Math', '词影',
   ];
 
 // r* phb*
@@ -1904,7 +1949,7 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
   const rankType2 = [
     "总", "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
-    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle", "汉兜", 'Numberle', 'Math',
+    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle", "汉兜", 'Numberle', 'Math', '词影',
   ];
 
   rankType2.forEach(type => {
@@ -1985,7 +2030,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     });
   const rankType4 = [
     "经典", "CET4", "CET6", "GMAT", "GRE", "IELTS",
-    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle", "汉兜", 'Numberle', 'Math',
+    "SAT", "TOEFL", "考研", "专八", "专四", "ALL", "Lewdle", "汉兜", 'Numberle', 'Math', '词影',
   ];
   // 注册胜场、输场、用时排行榜指令
   rankType4.forEach((type) => {
@@ -2026,7 +2071,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     <head>
         <meta charset="UTF-8">
         <title>汉兜 - 汉字 Wordle</title>
-        <link rel="stylesheet" href="./assets/handle.css">
+        <link rel="stylesheet" href="./assets/汉兜/handle.css">
     </head>
     <body>
         <div id="app" data-v-app="">
@@ -2276,6 +2321,91 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       await setWordleGameRecord('extra_wordle_game_records', {channelId, wordleIndex});
     }
     return wordHtml.join("\n");
+  }
+
+  async function generateLetterTilesHtmlForCiying(answerIdiom: string, userInputIdiom: string, channelId: string, wordleIndex: number, gameInfo: GameRecord | ExtraGameRecord, isHardMode: boolean): Promise<string> {
+    const htmlResult: string[] = [`<div class="relative flex items-center">
+<div class="grid grid-cols-4 justify-items-center gap-2 svelte-n2hnfv">`];
+    const strokesHtmlCache: string[][] = gameInfo.strokesHtmlCache
+    const correctLetters: string[] = gameInfo.correctLetters;
+    const previousGuess: string[] = gameInfo.previousGuess;
+    const previousGuessIdioms: string[] = gameInfo.previousGuessIdioms;
+    const config = isHardMode ? hardModeSettings : defaultModeSettings
+    for (let i = 0; i < answerIdiom.length; i++) {
+      const compareReslut = compareStrokes(strokesData[answerIdiom[i]], strokesData[userInputIdiom[i]], null, config)
+      compareReslut.match = answerIdiom[i] === userInputIdiom[i]
+      if (compareReslut.match || correctLetters[i] !== '*') {
+        correctLetters[i] = answerIdiom[i]
+        compareReslut.shadows = []
+        for (const stroke of strokesData[answerIdiom[i]].strokes) {
+          compareReslut.shadows.push({stroke, shiftX: 0, shiftY: 0, distance: 0})
+        }
+        compareReslut.match = true
+      }
+      htmlResult.push(` <button class="transition-transform betterhover:hover:scale-y-90">
+                                <div class="flex h-32 w-32 items-center justify-center border-neutral-400 dark:border-neutral-600 ${compareReslut.match ? 'bg-correct' : 'border-2'}"
+                                     style="">
+                                    <svg viewBox="0 0 1024 1024" class="h-24 w-24">
+                                        <g transform="scale(1, -1) translate(0, -900)">
+                                        ${compareReslut.match || previousGuessIdioms.includes(userInputIdiom) || isHardMode ? '' : strokesHtmlCache[i].join('\n')}`)
+
+      // strokesHtmlCache[i].forEach((path, index) => {
+      //   const dAttribute = path.match(/d="([^"]*)"/);
+      //   if (dAttribute) {
+      //     const dValue = dAttribute[1];
+      //
+      //     compareReslut.shadows = compareReslut.shadows.filter(shadow => shadow.stroke !== dValue);
+      //   }
+      // });
+
+      for (let shadow of compareReslut.shadows) {
+        if (!shadow.stroke) {
+          continue
+        }
+
+        const theStrokePath = `  <path d="${shadow.stroke}"
+                                                  opacity="${(config.presentThreshold - Math.max(shadow.distance, config.correctThreshold)) / (config.presentThreshold - config.correctThreshold)}"
+                                                  transform="translate(${shadow.shiftX}, ${shadow.shiftY})"
+                                                  class="${compareReslut.match ? 'fill-white' : shadow.distance === 0 ? 'fill-correct' : 'dark:fill-white'}"></path>
+                                           `
+        htmlResult.push(theStrokePath)
+        if (!previousGuess.includes(`${userInputIdiom[i]}-${i}`)) {
+          strokesHtmlCache[i].push(theStrokePath)
+        }
+
+      }
+      htmlResult.push(`</g>
+                                    </svg>
+                                </div>
+                            </button>`)
+    }
+
+
+    htmlResult.push(`</div>
+</div>`)
+    const userInputIdiomArray = userInputIdiom.split("").map((char, index) => `${char}-${index}`);
+    userInputIdiomArray.forEach((charIndex) => {
+      if (!previousGuess.includes(charIndex)) {
+        previousGuess.push(charIndex);
+      }
+    });
+    if (!previousGuessIdioms.includes(userInputIdiom)) {
+      previousGuessIdioms.push(userInputIdiom);
+    }
+    const setWordleGameRecord = async (collection: any, keys: any) => {
+      await ctx.database.set(collection, keys, {
+        strokesHtmlCache,
+        correctLetters,
+        previousGuess,
+        previousGuessIdioms,
+      });
+    };
+    if (wordleIndex === 1) {
+      await setWordleGameRecord('wordle_game_records', {channelId});
+    } else {
+      await setWordleGameRecord('extra_wordle_game_records', {channelId, wordleIndex});
+    }
+    return htmlResult.join('\n')
   }
 
 
@@ -2693,6 +2823,54 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     return imageBuffer;
   }
 
+  async function generateImageForCiying(gridHtml: string, rowNum: number): Promise<Buffer> {
+    const page = await ctx.puppeteer.page();
+    await page.setViewport({width: 611, height: 140 * rowNum, deviceScaleFactor: 1})
+    const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
+    await page.goto('file://' + filePath);
+
+    const html = `<html lang="zh" class="h-full">
+<head>
+    <!--<html lang="zh" class="h-full dark"><head>-->
+    <meta charset="UTF-8">
+    <title>词影</title>
+    <link rel="stylesheet" href="./assets/词影/ciying.css">
+        <style>
+        .container {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body class="h-full overflow-y-hidden dark:bg-neutral-900 dark:text-white">
+<div class="container">
+
+<div class="flex h-full w-full flex-col">
+
+    <div class="relative flex flex-grow flex-col overflow-y-auto overflow-x-hidden">
+        <div class="flex h-full items-center justify-center overflow-y-auto">
+            <div class="max-h-full">
+                <div class="grid grid-rows-5 gap-2 py-2">
+${gridHtml}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>`;
+
+
+    await page.setContent(html, {waitUntil: 'load'});
+    const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
+    await page.close();
+
+    return imageBuffer;
+  }
+
   async function generateImageForHandle(gridHtml: string): Promise<Buffer> {
     const page = await ctx.puppeteer.page();
     await page.setViewport({width: 611, height: 731, deviceScaleFactor: 1})
@@ -2703,7 +2881,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 <head>
     <meta charset="UTF-8">
     <title>汉兜 - 汉字 Wordle</title>
-    <link rel="stylesheet" href="./assets/handle.css">
+    <link rel="stylesheet" href="./assets/汉兜/handle.css">
     <style>
         .container {
             padding-top: 30px;
@@ -2785,8 +2963,8 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       isChange = true
     }
 
-    const statsKeys = ['Lewdle', '汉兜', 'Numberle', 'Math'];
-    const timeKeys = ['Lewdle', '汉兜', 'Numberle', 'Math'];
+    const statsKeys = ['Lewdle', '汉兜', 'Numberle', 'Math', '词影',];
+    const timeKeys = ['Lewdle', '汉兜', 'Numberle', 'Math', '词影',];
 
     for (const key of statsKeys) {
       if (!existingRecord.stats.hasOwnProperty(key)) {
@@ -3642,7 +3820,7 @@ ${content}
       '专八',
       '专四',
       'ALL',
-      "Lewdle", "汉兜", 'Numberle', 'Math',
+      "Lewdle", "汉兜", 'Numberle', 'Math', '词影',
     ];
 
     let statsInfo = '';
@@ -3759,7 +3937,7 @@ ${content}
     filePath: string;
     wordCount: number
   } | null {
-    const folderPath = path.join(__dirname, 'assets', '词汇', command);
+    const folderPath = path.join(__dirname, 'assets', 'Wordle', '词汇', command);
     const files = fs.readdirSync(folderPath);
     for (const file of files) {
       const match = file.match(new RegExp(`${command}_(\\d+)_(\\d+)\\.json`));
@@ -3883,6 +4061,23 @@ ${content}
     return html;
   }
 
+  function generateEmptyGridHtmlForCiying(rowNum: number, tileNum: number, isBorder: boolean): string {
+    let html = '';
+    for (let i = 0; i < rowNum; i++) {
+      html += `<div class="relative flex items-center">
+                        <div class="grid grid-cols-4 justify-items-center gap-2 svelte-n2hnfv">`;
+      for (let j = 0; j < tileNum; j++) {
+        html += `
+        <!--第${i + 1}行第${j + 1}列-->
+         <input enterkeyhint="done" disabled="" class="h-32 w-32 border-2 bg-transparent text-center font-serif text-5xl border-neutral-300 dark:border-neutral-700 ${isBorder ? 'border-neutral-500 dark:border-neutral-500' : ''}" placeholder="">
+                            `;
+      }
+      html += `   </div>
+                    </div>`;
+    }
+    return html;
+  }
+
   function generateEmptyGridHtmlForHandle(rowNum: number, tileNum: number): string {
     let html = '';
     for (let i = 0; i < rowNum; i++) {
@@ -3994,7 +4189,7 @@ ${content}
 
         @font-face {
             font-family: "nyt-franklin";
-            src: url("./assets/franklin-normal-700.woff2") format("woff2");
+            src: url("./assets/Wordle/franklin-normal-700.woff2") format("woff2");
             font-weight: 700;
             font-style: normal
         }
@@ -4120,7 +4315,7 @@ ${content}
 
         @font-face {
             font-family: "nyt-franklin";
-            src: url("./assets/franklin-normal-700.woff2") format("woff2");
+            src: url("./assets/Wordle/franklin-normal-700.woff2") format("woff2");
             font-weight: 700;
             font-style: normal
         }
