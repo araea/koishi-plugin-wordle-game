@@ -21,66 +21,67 @@ var Nt = (n, e, t) => e in n ? El(n, e, {
   , ze = (n, e) => Cl(n, Tl(e));
 var Gt = (n, e, t) => (Nt(n, typeof e != "symbol" ? e + "" : e, t),
   t);
-import {
-  S as se,
-  i as oe,
-  s as re,
-  e as _,
-  a as R,
-  b as h,
-  c as g,
-  d as m,
-  l as J,
-  n as B,
-  f as b,
-  r as tt,
-  w as sl,
-  g as je,
-  h as ol,
-  j as dt,
-  k as be,
-  t as M,
-  m as we,
-  o as C,
-  p as me,
-  q as nt,
-  u as Rl,
-  v as V,
-  x as U,
-  y as Fe,
-  z as Be,
-  A as At,
-  B as cn,
-  C as Ae,
-  D as Qe,
-  E as G,
-  F as Ce,
-  G as D,
-  H as j,
-  I as ie,
-  J as N,
-  K as ue,
-  L as yt,
-  M as Kt,
-  N as rl,
-  O as Al,
-  P as Re,
-  Q as ut,
-  R as ft,
-  T as at,
-  U as Pt,
-  V as vt,
-  W as ct,
-  X as il,
-  Y as dn,
-  Z as Pl,
-  _ as hn,
-  $ as Ll,
-  a0 as zl,
-  a1 as Ol,
-  a2 as Ht,
-  a3 as Ut
-} from "./vendor.js";
+const {
+  S: se,
+  i: oe,
+  s: re,
+  e: _,
+  a: R,
+  b: h,
+  c: g,
+  d: m,
+  l: J,
+  n: B,
+  f: b,
+  r: tt,
+  w: sl,
+  g: je,
+  h: ol,
+  j: dt,
+  k: be,
+  t: M,
+  m: we,
+  o: C,
+  p: me,
+  q: nt,
+  u: Rl,
+  v: V,
+  x: U,
+  y: Fe,
+  z: Be,
+  A: At,
+  B: cn,
+  C: Ae,
+  D: Qe,
+  E: G,
+  F: Ce,
+  G: D,
+  H: j,
+  I: ie,
+  J: N,
+  K: ue,
+  L: yt,
+  M: Kt,
+  N: rl,
+  O: Al,
+  P: Re,
+  Q: ut,
+  R: ft,
+  T: at,
+  U: Pt,
+  V: vt,
+  W: ct,
+  X: il,
+  Y: dn,
+  Z: Pl,
+  _: hn,
+  $: Ll,
+  a0: zl,
+  a1: Ol,
+  a2: Ht,
+  a3: Ut
+} = require("./vendor.js");
+
 // const Bl = function() {
 //   const e = document.createElement("link").relList;
 //   if (e && e.supports && e.supports("modulepreload"))
@@ -3212,89 +3213,90 @@ const Vs = "modulepreload"
   , et = !0;
 
 // et.subscribe(()=>et.commit());
-async function Zs() {
-  const n = {
-    apiKey: "AIzaSyCEJlZpyECnJSVVEt4o6UDVeYOTezy-EHE",
-    authDomain: "ci-ying.firebaseapp.com",
-    projectId: "ci-ying",
-    storageBucket: "ci-ying.appspot.com",
-    messagingSenderId: "81869271488",
-    appId: "1:81869271488:web:b4fee72bb0219149241825",
-    measurementId: "G-2L715MS57H"
-  };
-  let e;
-  const t = Pn(() => import("./esm.js"), ["./esm.js", "./esm2017.js"])
-    , l = Pn(() => import("./esm2.js"), ["./esm2.js", "./esm2017.js"]);
-  try {
-    const {initializeApp: o} = await t
-      , i = o(n)
-      , {getAnalytics: u} = await l;
-    e = u(i)
-  } catch (o) {
-    // console.error(`Can not initialize firebase logger with ${o}`)
-  }
+// async function Zs() {
+//   const n = {
+//     apiKey: "AIzaSyCEJlZpyECnJSVVEt4o6UDVeYOTezy-EHE",
+//     authDomain: "ci-ying.firebaseapp.com",
+//     projectId: "ci-ying",
+//     storageBucket: "ci-ying.appspot.com",
+//     messagingSenderId: "81869271488",
+//     appId: "1:81869271488:web:b4fee72bb0219149241825",
+//     measurementId: "G-2L715MS57H"
+//   };
+//   let e;
+//   const t = require("./esm.js");
+//   const l = require("./esm2.js");
+//
+//   try {
+//     const {initializeApp: o} = await t
+//       , i = o(n)
+//       , {getAnalytics: u} = await l;
+//     e = u(i)
+//   } catch (o) {
+//     // console.error(`Can not initialize firebase logger with ${o}`)
+//   }
 
-  class s {
-    constructor(i) {
-      this.firebaseAnalytics = i,
-        // et.subscribe(u=>{
-        //     this.updateCollectionPolicy(u)
-        //   }
-        // ),
-        this.updateCollectionPolicy(je(et))
-    }
-
-    updateCollectionPolicy(i) {
-      l.then(u => {
-          this.firebaseAnalytics && u.setAnalyticsCollectionEnabled(this.firebaseAnalytics, i)
-        }
-      )
-    }
-
-    logEvent(i) {
-      !this.firebaseAnalytics || !je(et) || l.then(u => {
-          u.logEvent(this.firebaseAnalytics, i.name, i.params)
-        }
-      )
-    }
-  }
-
-  return new s(e)
-}
-
-const Oe = Zs()
-  , Js = {
-  name: "GAME_IMPRESSION"
-}
-  , xs = {
-  name: "GAME_WIN"
-}
-  , eo = {
-  name: "GAME_LOSE"
-}
-  , to = (n, e, t) => ({
-  name: "GAME_SUBMIT",
-  params: {
-    answer: e,
-    input: n,
-    gameRound: `${t}`
-  }
-})
-  , no = {
-  name: "GAME_SHARE_SUCCESS"
-}
-  , qt = (n, e) => ({
-  name: `${n}_${e}`.toUpperCase()
-})
-  , lo = {
-  name: "CHALLENGE_MODE_IMPRESSION"
-}
-  , so = n => ({
-  name: "COPY_CHALLENGE_LINK",
-  params: {
-    answer: n
-  }
-});
+  // class s {
+  //   constructor(i) {
+  //     this.firebaseAnalytics = i,
+  //       // et.subscribe(u=>{
+  //       //     this.updateCollectionPolicy(u)
+  //       //   }
+  //       // ),
+  //       this.updateCollectionPolicy(je(et))
+  //   }
+  //
+  //   updateCollectionPolicy(i) {
+  //     l.then(u => {
+  //         this.firebaseAnalytics && u.setAnalyticsCollectionEnabled(this.firebaseAnalytics, i)
+  //       }
+  //     )
+  //   }
+  //
+  //   logEvent(i) {
+  //     !this.firebaseAnalytics || !je(et) || l.then(u => {
+  //         u.logEvent(this.firebaseAnalytics, i.name, i.params)
+  //       }
+  //     )
+  //   }
+  // }
+  //
+  // return new s(e)
+// }
+//
+// const Oe = Zs()
+//   , Js = {
+//   name: "GAME_IMPRESSION"
+// }
+//   , xs = {
+//   name: "GAME_WIN"
+// }
+//   , eo = {
+//   name: "GAME_LOSE"
+// }
+//   , to = (n, e, t) => ({
+//   name: "GAME_SUBMIT",
+//   params: {
+//     answer: e,
+//     input: n,
+//     gameRound: `${t}`
+//   }
+// })
+//   , no = {
+//   name: "GAME_SHARE_SUCCESS"
+// }
+//   , qt = (n, e) => ({
+//   name: `${n}_${e}`.toUpperCase()
+// })
+//   , lo = {
+//   name: "CHALLENGE_MODE_IMPRESSION"
+// }
+//   , so = n => ({
+//   name: "COPY_CHALLENGE_LINK",
+//   params: {
+//     answer: n
+//   }
+// });
 
 function oo(n) {
   let e, t, l, s, r, o, i, u, a, f, c, d, p, w, $, k, y, A, I, L, Y, z, H, X, x, ee, Z;

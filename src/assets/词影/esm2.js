@@ -1,4 +1,4 @@
-import {E as K, r as v, f as S, C, e as R, F as W, l as Ae, i as ve, m as I, n as Se, p as Y, q as J, t as X, v as Q, L as Ce, u as q} from "./esm2017.js";
+const { E: K, r: v, f: S, C, e: R, F: W, l: Ae, i: ve, m: I, n: Se, p: Y, q: J, t: X, v: Q, L: Ce, u: q } = require("./esm2017.js");
 const Z = "@firebase/installations"
   , M = "0.5.7";
 /**

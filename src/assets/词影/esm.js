@@ -1,4 +1,9 @@
-import{r as e}from"./esm2017.js";import{F as n,S as t,D as i,_,a as m,b as g,c as v,d,e as A,f as c,g as E,h as f,i as l,j as C,k as L,o as S,r as b,s as D}from"./esm2017.js";var s="firebase",a="9.6.10";/**
+const { r: e, F: n, S: t, D: i, _, a: m, b: g, c: v, d, e: A, f: c, g: E, h: f, i: l, j: C, k: L, o: S, r: b, s: D } = require("./esm2017.js");
+let s = "firebase";
+let a = "9.6.10";
+
+
+/**
  * @license
  * Copyright 2020 Google LLC
  *
