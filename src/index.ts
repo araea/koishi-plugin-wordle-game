@@ -11,9 +11,6 @@ import * as fs from 'fs';
 
 import {
   Ot as compareStrokes,
-  // Kl as createGameState,
-  Xl as hardModeSettings,
-  Vl as defaultModeSettings
 } from './assets/词影/main.js';
 // import {
 //   pi as processInputsFromVendorJS,
@@ -2330,6 +2327,19 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     const correctLetters: string[] = gameInfo.correctLetters;
     const previousGuess: string[] = gameInfo.previousGuess;
     const previousGuessIdioms: string[] = gameInfo.previousGuessIdioms;
+    const defaultModeSettings = {
+      keepShadow: !0,
+      correctThreshold: .5,
+      presentThreshold: 1,
+      shiftFactor: .7,
+      idiomLimit: 2e3
+    }
+    const hardModeSettings = {
+      keepShadow: !1,
+      correctThreshold: .3,
+      presentThreshold: 1,
+      shiftFactor: .7
+    }
     const config = isHardMode ? hardModeSettings : defaultModeSettings
     for (let i = 0; i < answerIdiom.length; i++) {
       const compareReslut = compareStrokes(strokesData[answerIdiom[i]], strokesData[userInputIdiom[i]], null, config)
