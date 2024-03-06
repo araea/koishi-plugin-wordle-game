@@ -2840,9 +2840,8 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
     await page.goto('file://' + filePath);
 
-    const html = `<html lang="zh" class="h-full">
+    const html = `<html lang="zh" class="h-full ${config.isDarkThemeEnabled ? 'dark' : ''}">
 <head>
-    <!--<html lang="zh" class="h-full dark"><head>-->
     <meta charset="UTF-8">
     <title>词影</title>
     <link rel="stylesheet" href="./assets/词影/ciying.css">
