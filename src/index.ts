@@ -1202,6 +1202,10 @@ export async function apply(ctx: Context, config: Config) {
       }
       let userInputPinyin: string = ''
       if (gameMode === '词影') {
+        if(!checkStrokesData(inputWord)){
+          await setGuessRunningStatus(channelId, false)
+          return await sendMessage(session, `【@${username}】\n不好意思啊...\n我还没学会这个字（`);
+        }
         if (!isIdiomInList(inputWord, idiomsList) && !isFreeMode) {
           const idiomInfo = await getIdiomInfo(inputWord)
           if (idiomInfo.pinyin === '未找到拼音') {
@@ -3105,6 +3109,15 @@ ${content}
   }
 
   // hs*
+  function checkStrokesData(inputWord: string): boolean {
+    for (const char of inputWord) {
+      if (!strokesData[char]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   async function getSelectedIdiom(randomIdiom) {
     let selectedIdiom = undefined;
 
