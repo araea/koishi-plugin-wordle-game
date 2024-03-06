@@ -1071,7 +1071,7 @@ export async function apply(ctx: Context, config: Config) {
             imageBuffer = await generateWordlesImage(htmlImgString);
           }
 
-          const gameMode = `游戏开始！\n当前游戏模式为：【${exam}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isFreeMode && exam === '汉兜' ? `（自由）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
+          const gameMode = `游戏开始！\n当前游戏模式为：【${exam}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isFreeMode && exam === '汉兜' || isFreeMode && exam === '词影' ? `（自由）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurdMode ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】`;
           const challengeInfo = isChallengeMode ? `\n目标单词为：【${randomWord}】` : '';
           const wordLength = `${exam === 'Numberle' ? '数字' : exam === 'Math' ? '数学方程式' : '单词'}长度为：【${guessWordLength}】`;
           const guessChance = `猜${exam === '汉兜' || exam === '词影' ? '词语|成语' : exam === 'Numberle' ? '数字' : exam === 'Math' ? '数学方程式' : '单词'}机会为：【${isAbsurdMode ? '♾️' : exam === '汉兜' ? `${10 + wordlesNum - 1}` : exam === 'Math' ? `${6 + wordlesNum - 1}` : exam === '词影' ? `${6 + wordlesNum - 1}` : guessWordLength + 1 + wordlesNum - 1}】`;
@@ -1396,7 +1396,7 @@ export async function apply(ctx: Context, config: Config) {
           if (gameMode === '汉兜') {
             emptyGridHtml = generateEmptyGridHtmlForHandle(gameInfo.isWin || isWin ? 0 : isLose ? 0 : 1, 4)
           } else if (gameMode === '词影') {
-            emptyGridHtml = generateEmptyGridHtmlForCiying(gameInfo.isWin || isWin ? 0 : isLose ? 0 : 1, 4, true) + generateEmptyGridHtmlForCiying(gameInfo.isWin ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1 - 1, 4, false)
+            emptyGridHtml = generateEmptyGridHtmlForCiying(gameInfo.isWin || isWin ? 0 : isLose ? 0 : 1, 4, true) + generateEmptyGridHtmlForCiying(gameInfo.isWin || isWin ? gameInfo.remainingGuessesCount - 1 : gameInfo.remainingGuessesCount - 1 - 1, 4, false)
           } else {
             emptyGridHtml = generateEmptyGridHtml(gameInfo.isWin ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
           }
@@ -1412,7 +1412,7 @@ export async function apply(ctx: Context, config: Config) {
         }
         imageBuffers.push(imageBuffer);
         // 更新游戏记录
-        const remainingGuessesCount = isAbsurd ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1
+        const remainingGuessesCount = isAbsurd || gameMode === '词影' && (gameInfo.isWin || isWin) ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1
         if (wordleIndex === 1 && !gameInfo.isWin) {
           await ctx.database.set('wordle_game_records', {channelId}, {
             isWin,
