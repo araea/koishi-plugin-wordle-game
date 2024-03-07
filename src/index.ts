@@ -1134,7 +1134,6 @@ export async function apply(ctx: Context, config: Config) {
           // 玩家记录输
           await updatePlayerRecordsLose(channelId, gameInfo)
           await endGame(channelId)
-          await setGuessRunningStatus(channelId, false)
           return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`)
           // return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
         }
@@ -1173,12 +1172,15 @@ export async function apply(ctx: Context, config: Config) {
         return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`);
       }
       if (!isFourCharacterIdiom(inputWord) && gameMode === '汉兜' || !isFourCharacterIdiom(inputWord) && gameMode === '词影') {
+        await setGuessRunningStatus(channelId, false)
         return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`);
       }
       if (gameMode === 'Numberle' && !isNumericString(inputWord)) {
+        await setGuessRunningStatus(channelId, false)
         return await sendMessage(session, `【@${username}】\n您确定您输入的是 ${guessWordLength} 长度的数字吗？`);
       }
       if (gameMode === 'Math' && !isMathEquationValid(inputWord)) {
+        await setGuessRunningStatus(channelId, false)
         return await sendMessage(session, `【@${username}】\n请使用+-*/=运算符和0-9之间的数字！\n并组成正确的数学方程式！`);
       }
       if (inputWord.length !== gameInfo.guessWordLength && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
