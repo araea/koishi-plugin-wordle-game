@@ -1204,7 +1204,7 @@ export async function apply(ctx: Context, config: Config) {
       }
       let userInputPinyin: string = ''
       if (gameMode === '词影') {
-        if(!checkStrokesData(inputWord)){
+        if (!checkStrokesData(inputWord)) {
           await setGuessRunningStatus(channelId, false)
           return await sendMessage(session, `【@${username}】\n不好意思啊...\n我还没学会这个字（`);
         }
@@ -2065,7 +2065,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
   // ch*
   async function generateHandlePinyinsImage(pinyinsHtml: string) {
-    const page = await ctx.puppeteer.page();
+    const browser = ctx.puppeteer.browser
+    const context = await browser.createBrowserContext()
+    const page = await context.newPage()
     await page.setViewport({width: 420, height: 570, deviceScaleFactor: 1});
     const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
     await page.goto('file://' + filePath);
@@ -2169,7 +2171,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   }
 
   async function generateWordlesImage(htmlImgString: string,) {
-    const page = await ctx.puppeteer.page();
+    const browser = ctx.puppeteer.browser
+    const context = await browser.createBrowserContext()
+    const page = await context.newPage()
     await page.setViewport({
       width: config.compositeImagePageWidth,
       height: config.compositeImagePageHeight,
@@ -2819,7 +2823,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   }
 
   async function generateImage(styledHtml: string, gridHtml: string): Promise<Buffer> {
-    const page = await ctx.puppeteer.page();
+    const browser = ctx.puppeteer.browser
+    const context = await browser.createBrowserContext()
+    const page = await context.newPage()
     await page.setViewport({width: 611, height: 731, deviceScaleFactor: 1})
     const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
     await page.goto('file://' + filePath);
@@ -2841,7 +2847,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   }
 
   async function generateImageForCiying(gridHtml: string, rowNum: number): Promise<Buffer> {
-    const page = await ctx.puppeteer.page();
+    const browser = ctx.puppeteer.browser
+    const context = await browser.createBrowserContext()
+    const page = await context.newPage()
     await page.setViewport({width: 611, height: 140 * rowNum, deviceScaleFactor: 1})
     const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
     await page.goto('file://' + filePath);
@@ -2888,7 +2896,9 @@ ${gridHtml}
   }
 
   async function generateImageForHandle(gridHtml: string): Promise<Buffer> {
-    const page = await ctx.puppeteer.page();
+    const browser = ctx.puppeteer.browser
+    const context = await browser.createBrowserContext()
+    const page = await context.newPage()
     await page.setViewport({width: 611, height: 731, deviceScaleFactor: 1})
     const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
     await page.goto('file://' + filePath);
