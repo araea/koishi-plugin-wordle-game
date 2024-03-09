@@ -2102,6 +2102,8 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     await page.setContent(html, {waitUntil: 'load'});
     const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
     await page.close();
+    await context.close()
+
 
     return imageBuffer;
   }
@@ -2225,8 +2227,8 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
     await page.setContent(html, {waitUntil: 'load'});
     const wordlesImageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
-
     await page.close();
+    await context.close()
 
     return wordlesImageBuffer;
   }
@@ -2842,6 +2844,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     await page.setContent(html, {waitUntil: 'load'});
     const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
     await page.close();
+    await context.close()
 
     return imageBuffer;
   }
@@ -2891,6 +2894,7 @@ ${gridHtml}
     await page.setContent(html, {waitUntil: 'load'});
     const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
     await page.close();
+    await context.close()
 
     return imageBuffer;
   }
@@ -2930,6 +2934,7 @@ ${gridHtml}
     await page.setContent(html, {waitUntil: 'load'});
     const imageBuffer = await page.screenshot({fullPage: true, type: config.imageType});
     await page.close();
+    await context.close();
 
     return imageBuffer;
   }
