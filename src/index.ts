@@ -1965,9 +1965,12 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}
         if (typeof number !== 'number' || isNaN(number) || number < 0) {
           return '请输入大于等于 0 的数字作为排行榜的参数。';
         }
-        const rankType3 = [
-          "胜场", "输场", "最快用时"
-        ];
+        let rankType3: string[];
+        if (type === '总') {
+          rankType3 = ["胜场", "输场"];
+        } else {
+          rankType3 = ["胜场", "输场", "最快用时"];
+        }
         await sendMessage(session, `当前可查看排行榜如下：
 ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 请输入想要查看的【类型名】或【序号】：`);
