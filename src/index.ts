@@ -1835,7 +1835,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         presentTones
       } = gameInfo;
       const usernameMention = `【@${username}】`;
-      const inputLengthMessage = `待猜${gameMode === '汉兜' ? '词语' : gameMode === 'Numberle' ? '数字' : gameMode === 'Math' ? '数学方程式' : '单词'}的长度为：【${guessWordLength}】`;
+      const inputLengthMessage = `待猜${gameMode === '汉兜' || gameMode === '词影' ? '词语' : gameMode === 'Numberle' ? '数字' : gameMode === 'Math' ? '数学方程式' : '单词'}的长度为：【${guessWordLength}】`;
       const extraGameInfo = wordlesNum > 1 ? `\n${await processExtraGameInfos(channelId)}` : '';
       const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
       const progressInfo = `当前${gameDuration}\n当前进度：【${correctLetters.join('')}】`;
