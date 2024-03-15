@@ -95,6 +95,7 @@ npm install koishi-plugin-wordle-game
   - 是否开启猜单词游戏作答时间限制功能。默认值为 `false`.
   - `wordGuessTimeLimitInSeconds: number`
     - 猜单词游戏作答时间，单位是秒。默认值为 `120`.
+- `retractDelay`：自动撤回等待的时间，默认值为 0，单位是秒。值为 0 时不启用自动撤回功能。
 - `imageType: "png" | "jpeg" | "webp"`
   - 发送的图片类型。默认值为 `"png"`.
 - `isTextToImageConversionEnabled: boolean`
@@ -220,6 +221,7 @@ npm install koishi-plugin-wordle-game
 - [百度汉语](https://hanyu.baidu.com/) - 查找成语
 - [WordFinder](https://wordword.org/) - 单词查找
 - [Numberle](https://dduarte.github.io/numberle/) - 数字猜测游戏
+- [词影](https://cy.surprising.studio/) - 词影游戏代码与样式
 - [Numberle](https://numberle.org/) - 数学方程式猜测游戏
 - [LewdleGame](https://www.lewdlegame.com/App) - Lewdle 模式单词列表
 - [WordlePlay](https://wordleplay.com/wordle-games) - 拓展玩法/单词列表补充
@@ -228,7 +230,6 @@ npm install koishi-plugin-wordle-game
 - [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle) - Wordle 经典模式词典
 - [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典
 - [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典 Wordle 的单词列表
-- [词影](https://cy.surprising.studio/) - 词影游戏代码与样式
 
 ## ✨ License
 
