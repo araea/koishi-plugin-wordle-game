@@ -1503,7 +1503,7 @@ export async function apply(ctx: Context, config: Config) {
             finalSettlementString = await processNonZeroMoneyPlayers(channelId, platform);
           }
           // 玩家记录赢
-          await updatePlayerRecordsWin(channelId, gameInfo) // db*
+          await updatePlayerRecordsWin(channelId, gameInfo)
           // 增加该玩家猜出单词的次数
           const [playerRecord] = await ctx.database.get('wordle_player_records', {userId})
           // 更新最快用时
@@ -2194,7 +2194,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       });
   });
 
-  ctx.command('wordleGame.排行榜.词影.猜出次数 [number:number]', '查看玩家猜出次数排行榜（词影）') // db*
+  ctx.command('wordleGame.排行榜.词影.猜出次数 [number:number]', '查看玩家猜出次数排行榜（词影）')
     .option('hard', '--hard 查看困难模式', {fallback: false})
     .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 1})
     .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
@@ -2267,7 +2267,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       fastestGuessTimeField = `fastestGuessTimeIn${wordlesNum}Mode`;
     }
 
-    sortedPlayers = getPlayers.sort((a, b) => a.extraCiyingRankInfo[fastestGuessTimeField] - b.extraCiyingRankInfo[fastestGuessTimeField]);
+    sortedPlayers = getPlayers
+      .filter(player => player.extraCiyingRankInfo[fastestGuessTimeField] > 0)
+      .sort((a, b) => a.extraCiyingRankInfo[fastestGuessTimeField] - b.extraCiyingRankInfo[fastestGuessTimeField]);
     const topPlayers = sortedPlayers.slice(0, number);
 
     result = `${title}：\n`;
