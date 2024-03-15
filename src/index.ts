@@ -112,7 +112,7 @@ export interface Config {
   enableWordGuessTimeLimit: boolean
   wordGuessTimeLimitInSeconds: number
 
-    retractDelay: number
+  retractDelay: number
   imageType: "png" | "jpeg" | "webp"
   isTextToImageConversionEnabled: boolean
 }
@@ -265,6 +265,7 @@ export interface PlayerRecord {
   wordGuessCount: number
   stats: PlayerStats;
   fastestGuessTime: Record<string, number>;
+  extraCiyingRankInfo: ExtraCiyingRankInfo;
 }
 
 interface WordData {
@@ -295,6 +296,55 @@ interface PlayerStats {
 interface WinLoseStats {
   win: number;
   lose: number;
+}
+
+interface ExtraCiyingRankInfo {
+  successCountIn1HardMode: number
+  successCountIn1Mode: number
+  successCountIn2Mode: number
+  successCountIn3Mode: number
+  successCountIn4Mode: number
+
+  winIn1HardMode: number;
+  winIn1Mode: number;
+  winIn2Mode: number;
+  winIn3Mode: number;
+  winIn4Mode: number;
+
+  loseIn1HardMode: number;
+  loseIn1Mode: number;
+  loseIn2Mode: number;
+  loseIn3Mode: number;
+  loseIn4Mode: number;
+
+  fastestGuessTimeIn1HardMode: number;
+  fastestGuessTimeIn1Mode: number;
+  fastestGuessTimeIn2Mode: number;
+  fastestGuessTimeIn3Mode: number;
+  fastestGuessTimeIn4Mode: number;
+}
+
+const initialExtraCiyingRankInfo: ExtraCiyingRankInfo = {
+  "successCountIn1HardMode": 0,
+  "successCountIn1Mode": 0,
+  "successCountIn2Mode": 0,
+  "successCountIn3Mode": 0,
+  "successCountIn4Mode": 0,
+  "winIn1HardMode": 0,
+  "winIn1Mode": 0,
+  "winIn2Mode": 0,
+  "winIn3Mode": 0,
+  "winIn4Mode": 0,
+  "loseIn1HardMode": 0,
+  "loseIn1Mode": 0,
+  "loseIn2Mode": 0,
+  "loseIn3Mode": 0,
+  "loseIn4Mode": 0,
+  "fastestGuessTimeIn1HardMode": 0,
+  "fastestGuessTimeIn1Mode": 0,
+  "fastestGuessTimeIn2Mode": 0,
+  "fastestGuessTimeIn3Mode": 0,
+  "fastestGuessTimeIn4Mode": 0
 }
 
 const initialStats: PlayerStats = {
@@ -476,6 +526,7 @@ export async function apply(ctx: Context, config: Config) {
     wordGuessCount: 'unsigned',
     stats: {type: 'json', initial: initialStats},
     fastestGuessTime: {type: 'json', initial: initialFastestGuessTime},
+    extraCiyingRankInfo: {type: 'json', initial: initialExtraCiyingRankInfo},
   }, {
     primary: 'id',
     autoInc: true,
@@ -1094,154 +1145,123 @@ export async function apply(ctx: Context, config: Config) {
   ctx.command('wordleGame.猜 [inputWord:text]', '做出一次猜测')
     .option('random', '-r 随机', {fallback: false})
     .action(async ({session, options}, inputWord) => {
-      const {channelId, userId, username, platform, timestamp} = session
-      // 游戏状态
-      let gameInfo: any = await getGameInfo(channelId)
-      inputWord = inputWord?.trim()
-      // 操作太快
-      if (gameInfo.isRunning === true) {
-        await setGuessRunningStatus(channelId, false)
-        return await sendMessage(session, `【@${username}】\n操作太快了哦~\n再试一次吧！`);
-      }
-
-      if (options.random) {
-        inputWord = gameInfo.gameMode === '汉兜' || gameInfo.gameMode === '词影' ? getRandomIdiom(idiomsList).idiom : gameInfo.gameMode === 'Numberle' ? generateNumberString(gameInfo.guessWordLength) : gameInfo.gameMode === 'Math' ? getRandomFromStringList(equations[gameInfo.guessWordLength]) : getRandomWordTranslation('ALL', gameInfo.guessWordLength).word
-      }
-
-      if (!inputWord) {
-        await sendMessage(session, `【@${username}】\n请输入【猜测】或【取消】：`);
-        const userInput = await session.prompt()
-        if (!userInput) return await sendMessage(session, `【${username}】\n输入无效或超时。`);
-        if (userInput === '取消') return await sendMessage(session, `【${username}】\n猜测操作已取消！`);
-        inputWord = userInput.trim()
-      }
-
-      // 运行状态
-      await setGuessRunningStatus(channelId, true)
-      // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
-      if (!gameInfo.isStarted) {
-        await setGuessRunningStatus(channelId, false)
-        return await sendMessage(session, `【@${username}】\n游戏还没开始呢！`);
-      }
-      // 作答时间限制
-      const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000; // 将时间戳转换为秒
-      if (config.enableWordGuessTimeLimit) {
-        if (timeDifferenceInSeconds > config.wordGuessTimeLimitInSeconds) {
-          // // 生成 html 字符串
-          // const emptyGridHtml = gameInfo.isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
-          // const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
-          // // 图
-          // const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
-          // 玩家记录输
-          await updatePlayerRecordsLose(channelId, gameInfo)
-          await endGame(channelId)
-          return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`)
-          // return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
-        }
-      }
-      // 玩家不在游戏中
-      const isInGame = await isPlayerInGame(channelId, userId);
-      if (!isInGame) {
-        if (!config.allowNonPlayersToGuess) {
+        const {channelId, userId, username, platform, timestamp} = session
+        // 游戏状态
+        let gameInfo: any = await getGameInfo(channelId)
+        inputWord = inputWord?.trim()
+        // 操作太快
+        if (gameInfo.isRunning === true) {
           await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n没加入游戏的话~不能猜哦！`);
-        } else {
-          // 更新玩家记录表中的用户名
-          await updateNameInPlayerRecord(userId, username)
-          await ctx.database.create('wordle_gaming_player_records', {channelId, userId, username, money: 0})
+          return await sendMessage(session, `【@${username}】\n操作太快了哦~\n再试一次吧！`);
         }
-      }
-      let {
-        correctLetters,
-        presentLetters,
-        isHardMode,
-        absentLetters,
-        isAbsurd,
-        remainingWordsList,
-        gameMode,
-        guessWordLength,
-        isChallengeMode,
-        targetWord,
-        wordlesNum,
-        isUltraHardMode,
-        presentLettersWithIndex,
-        isFreeMode,
-      } = gameInfo;
-      // 判断输入
-      if (!/^[a-zA-Z]+$/.test(inputWord) && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
-        await setGuessRunningStatus(channelId, false)
-        return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`);
-      }
-      if (!isFourCharacterIdiom(inputWord) && gameMode === '汉兜' || !isFourCharacterIdiom(inputWord) && gameMode === '词影') {
-        await setGuessRunningStatus(channelId, false)
-        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`);
-      }
-      if (gameMode === 'Numberle' && !isNumericString(inputWord)) {
-        await setGuessRunningStatus(channelId, false)
-        return await sendMessage(session, `【@${username}】\n您确定您输入的是 ${guessWordLength} 长度的数字吗？`);
-      }
-      if (gameMode === 'Math' && !isMathEquationValid(inputWord)) {
-        await setGuessRunningStatus(channelId, false)
-        return await sendMessage(session, `【@${username}】\n请使用+-*/=运算符和0-9之间的数字！\n并组成正确的数学方程式！`);
-      }
-      if (inputWord.length !== gameInfo.guessWordLength && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
-        await setGuessRunningStatus(channelId, false)
-        const usernameMention = `【@${username}】`;
-        const inputLengthMessage = `输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】`;
-        const presentLettersWithoutAsterisk = uniqueSortedLowercaseLetters(presentLetters);
-        const processedResult = wordlesNum > 1 ? '\n' + await processExtraGameInfos(channelId) : '';
-        const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}${processedResult}`;
-        return await sendMessage(session, `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`);
-      }
-      // 是否存在该单词
-      // 小写化
-      const lowercaseInputWord = gameMode === '汉兜' || gameMode === '词影' ? inputWord : inputWord.toLowerCase();
-      if (gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
-        const foundWord = findWord(lowercaseInputWord)
-        if (!foundWord) {
+
+        if (options.random) {
+          inputWord = gameInfo.gameMode === '汉兜' || gameInfo.gameMode === '词影' ? getRandomIdiom(idiomsList).idiom : gameInfo.gameMode === 'Numberle' ? generateNumberString(gameInfo.guessWordLength) : gameInfo.gameMode === 'Math' ? getRandomFromStringList(equations[gameInfo.guessWordLength]) : getRandomWordTranslation('ALL', gameInfo.guessWordLength).word
+        }
+
+        if (!inputWord) {
+          await sendMessage(session, `【@${username}】\n请输入【猜测】或【取消】：`);
+          const userInput = await session.prompt()
+          if (!userInput) return await sendMessage(session, `【${username}】\n输入无效或超时。`);
+          if (userInput === '取消') return await sendMessage(session, `【${username}】\n猜测操作已取消！`);
+          inputWord = userInput.trim()
+        }
+
+        // 运行状态
+        await setGuessRunningStatus(channelId, true)
+        // 更新玩家记录表中的用户名
+        await updateNameInPlayerRecord(userId, username)
+        if (!gameInfo.isStarted) {
           await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n你确定存在这样的单词吗？`);
+          return await sendMessage(session, `【@${username}】\n游戏还没开始呢！`);
         }
-      }
-      let userInputPinyin: string = ''
-      if (gameMode === '词影') {
-        if (!checkStrokesData(inputWord)) {
-          await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n不好意思啊...\n我还没学会这个字（`);
-        }
-        if (!isIdiomInList(inputWord, idiomsList) && !isFreeMode) {
-          const idiomInfo = await getIdiomInfo(inputWord)
-          if (idiomInfo.pinyin === '未找到拼音') {
-            await setGuessRunningStatus(channelId, false)
-            return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`);
-          } else {
-            userInputPinyin = idiomInfo.pinyin
+        // 作答时间限制
+        const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000; // 将时间戳转换为秒
+        if (config.enableWordGuessTimeLimit) {
+          if (timeDifferenceInSeconds > config.wordGuessTimeLimitInSeconds) {
+            // // 生成 html 字符串
+            // const emptyGridHtml = gameInfo.isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
+            // const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+            // // 图
+            // const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+            // 玩家记录输
+            await updatePlayerRecordsLose(channelId, gameInfo)
+            await endGame(channelId)
+            return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`)
+            // return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
           }
         }
-      }
-      if (gameMode === '汉兜') {
-        if (!isIdiomInList(inputWord, idiomsList)) {
-          if (isFreeMode) {
-            const foundItem = pinyinData.find(item => item.term === inputWord);
-
-            if (foundItem) {
-              userInputPinyin = foundItem.pinyin
-            } else {
-              userInputPinyin = await sendPostRequestForGPT1106(inputWord)
-              if (userInputPinyin !== '') {
-                const newItem: PinyinItem2 = {
-                  term: inputWord,
-                  pinyin: userInputPinyin
-                };
-                pinyinData.push(newItem);
-
-                fs.writeFileSync(pinyinKoishiFilePath, JSON.stringify(pinyinData, null, 2), 'utf8');
-              } else {
-                userInputPinyin = 'wǒ chū cuò le'
-              }
-            }
+        // 玩家不在游戏中
+        const isInGame = await isPlayerInGame(channelId, userId);
+        if (!isInGame) {
+          if (!config.allowNonPlayersToGuess) {
+            await setGuessRunningStatus(channelId, false)
+            return await sendMessage(session, `【@${username}】\n没加入游戏的话~不能猜哦！`);
           } else {
+            // 更新玩家记录表中的用户名
+            await updateNameInPlayerRecord(userId, username)
+            await ctx.database.create('wordle_gaming_player_records', {channelId, userId, username, money: 0})
+          }
+        }
+        let {
+          correctLetters,
+          presentLetters,
+          isHardMode,
+          absentLetters,
+          isAbsurd,
+          remainingWordsList,
+          gameMode,
+          guessWordLength,
+          isChallengeMode,
+          targetWord,
+          wordlesNum,
+          isUltraHardMode,
+          presentLettersWithIndex,
+          isFreeMode,
+        } = gameInfo;
+        // 判断输入
+        if (!/^[a-zA-Z]+$/.test(inputWord) && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
+          await setGuessRunningStatus(channelId, false)
+          return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`);
+        }
+        if (!isFourCharacterIdiom(inputWord) && gameMode === '汉兜' || !isFourCharacterIdiom(inputWord) && gameMode === '词影') {
+          await setGuessRunningStatus(channelId, false)
+          return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`);
+        }
+        if (gameMode === 'Numberle' && !isNumericString(inputWord)) {
+          await setGuessRunningStatus(channelId, false)
+          return await sendMessage(session, `【@${username}】\n您确定您输入的是 ${guessWordLength} 长度的数字吗？`);
+        }
+        if (gameMode === 'Math' && !isMathEquationValid(inputWord)) {
+          await setGuessRunningStatus(channelId, false)
+          return await sendMessage(session, `【@${username}】\n请使用+-*/=运算符和0-9之间的数字！\n并组成正确的数学方程式！`);
+        }
+        if (inputWord.length !== gameInfo.guessWordLength && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
+          await setGuessRunningStatus(channelId, false)
+          const usernameMention = `【@${username}】`;
+          const inputLengthMessage = `输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】`;
+          const presentLettersWithoutAsterisk = uniqueSortedLowercaseLetters(presentLetters);
+          const processedResult = wordlesNum > 1 ? '\n' + await processExtraGameInfos(channelId) : '';
+          const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}${processedResult}`;
+          return await sendMessage(session, `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`);
+        }
+        // 是否存在该单词
+        // 小写化
+        const lowercaseInputWord = gameMode === '汉兜' || gameMode === '词影' ? inputWord : inputWord.toLowerCase();
+        if (gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
+          const foundWord = findWord(lowercaseInputWord)
+          if (!foundWord) {
+            await setGuessRunningStatus(channelId, false)
+            return await sendMessage(session, `【@${username}】\n你确定存在这样的单词吗？`);
+          }
+        }
+        let userInputPinyin: string = ''
+        if (gameMode === '词影') {
+          if (!checkStrokesData(inputWord)) {
+            await setGuessRunningStatus(channelId, false)
+            return await sendMessage(session, `【@${username}】\n不好意思啊...\n我还没学会这个字（`);
+          }
+          if (!isIdiomInList(inputWord, idiomsList) && !isFreeMode) {
             const idiomInfo = await getIdiomInfo(inputWord)
             if (idiomInfo.pinyin === '未找到拼音') {
               await setGuessRunningStatus(channelId, false)
@@ -1250,227 +1270,288 @@ export async function apply(ctx: Context, config: Config) {
               userInputPinyin = idiomInfo.pinyin
             }
           }
+        }
+        if (gameMode === '汉兜') {
+          if (!isIdiomInList(inputWord, idiomsList)) {
+            if (isFreeMode) {
+              const foundItem = pinyinData.find(item => item.term === inputWord);
 
-        }
-      }
-      const foundIdiom = findIdiomByIdiom(inputWord, idiomsList);
-      if (!userInputPinyin && foundIdiom) {
-        userInputPinyin = foundIdiom.pinyin
-      }
-      // 困难模式
-      if (isHardMode && gameMode !== '词影') {
-        let isInputWordWrong = false;
-        // 包含
-        const containsAllLetters = lowercaseInputWord.split('').filter(letter => presentLetters.includes(letter) && letter !== '*');
-        if (mergeSameLetters(containsAllLetters).length !== presentLetters.length && presentLetters.length !== 0) {
-          isInputWordWrong = true;
-        }
-        // 正确
-        for (let i = 0; i < lowercaseInputWord.length; i++) {
-          if (correctLetters[i] !== '*' && correctLetters[i] !== lowercaseInputWord[i] && correctLetters.some(letter => letter !== '*')) {
-            isInputWordWrong = true;
-            break;
+              if (foundItem) {
+                userInputPinyin = foundItem.pinyin
+              } else {
+                userInputPinyin = await sendPostRequestForGPT1106(inputWord)
+                if (userInputPinyin !== '') {
+                  const newItem: PinyinItem2 = {
+                    term: inputWord,
+                    pinyin: userInputPinyin
+                  };
+                  pinyinData.push(newItem);
+
+                  fs.writeFileSync(pinyinKoishiFilePath, JSON.stringify(pinyinData, null, 2), 'utf8');
+                } else {
+                  userInputPinyin = 'wǒ chū cuò le'
+                }
+              }
+            } else {
+              const idiomInfo = await getIdiomInfo(inputWord)
+              if (idiomInfo.pinyin === '未找到拼音') {
+                await setGuessRunningStatus(channelId, false)
+                return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`);
+              } else {
+                userInputPinyin = idiomInfo.pinyin
+              }
+            }
+
           }
         }
-        // 不包含 灰色的线索必须被遵守  超困难
-        if (isUltraHardMode && absentLetters.length !== 0 && checkAbsentLetters(lowercaseInputWord, absentLetters)) {
-          isInputWordWrong = true;
+        const foundIdiom = findIdiomByIdiom(inputWord, idiomsList);
+        if (!userInputPinyin && foundIdiom) {
+          userInputPinyin = foundIdiom.pinyin
         }
-        // 黄色字母必须远离它们被线索的地方 超困难
-        if (isUltraHardMode && presentLettersWithIndex.length !== 0 && checkPresentLettersWithIndex(lowercaseInputWord, presentLettersWithIndex)) {
-          isInputWordWrong = true
-        }
-        if (isInputWordWrong) {
-          await setGuessRunningStatus(channelId, false);
-          const difficulty = isUltraHardMode ? '超困难' : '困难';
-          const rule = `绿色线索必须保特固定，黄色线索必须重复使用。${isUltraHardMode ? `\n黄色线索必须远离它们被线索的地方，灰色的线索必须被遵守。` : ''}`
-
-          const message = `【@${username}】\n当前难度为：【${difficulty}】\n【${difficulty}】：${rule}\n您输入的词不符合要求！\n您的输入为：【${inputWord}】\n要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含：【${presentLetters}】`}${absentLetters.length === 0 || !isUltraHardMode ? `` : `\n不包含：【${absentLetters}】`}${presentLettersWithIndex.length === 0 || !isUltraHardMode ? `` : `\n远离黄色线索：【${presentLettersWithIndex.join(', ')}】`}`;
-
-          return await sendMessage(session, message);
-        }
-      }
-      // 初始化输
-      let isLose = false
-      // 变态模式
-      if (isAbsurd) {
-        let wordsList: string[];
-        if (remainingWordsList.length === 0) {
-          if (gameMode === '经典') {
-            wordsList = lowerCaseWordArray;
-          } else {
-            const fileData = getJsonFilePathAndWordCountByLength(gameMode, guessWordLength);
-            if (gameMode === "ALL") {
-              const jsonData = JSON.parse(fs.readFileSync(fileData.filePath, 'utf-8'));
-              wordsList = extractLowerCaseWords(jsonData)
-            } else {
-              const jsonData = JSON.parse(fs.readFileSync(fileData.filePath, 'utf-8'));
-              wordsList = Object.keys(jsonData).map(word => word.toLowerCase());
+        // 困难模式
+        if (isHardMode && gameMode !== '词影') {
+          let isInputWordWrong = false;
+          // 包含
+          const containsAllLetters = lowercaseInputWord.split('').filter(letter => presentLetters.includes(letter) && letter !== '*');
+          if (mergeSameLetters(containsAllLetters).length !== presentLetters.length && presentLetters.length !== 0) {
+            isInputWordWrong = true;
+          }
+          // 正确
+          for (let i = 0; i < lowercaseInputWord.length; i++) {
+            if (correctLetters[i] !== '*' && correctLetters[i] !== lowercaseInputWord[i] && correctLetters.some(letter => letter !== '*')) {
+              isInputWordWrong = true;
+              break;
             }
           }
-        } else {
-          wordsList = remainingWordsList;
-        }
-        let longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
-        if (!longestRemainingWordList) {
-          longestRemainingWordList = []
-        } else {
-          while (isChallengeMode && wordsList.includes(targetWord) && longestRemainingWordList && longestRemainingWordList.length === 1 && longestRemainingWordList[0] !== targetWord) {
-            longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
+          // 不包含 灰色的线索必须被遵守  超困难
+          if (isUltraHardMode && absentLetters.length !== 0 && checkAbsentLetters(lowercaseInputWord, absentLetters)) {
+            isInputWordWrong = true;
           }
+          // 黄色字母必须远离它们被线索的地方 超困难
+          if (isUltraHardMode && presentLettersWithIndex.length !== 0 && checkPresentLettersWithIndex(lowercaseInputWord, presentLettersWithIndex)) {
+            isInputWordWrong = true
+          }
+          if (isInputWordWrong) {
+            await setGuessRunningStatus(channelId, false);
+            const difficulty = isUltraHardMode ? '超困难' : '困难';
+            const rule = `绿色线索必须保特固定，黄色线索必须重复使用。${isUltraHardMode ? `\n黄色线索必须远离它们被线索的地方，灰色的线索必须被遵守。` : ''}`
 
-          // 变态挑战模式
-          if (isChallengeMode) {
-            isLose = !longestRemainingWordList.includes(targetWord);
-          }
-        }
-        if (longestRemainingWordList.length === 0) {
-          await updatePlayerRecordsLose(channelId, gameInfo)
-          await endGame(channelId)
-          return await sendMessage(session, `【@${username}】\n根据透露出的信息！\n已经无任何可用单词！\n很遗憾，你们输了！`);
-        }
-        let randomWord = longestRemainingWordList[Math.floor(Math.random() * longestRemainingWordList.length)];
-        const foundWord = findWord(randomWord)
-        if (isLose && isChallengeMode) {
-          // 生成 html 字符串
-          const letterTilesHtml = '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(foundWord.word.toLowerCase(), inputWord, channelId, 1, gameInfo) + '</div>';
-          const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
-          const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
-          // 图
-          const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}`);
-          await sendMessage(session, `【@${username}】\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n您可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`);
-          let userInput = await session.prompt()
-          // 生成 html 字符串
-          // 图
-          const imageBuffer2 = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
-          if (!userInput) {
-            await setGuessRunningStatus(channelId, false)
-            return await sendMessage(session, `【@${username}】\n输入无效或超时。\n已自动选择【撤销】操作。\n${h.image(imageBuffer2, `image/${config.imageType}`)}`);
-          }
-          if (userInput === '结束') {
-            await session.execute(`wordleGame.结束`)
-            return
-          } else {
-            await setGuessRunningStatus(channelId, false)
-            return await sendMessage(session, `【@${username}】\n您执行了操作：【撤销】\n撤销成功！挑战继续！\n${h.image(imageBuffer2, `image/${config.imageType}`)}`);
-          }
-        }
-        await ctx.database.set('wordle_game_records', {channelId}, {
-          remainingWordsList: longestRemainingWordList,
-          wordGuess: foundWord.word.toLowerCase(),
-          wordAnswerChineseDefinition: replaceEscapeCharacters(foundWord.translation),
-        })
-        gameInfo = await getGameInfo(channelId)
-      }
-      // 胜
-      let isWin = false
-      if (wordlesNum === 1 && lowercaseInputWord === gameInfo.wordGuess) {
-        isWin = true
-      }
-      let isWinNum = 0
-      // 生成 html 字符串
-      let imageBuffers: Buffer[] = [];
-      let imageBuffer: Buffer = Buffer.from('initial value', 'utf-8');
-      for (let wordleIndex = 1; wordleIndex < wordlesNum + 1; wordleIndex++) {
-        if (wordleIndex > 1) {
-          gameInfo = await getGameInfo2(channelId, wordleIndex)
-        }
-        const isWin = lowercaseInputWord === gameInfo.wordGuess
-        if (isWin || gameInfo.isWin) {
-          ++isWinNum
-        }
-        // 负
-        if (!isWin && gameInfo.remainingGuessesCount - 1 === 0 && !isAbsurd) {
-          isLose = true
-        }
-        let letterTilesHtml: string;
+            const message = `【@${username}】\n当前难度为：【${difficulty}】\n【${difficulty}】：${rule}\n您输入的词不符合要求！\n您的输入为：【${inputWord}】\n要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含：【${presentLetters}】`}${absentLetters.length === 0 || !isUltraHardMode ? `` : `\n不包含：【${absentLetters}】`}${presentLettersWithIndex.length === 0 || !isUltraHardMode ? `` : `\n远离黄色线索：【${presentLettersWithIndex.join(', ')}】`}`;
 
-        if (gameInfo.isWin) {
-          letterTilesHtml = '';
-        } else {
-          if (gameMode === '汉兜') {
-            letterTilesHtml = await generateLetterTilesHtmlForHandle(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo, gameInfo.pinyin, userInputPinyin);
-          } else if (gameMode === '词影') {
-            letterTilesHtml = await generateLetterTilesHtmlForCiying(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo, isHardMode);
-          } else {
-            const generatedHtml = await generateLetterTilesHtml(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo);
-            letterTilesHtml = '<div class="Row-module_row__pwpBq">' + generatedHtml + '</div>';
+            return await sendMessage(session, message);
           }
         }
-        let emptyGridHtml;
+        // 初始化输
+        let isLose = false
+        // 变态模式
         if (isAbsurd) {
-          emptyGridHtml = generateEmptyGridHtml(isWin ? 0 : 1, gameInfo.guessWordLength);
-        } else {
-          if (gameMode === '汉兜') {
-            emptyGridHtml = generateEmptyGridHtmlForHandle(gameInfo.isWin || isWin ? 0 : isLose ? 0 : 1, 4)
-          } else if (gameMode === '词影') {
-            emptyGridHtml = generateEmptyGridHtmlForCiying(gameInfo.isWin || isWin ? 0 : isLose ? 0 : 1, 4, true) + generateEmptyGridHtmlForCiying(gameInfo.isWin || isWin ? gameInfo.remainingGuessesCount - 1 : gameInfo.remainingGuessesCount - 1 - 1, 4, false)
+          let wordsList: string[];
+          if (remainingWordsList.length === 0) {
+            if (gameMode === '经典') {
+              wordsList = lowerCaseWordArray;
+            } else {
+              const fileData = getJsonFilePathAndWordCountByLength(gameMode, guessWordLength);
+              if (gameMode === "ALL") {
+                const jsonData = JSON.parse(fs.readFileSync(fileData.filePath, 'utf-8'));
+                wordsList = extractLowerCaseWords(jsonData)
+              } else {
+                const jsonData = JSON.parse(fs.readFileSync(fileData.filePath, 'utf-8'));
+                wordsList = Object.keys(jsonData).map(word => word.toLowerCase());
+              }
+            }
           } else {
-            emptyGridHtml = generateEmptyGridHtml(gameInfo.isWin ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
+            wordsList = remainingWordsList;
           }
-        }
-        const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
-        // 图
-        if (gameMode === '汉兜') {
-          imageBuffer = await generateImageForHandle(`${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
-        } else if (gameMode === '词影') {
-          imageBuffer = await generateImageForCiying(`${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`, 6 + wordlesNum - 1);
-        } else {
-          imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
-        }
-        imageBuffers.push(imageBuffer);
-        // 更新游戏记录
-        const remainingGuessesCount = isAbsurd || gameMode === '词影' && (gameInfo.isWin || isWin) ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1
-        if (wordleIndex === 1 && !gameInfo.isWin) {
+          let longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
+          if (!longestRemainingWordList) {
+            longestRemainingWordList = []
+          } else {
+            while (isChallengeMode && wordsList.includes(targetWord) && longestRemainingWordList && longestRemainingWordList.length === 1 && longestRemainingWordList[0] !== targetWord) {
+              longestRemainingWordList = await findLongestMatchedWords(wordsList, lowercaseInputWord, targetWord, isChallengeMode);
+            }
+
+            // 变态挑战模式
+            if (isChallengeMode) {
+              isLose = !longestRemainingWordList.includes(targetWord);
+            }
+          }
+          if (longestRemainingWordList.length === 0) {
+            await updatePlayerRecordsLose(channelId, gameInfo)
+            await endGame(channelId)
+            return await sendMessage(session, `【@${username}】\n根据透露出的信息！\n已经无任何可用单词！\n很遗憾，你们输了！`);
+          }
+          let randomWord = longestRemainingWordList[Math.floor(Math.random() * longestRemainingWordList.length)];
+          const foundWord = findWord(randomWord)
+          if (isLose && isChallengeMode) {
+            // 生成 html 字符串
+            const letterTilesHtml = '<div class="Row-module_row__pwpBq">' + await generateLetterTilesHtml(foundWord.word.toLowerCase(), inputWord, channelId, 1, gameInfo) + '</div>';
+            const emptyGridHtml = isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
+            const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+            // 图
+            const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}`);
+            await sendMessage(session, `【@${username}】\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n您可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`);
+            let userInput = await session.prompt()
+            // 生成 html 字符串
+            // 图
+            const imageBuffer2 = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
+            if (!userInput) {
+              await setGuessRunningStatus(channelId, false)
+              return await sendMessage(session, `【@${username}】\n输入无效或超时。\n已自动选择【撤销】操作。\n${h.image(imageBuffer2, `image/${config.imageType}`)}`);
+            }
+            if (userInput === '结束') {
+              await session.execute(`wordleGame.结束`)
+              return
+            } else {
+              await setGuessRunningStatus(channelId, false)
+              return await sendMessage(session, `【@${username}】\n您执行了操作：【撤销】\n撤销成功！挑战继续！\n${h.image(imageBuffer2, `image/${config.imageType}`)}`);
+            }
+          }
           await ctx.database.set('wordle_game_records', {channelId}, {
-            isWin,
-            remainingGuessesCount: remainingGuessesCount,
-            wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
+            remainingWordsList: longestRemainingWordList,
+            wordGuess: foundWord.word.toLowerCase(),
+            wordAnswerChineseDefinition: replaceEscapeCharacters(foundWord.translation),
           })
-        } else if (wordleIndex > 1 && !gameInfo.isWin) {
-          await ctx.database.set('extra_wordle_game_records', {channelId, wordleIndex}, {
-            isWin,
-            remainingGuessesCount: remainingGuessesCount,
-            wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
-          })
+          gameInfo = await getGameInfo(channelId)
         }
-      }
-      if (wordlesNum > 1) {
-        const htmlImgString = generateImageTags(imageBuffers);
-        imageBuffer = await generateWordlesImage(htmlImgString);
-        if (isWinNum === wordlesNum) {
+        // 胜
+        let isWin = false
+        if (wordlesNum === 1 && lowercaseInputWord === gameInfo.wordGuess) {
           isWin = true
         }
-      }
-      gameInfo = await getGameInfo(channelId)
+        let isWinNum = 0
+        // 生成 html 字符串
+        let imageBuffers: Buffer[] = [];
+        let imageBuffer: Buffer = Buffer.from('initial value', 'utf-8');
+        for (let wordleIndex = 1; wordleIndex < wordlesNum + 1; wordleIndex++) {
+          if (wordleIndex > 1) {
+            gameInfo = await getGameInfo2(channelId, wordleIndex)
+          }
+          const isWin = lowercaseInputWord === gameInfo.wordGuess
+          if (isWin || gameInfo.isWin) {
+            ++isWinNum
+          }
+          // 负
+          if (!isWin && gameInfo.remainingGuessesCount - 1 === 0 && !isAbsurd) {
+            isLose = true
+          }
+          let letterTilesHtml: string;
 
-      // 处理赢
-      if (isWin) {
-        let finalSettlementString: string = ''
-        // 经典有收入
-        if (gameInfo.gameMode === '经典' || gameInfo.gameMode === '汉兜') {
-          finalSettlementString = await processNonZeroMoneyPlayers(channelId, platform);
+          if (gameInfo.isWin) {
+            letterTilesHtml = '';
+          } else {
+            if (gameMode === '汉兜') {
+              letterTilesHtml = await generateLetterTilesHtmlForHandle(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo, gameInfo.pinyin, userInputPinyin);
+            } else if (gameMode === '词影') {
+              letterTilesHtml = await generateLetterTilesHtmlForCiying(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo, isHardMode);
+            } else {
+              const generatedHtml = await generateLetterTilesHtml(gameInfo.wordGuess, inputWord, channelId, wordleIndex, gameInfo);
+              letterTilesHtml = '<div class="Row-module_row__pwpBq">' + generatedHtml + '</div>';
+            }
+          }
+          let emptyGridHtml;
+          if (isAbsurd) {
+            emptyGridHtml = generateEmptyGridHtml(isWin ? 0 : 1, gameInfo.guessWordLength);
+          } else {
+            if (gameMode === '汉兜') {
+              emptyGridHtml = generateEmptyGridHtmlForHandle(gameInfo.isWin || isWin ? 0 : isLose ? 0 : 1, 4)
+            } else if (gameMode === '词影') {
+              emptyGridHtml = generateEmptyGridHtmlForCiying(gameInfo.isWin || isWin ? 0 : isLose ? 0 : 1, 4, true) + generateEmptyGridHtmlForCiying(gameInfo.isWin || isWin ? gameInfo.remainingGuessesCount - 1 : gameInfo.remainingGuessesCount - 1 - 1, 4, false)
+            } else {
+              emptyGridHtml = generateEmptyGridHtml(gameInfo.isWin ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1, gameInfo.guessWordLength);
+            }
+          }
+          const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
+          // 图
+          if (gameMode === '汉兜') {
+            imageBuffer = await generateImageForHandle(`${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
+          } else if (gameMode === '词影') {
+            imageBuffer = await generateImageForCiying(`${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`, 6 + wordlesNum - 1);
+          } else {
+            imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n${emptyGridHtml}`);
+          }
+          imageBuffers.push(imageBuffer);
+          // 更新游戏记录
+          const remainingGuessesCount = isAbsurd || gameMode === '词影' && (gameInfo.isWin || isWin) ? gameInfo.remainingGuessesCount : gameInfo.remainingGuessesCount - 1
+          if (wordleIndex === 1 && !gameInfo.isWin) {
+            await ctx.database.set('wordle_game_records', {channelId}, {
+              isWin,
+              remainingGuessesCount: remainingGuessesCount,
+              wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
+            })
+          } else if (wordleIndex > 1 && !gameInfo.isWin) {
+            await ctx.database.set('extra_wordle_game_records', {channelId, wordleIndex}, {
+              isWin,
+              remainingGuessesCount: remainingGuessesCount,
+              wordGuessHtmlCache: `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}\n`,
+            })
+          }
         }
-        // 玩家记录赢
-        await updatePlayerRecordsWin(channelId, gameInfo)
-        // 增加该玩家猜出单词的次数
-        const [playerRecord] = await ctx.database.get('wordle_player_records', {userId})
-        // 更新最快用时
-        if (timeDifferenceInSeconds < playerRecord.fastestGuessTime[gameInfo.gameMode] || playerRecord.fastestGuessTime[gameInfo.gameMode] === 0) {
-          playerRecord.fastestGuessTime[gameInfo.gameMode] = Math.floor(timeDifferenceInSeconds);
+        if (wordlesNum > 1) {
+          const htmlImgString = generateImageTags(imageBuffers);
+          imageBuffer = await generateWordlesImage(htmlImgString);
+          if (isWinNum === wordlesNum) {
+            isWin = true
+          }
         }
-        await ctx.database.set('wordle_player_records', {userId}, {
-          wordGuessCount: playerRecord.wordGuessCount + 1,
-          fastestGuessTime: playerRecord.fastestGuessTime
-        })
+        gameInfo = await getGameInfo(channelId)
 
-        const processedResult: string = wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
-        await endGame(channelId)
-        const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
-        const imageType = config.imageType;
-        const settlementResult = finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`;
+        // 处理赢
+        if (isWin) {
+          let finalSettlementString: string = ''
+          // 经典有收入
+          if (gameInfo.gameMode === '经典' || gameInfo.gameMode === '汉兜') {
+            finalSettlementString = await processNonZeroMoneyPlayers(channelId, platform);
+          }
+          // 玩家记录赢
+          await updatePlayerRecordsWin(channelId, gameInfo) // db*
+          // 增加该玩家猜出单词的次数
+          const [playerRecord] = await ctx.database.get('wordle_player_records', {userId})
+          // 更新最快用时
+          if (timeDifferenceInSeconds < playerRecord.fastestGuessTime[gameInfo.gameMode] || playerRecord.fastestGuessTime[gameInfo.gameMode] === 0) {
+            playerRecord.fastestGuessTime[gameInfo.gameMode] = Math.floor(timeDifferenceInSeconds);
+          }
 
-        const message = `
+          if (gameInfo.gameMode === '词影') {
+            if (gameInfo.wordlesNum === 1) {
+              if (gameInfo.isHardMode) {
+                playerRecord.extraCiyingRankInfo.successCountIn1HardMode += 1;
+                if (timeDifferenceInSeconds < playerRecord.extraCiyingRankInfo.fastestGuessTimeIn1HardMode || playerRecord.extraCiyingRankInfo.fastestGuessTimeIn1HardMode === 0) {
+                  playerRecord.extraCiyingRankInfo.fastestGuessTimeIn1HardMode = Math.floor(timeDifferenceInSeconds);
+                }
+              } else {
+                playerRecord.extraCiyingRankInfo.successCountIn1Mode += 1;
+                if (timeDifferenceInSeconds < playerRecord.extraCiyingRankInfo.fastestGuessTimeIn1Mode || playerRecord.extraCiyingRankInfo.fastestGuessTimeIn1Mode === 0) {
+                  playerRecord.extraCiyingRankInfo.fastestGuessTimeIn1Mode = Math.floor(timeDifferenceInSeconds);
+                }
+              }
+            } else if (gameInfo.wordlesNum >= 2 && gameInfo.wordlesNum <= 4) {
+              const extraCiyingRankInfoKey = `successCountIn${gameInfo.wordlesNum}Mode`;
+              const extraCiyingRankInfoKeyFastestGuessTimeIn = `fastestGuessTimeIn${gameInfo.wordlesNum}Mode`;
+              playerRecord.extraCiyingRankInfo[extraCiyingRankInfoKey] += 1;
+              if (timeDifferenceInSeconds < playerRecord.extraCiyingRankInfo[extraCiyingRankInfoKeyFastestGuessTimeIn] || playerRecord.extraCiyingRankInfo[extraCiyingRankInfoKeyFastestGuessTimeIn] === 0) {
+                playerRecord.extraCiyingRankInfo[extraCiyingRankInfoKeyFastestGuessTimeIn] = Math.floor(timeDifferenceInSeconds);
+              }
+            }
+          }
+
+          const updateData = {
+            wordGuessCount: playerRecord.wordGuessCount + 1,
+            fastestGuessTime: playerRecord.fastestGuessTime
+          };
+
+          if (gameInfo.gameMode === '词影') {
+            updateData['extraCiyingRankInfo'] = playerRecord.extraCiyingRankInfo;
+          }
+
+          await ctx.database.set('wordle_player_records', {userId: userId}, updateData);
+
+          const processedResult: string = wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
+          await endGame(channelId)
+          const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
+          const imageType = config.imageType;
+          const settlementResult = finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`;
+
+          const message = `
 【@${username}】
 太棒了，你猜出来了！
 ${gameDuration}
@@ -1479,27 +1560,28 @@ ${generateGameEndMessage(gameInfo)}${processedResult}
 ${settlementResult}
 `;
 
-        return await sendMessage(session, message);
-      }
-      // 处理输
-      if (isLose) {
-        // 玩家记录输
-        await updatePlayerRecordsLose(channelId, gameInfo)
-        const processedResult: string = wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
-        await endGame(channelId)
-        const challengeMessage = isChallengeMode ? `\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！` : '';
-        const answerInfo = isChallengeMode ? '' : `\n${generateGameEndMessage(gameInfo)}`;
-        const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
-        const message = `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${gameDuration}${answerInfo}${processedResult}`;
+          return await sendMessage(session, message);
+        }
+        // 处理输
+        if (isLose) {
+          // 玩家记录输
+          await updatePlayerRecordsLose(channelId, gameInfo)
+          const processedResult: string = wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
+          await endGame(channelId)
+          const challengeMessage = isChallengeMode ? `\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！` : '';
+          const answerInfo = isChallengeMode ? '' : `\n${generateGameEndMessage(gameInfo)}`;
+          const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
+          const message = `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${gameDuration}${answerInfo}${processedResult}`;
 
-        return await sendMessage(session, message);
+          return await sendMessage(session, message);
+        }
+        // 继续
+        await setGuessRunningStatus(channelId, false)
+        return await sendMessage(session, `${h.image(imageBuffer, `image/${config.imageType}`)}`)
+        // .action
       }
-      // 继续
-      await setGuessRunningStatus(channelId, false)
-      return await sendMessage(session, `${h.image(imageBuffer, `image/${config.imageType}`)}`)
-      // .action
-    })
-  // wordleGame.查询玩家记录 cx* cxwjjl*
+    )
+// wordleGame.查询玩家记录 cx* cxwjjl*
   ctx.command('wordleGame.查询玩家记录 [targetUser:text]', '查询玩家记录')
     .action(async ({session}, targetUser) => {
       let {userId, username} = session;
@@ -1561,7 +1643,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       }
       // .action
     });
-  // wordleGame.查单词 cxdc*
+// wordleGame.查单词 cxdc*
   ctx.command('wordleGame.查单词.ALL [targetWord:text]', '在ALL词库中查询单词释义（英译中）')
     .action(async ({session}, targetWord) => {
       let {userId, username} = session
@@ -1588,7 +1670,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       }
       return sendMessage(session, `查询对象：【${targetWord}】\n单词释义如下：\n${replaceEscapeCharacters(foundWord.translation)}`);
     })
-  // czdc*
+// czdc*
   ctx.command('wordleGame.查单词.WordWord [targetWord:text]', '在WordWord中查找单词定义（英译英）')
     .action(async ({session}, targetWord) => {
       let {userId, username} = session
@@ -1619,7 +1701,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
           return sendMessage(session, `【@${username}】\n未在WordWord中找到该单词。`);
         });
     })
-  // ccy*
+// ccy*
   ctx.command('wordleGame.查成语 [targetIdiom:text]', '查成语引导')
     .action(async ({session, options}, targetIdiom) => {
       const {channelId, userId, username} = session;
@@ -1640,7 +1722,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       }
       // .action
     });
-  // czcy*
+// czcy*
   ctx.command('wordleGame.查成语.百度汉语 [targetIdiom:text]', '在百度汉语中查找成语解释')
     .action(async ({session}, targetIdiom) => {
       let {userId, username} = session
@@ -1694,7 +1776,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       }
       return await sendMessage(session, `【@${username}】\n【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n${idiomInfo.explanation}`);
     });
-  // dcczq*
+// dcczq*
   ctx.command('wordleGame.单词查找器 [wordleIndexs:text]', '使用WordFinder查找匹配的单词')
     .option('auto', '-a 自动查找（根据游戏进程）', {fallback: false})
     .option('wordLength', '-l <length> 指定要搜索的单词长度', {fallback: undefined})
@@ -1802,7 +1884,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       const result = await fetchAndParseWords(url);
       return await sendMessage(session, `${result}`);
     });
-  // wordleGame.查询进度 jd* cxjd*
+// wordleGame.查询进度 jd* cxjd*
   ctx.command('wordleGame.查询进度', '查询当前游戏进度')
     .action(async ({session}) => {
       const {channelId, userId, username, user, timestamp} = session
@@ -1870,7 +1952,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 
       // .action
     })
-  // pyscb* pysc*
+// pyscb* pysc*
   ctx.command('wordleGame.拼音速查表', '查看拼音速查表')
     .action(async ({session}) => {
       const {channelId, userId, username} = session
@@ -1970,6 +2052,8 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}
         let rankType3: string[];
         if (type === '总') {
           rankType3 = ["胜场", "输场"];
+        } else if (type === '词影') {
+          rankType3 = ["猜出次数", "胜场", "输场", "最快用时"];
         } else {
           rankType3 = ["胜场", "输场", "最快用时"];
         }
@@ -1992,7 +2076,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
         }
       });
   });
-  // sy*
+// sy*
   ctx.command('wordleGame.排行榜.损益 [number:number]', '查看玩家损益排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
       const {channelId, username, userId} = session
@@ -2003,7 +2087,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       }
       return await getLeaderboard(session, 'moneyChange', 'moneyChange', '玩家损益排行榜', number);
     });
-  // ccdccs*
+// ccdccs*
   ctx.command('wordleGame.排行榜.猜出次数 [number:number]', '查看玩家猜出次数排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
       const {channelId, username, userId} = session
@@ -2014,7 +2098,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       }
       return await getLeaderboard(session, 'wordGuessCount', 'wordGuessCount', '玩家猜出次数排行榜', number);
     });
-  // zsc*
+// zsc*
   ctx.command('wordleGame.排行榜.总.胜场 [number:number]', '查看玩家总胜场排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
       const {channelId, username, userId} = session
@@ -2025,7 +2109,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       }
       return await getLeaderboard(session, 'win', 'win', '玩家总胜场排行榜', number);
     });
-  // zsc*
+// zsc*
   ctx.command('wordleGame.排行榜.总.输场 [number:number]', '查看玩家总输场排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
       const {channelId, username, userId} = session
@@ -2043,32 +2127,157 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
   // 注册胜场、输场、用时排行榜指令
   rankType4.forEach((type) => {
     ctx.command(`wordleGame.排行榜.${type}.胜场 [number:number]`, `查看${type}胜场排行榜`)
-      .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+      .option('hard', '--hard 查看困难模式', {fallback: false})
+      .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 0})
+      .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
         const {channelId, username, userId} = session
         // 更新玩家记录表中的用户名
         await updateNameInPlayerRecord(userId, username)
+        if (typeof number !== 'number' || isNaN(number) || number < 0) {
+          return '请输入大于等于 0 的数字作为排行榜的参数。';
+        }
+        if (type === '词影' && options.wordles !== 0 || type === '词影' && options.hard) {
+          if (options.wordles === 0) {
+            options.wordles = 1
+          }
+          if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
+            return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
+          }
+          return await getFastestGuessTimeLeaderboardForCiying(session, options.wordles, `玩家胜场排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
+        }
         return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'win', '胜场'));
       });
 
     ctx.command(`wordleGame.排行榜.${type}.输场 [number:number]`, `查看${type}输场排行榜`)
-      .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+      .option('hard', '--hard 查看困难模式', {fallback: false})
+      .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 0})
+      .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
         const {channelId, username, userId} = session
         // 更新玩家记录表中的用户名
         await updateNameInPlayerRecord(userId, username)
+        if (typeof number !== 'number' || isNaN(number) || number < 0) {
+          return '请输入大于等于 0 的数字作为排行榜的参数。';
+        }
+        if (type === '词影' && options.wordles !== 0 || type === '词影' && options.hard) {
+          if (options.wordles === 0) {
+            options.wordles = 1
+          }
+          if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
+            return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
+          }
+          return await getFastestGuessTimeLeaderboardForCiying(session, options.wordles, `玩家输场排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
+        }
         return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'lose', '输场'));
       });
 
     ctx.command(`wordleGame.排行榜.${type}.最快用时 [number:number]`, `查看${type}最快用时排行榜`)
-      .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
+      .option('hard', '--hard 查看困难模式', {fallback: false})
+      .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 0})
+      .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
         const {channelId, username, userId} = session
         // 更新玩家记录表中的用户名
         await updateNameInPlayerRecord(userId, username)
+        if (typeof number !== 'number' || isNaN(number) || number < 0) {
+          return '请输入大于等于 0 的数字作为排行榜的参数。';
+        }
+        if (type === '词影' && options.wordles !== 0 || type === '词影' && options.hard) {
+          if (options.wordles === 0) {
+            options.wordles = 1
+          }
+          if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
+            return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
+          }
+          return await getFastestGuessTimeLeaderboardForCiying(session, options.wordles, `玩家最快用时排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
+        }
+
         return await sendMessage(session, await getLeaderboardFastestGuessTime(type, number));
       });
   });
 
+  ctx.command('wordleGame.排行榜.词影.猜出次数 [number:number]', '查看玩家猜出次数排行榜（词影）') // db*
+    .option('hard', '--hard 查看困难模式', {fallback: false})
+    .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 1})
+    .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
+      const {channelId, username, userId} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
+      if (typeof number !== 'number' || isNaN(number) || number < 0) {
+        return '请输入大于等于 0 的数字作为排行榜的参数。';
+      }
+      if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
+        return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
+      }
+      return await getCiyingSuccessCountLeaderboardForCiying(session, options.wordles, 'successCount', `玩家猜出次数排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
+    });
+
 
   // ch*
+  async function getWinCountLeaderboardForCiying(session: any, wordlesNum: number, title: string, number: number, isHardMode: boolean) {
+    const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {});
+    let sortedPlayers;
+    let result = '';
+
+    let winCountField = isHardMode ? 'winIn1HardMode' : 'winIn1Mode';
+
+    if (wordlesNum >= 2 && wordlesNum <= 4) {
+      winCountField = `winIn${wordlesNum}Mode`;
+    }
+
+    sortedPlayers = getPlayers.sort((a, b) => b.extraCiyingRankInfo[winCountField] - a.extraCiyingRankInfo[winCountField]);
+    const topPlayers = sortedPlayers.slice(0, number);
+
+    result = `${title}：\n`;
+    topPlayers.forEach((player, index) => {
+      result += `${index + 1}. ${player.username}：${player.extraCiyingRankInfo[winCountField]} 次\n`;
+    });
+
+    return await sendMessage(session, result);
+  }
+
+  async function getLoseCountLeaderboardForCiying(session: any, wordlesNum: number, title: string, number: number, isHardMode: boolean) {
+    const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {});
+    let sortedPlayers;
+    let result = '';
+
+    let loseCountField = isHardMode ? 'loseIn1HardMode' : 'loseIn1Mode';
+
+    if (wordlesNum >= 2 && wordlesNum <= 4) {
+      loseCountField = `loseIn${wordlesNum}Mode`;
+    }
+
+    sortedPlayers = getPlayers.sort((a, b) => b.extraCiyingRankInfo[loseCountField] - a.extraCiyingRankInfo[loseCountField]);
+    const topPlayers = sortedPlayers.slice(0, number);
+
+    result = `${title}：\n`;
+    topPlayers.forEach((player, index) => {
+      result += `${index + 1}. ${player.username}：${player.extraCiyingRankInfo[loseCountField]} 次\n`;
+    });
+
+    return await sendMessage(session, result);
+  }
+
+  async function getFastestGuessTimeLeaderboardForCiying(session: any, wordlesNum: number, title: string, number: number, isHardMode: boolean) {
+    const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {});
+    let sortedPlayers;
+    let result = '';
+
+    let fastestGuessTimeField = isHardMode ? 'fastestGuessTimeIn1HardMode' : 'fastestGuessTimeIn1Mode';
+
+    if (wordlesNum >= 2 && wordlesNum <= 4) {
+      fastestGuessTimeField = `fastestGuessTimeIn${wordlesNum}Mode`;
+    }
+
+    sortedPlayers = getPlayers.sort((a, b) => a.extraCiyingRankInfo[fastestGuessTimeField] - b.extraCiyingRankInfo[fastestGuessTimeField]);
+    const topPlayers = sortedPlayers.slice(0, number);
+
+    result = `${title}：\n`;
+    topPlayers.forEach((player, index) => {
+      result += `${index + 1}. ${player.username}：${player.extraCiyingRankInfo[fastestGuessTimeField]} 次\n`;
+    });
+
+    return await sendMessage(session, result);
+  }
+
   async function generateHandlePinyinsImage(pinyinsHtml: string) {
     const browser = ctx.puppeteer.browser
     const context = await browser.createBrowserContext()
@@ -2744,6 +2953,28 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     ]);
   }
 
+  async function getCiyingSuccessCountLeaderboardForCiying(session: any, wordlesNum: number, sortField: string, title: string, number: number, isHardMode: boolean) {
+    const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {});
+    let sortedPlayers;
+    let result = '';
+
+    let successCountField = isHardMode ? 'successCountIn1HardMode' : 'successCountIn1Mode';
+
+    if (wordlesNum >= 2 && wordlesNum <= 4) {
+      successCountField = `successCountIn${wordlesNum}Mode`;
+    }
+
+    sortedPlayers = getPlayers.sort((a, b) => b.extraCiyingRankInfo[successCountField] - a.extraCiyingRankInfo[successCountField]);
+    const topPlayers = sortedPlayers.slice(0, number);
+
+    result = `${title}：\n`;
+    topPlayers.forEach((player, index) => {
+      result += `${index + 1}. ${player.username}：${player.extraCiyingRankInfo[successCountField]} 次\n`;
+    });
+
+    return await sendMessage(session, result);
+  }
+
   async function getLeaderboard(session: any, type: string, sortField: string, title: string, number: number) {
     const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {})
     const sortedPlayers = getPlayers.sort((a, b) => b[sortField] - a[sortField])
@@ -2764,12 +2995,33 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       const updatedLose = playerInfo.lose + 1;
       const gameMode = gameInfo.gameMode as keyof PlayerStats;
       playerInfo.stats[gameMode].lose += 1;
-      await ctx.database.set('wordle_player_records', {userId: player.userId}, {
+
+      if (gameInfo.gameMode === '词影') {
+        if (gameInfo.wordlesNum === 1) {
+          if (gameInfo.isHardMode) {
+            playerInfo.extraCiyingRankInfo.loseIn1HardMode += 1;
+          } else {
+            playerInfo.extraCiyingRankInfo.loseIn1Mode += 1;
+          }
+        } else if (gameInfo.wordlesNum >= 2 && gameInfo.wordlesNum <= 4) {
+          const extraCiyingRankInfoKey = `loseIn${gameInfo.wordlesNum}Mode`;
+          playerInfo.extraCiyingRankInfo[extraCiyingRankInfoKey] += 1;
+        }
+      }
+
+      const updateData = {
         stats: playerInfo.stats,
         lose: updatedLose
-      });
+      };
+
+      if (gameInfo.gameMode === '词影') {
+        updateData['extraCiyingRankInfo'] = playerInfo.extraCiyingRankInfo;
+      }
+
+      await ctx.database.set('wordle_player_records', {userId: player.userId}, updateData);
     }
   }
+
 
   async function updatePlayerRecordsWin(channelId: string, gameInfo: GameRecord) {
     const gamingPlayers: GamingPlayer[] = await ctx.database.get('wordle_gaming_player_records', {channelId});
@@ -2779,10 +3031,30 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       const updatedWin = playerInfo.win + 1;
       const gameMode = gameInfo.gameMode as keyof PlayerStats;
       playerInfo.stats[gameMode].win += 1;
-      await ctx.database.set('wordle_player_records', {userId: player.userId}, {
+
+      if (gameInfo.gameMode === '词影') {
+        if (gameInfo.wordlesNum === 1) {
+          if (gameInfo.isHardMode) {
+            playerInfo.extraCiyingRankInfo.winIn1HardMode += 1;
+          } else {
+            playerInfo.extraCiyingRankInfo.winIn1Mode += 1;
+          }
+        } else if (gameInfo.wordlesNum >= 2 && gameInfo.wordlesNum <= 4) {
+          const extraCiyingRankInfoKey = `winIn${gameInfo.wordlesNum}Mode`;
+          playerInfo.extraCiyingRankInfo[extraCiyingRankInfoKey] += 1;
+        }
+      }
+
+      const updateData = {
         stats: playerInfo.stats,
         win: updatedWin
-      });
+      };
+
+      if (gameInfo.gameMode === '词影') {
+        updateData['extraCiyingRankInfo'] = playerInfo.extraCiyingRankInfo;
+      }
+
+      await ctx.database.set('wordle_player_records', {userId: player.userId}, updateData);
     }
   }
 
@@ -3027,8 +3299,9 @@ ${gridHtml}
   }
 
 
-  // csh*
+// csh*
   let sentMessages = [];
+
   async function sendMessage(session: any, message: any): Promise<void> {
     const {bot, channelId} = session;
     let messageId;
@@ -3143,7 +3416,7 @@ ${content}
     }
   }
 
-  // hs*
+// hs*
   function checkStrokesData(inputWord: string): boolean {
     for (const char of inputWord) {
       if (!strokesData[char]) {
@@ -3431,7 +3704,7 @@ ${content}
     final: string;
   }
 
-  // 韵母
+// 韵母
   const finals = ['a', 'o', 'e', 'i', 'u', 'ü', 'ai', 'ei', 'ui', 'ao', 'ou', 'er', 'ia', 'ie', 'ua', 'uo', 'üe', 'ue', 'iao', 'iou', 'uai', 'uei', 'an', 'ian', 'uan', 'üan', 'en', 'in', 'uen', 'ün', 'un', 'ang', 'iang', 'uang', 'eng', 'ing', 'ueng', 'ong', 'iong'];
 
   function processAllRecords(userInputIdiomAllRecords: { word: string, pinyin: string[] }[]): ProcessedRecord[] {
@@ -5000,7 +5273,7 @@ ${content}
         /*# sourceMappingURL=62.9d339ad0d09ddf80c92e.css.map*/
 
     </style>`
-  // htmlStyle* bl* cl*
+// htmlStyle* bl* cl*
   const htmlAfterStyle = `
 </head>
 <body>
@@ -5075,5 +5348,5 @@ ${content}
                         <div class="">üe</div>
                         <div class="">ün</div>
                     </div>`
-  // apply
+// apply
 }
