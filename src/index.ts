@@ -2143,7 +2143,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
           if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
             return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
           }
-          return await getFastestGuessTimeLeaderboardForCiying(session, options.wordles, `玩家胜场排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
+          return await getWinCountLeaderboardForCiying(session, options.wordles, `玩家胜场排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
         }
         return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'win', '胜场'));
       });
@@ -2165,7 +2165,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
           if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
             return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
           }
-          return await getFastestGuessTimeLeaderboardForCiying(session, options.wordles, `玩家输场排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
+          return await getLoseCountLeaderboardForCiying(session, options.wordles, `玩家输场排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
         }
         return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'lose', '输场'));
       });
@@ -2272,7 +2272,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 
     result = `${title}：\n`;
     topPlayers.forEach((player, index) => {
-      result += `${index + 1}. ${player.username}：${player.extraCiyingRankInfo[fastestGuessTimeField]} 次\n`;
+      result += `${index + 1}. ${player.username}：${formatGameDuration2(player.extraCiyingRankInfo[fastestGuessTimeField])}\n`;
     });
 
     return await sendMessage(session, result);
