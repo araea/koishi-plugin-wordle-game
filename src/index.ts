@@ -78,6 +78,7 @@ export const usage = `## 🎣 使用
 
 ### 数据查询
 
+- \`wordleGame.玩法介绍\` - 各类类 Wordle 游戏玩法介绍。
 - \`wordleGame.单词查找器\` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
 - \`wordleGame.拼音速查表\` - 查看拼音速查表（会根据汉兜游戏进度自动变化）。
 - \`wordleGame.排行榜 [number:number]\` - 查看排行榜，可选参数为排行榜的人数。
@@ -86,8 +87,8 @@ export const usage = `## 🎣 使用
 - \`wordleGame.查询玩家记录 [targetUser:text]\` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - \`wordleGame.查成语.百度汉语 [targetWord:text]\` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
 - \`wordleGame.查单词.WordWord [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
-- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]\` - 查看不同模式的玩家排行榜，可选参数为排行榜的人数。
-
+- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]\` -
+  查看不同模式的玩家排行榜，可选参数为排行榜的人数（偷偷插一嘴，词影有细分模式的排行榜哦~ 用 help 自行探索咯！）。
 `
 
 // pz* pzx*
@@ -578,6 +579,43 @@ export async function apply(ctx: Context, config: Config) {
       await updateNameInPlayerRecord(userId, username)
       await session.execute(`wordleGame -h`)
     })
+  // 玩法介绍 wfjs*
+  ctx.command('wordleGame.玩法介绍', '游戏玩法介绍')
+    .action(async ({session}) => {
+      const {channelId, username, userId} = session
+      // 更新玩家记录表中的用户名
+      await updateNameInPlayerRecord(userId, username)
+      return sendMessage(session, `1. 猜单词游戏（Wordle类）的基本玩法为：
+- 绿色为正确线索，黄色为存在该字母但位置不准确的线索，灰色为不存在该字母的线索。
+- Lewdle 模式为猥亵词模式，即答案全是英语中的脏话，请酌情游玩。
+- 不建议玩 ALL 模式，因为会有专业术语以及人名...
+> 特别说明：黄色字母数量显示目标词中拥有的数量，超出的字母显示为灰色。
+
+2. 猜单词游戏存在困难/超困难/变态/变态挑战模式/...：
+- 困难模式：绿色线索必须遵守，黄色线索必须存在。
+- 超困难模式：在困难模式的基础上，黄色线索和灰色线索必须遵守。
+- 变态模式：每次猜测目标词都会变化并且变化会朝着更难的方向发展，但遵守基本玩法的线索规则。
+- 变态挑战模式：仅适合高级玩家，根据给定的目标词，每次猜测必须让其在最大的存储桶中。
+> 关于变态模式和变态挑战模式，可参考以下链接：
+*变态：https://qntm.org/absurdle
+*变态挑战：https://qntm.org/challenge
+
+3. 猜数学方程式游戏（Math类）的基本玩法为：
+- 基本线索玩法同Wordle类，但是线索为数学方程式（数学等式）。
+- 运算符为 +-*/=，格式大概为：1+2=3，运算符可能出现多个。
+
+4. 汉兜模式（汉兜类）的基本玩法为（默认成语为义务教育课本成语，与词影相同）：
+- 每个格子的汉字、声母、韵母、声调都会独立进行颜色的指示。
+- 颜色线索规则同猜单词游戏。
+
+5. 词影模式（词影类）的基本玩法为（存在困难模式及全成语模式等）：
+- 正确的笔画将会标注为绿色。
+- 笔画相似的将会标注为白色或者灰色，其颜色深浅根据其相似程度而定。
+- 完全正确将会标记为绿底。
+
+（更多玩法请各位玩家自行探索啦~ 祝你们玩的开心！）
+`)
+    })
   // wordleGame.加入 j* jr*
   ctx.command('wordleGame.加入 [money:number]', '加入游戏')
     .action(async ({session}, money = 0) => {
@@ -740,7 +778,26 @@ export async function apply(ctx: Context, config: Config) {
         return await sendMessage(session, `【@${username}】\n游戏已经开始了哦~`);
       }
       // 提示输入
-      await sendMessage(session, `【@${username}】\n当前可以开始的游戏模式如下：\n${exams.map((exam, index) => `${index + 1}. ${exam}`).join('\n')}\n请输入您想开始的【序号】或【模式名】：`);
+      await sendMessage(session, `【@${username}】\n当前可以开始的游戏模式如下：\n${exams.map((exam, index) => `${index + 1}. ${exam}`).join('\n')}
+
+---
+小提示：如果在指令后面加上选项可以玩更有挑战的模式哦~
+当前可选的选项有（某些模式不支持某些模式哦！）：
+--hard 困难模式
+--uhard 超困难模式
+--absurd 变态模式
+--challenge 变态挑战模式
+--wordles [一个数字] 同时猜测多个单词（默认情况下范围是 1 ~ 4）
+...（汉兜和词影的话还有全成语模式等等）
+输入示例：
+> 指令名 --hard --wordles 2（同时猜测两个单词，且为困难模式）
+---
+使用更具体的指令名可以直接开始游戏哦~（就不用引导啦）
+输入示例：
+> 开始游戏指令名.词影 --hard（开始词影模式，且难度为困难）
+---
+
+请输入您想开始的【序号】或【模式名】：`);
       const userInput = await session.prompt();
       if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`);
       // 判断 userInput 是否为有效输入
@@ -2017,6 +2074,15 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 
       await sendMessage(session, `当前可查看排行榜如下：
 ${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}
+
+---
+小提示：
+词影模式的排行榜有更细的划分哦~
+想要看特定模式下的词影排行榜，可以输入：
+help wordleGame.排行榜.词影.[排行榜项目]
+（自行选择相应的模式选项查询叭~）
+---
+
 请输入想要查看的【排行榜名】或【序号】：`);
 
       const userInput = await session.prompt();

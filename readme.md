@@ -21,7 +21,9 @@
 
 ## 🎮 简介
 
-`koishi-plugin-wordle-game` 是一个基于 Koishi 框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) | [词影](https://cy.surprising.studio/) |... 猜单词|猜成语|猜数字|猜数学方程式... 的小游戏插件。
+`koishi-plugin-wordle-game` 是一个基于 Koishi
+框架的 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) | [词影](https://cy.surprising.studio/) |...
+猜单词|猜成语|猜数字|猜数学方程式... 的小游戏插件。
 
 主要功能：
 
@@ -79,7 +81,6 @@ npm install koishi-plugin-wordle-game
   - 合成图片页面宽度，默认值为 `800`。
 - `compositeImagePageHeight: number`
   - 合成图片页面高度，默认值为 `100`。
-
 
 ### 游戏行为设置
 
@@ -150,6 +151,7 @@ npm install koishi-plugin-wordle-game
 
 ### 数据查询
 
+- `wordleGame.玩法介绍` - 各类类 Wordle 游戏玩法介绍。
 - `wordleGame.单词查找器` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
 - `wordleGame.拼音速查表` - 查看拼音速查表（会根据汉兜游戏进度自动变化）。
 - `wordleGame.排行榜 [number:number]` - 查看排行榜，可选参数为排行榜的人数。
@@ -158,59 +160,75 @@ npm install koishi-plugin-wordle-game
 - `wordleGame.查询玩家记录 [targetUser:text]` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - `wordleGame.查成语.百度汉语 [targetWord:text]` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
 - `wordleGame.查单词.WordWord [targetWord:text]` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
-- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]` - 查看不同模式的玩家排行榜，可选参数为排行榜的人数。
+- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]` -
+  查看不同模式的玩家排行榜，可选参数为排行榜的人数（偷偷插一嘴，词影有细分模式的排行榜哦~ 用 help 自行探索咯！）。
 
 ## 🌸测试图
+
 <details>
 <summary>点击这里展开/折叠内容</summary>
 
 ### 经典模式
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/dd55af6e-f38d-4f95-9bed-9d6ba967c429)
 
 ### 汉兜模式
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/d968f7fe-544b-4d29-a825-8ae59109a50b)
 
 ### 词影模式
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/b11d911b-f534-4800-aef6-e42ef184803c)
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/45810d3f-732e-4338-9351-b21f4dd9a814)
 
 ### 方程式模式
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/b792df4b-baa2-4453-83f6-6fb58784b921)
 
 ### 开始游戏引导
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/80bb3c2b-d41c-44e0-8a4d-acd1845c1644)
 
 ### 查询进度
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/65e28147-feef-4794-bbbb-9565c65cae36)
 
 ### 同时猜多个
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/86db4fcf-9a6f-4b15-8c50-6f2d7ea017e3)
 
 ### 拼音速查表
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/669c625a-9360-4d88-a0ec-01103e82d9f4)
 
 ### 查单词
+
 #### 英译中
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/c1913df7-1e1a-4324-a228-ed1679e4e330)
 
 #### 英译英
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/18f7806e-641c-4135-8255-73e139e7e427)
 
 ### 查成语
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/76f88dd3-e0b1-48d4-bac7-6cafb0d996c7)
 
 ### 查询玩家记录
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/a14dd774-4148-4a0e-b7bc-deab8180c919)
 
 ### 单词查找器
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/4bad2757-8b49-4e39-b2b3-a311e6cfc08f)
 
 ### 排行榜引导
+
 ![image](https://github.com/araea/koishi-plugin-wordle-game/assets/120614554/9d87c34f-353c-49ed-a885-5ac8128dbd4a)
 
 
 </details>
-
 
 ## 🍰 致谢
 
@@ -229,7 +247,8 @@ npm install koishi-plugin-wordle-game
 - [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT) - 英汉语词典数据库
 - [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle) - Wordle 经典模式词典
 - [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典
-- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典 Wordle 的单词列表
+- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典
+  Wordle 的单词列表
 
 ## ✨ License
 
