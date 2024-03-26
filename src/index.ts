@@ -1206,10 +1206,21 @@ export async function apply(ctx: Context, config: Config) {
         // 游戏状态
         let gameInfo: any = await getGameInfo(channelId)
         inputWord = inputWord?.trim()
+
         // 操作太快
         if (gameInfo.isRunning === true) {
           await setGuessRunningStatus(channelId, false)
           return await sendMessage(session, `【@${username}】\n操作太快了哦~\n再试一次吧！`);
+        }
+
+        // 运行状态
+        await setGuessRunningStatus(channelId, true)
+        // 更新玩家记录表中的用户名
+        await updateNameInPlayerRecord(userId, username)
+
+        if (!gameInfo.isStarted) {
+          await setGuessRunningStatus(channelId, false)
+          return await sendMessage(session, `【@${username}】\n游戏还没开始呢！`);
         }
 
         if (options.random) {
@@ -1224,14 +1235,7 @@ export async function apply(ctx: Context, config: Config) {
           inputWord = userInput.trim()
         }
 
-        // 运行状态
-        await setGuessRunningStatus(channelId, true)
-        // 更新玩家记录表中的用户名
-        await updateNameInPlayerRecord(userId, username)
-        if (!gameInfo.isStarted) {
-          await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n游戏还没开始呢！`);
-        }
+
         // 作答时间限制
         const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000; // 将时间戳转换为秒
         if (config.enableWordGuessTimeLimit) {
