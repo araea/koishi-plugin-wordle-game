@@ -1649,6 +1649,7 @@ ${settlementResult}
       // 更新玩家记录表中的用户名
       await updateNameInPlayerRecord(userId, username)
       if (targetUser) {
+        targetUser = await replaceAtTags(session, targetUser);
         const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
         const match = targetUser.match(userIdRegex);
         userId = match?.[1] ?? userId;
@@ -3488,7 +3489,30 @@ ${content}
     }
   }
 
-// hs*
+  // hs*
+  async function replaceAtTags(session, content: string): Promise<string> {
+    // 正则表达式用于匹配 at 标签
+    const atRegex = /<at id="(\d+)"(?: name="([^"]*)")?\/>/g;
+
+    // 匹配所有 at 标签
+    let match;
+    while ((match = atRegex.exec(content)) !== null) {
+      const userId = match[1];
+      const name = match[2];
+
+      // 如果 name 不存在，根据 userId 获取相应的 name
+      if (!name) {
+        const guildMember = await session.bot.getGuildMember(session.guildId, userId);
+
+        // 替换原始的 at 标签
+        const newAtTag = `<at id="${userId}" name="${guildMember.name}"/>`;
+        content = content.replace(match[0], newAtTag);
+      }
+    }
+
+    return content;
+  }
+
   function checkStrokesData(inputWord: string): boolean {
     for (const char of inputWord) {
       if (!strokesData[char]) {
