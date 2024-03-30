@@ -3505,7 +3505,7 @@ ${content}
         const guildMember = await session.bot.getGuildMember(session.guildId, userId);
 
         // 替换原始的 at 标签
-        const newAtTag = `<at id="${userId}" name="${guildMember.name}"/>`;
+        const newAtTag = `<at id="${userId}" name="${guildMember.user.name}"/>`;
         content = content.replace(match[0], newAtTag);
       }
     }
