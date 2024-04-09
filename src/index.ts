@@ -214,7 +214,7 @@ export interface GameRecord {
   correctTonesWithIndex: string[]
   presentTonesWithIndex: string[]
   absentTones: string[]
-  timestamp: number
+  timestamp: string
   remainingWordsList: string[]
   isAbsurd: boolean
   isChallengeMode: boolean
@@ -249,7 +249,7 @@ export interface ExtraGameRecord {
   correctTonesWithIndex: string[]
   presentTonesWithIndex: string[]
   absentTones: string[]
-  timestamp: number
+  timestamp: string
   wordlesNum: number
   wordleIndex: number
   isWin: boolean
@@ -459,7 +459,7 @@ export async function apply(ctx: Context, config: Config) {
     guessWordLength: 'unsigned',
     gameMode: 'string',
     isRunning: 'boolean',
-    timestamp: {type: 'integer', length: 20},
+    timestamp: 'string',
     correctLetters: 'list',
     presentLetters: 'string',
     absentLetters: 'string',
@@ -498,7 +498,7 @@ export async function apply(ctx: Context, config: Config) {
     strokesHtmlCache: {type: 'json', initial: [[], [], [], []]},
     guessWordLength: 'unsigned',
     gameMode: 'string',
-    timestamp: {type: 'integer', length: 20},
+    timestamp: 'string',
     correctLetters: 'list',
     presentLetters: 'string',
     absentLetters: 'string',
@@ -768,7 +768,7 @@ export async function apply(ctx: Context, config: Config) {
       // 结束
       const processedResult: string = gameInfo.wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
       await endGame(channelId)
-      const duration = calculateGameDuration(gameInfo.timestamp, timestamp);
+      const duration = calculateGameDuration(Number(gameInfo.timestamp), timestamp);
       const message = `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${duration}${gameInfo.isAbsurd ? '' : `\n${generateGameEndMessage(gameInfo)}`}${processedResult}`;
       return await sendMessage(session, message);
       // .action
@@ -901,7 +901,7 @@ export async function apply(ctx: Context, config: Config) {
         remainingGuessesCount: 6 + wordlesNum - 1,
         guessWordLength: 5,
         gameMode: '经典',
-        timestamp: timestamp,
+        timestamp: String(timestamp),
         isHardMode: isHardMode,
         isUltraHardMode,
         correctLetters: correctLetters,
@@ -931,7 +931,7 @@ export async function apply(ctx: Context, config: Config) {
             wordGuess: randomWordExtra,
             wordAnswerChineseDefinition: replaceEscapeCharacters(foundWordExtra.translation),
             gameMode: '经典',
-            timestamp: timestamp,
+            timestamp: String(timestamp),
             correctLetters: correctLetters,
             presentLetters: '',
             absentLetters: '',
@@ -1095,7 +1095,7 @@ export async function apply(ctx: Context, config: Config) {
             remainingGuessesCount: exam === '汉兜' ? 10 + wordlesNum - 1 : exam === 'Math' || exam === '词影' ? 6 + wordlesNum - 1 : guessWordLength + 1 + wordlesNum - 1,
             guessWordLength,
             gameMode: exam,
-            timestamp: timestamp,
+            timestamp: String(timestamp),
             isHardMode: isHardMode,
             isUltraHardMode,
             correctLetters: correctLetters,
@@ -1162,7 +1162,7 @@ export async function apply(ctx: Context, config: Config) {
                 wordGuess: randomWordExtra,
                 wordAnswerChineseDefinition: replaceEscapeCharacters(translation),
                 gameMode: exam,
-                timestamp: timestamp,
+                timestamp: String(timestamp),
                 correctLetters: correctLetters,
                 presentLetters: '',
                 absentLetters: '',
@@ -1252,7 +1252,7 @@ export async function apply(ctx: Context, config: Config) {
 
 
         // 作答时间限制
-        const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000; // 将时间戳转换为秒
+        const timeDifferenceInSeconds = (timestamp - Number(gameInfo.timestamp)) / 1000; // 将时间戳转换为秒
         if (config.enableWordGuessTimeLimit) {
           if (timeDifferenceInSeconds > config.wordGuessTimeLimitInSeconds) {
             // // 生成 html 字符串
@@ -1318,7 +1318,7 @@ export async function apply(ctx: Context, config: Config) {
           const inputLengthMessage = `输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】`;
           const presentLettersWithoutAsterisk = uniqueSortedLowercaseLetters(presentLetters);
           const processedResult = wordlesNum > 1 ? '\n' + await processExtraGameInfos(channelId) : '';
-          const progressMessage = `当前${calculateGameDuration(gameInfo.timestamp, timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}${processedResult}`;
+          const progressMessage = `当前${calculateGameDuration(Number(gameInfo.timestamp), timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}${processedResult}`;
           return await sendMessage(session, `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`);
         }
         // 是否存在该单词
@@ -1623,7 +1623,7 @@ export async function apply(ctx: Context, config: Config) {
 
           const processedResult: string = wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
           await endGame(channelId)
-          const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
+          const gameDuration = calculateGameDuration(Number(gameInfo.timestamp), timestamp);
           const imageType = config.imageType;
           const settlementResult = finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`;
 
@@ -1646,7 +1646,7 @@ ${settlementResult}
           await endGame(channelId)
           const challengeMessage = isChallengeMode ? `\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！` : '';
           const answerInfo = isChallengeMode ? '' : `\n${generateGameEndMessage(gameInfo)}`;
-          const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
+          const gameDuration = calculateGameDuration(Number(gameInfo.timestamp), timestamp);
           const message = `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${gameDuration}${answerInfo}${processedResult}`;
 
           return await sendMessage(session, message);
@@ -1998,7 +1998,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       const usernameMention = `【@${username}】`;
       const inputLengthMessage = `待猜${gameMode === '汉兜' || gameMode === '词影' ? '词语' : gameMode === 'Numberle' ? '数字' : gameMode === 'Math' ? '数学方程式' : '单词'}的长度为：【${guessWordLength}】`;
       const extraGameInfo = wordlesNum > 1 ? `\n${await processExtraGameInfos(channelId)}` : '';
-      const gameDuration = calculateGameDuration(gameInfo.timestamp, timestamp);
+      const gameDuration = calculateGameDuration(Number(gameInfo.timestamp), timestamp);
       const progressInfo = `当前${gameDuration}\n当前进度：【${correctLetters.join('')}】`;
 
       const presentInfo = presentLetters.length !== 0 ? `\n包含：【${presentLetters}】` : '';
@@ -2018,7 +2018,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 
       const progressMessage = `${progressInfo}${presentInfo}${absentInfo}${presentWithIndexInfo}${pinyinsCorrectInfo}${pinyinsPresentInfo}${pinyinsAbsentInfo}${pinyinsPresentWithIndexInfo}${tonesCorrectInfo}${tonesPresentInfo}${tonesAbsentInfo}${tonesPresentWithIndexInfo}${extraGameInfo}`;
 
-      const timeDifferenceInSeconds = (timestamp - gameInfo.timestamp) / 1000;
+      const timeDifferenceInSeconds = (timestamp - Number(gameInfo.timestamp)) / 1000;
       let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${wordlesNum > 1 ? `（x${wordlesNum}）` : ''}${isHardMode ? `（${isUltraHardMode ? '超' : ''}困难）` : ''}${isAbsurd ? `（变态${isChallengeMode ? '挑战' : ''}）` : ''}】${isChallengeMode ? `\n目标单词为：【${targetWord}】` : ''}`;
       if (config.enableWordGuessTimeLimit) {
         message += `\n剩余作答时间：【${timeDifferenceInSeconds}】秒`;
