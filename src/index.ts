@@ -4,7 +4,6 @@ import {Context, h, noop, Schema} from 'koishi'
 import {} from 'koishi-plugin-puppeteer'
 import {} from 'koishi-plugin-monetary'
 import {} from 'koishi-plugin-markdown-to-image-service'
-// import {} from 'koishi-plugin-rr-gpt'
 import {load} from "cheerio";
 import * as path from 'path';
 import * as fs from 'fs';
@@ -12,15 +11,10 @@ import * as fs from 'fs';
 import {
   Ot as compareStrokes,
 } from './assets/词影/main.js';
-// import {
-//   pi as processInputsFromVendorJS,
-// } from './assets/词影/vendor.js';
-// import {pi} from "./assets/词影/vendor";
 
 export const inject = {
   required: ['monetary', 'database', 'puppeteer'],
   optional: ['markdownToImage'],
-  // optional: ['markdownToImage', 'gpt'],
 }
 export const name = 'wordle-game'
 export const usage = `## 🎣 使用
@@ -30,6 +24,7 @@ export const usage = `## 🎣 使用
 - 建议自行添加指令别名，以方便您和您的用户使用。
 - 享受猜单词|四字词语|成语|数字|...游戏吧！😊
 - 如果使用过程中出现成语的未知错误，可以前往 \`data/wordleGame/idioms.json\` 文件中搜索该成语，查看是否存在拼音的错误。
+  - 当然你也可以直接删除这个 \`idioms.json\` 文件，然后重新启动机器人，这样会重新生成一个可能已经修复问题的新的 \`idioms.json\` 文件。
   - 这个文件里可以添加自定义的成语 0.0，例如：如果你想加 “原神启动” 也是可以的，注意格式即可（提醒：最后一个元素后面不要加逗号，因为不符合
     JSON 格式）。
 - 遇到解决不了的问题，也可以想办法联系我，我很乐意帮助你！希望你玩的开心~😊
@@ -121,6 +116,10 @@ export interface Config {
   retractDelay: number
   imageType: "png" | "jpeg" | "webp"
   isTextToImageConversionEnabled: boolean
+  isEnableQQOfficialRobotMarkdownTemplate: boolean
+  customTemplateId: string
+  key: string
+  numberOfMessageButtonsPerRow: number
 
   disableLoggerAndUseConsoleLog: boolean
 }
@@ -155,7 +154,7 @@ export const Config: Schema<Config> = Schema.intersect([
     Schema.union([
       Schema.object({
         enableWordGuessTimeLimit: Schema.const(true).required(),
-        wordGuessTimeLimitInSeconds: Schema.number().min(0).default(120).description(` 猜单词游戏作答时间，单位是秒。`),
+        wordGuessTimeLimitInSeconds: Schema.number().min(0).default(120).description(`猜单词游戏作答时间，单位是秒。`),
       }),
       Schema.object({}),
     ]),
@@ -163,7 +162,17 @@ export const Config: Schema<Config> = Schema.intersect([
       retractDelay: Schema.number().min(0).default(0).description(`自动撤回等待的时间，单位是秒。值为 0 时不启用自动撤回功能。`),
       imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`发送的图片类型。`),
       isTextToImageConversionEnabled: Schema.boolean().default(false).description(`是否开启将文本转为图片的功能（可选），如需启用，需要启用 \`markdownToImage\` 服务。`),
+      isEnableQQOfficialRobotMarkdownTemplate: Schema.boolean().default(false).description(`是否启用 QQ 官方机器人的 Markdown 模板，带消息按钮。`),
     }),
+    Schema.union([
+      Schema.object({
+        isEnableQQOfficialRobotMarkdownTemplate: Schema.const(true).required(),
+        customTemplateId: Schema.string().default('').description(`自定义模板 ID。`),
+        key: Schema.string().default('').description(`文本内容中特定插值的 key，用于存放文本。如果你的插值为 {{.info}}，那么请在这里填 info。`),
+        numberOfMessageButtonsPerRow: Schema.number().min(4).max(5).default(4).description(`每行消息按钮的数量。`),
+      }),
+      Schema.object({}),
+    ]),
 
     Schema.object({
       disableLoggerAndUseConsoleLog: Schema.boolean().default(false).description(`是否禁用 logger 日志记录，使用控制台日志代替。`),
@@ -411,7 +420,7 @@ interface PinyinItem2 {
   pinyin: string;
 }
 
-// bl*
+// bl* cl*
 const badWordsList: string[] = ["BONER", "FELCH", "PUSSY", "TAINT", "SEMEN", "DILDO", "FARTS", "CHODE", "MINGE", "GONAD", "TWATS", "SPUNK", "QUEEF", "GAPED", "PRICK", "BUSSY", "SHART", "BALLS", "VULVA", "PORNO", "COOCH", "PONUT", "LOADS", "DADDY", "FROTS", "SKEET", "MILFS", "BOOTY", "QUIMS", "DICKS", "CUSSY", "BOOBS", "BONCH", "TWINK", "GROOL", "HORNY", "YIFFY", "THICC", "BULGE", "TITTY", "WANKS", "FUCKS", "HUSSY", "COCKS", "FANNY", "SHAFT", "TWERK", "PUBES", "GONZO", "HANDY", "NARDS", "RIMJOB", "ERECT", "SPANK", "SQUIRT", "CUNTS", "PRECUM", "SCREW", "EDGING", "GOATSE", "BOINK", "PUNANI", "ASSES", "PECKER", "HINEY", "WANKER", "GUMMY", "CUMRAG", "PEGGED", "LEWDS", "MOPED", "TEABAG", "SCROTE", "BEAVER", "NOOKIE", "CRABS", "FUCKED", "BUTTS", "GOOCH", "TAGNUT", "TRUMP", "COUGAR", "SHTUP", "TOOBIN", "KANCHO", "KINKY", "WILLY", "SYBIAN", "GLUCK", "BONED", "GOBBLE", "TRIBS", "BROJOB", "DOGGY", "DOCKS", "CHUBBY", "TOSSER", "SHAGS", "FISTED", "STIFFY", "NASTY", "CLIMAX", "JOBBY", "BONERS", "RAWDOG", "PLUMS", "RANDY", "CLUNGE", "FEMDOM", "ZADDY", "SMEGMA", "THROB", "MERKIN", "CLITS", "MOMMY", "TITJOB", "MOIST", "GAGGED", "GUSHER", "FLAPS", "TODGER", "YONIC", "FRICK", "PROBE", "GIRTH", "PERVY", "AROUSE", "AHEGAO", "FLEDGE", "HENTAI", "GROWER", "SIMBA", "MENAGE", "LENGTH", "DOMME", "DIDDLE", "SHOWER", "BOYTOY", "SMANG", "GILFS", "NYASH", "LIGMA", "FACIAL", "OPPAI", "ASSJOB", "LUBED", "PAYPIG", "SPAFF", "PENGUS", "RIMBOW", "CUMPT", "FROMBE", "MILKER", "HIMBO", "FAPPY", "CUCKED", "HOOHA", "REAMED", "TOEJOB", "BEMHO", "BOOFED", "SEXILE", "GOOSE", "BANGED", "NORKS", "CHONES", "GLANS", "GLORP", "EPEEN", "JELQS", "CRANK", "ASSMAN", "SPURT", "BLOWIE", "ECCHI", "DICKED", "COOZE", "BEWBS", "BONKED", "BUGGER", "CUMWAD", "HANDY", "PORNO", "DILDO", "FELCH", "WANKS", "LOADS", "BOOBS", "QUIMS", "TITTY", "MILFS", "TWATS", "SCREW", "BUSSY", "DADDY", "BULGE", "BONER", "COOCH", "CUNTS", "FANNY", "TAINT", "SPUNK", "GONAD", "CUMRAG", "RIMJOB", "SHAFT", "SEMEN", "SCROTE", "TWERK", "HINEY", "SKEET", "CUSSY", "FROTS", "BONCH", "BOOTY", "BUTTS", "TAGNUT", "GAPED", "TOOBIN", "SYBIAN", "DICKS", "KINKY", "NARDS", "BONED", "DOGGY", "PUSSY", "WANKER", "PEGGED", "DOCKS", "KANCHO", "PONUT", "CHODE", "FUCKED", "THICC", "CRABS", "JOBBY", "TEABAG", "STIFFY", "EDGING", "COUGAR", "BALLS", "RAWDOG", "SMEGMA", "SQUIRT", "NASTY", "HUSSY", "FEMDOM", "PECKER", "TENTED", "SPLOSH", "BLUMPY", "CUMET", "SUCKLE", "SEXTS", "SUGMA", "SCROG", "BRAIN", "HOOKUP", "HICKEY", "AHOLE", "ANALLY", "COOMER", "ENEMA", "BARSE", "BOOBA", "CLUSSY", "HUMMER", "BEZOS", "CANING", "CHOKER", "BENWA", "CUMJAR", "DUMPER", "FIGGED", "GOONER", "INCEST", "SNUSNU", "SOUND", "ASSHAT", "BUNDA", "BREED", "CAGING", "MOIST", "FACIAL", "MOPED", "SHTUP", "GUMMY", "GOOCH", "LEWDS", "COCKS", "ASSES", "ZADDY", "MINGE", "LENGTH", "BOYTOY", "SEXILE", "PRECUM", "SHART", "PENGUS", "GOBBLE", "LUBED", "SMANG", "GUSHER", "CUMPT", "GONZO", "MERKIN", "JELQS", "TRIBS", "PERVY", "PROBE", "PUBES", "NORKS", "BUGGER", "SIMBA", "CUMWAD", "PRICK", "FISTED", "YONIC", "AROUSE", "BOOBS", "GAGGED", "YIFFY", "CLIMAX", "CRANK", "SPANK", "MILKER", "RANDY", "SHAGS", "GOOSE", "TOSSER", "SCREW", "LOADS", "CHONES", "RIMBOW", "BULGE", "BEWBS", "TITTY", "CLUNGE", "OPPAI", "HANDY", "EPEEN", "MILFS", "GILFS", "PAYPIG", "PUNANI", "SPAFF", "TWERK", "FAPPY", "CUNTS", "GAPED", "BLOWIE", "BOOTY", "CUMRAG", "TOOBIN", "DICKED", "FROMBE", "COOZE", "NARDS", "BONERS", "FUCKS", "TAGNUT", "PLUMS", "GONAD", "AHEGAO", "SYBIAN", "FUCKED", "GOATSE", "TWINK", "HOOHA", "CLITS", "COUGAR", "ERECT", "BONED", "SEMEN", "TWATS", "TITJOB", "CRABS", "THROB", "MOMMY", "VULVA", "DILDO", "PORNO", "KINKY", "SMEGMA", "NASTY", "TOEJOB", "LIGMA", "SPURT", "BEMHO", "TODGER", "FEMDOM", "EDGING", "NOOKIE", "KANCHO", "FLAPS", "TRUMP", "GROOL", "JOBBY", "BUSSY", "HICKEY", "BEZOS", "PUSSY", "BUTTS", "SCROG", "FELCH", "DUMPER", "REAMED", "HIMBO", "FIGGED", "ASSJOB", "CHUBBY", "BROJOB", "SPLOSH", "NYASH", "SHOWER", "FRICK", "TAINT", "BOOFED", "CHODE", "SEXTS", "BLUMPY", "FROTS", "SQUIRT", "LEWDS", "WANKS", "COOMER", "BREED", "CHOKER", "WANKER", "GLANS", "HUSSY", "BOINK", "BALLS", "HORNY", "QUIMS", "COOCH", "WILLY", "SPUNK", "BARSE", "BONKED", "DADDY", "MOPED", "FLEDGE", "PROBE", "SHAFT", "SCROTE", "PUBES", "HINEY", "CUMET", "BONCH", "BENWA", "SUCKLE", "ECCHI", "TENTED", "GUSHER", "FISTED", "BUNDA", "CUCKED", "MILKER", "SOUND", "SIMBA", "DIDDLE", "CAGING", "PRECUM", "YONIC", "CUSSY", "TEABAG", "BEWBS", "SPANK", "PEGGED", "FANNY", "RIMBOW", "GIRTH", "RAWDOG", "TRIBS", "INCEST", "HUMMER", "TWERK", "DOCKS", "YIFFY", "MERKIN", "CUMJAR", "ANALLY", "AHOLE", "SHTUP", "TOSSER", "FROMBE", "LOADS", "ASSES", "BEAVER", "DOMME", "BOOBA", "DICKED", "CUMPT", "CUMWAD", "ZADDY", "LUBED", "GONZO", "GAPED", "CUNTS", "RIMJOB", "PECKER", "GOOCH", "FARTS", "COUGAR", "DOGGY", "PLUMS", "PENGUS", "ENEMA", "BLOWIE", "FUCKED", "CLUNGE", "TOOBIN", "CUMRAG", "SHAGS", "OPPAI", "GLORP", "GOBBLE", "MINGE", "TAGNUT", "MOIST", "CLUSSY", "COOZE", "EPEEN", "STIFFY", "PUNANI", "TITJOB", "GUMMY", "HOOHA", "TODGER", "RANDY", "VULVA", "PORNO", "CLITS", "SMANG", "GILFS", "THROB", "FACIAL", "FAPPY", "BUGGER", "GROWER", "NOOKIE", "DILDO", "BOOTY", "FUCKS", "NORKS", "SEMEN", "CLIMAX", "FIGGED", "JELQS", "PRICK", "SUGMA", "ASSHAT", "FLAPS", "SQUIRT", "BRAIN", "EDGING", "GAGGED", "BULGE", "DICKS", "GOONER", "BANGED", "BOINK", "GOOSE", "BUTTS", "COOMER", "CANING", "SMEGMA", "GROOL", "KANCHO", "SEXILE", "NYASH", "TRUMP", "TWINK", "WILLY", "BLUMPY", "BOOBS", "FRICK", "HICKEY", "PUSSY", "SHART", "GOATSE", "HIMBO", "BONER", "LEWDS", "GLANS", "TOEJOB", "BEMHO", "HORNY", "ECCHI", "WANKER", "BARSE", "GUSHER", "FROTS", "CHOKER", "SOUND", "BREED", "QUIMS", "FEMDOM", "BENWA", "PUBES", "CAGING", "SUCKLE", "HINEY", "BONKED", "ERECT", "BONERS", "SHAFT", "SEXTS", "HENTAI", "PEGGED", "CRABS", "ASSJOB", "GIRTH", "TENTED", "BUSSY", "LIGMA", "ASSMAN", "MERKIN", "BROJOB", "NARDS", "PAYPIG", "SCROTE", "INCEST", "COCKS", "SPURT", "FELCH", "TRIBS", "TITTY", "CUMWAD", "PONUT", "MILKER", "BOOFED", "REAMED", "HUMMER", "MOPED", "MENAGE", "BEZOS", "DOGGY", "SPLOSH", "RIMJOB", "TWERK", "TAINT", "CLUNGE", "AHOLE", "DIDDLE", "ENEMA", "QUEEF", "WANKS", "HANDY", "SHAGS", "SNUSNU", "KINKY", "AHEGAO", "ASSES", "CUMJAR", "YIFFY", "GOOCH", "FLEDGE", "HOOKUP", "GOBBLE", "GUMMY", "OPPAI", "BEAVER", "CUMRAG", "GLUCK", "SIMBA", "FANNY", "PENGUS", "EPEEN", "BUGGER", "COUGAR", "CUMPT", "SKEET", "DOCKS", "MILFS", "FARTS", "BONCH", "THROB", "BLOWIE", "PERVY", "HUSSY", "HOOHA", "SEMEN", "MOMMY", "CLUSSY", "SCREW", "AROUSE", "CHONES", "FISTED", "THICC", "SYBIAN", "VULVA", "PECKER", "DADDY", "BOYTOY", "JOBBY", "SQUIRT", "ANALLY", "ZADDY", "BOOTY", "SHTUP", "DOMME", "TOOBIN", "CUNTS", "BOOBA", "SEXILE", "BOOBS", "TWATS", "CUSSY", "CANING", "STIFFY", "SHOWER", "NYASH", "NORKS", "RIMBOW", "COOCH", "TOSSER", "FLAPS", "SCROG", "BRAIN", "GILFS", "FRICK", "TODGER", "GONZO", "FUCKS", "CLIMAX", "LOADS", "BEMHO", "PUSSY", "PRECUM", "CHODE", "COOMER", "BUNDA", "HIMBO", "GOONER", "SPUNK", "KANCHO", "FROTS", "HINEY", "BARSE", "BONERS", "LENGTH", "BOINK", "PROBE", "SHAFT", "SUCKLE", "SUGMA", "WILLY", "BULGE", "ASSHAT", "GAGGED", "JELQS", "SMEGMA", "TRUMP", "SOUND", "BONKED", "SPURT", "TITJOB", "CAGING", "RANDY", "PUBES", "COOZE", "NOOKIE", "HORNY", "ERECT", "CRABS", "LUBED", "SMANG", "ASSJOB", "BLUMPY", "DICKS", "SPAFF", "BUTTS", "MENAGE", "GAPED", "PLUMS", "LIGMA", "PEGGED", "HENTAI", "TWINK", "BROJOB", "WANKS", "PUNANI", "GOOSE", "DUMPER", "FEMDOM", "NARDS", "FIGGED", "CUMET", "DILDO", "TEABAG", "EDGING", "AHOLE", "RAWDOG", "INCEST", "PORNO", "ASSES", "GROOL", "CUMWAD", "DICKED", "HOOKUP", "GOOCH", "TAGNUT", "LEWDS", "GUSHER", "GLANS", "BUGGER", "PAYPIG", "FUCKED", "CHOKER", "OPPAI", "SCROTE", "CUCKED", "TRIBS", "TENTED", "SPANK", "EPEEN", "AROUSE", "BONER", "QUEEF", "NASTY", "TITTY", "YIFFY", "GOATSE", "AHEGAO", "TWERK", "GUMMY", "DOGGY", "MILFS", "FISTED", "CLITS", "FAPPY", "KINKY", "JOBBY", "VULVA", "THICC", "MERKIN", "BUSSY", "DIDDLE", "MILKER", "GLORP", "FACIAL", "FROMBE", "SHAGS", "BONCH", "SPLOSH", "COCKS", "DOCKS", "GONAD", "GROWER", "COOCH", "SHOWER", "SIMBA", "PENGUS", "QUIMS", "RIMJOB", "TOOBIN", "BOOBA", "FARTS", "BONED", "CHUBBY", "SQUIRT", "SKEET", "GONZO", "SHART", "HUSSY", "THROB", "TAINT", "MOPED", "LOADS", "CRANK", "BEZOS", "DADDY", "CUMJAR", "SYBIAN", "NYASH", "SCREW", "BENWA", "CLIMAX", "HIMBO", "BONERS", "FLEDGE", "FUCKS", "BULGE", "SPUNK", "PECKER", "ASSHAT", "BOYTOY", "TITJOB", "WANKER", "JELQS", "SPURT", "BOINK", "SOUND", "FANNY", "LENGTH", "STIFFY", "MINGE", "FRICK", "BEAVER", "SMEGMA", "YONIC", "CHONES", "CUMRAG", "CLUSSY", "NORKS", "LUBED", "CUSSY", "ZADDY", "PUSSY", "TWATS", "PLUMS", "DICKS", "SEXILE", "CRABS", "COUGAR", "BREED", "HORNY", "GOBBLE", "HUMMER", "ERECT", "CHODE", "HINEY", "BARSE", "DILDO", "GOOSE", "WANKS", "COOMER", "BRAIN", "HICKEY", "SMANG", "CAGING", "AHOLE", "BALLS", "BUTTS", "ASSES", "NARDS", "SEMEN", "FIGGED", "TWINK", "SEXTS", "FELCH", "PORNO", "RIMBOW", "PROBE", "LIGMA", "PUNANI", "ASSJOB", "GOOCH", "REAMED", "PRICK", "PRECUM", "DUMPER", "TOSSER", "HOOHA", "QUEEF", "GROOL", "RANDY", "GIRTH", "SCROG", "GUSHER", "BONKED", "LEWDS", "PUBES", "TAGNUT", "FAPPY", "TRUMP", "SHTUP", "KINKY", "CLUNGE", "DIDDLE", "CLITS", "MILFS", "OPPAI", "SHAGS", "SPAFF", "BLUMPY", "BEMHO", "AROUSE", "ANALLY", "GROWER", "DICKED", "GLORP", "DOMME", "TWERK", "FLAPS", "BROJOB", "CUCKED", "BUNDA", "CUMET", "EDGING", "DOGGY", "SQUIRT", "RIMJOB", "HENTAI", "INCEST", "SUCKLE", "YIFFY", "BOOFED"];
 const lowerCaseWordArray: string[] = ["aback", "abase", "abate", "abbey", "abbot", "abhor", "abide", "abled", "abode", "abort", "about", "above", "abuse", "abyss", "acorn", "acrid", "actor", "acute", "adage", "adapt", "adept", "admin", "admit", "adobe", "adopt", "adore", "adorn", "adult", "affix", "afire", "afoot", "afoul", "after", "again", "agape", "agate", "agent", "agile", "aging", "aglow", "agony", "agora", "agree", "ahead", "aider", "aisle", "alarm", "album", "alert", "algae", "alibi", "alien", "align", "alike", "alive", "allay", "alley", "allot", "allow", "alloy", "aloft", "alone", "along", "aloof", "aloud", "alpha", "altar", "alter", "amass", "amaze", "amber", "amble", "amend", "amiss", "amity", "among", "ample", "amply", "amuse", "angel", "anger", "angle", "angry", "angst", "anime", "ankle", "annex", "annoy", "annul", "anode", "antic", "anvil", "aorta", "apart", "aphid", "aping", "apnea", "apple", "apply", "apron", "aptly", "arbor", "ardor", "arena", "argue", "arise", "armor", "aroma", "arose", "array", "arrow", "arson", "artsy", "ascot", "ashen", "aside", "askew", "assay", "asset", "atoll", "atone", "attic", "audio", "audit", "augur", "aunty", "avail", "avert", "avian", "avoid", "await", "awake", "award", "aware", "awash", "awful", "awoke", "axial", "axiom", "axion", "azure", "bacon", "badge", "badly", "bagel", "baggy", "baker", "baler", "balmy", "banal", "banjo", "barge", "baron", "basal", "basic", "basil", "basin", "basis", "baste", "batch", "bathe", "baton", "batty", "bawdy", "bayou", "beach", "beady", "beard", "beast", "beech", "beefy", "befit", "began", "begat", "beget", "begin", "begun", "being", "belch", "belie", "belle", "belly", "below", "bench", "beret", "berry", "berth", "beset", "betel", "bevel", "bezel", "bible", "bicep", "biddy", "bigot", "bilge", "billy", "binge", "bingo", "biome", "birch", "birth", "bison", "bitty", "black", "blade", "blame", "bland", "blank", "blare", "blast", "blaze", "bleak", "bleat", "bleed", "bleep", "blend", "bless", "blimp", "blind", "blink", "bliss", "blitz", "bloat", "block", "bloke", "blond", "blood", "bloom", "blown", "bluer", "bluff", "blunt", "blurb", "blurt", "blush", "board", "boast", "bobby", "boney", "bongo", "bonus", "booby", "boost", "booth", "booty", "booze", "boozy", "borax", "borne", "bosom", "bossy", "botch", "bough", "boule", "bound", "bowel", "boxer", "brace", "braid", "brain", "brake", "brand", "brash", "brass", "brave", "bravo", "brawl", "brawn", "bread", "break", "breed", "briar", "bribe", "brick", "bride", "brief", "brine", "bring", "brink", "briny", "brisk", "broad", "broil", "broke", "brood", "brook", "broom", "broth", "brown", "brunt", "brush", "brute", "buddy", "budge", "buggy", "bugle", "build", "built", "bulge", "bulky", "bully", "bunch", "bunny", "burly", "burnt", "burst", "bused", "bushy", "butch", "butte", "buxom", "buyer", "bylaw", "cabal", "cabby", "cabin", "cable", "cacao", "cache", "cacti", "caddy", "cadet", "cagey", "cairn", "camel", "cameo", "canal", "candy", "canny", "canoe", "canon", "caper", "caput", "carat", "cargo", "carol", "carry", "carve", "caste", "catch", "cater", "catty", "caulk", "cause", "cavil", "cease", "cedar", "cello", "chafe", "chaff", "chain", "chair", "chalk", "champ", "chant", "chaos", "chard", "charm", "chart", "chase", "chasm", "cheap", "cheat", "check", "cheek", "cheer", "chess", "chest", "chick", "chide", "chief", "child", "chili", "chill", "chime", "china", "chirp", "chock", "choir", "choke", "chord", "chore", "chose", "chuck", "chump", "chunk", "churn", "chute", "cider", "cigar", "cinch", "circa", "civic", "civil", "clack", "claim", "clamp", "clang", "clank", "clash", "clasp", "class", "clean", "clear", "cleat", "cleft", "clerk", "click", "cliff", "climb", "cling", "clink", "cloak", "clock", "clone", "close", "cloth", "cloud", "clout", "clove", "clown", "cluck", "clued", "clump", "clung", "coach", "coast", "cobra", "cocoa", "colon", "color", "comet", "comfy", "comic", "comma", "conch", "condo", "conic", "copse", "coral", "corer", "corny", "couch", "cough", "could", "count", "coupe", "court", "coven", "cover", "covet", "covey", "cower", "coyly", "crack", "craft", "cramp", "crane", "crank", "crash", "crass", "crate", "crave", "crawl", "craze", "crazy", "creak", "cream", "credo", "creed", "creek", "creep", "creme", "crepe", "crept", "cress", "crest", "crick", "cried", "crier", "crime", "crimp", "crisp", "croak", "crock", "crone", "crony", "crook", "cross", "croup", "crowd", "crown", "crude", "cruel", "crumb", "crump", "crush", "crust", "crypt", "cubic", "cumin", "curio", "curly", "curry", "curse", "curve", "curvy", "cutie", "cyber", "cycle", "cynic", "daddy", "daily", "dairy", "daisy", "dally", "dance", "dandy", "datum", "daunt", "dealt", "death", "debar", "debit", "debug", "debut", "decal", "decay", "decor", "decoy", "decry", "defer", "deign", "deity", "delay", "delta", "delve", "demon", "demur", "denim", "dense", "depot", "depth", "derby", "deter", "detox", "deuce", "devil", "diary", "dicey", "digit", "dilly", "dimly", "diner", "dingo", "dingy", "diode", "dirge", "dirty", "disco", "ditch", "ditto", "ditty", "diver", "dizzy", "dodge", "dodgy", "dogma", "doing", "dolly", "donor", "donut", "dopey", "doubt", "dough", "dowdy", "dowel", "downy", "dowry", "dozen", "draft", "drain", "drake", "drama", "drank", "drape", "drawl", "drawn", "dread", "dream", "dress", "dried", "drier", "drift", "drill", "drink", "drive", "droit", "droll", "drone", "drool", "droop", "dross", "drove", "drown", "druid", "drunk", "dryer", "dryly", "duchy", "dully", "dummy", "dumpy", "dunce", "dusky", "dusty", "dutch", "duvet", "dwarf", "dwell", "dwelt", "dying", "eager", "eagle", "early", "earth", "easel", "eaten", "eater", "ebony", "eclat", "edict", "edify", "eerie", "egret", "eight", "eject", "eking", "elate", "elbow", "elder", "elect", "elegy", "elfin", "elide", "elite", "elope", "elude", "email", "embed", "ember", "emcee", "empty", "enact", "endow", "enema", "enemy", "enjoy", "ennui", "ensue", "enter", "entry", "envoy", "epoch", "epoxy", "equal", "equip", "erase", "erect", "erode", "error", "erupt", "essay", "ester", "ether", "ethic", "ethos", "etude", "evade", "event", "every", "evict", "evoke", "exact", "exalt", "excel", "exert", "exile", "exist", "expel", "extol", "extra", "exult", "eying", "fable", "facet", "faint", "fairy", "faith", "false", "fancy", "fanny", "farce", "fatal", "fatty", "fault", "fauna", "favor", "feast", "fecal", "feign", "fella", "felon", "femme", "femur", "fence", "feral", "ferry", "fetal", "fetch", "fetid", "fetus", "fever", "fewer", "fiber", "fibre", "ficus", "field", "fiend", "fiery", "fifth", "fifty", "fight", "filer", "filet", "filly", "filmy", "filth", "final", "finch", "finer", "first", "fishy", "fixer", "fizzy", "fjord", "flack", "flail", "flair", "flake", "flaky", "flame", "flank", "flare", "flash", "flask", "fleck", "fleet", "flesh", "flick", "flier", "fling", "flint", "flirt", "float", "flock", "flood", "floor", "flora", "floss", "flour", "flout", "flown", "fluff", "fluid", "fluke", "flume", "flung", "flunk", "flush", "flute", "flyer", "foamy", "focal", "focus", "foggy", "foist", "folio", "folly", "foray", "force", "forge", "forgo", "forte", "forth", "forty", "forum", "found", "foyer", "frail", "frame", "frank", "fraud", "freak", "freed", "freer", "fresh", "friar", "fried", "frill", "frisk", "fritz", "frock", "frond", "front", "frost", "froth", "frown", "froze", "fruit", "fudge", "fugue", "fully", "fungi", "funky", "funny", "furor", "furry", "fussy", "fuzzy", "gaffe", "gaily", "gamer", "gamma", "gamut", "gassy", "gaudy", "gauge", "gaunt", "gauze", "gavel", "gawky", "gayer", "gayly", "gazer", "gecko", "geeky", "geese", "genie", "genre", "ghost", "ghoul", "giant", "giddy", "gipsy", "girly", "girth", "given", "giver", "glade", "gland", "glare", "glass", "glaze", "gleam", "glean", "glide", "glint", "gloat", "globe", "gloom", "glory", "gloss", "glove", "glyph", "gnash", "gnome", "godly", "going", "golem", "golly", "gonad", "goner", "goody", "gooey", "goofy", "goose", "gorge", "gouge", "gourd", "grace", "grade", "graft", "grail", "grain", "grand", "grant", "grape", "graph", "grasp", "grass", "grate", "grave", "gravy", "graze", "great", "greed", "green", "greet", "grief", "grill", "grime", "grimy", "grind", "gripe", "groan", "groin", "groom", "grope", "gross", "group", "grout", "grove", "growl", "grown", "gruel", "gruff", "grunt", "guard", "guava", "guess", "guest", "guide", "guild", "guile", "guilt", "guise", "gulch", "gully", "gumbo", "gummy", "guppy", "gusto", "gusty", "gypsy", "habit", "hairy", "halve", "handy", "happy", "hardy", "harem", "harpy", "harry", "harsh", "haste", "hasty", "hatch", "hater", "haunt", "haute", "haven", "havoc", "hazel", "heady", "heard", "heart", "heath", "heave", "heavy", "hedge", "hefty", "heist", "helix", "hello", "hence", "heron", "hilly", "hinge", "hippo", "hippy", "hitch", "hoard", "hobby", "hoist", "holly", "homer", "honey", "honor", "horde", "horny", "horse", "hotel", "hotly", "hound", "house", "hovel", "hover", "howdy", "human", "humid", "humor", "humph", "humus", "hunch", "hunky", "hurry", "husky", "hussy", "hutch", "hydro", "hyena", "hymen", "hyper", "icily", "icing", "ideal", "idiom", "idiot", "idler", "idyll", "igloo", "iliac", "image", "imbue", "impel", "imply", "inane", "inbox", "incur", "index", "inept", "inert", "infer", "ingot", "inlay", "inlet", "inner", "input", "inter", "intro", "ionic", "irate", "irony", "islet", "issue", "itchy", "ivory", "jaunt", "jazzy", "jelly", "jerky", "jetty", "jewel", "jiffy", "joint", "joist", "joker", "jolly", "joust", "judge", "juice", "juicy", "jumbo", "jumpy", "junta", "junto", "juror", "kappa", "karma", "kayak", "kebab", "khaki", "kinky", "kiosk", "kitty", "knack", "knave", "knead", "kneed", "kneel", "knelt", "knife", "knock", "knoll", "known", "koala", "krill", "label", "labor", "laden", "ladle", "lager", "lance", "lanky", "lapel", "lapse", "large", "larva", "lasso", "latch", "later", "lathe", "latte", "laugh", "layer", "leach", "leafy", "leaky", "leant", "leapt", "learn", "lease", "leash", "least", "leave", "ledge", "leech", "leery", "lefty", "legal", "leggy", "lemon", "lemur", "leper", "level", "lever", "libel", "liege", "light", "liken", "lilac", "limbo", "limit", "linen", "liner", "lingo", "lipid", "lithe", "liver", "livid", "llama", "loamy", "loath", "lobby", "local", "locus", "lodge", "lofty", "logic", "login", "loopy", "loose", "lorry", "loser", "louse", "lousy", "lover", "lower", "lowly", "loyal", "lucid", "lucky", "lumen", "lumpy", "lunar", "lunch", "lunge", "lupus", "lurch", "lurid", "lusty", "lying", "lymph", "lynch", "lyric", "macaw", "macho", "macro", "madam", "madly", "mafia", "magic", "magma", "maize", "major", "maker", "mambo", "mamma", "mammy", "manga", "mange", "mango", "mangy", "mania", "manic", "manly", "manor", "maple", "march", "marry", "marsh", "mason", "masse", "match", "matey", "mauve", "maxim", "maybe", "mayor", "mealy", "meant", "meaty", "mecca", "medal", "media", "medic", "melee", "melon", "mercy", "merge", "merit", "merry", "metal", "meter", "metro", "micro", "midge", "midst", "might", "milky", "mimic", "mince", "miner", "minim", "minor", "minty", "minus", "mirth", "miser", "missy", "mocha", "modal", "model", "modem", "mogul", "moist", "molar", "moldy", "money", "month", "moody", "moose", "moral", "moron", "morph", "mossy", "motel", "motif", "motor", "motto", "moult", "mound", "mount", "mourn", "mouse", "mouth", "mover", "movie", "mower", "mucky", "mucus", "muddy", "mulch", "mummy", "munch", "mural", "murky", "mushy", "music", "musky", "musty", "myrrh", "nadir", "naive", "nanny", "nasal", "nasty", "natal", "naval", "navel", "needy", "neigh", "nerdy", "nerve", "never", "newer", "newly", "nicer", "niche", "niece", "night", "ninja", "ninny", "ninth", "noble", "nobly", "noise", "noisy", "nomad", "noose", "north", "nosey", "notch", "novel", "nudge", "nurse", "nutty", "nylon", "nymph", "oaken", "obese", "occur", "ocean", "octal", "octet", "odder", "oddly", "offal", "offer", "often", "olden", "older", "olive", "ombre", "omega", "onion", "onset", "opera", "opine", "opium", "optic", "orbit", "order", "organ", "other", "otter", "ought", "ounce", "outdo", "outer", "outgo", "ovary", "ovate", "overt", "ovine", "ovoid", "owing", "owner", "oxide", "ozone", "paddy", "pagan", "paint", "paler", "palsy", "panel", "panic", "pansy", "papal", "paper", "parer", "parka", "parry", "parse", "party", "pasta", "paste", "pasty", "patch", "patio", "patsy", "patty", "pause", "payee", "payer", "peace", "peach", "pearl", "pecan", "pedal", "penal", "pence", "penne", "penny", "perch", "peril", "perky", "pesky", "pesto", "petal", "petty", "phase", "phone", "phony", "photo", "piano", "picky", "piece", "piety", "piggy", "pilot", "pinch", "piney", "pinky", "pinto", "piper", "pique", "pitch", "pithy", "pivot", "pixel", "pixie", "pizza", "place", "plaid", "plain", "plait", "plane", "plank", "plant", "plate", "plaza", "plead", "pleat", "plied", "plier", "pluck", "plumb", "plume", "plump", "plunk", "plush", "poesy", "point", "poise", "poker", "polar", "polka", "polyp", "pooch", "poppy", "porch", "poser", "posit", "posse", "pouch", "pound", "pouty", "power", "prank", "prawn", "preen", "press", "price", "prick", "pride", "pried", "prime", "primo", "print", "prior", "prism", "privy", "prize", "probe", "prone", "prong", "proof", "prose", "proud", "prove", "prowl", "proxy", "prude", "prune", "psalm", "pubic", "pudgy", "puffy", "pulpy", "pulse", "punch", "pupal", "pupil", "puppy", "puree", "purer", "purge", "purse", "pushy", "putty", "pygmy", "quack", "quail", "quake", "qualm", "quark", "quart", "quash", "quasi", "queen", "queer", "quell", "query", "quest", "queue", "quick", "quiet", "quill", "quilt", "quirk", "quite", "quota", "quote", "quoth", "rabbi", "rabid", "racer", "radar", "radii", "radio", "rainy", "raise", "rajah", "rally", "ralph", "ramen", "ranch", "randy", "range", "rapid", "rarer", "raspy", "ratio", "ratty", "raven", "rayon", "razor", "reach", "react", "ready", "realm", "rearm", "rebar", "rebel", "rebus", "rebut", "recap", "recur", "recut", "reedy", "refer", "refit", "regal", "rehab", "reign", "relax", "relay", "relic", "remit", "renal", "renew", "repay", "repel", "reply", "rerun", "reset", "resin", "retch", "retro", "retry", "reuse", "revel", "revue", "rhino", "rhyme", "rider", "ridge", "rifle", "right", "rigid", "rigor", "rinse", "ripen", "riper", "risen", "riser", "risky", "rival", "river", "rivet", "roach", "roast", "robin", "robot", "rocky", "rodeo", "roger", "rogue", "roomy", "roost", "rotor", "rouge", "rough", "round", "rouse", "route", "rover", "rowdy", "rower", "royal", "ruddy", "ruder", "rugby", "ruler", "rumba", "rumor", "rupee", "rural", "rusty", "sadly", "safer", "saint", "salad", "sally", "salon", "salsa", "salty", "salve", "salvo", "sandy", "saner", "sappy", "sassy", "satin", "satyr", "sauce", "saucy", "sauna", "saute", "savor", "savoy", "savvy", "scald", "scale", "scalp", "scaly", "scamp", "scant", "scare", "scarf", "scary", "scene", "scent", "scion", "scoff", "scold", "scone", "scoop", "scope", "score", "scorn", "scour", "scout", "scowl", "scram", "scrap", "scree", "screw", "scrub", "scrum", "scuba", "sedan", "seedy", "segue", "seize", "semen", "sense", "sepia", "serif", "serum", "serve", "setup", "seven", "sever", "sewer", "shack", "shade", "shady", "shaft", "shake", "shaky", "shale", "shall", "shalt", "shame", "shank", "shape", "shard", "share", "shark", "sharp", "shave", "shawl", "shear", "sheen", "sheep", "sheer", "sheet", "sheik", "shelf", "shell", "shied", "shift", "shine", "shiny", "shire", "shirk", "shirt", "shoal", "shock", "shone", "shook", "shoot", "shore", "shorn", "short", "shout", "shove", "shown", "showy", "shrew", "shrub", "shrug", "shuck", "shunt", "shush", "shyly", "siege", "sieve", "sight", "sigma", "silky", "silly", "since", "sinew", "singe", "siren", "sissy", "sixth", "sixty", "skate", "skier", "skiff", "skill", "skimp", "skirt", "skulk", "skull", "skunk", "slack", "slain", "slang", "slant", "slash", "slate", "slave", "sleek", "sleep", "sleet", "slept", "slice", "slick", "slide", "slime", "slimy", "sling", "slink", "sloop", "slope", "slosh", "sloth", "slump", "slung", "slunk", "slurp", "slush", "slyly", "smack", "small", "smart", "smash", "smear", "smell", "smelt", "smile", "smirk", "smite", "smith", "smock", "smoke", "smoky", "smote", "snack", "snail", "snake", "snaky", "snare", "snarl", "sneak", "sneer", "snide", "sniff", "snipe", "snoop", "snore", "snort", "snout", "snowy", "snuck", "snuff", "soapy", "sober", "soggy", "solar", "solid", "solve", "sonar", "sonic", "sooth", "sooty", "sorry", "sound", "south", "sower", "space", "spade", "spank", "spare", "spark", "spasm", "spawn", "speak", "spear", "speck", "speed", "spell", "spelt", "spend", "spent", "sperm", "spice", "spicy", "spied", "spiel", "spike", "spiky", "spill", "spilt", "spine", "spiny", "spire", "spite", "splat", "split", "spoil", "spoke", "spoof", "spook", "spool", "spoon", "spore", "sport", "spout", "spray", "spree", "sprig", "spunk", "spurn", "spurt", "squad", "squat", "squib", "stack", "staff", "stage", "staid", "stain", "stair", "stake", "stale", "stalk", "stall", "stamp", "stand", "stank", "stare", "stark", "start", "stash", "state", "stave", "stead", "steak", "steal", "steam", "steed", "steel", "steep", "steer", "stein", "stern", "stick", "stiff", "still", "stilt", "sting", "stink", "stint", "stock", "stoic", "stoke", "stole", "stomp", "stone", "stony", "stood", "stool", "stoop", "store", "stork", "storm", "story", "stout", "stove", "strap", "straw", "stray", "strip", "strut", "stuck", "study", "stuff", "stump", "stung", "stunk", "stunt", "style", "suave", "sugar", "suing", "suite", "sulky", "sully", "sumac", "sunny", "super", "surer", "surge", "surly", "sushi", "swami", "swamp", "swarm", "swash", "swath", "swear", "sweat", "sweep", "sweet", "swell", "swept", "swift", "swill", "swine", "swing", "swirl", "swish", "swoon", "swoop", "sword", "swore", "sworn", "swung", "synod", "syrup", "tabby", "table", "taboo", "tacit", "tacky", "taffy", "taint", "taken", "taker", "tally", "talon", "tamer", "tango", "tangy", "taper", "tapir", "tardy", "tarot", "taste", "tasty", "tatty", "taunt", "tawny", "teach", "teary", "tease", "teddy", "teeth", "tempo", "tenet", "tenor", "tense", "tenth", "tepee", "tepid", "terra", "terse", "testy", "thank", "theft", "their", "theme", "there", "these", "theta", "thick", "thief", "thigh", "thing", "think", "third", "thong", "thorn", "those", "three", "threw", "throb", "throw", "thrum", "thumb", "thump", "thyme", "tiara", "tibia", "tidal", "tiger", "tight", "tilde", "timer", "timid", "tipsy", "titan", "tithe", "title", "toast", "today", "toddy", "token", "tonal", "tonga", "tonic", "tooth", "topaz", "topic", "torch", "torso", "torus", "total", "totem", "touch", "tough", "towel", "tower", "toxic", "toxin", "trace", "track", "tract", "trade", "trail", "train", "trait", "tramp", "trash", "trawl", "tread", "treat", "trend", "triad", "trial", "tribe", "trice", "trick", "tried", "tripe", "trite", "troll", "troop", "trope", "trout", "trove", "truce", "truck", "truer", "truly", "trump", "trunk", "truss", "trust", "truth", "tryst", "tubal", "tuber", "tulip", "tulle", "tumor", "tunic", "turbo", "tutor", "twang", "tweak", "tweed", "tweet", "twice", "twine", "twirl", "twist", "twixt", "tying", "udder", "ulcer", "ultra", "umbra", "uncle", "uncut", "under", "undid", "undue", "unfed", "unfit", "unify", "union", "unite", "unity", "unlit", "unmet", "unset", "untie", "until", "unwed", "unzip", "upper", "upset", "urban", "urine", "usage", "usher", "using", "usual", "usurp", "utile", "utter", "vague", "valet", "valid", "valor", "value", "valve", "vapid", "vapor", "vault", "vaunt", "vegan", "venom", "venue", "verge", "verse", "verso", "verve", "vicar", "video", "vigil", "vigor", "villa", "vinyl", "viola", "viper", "viral", "virus", "visit", "visor", "vista", "vital", "vivid", "vixen", "vocal", "vodka", "vogue", "voice", "voila", "vomit", "voter", "vouch", "vowel", "vying", "wacky", "wafer", "wager", "wagon", "waist", "waive", "waltz", "warty", "waste", "watch", "water", "waver", "waxen", "weary", "weave", "wedge", "weedy", "weigh", "weird", "welch", "welsh", "wench", "whack", "whale", "wharf", "wheat", "wheel", "whelp", "where", "which", "whiff", "while", "whine", "whiny", "whirl", "whisk", "white", "whole", "whoop", "whose", "widen", "wider", "widow", "width", "wield", "wight", "willy", "wimpy", "wince", "winch", "windy", "wiser", "wispy", "witch", "witty", "woken", "woman", "women", "woody", "wooer", "wooly", "woozy", "wordy", "world", "worry", "worse", "worst", "worth", "would", "wound", "woven", "wrack", "wrath", "wreak", "wreck", "wrest", "wring", "wrist", "write", "wrong", "wrote", "wrung", "wryly", "yacht", "yearn", "yeast", "yield", "young", "youth", "zebra", "zesty", "zonal"]
 // 7208
@@ -421,6 +430,8 @@ let logger;
 
 // zhs*
 export async function apply(ctx: Context, config: Config) {
+  // cl*
+  const isQQOfficialRobotMarkdownTemplateEnabled = config.isEnableQQOfficialRobotMarkdownTemplate && config.key !== '' && config.customTemplateId !== ''
   // rz*
   if (!config.disableLoggerAndUseConsoleLog) {
     logger = ctx.logger(`wordleGame`)
@@ -431,6 +442,7 @@ export async function apply(ctx: Context, config: Config) {
   const pinyinFilePath = path.join(__dirname, 'assets', '汉兜', 'pinyin.json');
   const strokesFilePath = path.join(__dirname, 'assets', '词影', 'strokes.json');
   const equationsFilePath = path.join(__dirname, 'assets', 'equations.json');
+  const introductionFilePath = path.join(__dirname, 'assets', '玩法介绍.png');
   const idiomsKoishiFilePath = path.join(wordleGameDirPath, 'idioms.json');
   const pinyinKoishiFilePath = path.join(wordleGameDirPath, 'pinyin.json');
 
@@ -446,6 +458,7 @@ export async function apply(ctx: Context, config: Config) {
   const pinyinData: PinyinItem2[] = JSON.parse(fs.readFileSync(pinyinKoishiFilePath, 'utf8'));
   const equations: string[][] = JSON.parse(fs.readFileSync(equationsFilePath, 'utf8'));
   const idiomsList = JSON.parse(idiomsData);
+  const introductionImgBuffer = fs.readFileSync(introductionFilePath)
   // tzb*
   ctx.model.extend('wordle_game_records', {
     id: 'unsigned',
@@ -586,62 +599,41 @@ export async function apply(ctx: Context, config: Config) {
     await session.execute(`wordleGame.猜 ${content}`);
     return;
   });
-  // wordleGame帮助
+  // zl*
+  // wordleGame帮助 bz* h*
   ctx.command('wordleGame', '猜单词游戏帮助')
     .action(async ({session}) => {
-      const {channelId, username, userId} = session
+      let {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
+      if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+        return await sendMessage(session, `🌸🎐 《WordleGame》 🎐🌸
+😆 欢迎游玩~ 祝您玩得开心！`, `改名 玩法介绍 排行榜 查询玩家记录 开始游戏`, 3)
+      }
       await session.execute(`wordleGame -h`)
     })
   // 玩法介绍 wfjs*
   ctx.command('wordleGame.玩法介绍', '游戏玩法介绍')
     .action(async ({session}) => {
-      const {channelId, username, userId} = session
+      let {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
-      return sendMessage(session, `1. 猜单词游戏（Wordle类）的基本玩法为：
-- 绿色为正确线索，黄色为存在该字母但位置不准确的线索，灰色为不存在该字母的线索。
-- Lewdle 模式为猥亵词模式，即答案全是英语中的脏话，请酌情游玩。
-- 不建议玩 ALL 模式，因为会有专业术语以及人名...
-> 特别说明：黄色字母数量显示目标词中拥有的数量，超出的字母显示为灰色。
-
-2. 猜单词游戏存在困难/超困难/变态/变态挑战模式/...：
-- 困难模式：绿色线索必须遵守，黄色线索必须存在。
-- 超困难模式：在困难模式的基础上，黄色线索和灰色线索必须遵守。
-- 变态模式：每次猜测目标词都会变化并且变化会朝着更难的方向发展，但遵守基本玩法的线索规则。
-- 变态挑战模式：仅适合高级玩家，根据给定的目标词，每次猜测必须让其在最大的存储桶中。
-> 关于变态模式和变态挑战模式，可参考以下链接：
-*变态：https://qntm.org/absurdle
-*变态挑战：https://qntm.org/challenge
-
-3. 猜数学方程式游戏（Math类）的基本玩法为：
-- 基本线索玩法同Wordle类，但是线索为数学方程式（数学等式）。
-- 运算符为 +-*/=，格式大概为：1+2=3，运算符可能出现多个。
-
-4. 汉兜模式（汉兜类）的基本玩法为（默认成语为义务教育课本成语，与词影相同）：
-- 每个格子的汉字、声母、韵母、声调都会独立进行颜色的指示。
-- 颜色线索规则同猜单词游戏。
-
-5. 词影模式（词影类）的基本玩法为（存在困难模式及全成语模式等）：
-- 正确的笔画将会标注为绿色。
-- 笔画相似的将会标注为白色或者灰色，其颜色深浅根据其相似程度而定。
-- 完全正确将会标记为绿底。
-
-（更多玩法请各位玩家自行探索啦~ 祝你们玩的开心！）
-`)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
+      return sendMessage(session, h.image(introductionImgBuffer, `image/${config.imageType}`), ``)
     })
   // wordleGame.加入 j* jr*
   ctx.command('wordleGame.加入 [money:number]', '加入游戏')
     .action(async ({session}, money = 0) => {
-      const {channelId, userId, username, user} = session
+      let {channelId, userId, username, user} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       let gameInfo: any = await getGameInfo(channelId)
       const isInGame = await isPlayerInGame(channelId, userId);
       if (gameInfo.isStarted) {
         if (!isInGame) {
-          return await sendMessage(session, `【@${username}】\n不好意思你来晚啦~\n游戏已经开始了呢！`)
+          return await sendMessage(session, `【@${username}】\n不好意思你来晚啦~\n游戏已经开始了呢！`, `猜测`)
         } else {
           const wordlesNum = gameInfo.wordlesNum
           const isAbsurd = gameInfo.isAbsurd
@@ -668,16 +660,21 @@ export async function apply(ctx: Context, config: Config) {
             imageBuffer = await generateWordlesImage(htmlImgString);
           }
           // 返回提示和游戏进程图
-          return await sendMessage(session, `【@${username}】\n你已经在游戏里了哦~\n且游戏正在进行中，加油！\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
+          if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+            await sendMessage(session, h.image(imageBuffer, `image/${config.imageType}`), ``)
+            return await sendMessage(session, `【@${username}】\n你已经在游戏里了哦~\n且游戏正在进行中，加油！`, `猜测`)
+          } else {
+            return await sendMessage(session, `【@${username}】\n你已经在游戏里了哦~\n且游戏正在进行中，加油！\n${h.image(imageBuffer, `image/${config.imageType}`)}`, `猜测`)
+          }
         }
       }
       // 判断输入
       if (typeof money !== 'number' || money < 0) {
-        return await sendMessage(session, `【@${username}】\n真是个傻瓜呢~\n投个钱也要别人教你嘛！`);
+        return await sendMessage(session, `【@${username}】\n真是个傻瓜呢~\n投个钱也要别人教你嘛！`, `改名 加入游戏`);
       }
       // 不能超过最大投入金额
       if (money > config.maxInvestmentCurrency) {
-        return await sendMessage(session, `【@${username}】\n咱们这是小游戏呀...\n不许玩这么大！\n当前的最大投入金额为：【${config.maxInvestmentCurrency}】`);
+        return await sendMessage(session, `【@${username}】\n咱们这是小游戏呀...\n不许玩这么大！\n当前的最大投入金额为：【${config.maxInvestmentCurrency}】`, `改名 加入游戏`);
       }
       // @ts-ignore
       const uid = user.id;
@@ -693,11 +690,11 @@ export async function apply(ctx: Context, config: Config) {
         // 余额够
         if (userMonetary.value >= money) {
           await ctx.database.set('wordle_gaming_player_records', {channelId, userId}, {money});
-          return await sendMessage(session, `【@${username}】\n修改投入金额成功！\n当前投入金额为：【${money}】\n当前玩家人数：${numberOfPlayers} 名！`);
+          return await sendMessage(session, `【@${username}】\n修改投入金额成功！\n当前投入金额为：【${money}】\n当前玩家人数：${numberOfPlayers} 名！`, `改名 加入游戏 开始游戏`);
         } else {
           // 余额不够
           await ctx.database.set('wordle_gaming_player_records', {channelId, userId}, {money: userMonetary.value});
-          return await sendMessage(session, `【@${username}】\n修改投入金额成功！\n不过好像余额不足啦！\n投入金额已修正为：【${userMonetary.value}】\n当前玩家人数：${numberOfPlayers} 名！`);
+          return await sendMessage(session, `【@${username}】\n修改投入金额成功！\n不过好像余额不足啦！\n投入金额已修正为：【${userMonetary.value}】\n当前玩家人数：${numberOfPlayers} 名！`, `改名 加入游戏 开始游戏`);
         }
       }
       // 加入游戏
@@ -706,17 +703,17 @@ export async function apply(ctx: Context, config: Config) {
         await ctx.database.create('wordle_gaming_player_records', {channelId, userId, username, money});
         // 有余额
         if (userMonetary.value > 0) {
-          return await sendMessage(session, `【@${username}】\n您成功加入游戏了！\n如果您想玩的模式为：【经典】\n那您可以带上货币数额再加入一次！\n当前的最大投入金额为：【${config.maxInvestmentCurrency}】\n当前奖励倍率为：【${config.defaultRewardMultiplier}】\n当前玩家人数：${numberOfPlayers + 1} 名！`);
+          return await sendMessage(session, `【@${username}】\n您成功加入游戏了！\n如果您想玩的模式为：【经典】\n那您可以带上货币数额再加入一次！\n当前的最大投入金额为：【${config.maxInvestmentCurrency}】\n当前奖励倍率为：【${config.defaultRewardMultiplier}】\n当前玩家人数：${numberOfPlayers + 1} 名！`, `改名 加入游戏 开始游戏`);
         } else {
           // 没余额
-          return await sendMessage(session, `【@${username}】\n您成功加入游戏了！\n加油哇，祝您好运！\n当前玩家人数：${numberOfPlayers + 1} 名！`);
+          return await sendMessage(session, `【@${username}】\n您成功加入游戏了！\n加油哇，祝您好运！\n当前玩家人数：${numberOfPlayers + 1} 名！`, `改名 加入游戏 开始游戏`);
         }
       } else {
         // money !== 0
         // 余额足够
         if (userMonetary.value >= money) {
           await ctx.database.create('wordle_gaming_player_records', {channelId, userId, username, money});
-          return await sendMessage(session, `【@${username}】\n您成功加入游戏了！您投入的金额为：【${money}】\n当前奖励倍率为：【${config.defaultRewardMultiplier}】\n当前玩家人数：${numberOfPlayers + 1} 名！`);
+          return await sendMessage(session, `【@${username}】\n您成功加入游戏了！您投入的金额为：【${money}】\n当前奖励倍率为：【${config.defaultRewardMultiplier}】\n当前玩家人数：${numberOfPlayers + 1} 名！`, `改名 加入游戏 开始游戏`);
         } else {
           // 余额不够
           await ctx.database.create('wordle_gaming_player_records', {
@@ -725,7 +722,7 @@ export async function apply(ctx: Context, config: Config) {
             username,
             money: userMonetary.value
           });
-          return await sendMessage(session, `【@${username}】\n您成功加入游戏了！\n不过好像余额不足啦！\n投入金额已修正为：【${userMonetary.value}】\n当前玩家人数：${numberOfPlayers + 1} 名！`);
+          return await sendMessage(session, `【@${username}】\n您成功加入游戏了！\n不过好像余额不足啦！\n投入金额已修正为：【${userMonetary.value}】\n当前玩家人数：${numberOfPlayers + 1} 名！`, `改名 加入游戏 开始游戏`);
         }
       }
       // .action
@@ -733,35 +730,37 @@ export async function apply(ctx: Context, config: Config) {
   // wordleGame.退出 q* tc*
   ctx.command('wordleGame.退出', '退出游戏')
     .action(async ({session}) => {
-      const {channelId, userId, username} = session
+      let {channelId, userId, username} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       // 游戏状态
       const gameInfo = await getGameInfo(channelId)
       if (gameInfo.isStarted) {
-        return await sendMessage(session, `【@${username}】\n游戏已经开始啦！\n无法进行此操作！`);
+        return await sendMessage(session, `【@${username}】\n游戏已经开始啦！\n无法进行此操作！`, `猜测`);
       }
       // 玩家
       const isInGame = await isPlayerInGame(channelId, userId);
       if (!isInGame) {
-        return await sendMessage(session, `【@${username}】\n您还没加入游戏呢！\n怎么退出？`);
+        return await sendMessage(session, `【@${username}】\n您还没加入游戏呢！\n怎么退出？`, `改名 加入游戏`);
       }
       // 退出
       await ctx.database.remove('wordle_gaming_player_records', {channelId, userId})
       const numberOfPlayers = await getNumberOfPlayers(channelId);
-      return await sendMessage(session, `【@${username}】\n您成功退出游戏啦！\n那就让我们下次再见吧~\n剩余玩家人数：${numberOfPlayers} 名！`);
+      return await sendMessage(session, `【@${username}】\n您成功退出游戏啦！\n那就让我们下次再见吧~\n剩余玩家人数：${numberOfPlayers} 名！`, `改名 退出游戏 开始游戏 加入游戏`, 2);
       // .action
     })
   // wordleGame.结束 s* js*
   ctx.command('wordleGame.结束', '结束游戏')
     .action(async ({session}) => {
-      const {channelId, userId, username, timestamp} = session
+      let {channelId, userId, username, timestamp} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       // 游戏状态
       const gameInfo = await getGameInfo(channelId)
       if (!gameInfo.isStarted) {
-        return await sendMessage(session, `【@${username}】\n游戏还没开始哦~怎么结束呐？`);
+        return await sendMessage(session, `【@${username}】\n游戏还没开始哦~怎么结束呐？`, `改名 开始游戏`);
       }
       // 玩家记录输
       await updatePlayerRecordsLose(channelId, gameInfo)
@@ -770,7 +769,7 @@ export async function apply(ctx: Context, config: Config) {
       await endGame(channelId)
       const duration = calculateGameDuration(Number(gameInfo.timestamp), timestamp);
       const message = `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${duration}${gameInfo.isAbsurd ? '' : `\n${generateGameEndMessage(gameInfo)}`}${processedResult}`;
-      return await sendMessage(session, message);
+      return await sendMessage(session, message, `改名 玩法介绍 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
       // .action
     })
   // wordleGame.开始 s* ks*
@@ -781,49 +780,32 @@ export async function apply(ctx: Context, config: Config) {
     .option('challenge', '--challenge 变态挑战模式', {fallback: false})
     .option('wordles', '--wordles <value:number> 同时猜测多个单词', {fallback: 1})
     .action(async ({session, options}, guessWordLength) => {
-      const {channelId, userId, username} = session;
+      let {channelId, userId, username} = session;
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username);
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username);
       if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > config.maxSimultaneousGuesses) {
-        return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`);
+        return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`, `改名 开始游戏`);
       }
       // 游戏状态
       const gameInfo = await getGameInfo(channelId);
       if (gameInfo.isStarted) {
-        return await sendMessage(session, `【@${username}】\n游戏已经开始了哦~`);
+        return await sendMessage(session, `【@${username}】\n游戏已经开始了哦~`, `猜测`);
       }
       // 提示输入
-      await sendMessage(session, `【@${username}】\n当前可以开始的游戏模式如下：\n${exams.map((exam, index) => `${index + 1}. ${exam}`).join('\n')}
-
----
-小提示：如果在指令后面加上选项可以玩更有挑战的模式哦~
-当前可选的选项有（某些模式不支持某些模式哦！）：
---hard 困难模式
---uhard 超困难模式
---absurd 变态模式
---challenge 变态挑战模式
---wordles [一个数字] 同时猜测多个单词（默认情况下范围是 1 ~ 4）
-...（汉兜和词影的话还有全成语模式等等）
-输入示例：
-> 指令名 --hard --wordles 2（同时猜测两个单词，且为困难模式）
----
-使用更具体的指令名可以直接开始游戏哦~（就不用引导啦）
-输入示例：
-> 开始游戏指令名.词影 --hard（开始词影模式，且难度为困难）
----
-
-请输入您想开始的【序号】或【模式名】：`);
+      await sendMessage(session, `【@${username}】\n${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? ``: `可选模式如下：\n${exams.map((exam, index) => `${index + 1}. ${exam}`).join('\n')}`}
+请输入要开始的${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` : `【序号】或`}【模式名】：`, `经典 CET4 CET6 GMAT GRE IELTS SAT TOEFL 考研 专八 专四 ALL 脏话 汉兜 数字 方程 词影`, 4);
       const userInput = await session.prompt();
-      if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`);
+      if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 开始游戏`);
       // 判断 userInput 是否为有效输入
       const selectedExam = isNaN(parseInt(userInput)) ? userInput.toUpperCase().trim() : exams[parseInt(userInput) - 1].toUpperCase();
       const examsInUpperCase = exams.map(exam => exam.toUpperCase());
       if (examsInUpperCase.includes(selectedExam)) {
         if (!guessWordLength) {
-          if (config.shouldPromptWordLengthInput && selectedExam !== '经典' && selectedExam !== 'Lewdle' && selectedExam !== '汉兜' && selectedExam !== '词影') {
-            await sendMessage(session, `【@${username}】\n长度可选值范围：${getValidGuessWordLengthRange(selectedExam)}\n请输入待猜项目的的长度：`);
+          if (config.shouldPromptWordLengthInput && selectedExam !== '经典' && selectedExam !== 'LEWDLE' && selectedExam !== '汉兜' && selectedExam !== '词影') {
+            await sendMessage(session, `【@${username}】\n长度可选值范围：${getValidGuessWordLengthRange(selectedExam)}\n请输入待猜项目的的长度：`, `输入`);
             const userInput = await session.prompt();
-            if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`);
+            if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 开始游戏`);
             guessWordLength = parseInt(userInput)
           } else {
             guessWordLength = config.defaultWordLengthForGuessing
@@ -837,7 +819,7 @@ export async function apply(ctx: Context, config: Config) {
         const command = `wordleGame.开始.${selectedExam}${hardOption}${uhardOption}${absurdOption}${challengeOption}${wordlesOption} ${guessWordLength}`;
         return await session.execute(command);
       } else {
-        return await sendMessage(session, `【@${username}】\n您的输入无效，请重新输入。`);
+        return await sendMessage(session, `【@${username}】\n您的输入无效，请重试。`, `改名 开始游戏`);
       }
       // .action
     });
@@ -849,21 +831,61 @@ export async function apply(ctx: Context, config: Config) {
     .option('challenge', '--challenge 变态挑战模式', {fallback: false})
     .option('wordles', '--wordles <value:number> 同时猜测多个单词', {fallback: 1})
     .action(async ({session, options}) => {
-      const {channelId, userId, username, platform, timestamp} = session
+      let {channelId, userId, username, platform, timestamp} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
+      if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+        await sendMessage(session, `【@${username}】\n附加游戏模式（可多选）：`, `困难 超困难 变态 变态挑战 x1 x2 x3 x4 跳过`, 4);
+        const userInput = await session.prompt();
+
+        if (!userInput) {
+          return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 开始游戏`);
+        }
+
+        const modes = {
+          '困难': 'hard',
+          '超困难': 'ultraHardMode',
+          '变态': 'absurd',
+          '变态挑战': 'challenge',
+        };
+
+        const wordles = {
+          'x1': 1,
+          'x2': 2,
+          'x3': 3,
+          'x4': 4,
+        };
+
+        for (const mode in modes) {
+          if (userInput.includes(mode)) {
+            options[modes[mode]] = true;
+          }
+        }
+
+        for (const wordle in wordles) {
+          if (userInput.includes(wordle)) {
+            options.wordles = wordles[wordle];
+          }
+        }
+
+        if (userInput.includes('跳过')) {
+          noop();
+        }
+
+      }
       if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > config.maxSimultaneousGuesses) {
-        return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`);
+        return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`, `改名 开始游戏`);
       }
       // 游戏状态
       const gameInfo = await getGameInfo(channelId)
       if (gameInfo.isStarted) {
-        return await sendMessage(session, `【@${username}】\n游戏已经开始了哦~`);
+        return await sendMessage(session, `【@${username}】\n游戏已经开始了哦~`, `猜测`);
       }
       // 人数
       const numberOfPlayers = await getNumberOfPlayers(channelId);
       if (numberOfPlayers < 1 && !config.allowNonPlayersToGuess) {
-        return await sendMessage(session, `【@${username}】\n没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜单词】\n请先加入游戏吧~`);
+        return await sendMessage(session, `【@${username}】\n没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜单词】\n请先加入游戏吧~`, `改名 加入游戏`);
       }
       // 经典扣钱
       await deductMoney(channelId, platform);
@@ -963,7 +985,11 @@ export async function apply(ctx: Context, config: Config) {
 
       const message = `游戏开始！\n当前游戏模式为：${gameMode}${isChallengeMode ? targetWord : ''}\n${wordLength}\n${guessChance}\n${wordCount}${timeLimit}\n${image}`;
 
-      return await sendMessage(session, message);
+      if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+        await sendMessage(session, image, ``)
+        return await sendMessage(session, `游戏开始！\n当前游戏模式为：${gameMode}${isChallengeMode ? targetWord : ''}\n${wordLength}\n${guessChance}\n${wordCount}${timeLimit}`, `结束游戏 猜测`, 2)
+      }
+      return await sendMessage(session, message, `结束游戏 猜测`);
       // .action
     })
   const exams = [
@@ -982,38 +1008,93 @@ export async function apply(ctx: Context, config: Config) {
         .option('challenge', '--challenge 变态挑战模式', {fallback: false})
         .option('wordles', '--wordles <value:number> 同时猜测多个', {fallback: 1})
         .action(async ({session, options}, guessWordLength) => {
-          const {channelId, userId, username, timestamp, platform} = session;
+          let {channelId, userId, username, timestamp, platform} = session;
           // 更新玩家记录表中的用户名
-          await updateNameInPlayerRecord(userId, username)
+          username = await getSessionUserName(session)
+          await updateNameInPlayerRecord(session, userId, username)
+          if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+            let markdownCommands = ''
+            let numberOfMessageButtonsPerRow = 2
+            if (exam === '汉兜' || exam === '词影') {
+              markdownCommands = `困难 超困难 x1 x2 x3 x4 自由 全成语 跳过`
+            } else if (exam === 'Numberle' || exam === 'Math') {
+              markdownCommands = `困难 超困难 x1 x2 x3 x4 跳过`
+            } else {
+              markdownCommands = `困难 超困难 变态 变态挑战 x1 x2 x3 x4 跳过`
+            }
+            await sendMessage(session, `【@${username}】\n附加游戏模式（可多选）：`, markdownCommands, numberOfMessageButtonsPerRow);
+
+            const userInput = await session.prompt();
+
+            if (!userInput) {
+              return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 开始游戏`);
+            }
+
+            if (exam === '汉兜' || exam === '词影') {
+              options.free = userInput.includes(`自由`);
+              options.all = userInput.includes(`全成语`);
+            }
+
+            const modes = {
+              '困难': 'hard',
+              '超困难': 'ultraHardMode',
+              '变态': 'absurd',
+              '变态挑战': 'challenge'
+            };
+
+            for (const mode of Object.keys(modes)) {
+              if (userInput.includes(mode)) {
+                options[modes[mode]] = true;
+              }
+            }
+
+            const wordlesMap = {
+              'x1': 1,
+              'x2': 2,
+              'x3': 3,
+              'x4': 4
+            };
+
+            for (const wordle of Object.keys(wordlesMap)) {
+              if (userInput.includes(wordle)) {
+                options.wordles = wordlesMap[wordle];
+              }
+            }
+
+            if (userInput.includes(`跳过`)) {
+              noop();
+            }
+          }
+
           if (!guessWordLength) {
             if (config.shouldPromptForWordLengthOnNonClassicStart && exam !== 'Lewdle' && exam !== '汉兜' && exam !== '词影') {
-              await sendMessage(session, `【@${session.username}】\n长度可选值范围：${getValidGuessWordLengthRange(exam)}\n请输入待猜测项目的长度：`);
+              await sendMessage(session, `【@${username}】\n长度可选值范围：${getValidGuessWordLengthRange(exam)}\n请输入待猜测项目的长度：`, `输入`);
               const userInput = await session.prompt();
-              if (!userInput) return await sendMessage(session, `【@${session.username}】\n输入无效或超时。`);
+              if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 开始游戏`);
               guessWordLength = parseInt(userInput)
             } else {
               guessWordLength = config.defaultWordLengthForGuessing
             }
           }
           if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > config.maxSimultaneousGuesses) {
-            return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个的话~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`);
+            return await sendMessage(session, `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个的话~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`, `改名 开始游戏`);
           }
 
           // 判断输入
           if (typeof guessWordLength !== 'number' || !isValidGuessWordLength(exam, guessWordLength) && exam !== 'Lewdle' && exam !== '汉兜' && exam !== '词影') {
-            return await sendMessage(session, `【@${username}】\n无效的长度参数！\n${exam} 长度可选值范围：${getValidGuessWordLengthRange(exam)}`);
+            return await sendMessage(session, `【@${username}】\n无效的长度参数！\n${exam} 长度可选值范围：${getValidGuessWordLengthRange(exam)}`, `改名 开始游戏`);
           }
 
           // 游戏状态
           const gameInfo = await getGameInfo(channelId);
           if (gameInfo.isStarted) {
-            return await sendMessage(session, `【@${username}】\n游戏已经开始了哦~`);
+            return await sendMessage(session, `【@${username}】\n游戏已经开始了哦~`, `猜测`);
           }
 
           // 人数
           const numberOfPlayers = await getNumberOfPlayers(channelId);
           if (numberOfPlayers < 1 && !config.allowNonPlayersToGuess) {
-            return await sendMessage(session, `【@${username}】\n没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜测】\n先加入游戏吧~`);
+            return await sendMessage(session, `【@${username}】\n没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜测】\n先加入游戏吧~`, `改名 加入游戏`);
           }
 
           // 非经典还钱
@@ -1205,9 +1286,19 @@ export async function apply(ctx: Context, config: Config) {
           const image = h.image(imageBuffer, `image/${config.imageType}`);
 
           if (exam === '汉兜' || exam === '词影') {
-            return await sendMessage(session, `${gameMode}\n${guessChance}\n${wordCount2}${timeLimit}\n${image}`);
+            if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+              await sendMessage(session, image, ``)
+              return await sendMessage(session, `${gameMode}\n${guessChance}\n${wordCount2}${timeLimit}`, `结束游戏 猜测`, 2)
+            } else {
+              return await sendMessage(session, `${gameMode}\n${guessChance}\n${wordCount2}${timeLimit}\n${image}`, `结束游戏 猜测`);
+            }
           } else {
-            return await sendMessage(session, `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${exam === 'Numberle' ? '' : wordCount2}${timeLimit}\n${image}`);
+            if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+              await sendMessage(session, image, ``)
+              return await sendMessage(session, `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${exam === 'Numberle' ? '' : wordCount2}${timeLimit}`, `结束游戏 猜测`, 2)
+            } else {
+              return await sendMessage(session, `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${exam === 'Numberle' ? '' : wordCount2}${timeLimit}\n${image}`, `结束游戏 猜测`);
+            }
           }
 
         });
@@ -1217,7 +1308,7 @@ export async function apply(ctx: Context, config: Config) {
   ctx.command('wordleGame.猜 [inputWord:text]', '做出一次猜测')
     .option('random', '-r 随机', {fallback: false})
     .action(async ({session, options}, inputWord) => {
-        const {channelId, userId, username, platform, timestamp} = session
+        let {channelId, userId, username, platform, timestamp} = session
         // 游戏状态
         let gameInfo: any = await getGameInfo(channelId)
         inputWord = inputWord?.trim()
@@ -1225,17 +1316,18 @@ export async function apply(ctx: Context, config: Config) {
         // 操作太快
         if (gameInfo.isRunning === true) {
           await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n操作太快了哦~\n再试一次吧！`);
+          return await sendMessage(session, `【@${username}】\n操作太快了哦~\n再试一次吧！`, `猜测`);
         }
 
         // 运行状态
         await setGuessRunningStatus(channelId, true)
         // 更新玩家记录表中的用户名
-        await updateNameInPlayerRecord(userId, username)
+        username = await getSessionUserName(session)
+        await updateNameInPlayerRecord(session, userId, username)
 
         if (!gameInfo.isStarted) {
           await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n游戏还没开始呢！`);
+          return await sendMessage(session, `【@${username}】\n游戏还没开始呢！`, `改名 开始游戏`);
         }
 
         if (options.random) {
@@ -1243,10 +1335,10 @@ export async function apply(ctx: Context, config: Config) {
         }
 
         if (!inputWord) {
-          await sendMessage(session, `【@${username}】\n请输入【猜测】或【取消】：`);
+          await sendMessage(session, `【@${username}】\n请输入【猜测词】或【取消】：`, `取消 输入`);
           const userInput = await session.prompt()
-          if (!userInput) return await sendMessage(session, `【${username}】\n输入无效或超时。`);
-          if (userInput === '取消') return await sendMessage(session, `【${username}】\n猜测操作已取消！`);
+          if (!userInput) return await sendMessage(session, `【${username}】\n输入无效或超时。`, `猜测`);
+          if (userInput === '取消') return await sendMessage(session, `【${username}】\n猜测操作已取消！`, `猜测`);
           inputWord = userInput.trim()
         }
 
@@ -1263,7 +1355,7 @@ export async function apply(ctx: Context, config: Config) {
             // 玩家记录输
             await updatePlayerRecordsLose(channelId, gameInfo)
             await endGame(channelId)
-            return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`)
+            return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
             // return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
           }
         }
@@ -1272,10 +1364,9 @@ export async function apply(ctx: Context, config: Config) {
         if (!isInGame) {
           if (!config.allowNonPlayersToGuess) {
             await setGuessRunningStatus(channelId, false)
-            return await sendMessage(session, `【@${username}】\n没加入游戏的话~不能猜哦！`);
+            return await sendMessage(session, `【@${username}】\n没加入游戏的话~不能猜哦！`, `猜测`);
           } else {
             // 更新玩家记录表中的用户名
-            await updateNameInPlayerRecord(userId, username)
             await ctx.database.create('wordle_gaming_player_records', {channelId, userId, username, money: 0})
           }
         }
@@ -1298,19 +1389,19 @@ export async function apply(ctx: Context, config: Config) {
         // 判断输入
         if (!/^[a-zA-Z]+$/.test(inputWord) && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
           await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`);
+          return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`, `猜测`);
         }
         if (!isFourCharacterIdiom(inputWord) && gameMode === '汉兜' || !isFourCharacterIdiom(inputWord) && gameMode === '词影') {
           await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`);
+          return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`, `猜测`);
         }
         if (gameMode === 'Numberle' && !isNumericString(inputWord)) {
           await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n您确定您输入的是 ${guessWordLength} 长度的数字吗？`);
+          return await sendMessage(session, `【@${username}】\n您确定您输入的是 ${guessWordLength} 长度的数字吗？`, `猜测`);
         }
         if (gameMode === 'Math' && !isMathEquationValid(inputWord)) {
           await setGuessRunningStatus(channelId, false)
-          return await sendMessage(session, `【@${username}】\n请使用+-*/=运算符和0-9之间的数字！\n并组成正确的数学方程式！`);
+          return await sendMessage(session, `【@${username}】\n请使用+-*/=运算符和0-9之间的数字！\n并组成正确的数学方程式！`, `猜测`);
         }
         if (inputWord.length !== gameInfo.guessWordLength && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
           await setGuessRunningStatus(channelId, false)
@@ -1319,7 +1410,7 @@ export async function apply(ctx: Context, config: Config) {
           const presentLettersWithoutAsterisk = uniqueSortedLowercaseLetters(presentLetters);
           const processedResult = wordlesNum > 1 ? '\n' + await processExtraGameInfos(channelId) : '';
           const progressMessage = `当前${calculateGameDuration(Number(gameInfo.timestamp), timestamp)}\n当前进度：【${correctLetters.join('')}】${presentLettersWithoutAsterisk.length === 0 ? `` : `\n包含字母：【${presentLettersWithoutAsterisk}】`}${absentLetters.length === 0 ? '' : `\n不包含字母：【${absentLetters}】`}${processedResult}`;
-          return await sendMessage(session, `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`);
+          return await sendMessage(session, `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`, `猜测`);
         }
         // 是否存在该单词
         // 小写化
@@ -1328,20 +1419,20 @@ export async function apply(ctx: Context, config: Config) {
           const foundWord = findWord(lowercaseInputWord)
           if (!foundWord) {
             await setGuessRunningStatus(channelId, false)
-            return await sendMessage(session, `【@${username}】\n你确定存在这样的单词吗？`);
+            return await sendMessage(session, `【@${username}】\n你确定存在这样的单词吗？`, `猜测`);
           }
         }
         let userInputPinyin: string = ''
         if (gameMode === '词影') {
           if (!checkStrokesData(inputWord)) {
             await setGuessRunningStatus(channelId, false)
-            return await sendMessage(session, `【@${username}】\n不好意思啊...\n我还没学会这个字（`);
+            return await sendMessage(session, `【@${username}】\n不好意思啊...\n我还没学会这个字（`, `猜测`);
           }
           if (!isIdiomInList(inputWord, idiomsList) && !isFreeMode) {
             const idiomInfo = await getIdiomInfo(inputWord)
             if (idiomInfo.pinyin === '未找到拼音') {
               await setGuessRunningStatus(channelId, false)
-              return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`);
+              return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`, `猜测`);
             } else {
               userInputPinyin = idiomInfo.pinyin
             }
@@ -1372,7 +1463,7 @@ export async function apply(ctx: Context, config: Config) {
               const idiomInfo = await getIdiomInfo(inputWord)
               if (idiomInfo.pinyin === '未找到拼音') {
                 await setGuessRunningStatus(channelId, false)
-                return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`);
+                return await sendMessage(session, `【@${username}】\n你确定存在这样的四字词语吗？`, `猜测`);
               } else {
                 userInputPinyin = idiomInfo.pinyin
               }
@@ -1414,7 +1505,7 @@ export async function apply(ctx: Context, config: Config) {
 
             const message = `【@${username}】\n当前难度为：【${difficulty}】\n【${difficulty}】：${rule}\n您输入的词不符合要求！\n您的输入为：【${inputWord}】\n要求：【${correctLetters.join('')}】${presentLetters.length === 0 ? `` : `\n包含：【${presentLetters}】`}${absentLetters.length === 0 || !isUltraHardMode ? `` : `\n不包含：【${absentLetters}】`}${presentLettersWithIndex.length === 0 || !isUltraHardMode ? `` : `\n远离黄色线索：【${presentLettersWithIndex.join(', ')}】`}`;
 
-            return await sendMessage(session, message);
+            return await sendMessage(session, message, `猜测`);
           }
         }
         // 初始化输
@@ -1454,7 +1545,7 @@ export async function apply(ctx: Context, config: Config) {
           if (longestRemainingWordList.length === 0) {
             await updatePlayerRecordsLose(channelId, gameInfo)
             await endGame(channelId)
-            return await sendMessage(session, `【@${username}】\n根据透露出的信息！\n已经无任何可用单词！\n很遗憾，你们输了！`);
+            return await sendMessage(session, `【@${username}】\n根据透露出的信息！\n已经无任何可用单词！\n很遗憾，你们输了！`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
           }
           let randomWord = longestRemainingWordList[Math.floor(Math.random() * longestRemainingWordList.length)];
           const foundWord = findWord(randomWord)
@@ -1465,21 +1556,29 @@ export async function apply(ctx: Context, config: Config) {
             const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
             // 图
             const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}${letterTilesHtml}`);
-            await sendMessage(session, `【@${username}】\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n您可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`);
+            await sendMessage(session, `【@${username}】\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n您可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`, `撤销 结束`);
             let userInput = await session.prompt()
             // 生成 html 字符串
             // 图
             const imageBuffer2 = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
             if (!userInput) {
               await setGuessRunningStatus(channelId, false)
-              return await sendMessage(session, `【@${username}】\n输入无效或超时。\n已自动选择【撤销】操作。\n${h.image(imageBuffer2, `image/${config.imageType}`)}`);
+              if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+                await sendMessage(session, h.image(imageBuffer2, `image/${config.imageType}`), ``)
+                return await sendMessage(session, `【@${username}】\n输入无效或超时。\n已自动选择【撤销】操作。`, `猜测`);
+              }
+              return await sendMessage(session, `【@${username}】\n输入无效或超时。\n已自动选择【撤销】操作。\n${h.image(imageBuffer2, `image/${config.imageType}`)}`, `猜测`);
             }
             if (userInput === '结束') {
               await session.execute(`wordleGame.结束`)
               return
             } else {
               await setGuessRunningStatus(channelId, false)
-              return await sendMessage(session, `【@${username}】\n您执行了操作：【撤销】\n撤销成功！挑战继续！\n${h.image(imageBuffer2, `image/${config.imageType}`)}`);
+              if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+                await sendMessage(session, h.image(imageBuffer2, `image/${config.imageType}`), ``)
+                return await sendMessage(session, `【@${username}】\n您执行了操作：【撤销】\n撤销成功！挑战继续！`, `猜测`);
+              }
+              return await sendMessage(session, `【@${username}】\n您执行了操作：【撤销】\n撤销成功！挑战继续！\n${h.image(imageBuffer2, `image/${config.imageType}`)}`, `猜测`);
             }
           }
           await ctx.database.set('wordle_game_records', {channelId}, {
@@ -1636,7 +1735,17 @@ ${generateGameEndMessage(gameInfo)}${processedResult}
 ${settlementResult}
 `;
 
-          return await sendMessage(session, message);
+          if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+            await sendMessage(session, h.image(imageBuffer, `image/${imageType}`), ``)
+            return await sendMessage(session, `
+【@${username}】
+太棒了，你猜出来了！
+${gameDuration}
+${generateGameEndMessage(gameInfo)}${processedResult}
+${settlementResult}
+`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+          }
+          return await sendMessage(session, message, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
         }
         // 处理输
         if (isLose) {
@@ -1649,11 +1758,19 @@ ${settlementResult}
           const gameDuration = calculateGameDuration(Number(gameInfo.timestamp), timestamp);
           const message = `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${h.image(imageBuffer, `image/${config.imageType}`)}\n${gameDuration}${answerInfo}${processedResult}`;
 
-          return await sendMessage(session, message);
+          if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+            await sendMessage(session, h.image(imageBuffer, `image/${config.imageType}`), ``)
+            return await sendMessage(session, `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${gameDuration}${answerInfo}${processedResult}`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+          }
+          return await sendMessage(session, message, `改名 排行榜 查询玩家记录 开始游戏 再来一把`, 2);
         }
         // 继续
         await setGuessRunningStatus(channelId, false)
-        return await sendMessage(session, `${h.image(imageBuffer, `image/${config.imageType}`)}`)
+        await sendMessage(session, h.image(imageBuffer, `image/${config.imageType}`), `结束游戏 ${gameInfo.gameMode === '汉兜' ? `拼音速查表 ` : ``}查询进度 猜测`, 2)
+        if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+          return sendMessage(session, `<@${userId}>`, `结束游戏 ${gameInfo.gameMode === '汉兜' ? `拼音速查表 ` : ``}查询进度 猜测`, 2);
+        }
+        return
         // .action
       }
     )
@@ -1662,20 +1779,32 @@ ${settlementResult}
     .action(async ({session}, targetUser) => {
       let {userId, username} = session;
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
-      if (targetUser) {
-        targetUser = await replaceAtTags(session, targetUser);
-        const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
-        const match = targetUser.match(userIdRegex);
-        userId = match?.[1] ?? userId;
-        username = match?.[2] ?? username;
-      }
+      username = await getSessionUserName(session)
+      const sessionUserName = username
+      await updateNameInPlayerRecord(session, userId, username)
 
-      const targetUserRecord = await ctx.database.get('wordle_player_records', {userId});
+      let targetUserRecord;
+      if (!targetUser) {
+        targetUserRecord = await ctx.database.get('wordle_player_records', {userId: session.userId})
+      } else {
+        targetUser = await replaceAtTags(session, targetUser)
+        if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+          targetUserRecord = await ctx.database.get('wordle_player_records', {username: targetUser})
+          if (targetUserRecord.length === 0) {
+            targetUserRecord = await ctx.database.get('wordle_player_records', {userId: targetUser})
+          }
+        } else {
+          const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
+          const match = targetUser.match(userIdRegex);
+          userId = match?.[1] ?? userId;
+          username = match?.[2] ?? username;
+          targetUserRecord = await ctx.database.get('wordle_player_records', {userId})
+        }
+      }
 
       if (targetUserRecord.length === 0) {
         await ctx.database.create('wordle_player_records', {userId, username});
-        return sendMessage(session, `查询对象：${username} 无任何游戏记录。`);
+        return sendMessage(session, `查询对象：${username} 无任何游戏记录。`, `改名 查询玩家记录 开始游戏`, 2);
       }
 
       const {
@@ -1687,8 +1816,8 @@ ${settlementResult}
         fastestGuessTime
       } = targetUserRecord[0];
 
-      const queryInfo = `【@${session.username}】
-查询对象：${username}
+      const queryInfo = `【@${sessionUserName}】
+查询对象：${targetUserRecord[0].username}
 猜出次数：${wordGuessCount} 次
 总胜场：${win} 次
 总输场：${lose} 次
@@ -1697,26 +1826,27 @@ ${settlementResult}
 ${generateStatsInfo(stats, fastestGuessTime)}
     `;
 
-      return sendMessage(session, queryInfo);
+      return sendMessage(session, queryInfo, `改名 查询玩家记录 开始游戏`, 2);
     });
   ctx.command('wordleGame.查单词 [targetWord:text]', '查单词引导')
     .action(async ({session, options}, targetWord) => {
-      const {channelId, userId, username} = session;
+      let {channelId, userId, username} = session;
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username);
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username);
       // 提示输入
       const availableDictionaryArray = ['ALL', 'WordWord'];
       const availableDictionaryArrayToLowerCase = availableDictionaryArray.map(word => word.toLowerCase());
-      await sendMessage(session, `【@${username}】\n当前可用词库如下：\n${availableDictionaryArray.map((dictionary, index) => `${index + 1}. ${dictionary}`).join('\n')}\n请输入您选择的【序号】或【词库名】：`);
+      await sendMessage(session, `【@${username}】\n当前可用词库如下：\n${availableDictionaryArray.map((dictionary, index) => `${index + 1}. ${dictionary}`).join('\n')}\n请输入您选择的【序号】或【词库名】：`, `ALL WordWord`);
       const userInput = await session.prompt();
-      if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`);
+      if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `查单词`);
       // 判断 userInput 是否为有效输入
       const selectedDictionary = isNaN(parseInt(userInput)) ? userInput.toLowerCase().trim() : availableDictionaryArrayToLowerCase[parseInt(userInput) - 1];
       if (availableDictionaryArrayToLowerCase.includes(selectedDictionary)) {
         const command = `wordleGame.查单词.${selectedDictionary}${targetWord ? ` ${targetWord}` : ''}`;
         return await session.execute(command);
       } else {
-        return await sendMessage(session, `【@${username}】\n您的输入无效，请重新输入。`);
+        return await sendMessage(session, `【@${username}】\n您的输入无效，请重新输入。`, `查单词`);
       }
       // .action
     });
@@ -1725,46 +1855,48 @@ ${generateStatsInfo(stats, fastestGuessTime)}
     .action(async ({session}, targetWord) => {
       let {userId, username} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       targetWord = targetWord?.trim();
       if (!targetWord) {
         // 提示输入
-        await sendMessage(session, `【@${username}】\n请输入【待查询的单词】或【取消】：`);
+        await sendMessage(session, `【@${username}】\n请输入【待查询的单词】或【取消】：`, `取消 输入`);
         const userInput = await session.prompt();
-        if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`);
-        if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查询单词操作已取消。`);
+        if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `查单词`);
+        if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查询单词操作已取消。`, `查单词`);
         targetWord = userInput.trim();
       }
       // 判断输入
       if (!/^[a-zA-Z]+$/.test(targetWord)) {
-        return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`);
+        return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`, `查单词`);
       }
 
       // 寻找
       const foundWord = findWord(targetWord)
       if (!foundWord) {
-        return await sendMessage(session, `【@${username}】\n未在ALL词库中找到该单词。`);
+        return await sendMessage(session, `【@${username}】\n未在ALL词库中找到该单词。`, `查单词`);
       }
-      return sendMessage(session, `查询对象：【${targetWord}】\n单词释义如下：\n${replaceEscapeCharacters(foundWord.translation)}`);
+      return sendMessage(session, `查询对象：【${targetWord}】\n单词释义如下：\n${replaceEscapeCharacters(foundWord.translation)}`, `查单词`);
     })
 // czdc*
   ctx.command('wordleGame.查单词.WordWord [targetWord:text]', '在WordWord中查找单词定义（英译英）')
     .action(async ({session}, targetWord) => {
       let {userId, username} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       targetWord = targetWord?.trim();
       if (!targetWord) {
         // 提示输入
-        await sendMessage(session, `【@${username}】\n请输入【待查找的单词】或【取消】：`);
+        await sendMessage(session, `【@${username}】\n请输入【待查找的单词】或【取消】：`, `取消 输入`);
         const userInput = await session.prompt();
-        if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`);
-        if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查找单词操作已取消。`);
+        if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `查单词`);
+        if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查找单词操作已取消。`, `查单词`);
         targetWord = userInput.trim();
       }
       // 判断输入
       if (!/^[a-zA-Z]+$/.test(targetWord)) {
-        return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`);
+        return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`, `查单词`);
       }
 
       // 寻找
@@ -1772,30 +1904,31 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         .then((responseData) => {
           const definitions = responseData.word.definitions;
           const serializedDefinitions = serializeDefinitions(definitions);
-          return sendMessage(session, `${capitalizeFirstLetter(targetWord)} Definitions: \n${serializedDefinitions ? serializedDefinitions : `- 该单词定义暂未收录。`}`);
+          return sendMessage(session, `${capitalizeFirstLetter(targetWord)} Definitions: \n${serializedDefinitions ? serializedDefinitions : `- 该单词定义暂未收录。`}`, `查单词`);
         })
         .catch((error) => {
-          return sendMessage(session, `【@${username}】\n未在WordWord中找到该单词。`);
+          return sendMessage(session, `【@${username}】\n未在WordWord中找到该单词。`, `查单词`);
         });
     })
 // ccy*
   ctx.command('wordleGame.查成语 [targetIdiom:text]', '查成语引导')
     .action(async ({session, options}, targetIdiom) => {
-      const {channelId, userId, username} = session;
+      let {channelId, userId, username} = session;
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username);
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username);
       // 提示输入
       const availableDictionaryArray = ['百度汉语', '汉典'];
-      await sendMessage(session, `【@${username}】\n当前可用词库如下：\n${availableDictionaryArray.map((dictionary, index) => `${index + 1}. ${dictionary}`).join('\n')}\n请输入您选择的【序号】或【词库名】：`);
+      await sendMessage(session, `【@${username}】\n当前可用词库如下：\n${availableDictionaryArray.map((dictionary, index) => `${index + 1}. ${dictionary}`).join('\n')}\n请输入您选择的【序号】或【词库名】：`, `百度汉语 汉典`);
       const userInput = await session.prompt();
-      if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`);
+      if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `查成语`);
       // 判断 userInput 是否为有效输入
       const selectedDictionary = isNaN(parseInt(userInput)) ? userInput.trim() : availableDictionaryArray[parseInt(userInput) - 1];
       if (availableDictionaryArray.includes(selectedDictionary)) {
         const command = `wordleGame.查成语.${selectedDictionary}${targetIdiom ? ` ${targetIdiom}` : ''}`;
         return await session.execute(command);
       } else {
-        return await sendMessage(session, `【@${username}】\n您的输入无效，请重新输入。`);
+        return await sendMessage(session, `【@${username}】\n您的输入无效，请重新输入。`, `查成语`);
       }
       // .action
     });
@@ -1804,54 +1937,56 @@ ${generateStatsInfo(stats, fastestGuessTime)}
     .action(async ({session}, targetIdiom) => {
       let {userId, username} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       targetIdiom = targetIdiom?.trim();
       if (!targetIdiom) {
         // 提示输入
-        await sendMessage(session, `【@${username}】\n请输入【待查找的成语】或【取消】：`);
+        await sendMessage(session, `【@${username}】\n请输入【待查找的成语】或【取消】：`, `取消 输入`);
         const userInput = await session.prompt();
-        if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`);
-        if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查找成语操作已取消。`);
+        if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `查成语`);
+        if (userInput === '取消') return await sendMessage(session, `【@${username}】\n查找成语操作已取消。`, `查成语`);
         targetIdiom = userInput.trim();
       }
       // 判断输入
       if (!isFourCharacterIdiom(targetIdiom)) {
-        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`);
+        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`, `查成语`);
       }
 
       // 寻找
       const idiomInfo = await getIdiomInfo(targetIdiom)
       if (idiomInfo.pinyin === '未找到拼音') {
-        return await sendMessage(session, `【@${username}】\n未在百度汉语中找到该成语。`);
+        return await sendMessage(session, `【@${username}】\n未在百度汉语中找到该成语。`, `查成语`);
       }
-      return await sendMessage(session, `【@${username}】\n【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n【解释】${idiomInfo.explanation}`);
+      return await sendMessage(session, `【@${username}】\n【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n【解释】${idiomInfo.explanation}`, `查成语`);
     })
   ctx.command('wordleGame.查成语.汉典 [targetIdiom:text]', '在汉典中查找成语解释')
     .action(async ({session}, targetIdiom) => {
       let {userId, username} = session;
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username);
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username);
       targetIdiom = targetIdiom?.trim();
       if (!targetIdiom) {
         // 提示输入
-        await sendMessage(session, `【@${username}】\n请输入【待查找的成语】或【取消】：`);
+        await sendMessage(session, `【@${username}】\n请输入【待查找的成语】或【取消】：`, `取消 输入`);
         const userInput = await session.prompt();
         if (!userInput)
-          return await sendMessage(session, `【@${username}】\n输入超时！`);
+          return await sendMessage(session, `【@${username}】\n输入超时！`, `查成语`);
         if (userInput === '取消')
-          return await sendMessage(session, `【@${username}】\n查找成语操作已取消。`);
+          return await sendMessage(session, `【@${username}】\n查找成语操作已取消。`, `查成语`);
         targetIdiom = userInput.trim();
       }
       // 判断输入
       if (!isFourCharacterIdiom(targetIdiom)) {
-        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`);
+        return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`, `查成语`);
       }
       // 寻找
       const idiomInfo = await getIdiomInfo2(targetIdiom);
       if (idiomInfo.pinyin === '未找到拼音') {
-        return await sendMessage(session, `【@${username}】\n未在汉典中找到该成语。`);
+        return await sendMessage(session, `【@${username}】\n未在汉典中找到该成语。`, `查成语`);
       }
-      return await sendMessage(session, `【@${username}】\n【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n${idiomInfo.explanation}`);
+      return await sendMessage(session, `【@${username}】\n【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n${idiomInfo.explanation}`, `查成语`);
     });
 // dcczq*
   ctx.command('wordleGame.单词查找器 [wordleIndexs:text]', '使用WordFinder查找匹配的单词')
@@ -1864,9 +1999,10 @@ ${generateStatsInfo(stats, fastestGuessTime)}
     .option('startingWithTheseLetters', '--sw <letters> 搜索以特定字母开头的单词', {fallback: undefined})
     .option('endingWithTheseLetters', '--ew <letters> 搜索以特定字母结尾的单词', {fallback: undefined})
     .action(async ({session, options}, wordleIndexs) => {
-      const {channelId, username, userId} = session
+      let {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
 
       let {
         auto,
@@ -1883,19 +2019,19 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         const gameInfo = await getGameInfo(channelId)
         const {isStarted, wordlesNum, guessWordLength, absentLetters, presentLetters, gameMode} = gameInfo
         if (!isStarted) {
-          return await sendMessage(session, `【@${username}】\n未检测到任何游戏进度！\n无法使用自动查找功能！`);
+          return await sendMessage(session, `【@${username}】\n未检测到任何游戏进度！\n无法使用自动查找功能！`, `单词查找器`);
         }
         if (gameMode === '汉兜') {
-          return await sendMessage(session, `【@${username}】\n你拿单词查找器查四字词语？`);
+          return await sendMessage(session, `【@${username}】\n你拿单词查找器查四字词语？`, `单词查找器`);
         }
         if (wordlesNum === 1) {
           await session.execute(`wordleGame.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`)
         } else {
           let userInput: string = ''
           if (!wordleIndexs) {
-            await sendMessage(session, `【@${username}】\n检测到当前进度数量为：【${wordlesNum}】\n请输入【待查询序号（从左到右）】：\n支持输入多个（用空格隔开）\n例如：1 2`);
+            await sendMessage(session, `【@${username}】\n检测到当前进度数量为：【${wordlesNum}】\n请输入【待查询序号（从左到右）】：\n支持输入多个（用空格隔开）\n例如：1 2`, `单词查找器`);
             userInput = await session.prompt()
-            if (!userInput) return await sendMessage(session, `【${username}】\n输入无效或超时。`);
+            if (!userInput) return await sendMessage(session, `【${username}】\n输入无效或超时。`, `单词查找器`);
           } else {
             userInput = wordleIndexs
           }
@@ -1942,7 +2078,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 
       if (noOptionsSpecified) {
         const chineseTutorial = "欢迎使用单词查找器！\n你可以使用以下选项来搜索匹配的单词：\n- 使用 -a 自动查找（根据游戏进程）\n- 使用 -l <length> 指定要搜索的单词长度\n- 使用 -w <word> 搜索带有最多三个通配符字符的单词\n- 使用 -c <letters> 搜索包含特定字母组合的单词\n- 使用 --ct <letters> 搜索只包含指定字母的单词\n- 使用 --wt <letters> 搜索不包含特定字母的单词\n- 使用 --sw <letters> 搜索以特定字母开头的单词\n- 使用 --ew <letters> 搜索以特定字母结尾的单词";
-        return await sendMessage(session, chineseTutorial);
+        return await sendMessage(session, chineseTutorial, `单词查找器`);
       }
 
       const params = {
@@ -1959,18 +2095,19 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 
       const url = `https://wordword.org/search/${queryParams}`;
       const result = await fetchAndParseWords(url);
-      return await sendMessage(session, `${result}`);
+      return await sendMessage(session, `${result}`, `单词查找器`);
     });
 // wordleGame.查询进度 jd* cxjd*
   ctx.command('wordleGame.查询进度', '查询当前游戏进度')
     .action(async ({session}) => {
-      const {channelId, userId, username, user, timestamp} = session
+      let {channelId, userId, username, user, timestamp} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       const gameInfo = await getGameInfo(channelId)
       // 未开始
       if (!gameInfo.isStarted) {
-        return await sendMessage(session, `【@${username}】\n游戏还没开始呢~\n开始后再来查询进度吧！`)
+        return await sendMessage(session, `【@${username}】\n游戏还没开始呢~\n开始后再来查询进度吧！`, `改名 开始游戏`)
       }
       // 返回信息
       const {
@@ -2025,21 +2162,22 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       }
       message += `\n${inputLengthMessage}\n${progressMessage}`;
 
-      return await sendMessage(session, message);
+      return await sendMessage(session, message, `猜测`);
 
       // .action
     })
 // pyscb* pysc*
   ctx.command('wordleGame.拼音速查表', '查看拼音速查表')
     .action(async ({session}) => {
-      const {channelId, userId, username} = session
+      let {channelId, userId, username} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       let gameInfo: any = await getGameInfo(channelId)
 
       if (!gameInfo.isStarted || gameInfo.gameMode !== '汉兜') {
         const imageBuffer = await generateHandlePinyinsImage(defaultPinyinsHtml)
-        return sendMessage(session, `${h.image(imageBuffer, `image/${config.imageType}`)}`);
+        return sendMessage(session, h.image(imageBuffer, `image/${config.imageType}`), ``);
       }
       const wordlesNum = gameInfo.wordlesNum
       // 生成 html 字符串
@@ -2074,7 +2212,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         const htmlImgString = generateImageTags(imageBuffers);
         imageBuffer = await generateWordlesImage(htmlImgString);
       }
-      return sendMessage(session, `${h.image(imageBuffer, `image/${config.imageType}`)}`);
+      return sendMessage(session, h.image(imageBuffer, `image/${config.imageType}`), ``);
     })
 
   const rankType = [
@@ -2085,28 +2223,20 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 // r* phb*
   ctx.command('wordleGame.排行榜 [number:number]', '查看排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
-      const {channelId, username, userId} = session
+      let {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
 
-      await sendMessage(session, `当前可查看排行榜如下：
-${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}
-
----
-小提示：
-词影模式的排行榜有更细的划分哦~
-想要看特定模式下的词影排行榜，可以输入：
-help wordleGame.排行榜.词影.[排行榜项目]
-（自行选择相应的模式选项查询叭~）
----
-
-请输入想要查看的【排行榜名】或【序号】：`);
+      await sendMessage(session, `【@${username}】\n${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq'? ``: `当前可查看排行榜如下：
+${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
+请输入要查看的【排行榜名】${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` : `或【序号】`}：`, `总 损益 猜出次数 经典 CET4 CET6 GMAT GRE IELTS SAT TOEFL 考研 专八 专四 ALL 脏话 汉兜 数字 方程 词影`);
 
       const userInput = await session.prompt();
-      if (!userInput) return sendMessage(session, `输入无效或超时。`);
+      if (!userInput) return sendMessage(session, `输入无效或超时。`, `排行榜`);
 
       // 处理用户输入
       const userInputNumber = parseInt(userInput);
@@ -2116,7 +2246,7 @@ help wordleGame.排行榜.词影.[排行榜项目]
       } else if (rankType.includes(userInput)) {
         await session.execute(`wordleGame.排行榜.${userInput} ${number}`);
       } else {
-        return sendMessage(session, `无效的输入。`);
+        return sendMessage(session, `无效的输入。`, `排行榜`);
       }
     });
 
@@ -2129,9 +2259,10 @@ help wordleGame.排行榜.词影.[排行榜项目]
     // phb*
     ctx.command(`wordleGame.排行榜.${type} [number:number]`, `查看${type}排行榜`)
       .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
-        const {channelId, username, userId} = session
+        let {channelId, username, userId} = session
         // 更新玩家记录表中的用户名
-        await updateNameInPlayerRecord(userId, username)
+        username = await getSessionUserName(session)
+        await updateNameInPlayerRecord(session, userId, username)
         if (typeof number !== 'number' || isNaN(number) || number < 0) {
           return '请输入大于等于 0 的数字作为排行榜的参数。';
         }
@@ -2143,12 +2274,12 @@ help wordleGame.排行榜.词影.[排行榜项目]
         } else {
           rankType3 = ["胜场", "输场", "最快用时"];
         }
-        await sendMessage(session, `当前可查看排行榜如下：
-${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
-请输入想要查看的【类型名】或【序号】：`);
+        await sendMessage(session, `【@${username}】\n${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` :`当前可查看排行榜如下：
+${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
+请输入要查看的【类型名】${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` :`或【序号】`}：`, rankType3.join(' '));
 
         const userInput = await session.prompt();
-        if (!userInput) return sendMessage(session, `输入无效或超时。`);
+        if (!userInput) return sendMessage(session, `输入无效或超时。`, `排行榜`);
 
         // 处理用户输入
         const userInputNumber = parseInt(userInput);
@@ -2158,16 +2289,17 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
         } else if (rankType3.includes(userInput)) {
           await session.execute(`wordleGame.排行榜.${type}.${userInput} ${number}`);
         } else {
-          return sendMessage(session, `无效的输入。`);
+          return sendMessage(session, `无效的输入。`, `排行榜`);
         }
       });
   });
 // sy*
   ctx.command('wordleGame.排行榜.损益 [number:number]', '查看玩家损益排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
-      const {channelId, username, userId} = session
+      let {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
@@ -2176,9 +2308,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 // ccdccs*
   ctx.command('wordleGame.排行榜.猜出次数 [number:number]', '查看玩家猜出次数排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
-      const {channelId, username, userId} = session
+      let {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
@@ -2187,9 +2320,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 // zsc*
   ctx.command('wordleGame.排行榜.总.胜场 [number:number]', '查看玩家总胜场排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
-      const {channelId, username, userId} = session
+      let {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
@@ -2198,9 +2332,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
 // zsc*
   ctx.command('wordleGame.排行榜.总.输场 [number:number]', '查看玩家总输场排行榜')
     .action(async ({session}, number = config.defaultMaxLeaderboardEntries) => {
-      const {channelId, username, userId} = session
+      let {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
@@ -2216,67 +2351,184 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       .option('hard', '--hard 查看困难模式', {fallback: false})
       .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 0})
       .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
-        const {channelId, username, userId} = session
+        let {channelId, username, userId} = session
         // 更新玩家记录表中的用户名
-        await updateNameInPlayerRecord(userId, username)
+        username = await getSessionUserName(session)
+        await updateNameInPlayerRecord(session, userId, username)
         if (typeof number !== 'number' || isNaN(number) || number < 0) {
           return '请输入大于等于 0 的数字作为排行榜的参数。';
+        }
+        if (type === '词影' && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+            let markdownCommands = `x1 x2 x3 x4 困难 跳过`
+            let numberOfMessageButtonsPerRow = 4
+            await sendMessage(session, `【@${username}】\n特定游戏模式（可多选）：`, markdownCommands, numberOfMessageButtonsPerRow);
+
+            const userInput = await session.prompt();
+
+            if (!userInput) {
+              return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 排行榜`);
+            }
+
+            const modes = {
+              '困难': 'hard',
+            };
+
+            for (const mode of Object.keys(modes)) {
+              if (userInput.includes(mode)) {
+                options[modes[mode]] = true;
+              }
+            }
+
+            const wordlesMap = {
+              'x1': 1,
+              'x2': 2,
+              'x3': 3,
+              'x4': 4
+            };
+
+            for (const wordle of Object.keys(wordlesMap)) {
+              if (userInput.includes(wordle)) {
+                options.wordles = wordlesMap[wordle];
+              }
+            }
+
+            if (userInput.includes(`跳过`)) {
+              noop();
+            }
         }
         if (type === '词影' && options.wordles !== 0 || type === '词影' && options.hard) {
           if (options.wordles === 0) {
             options.wordles = 1
           }
           if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
-            return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
+            return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`, `开始游戏 排行榜`);
           }
           return await getWinCountLeaderboardForCiying(session, options.wordles, `玩家胜场排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
         }
-        return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'win', '胜场'));
+        return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'win', '胜场'), `开始游戏 排行榜`);
       });
 
     ctx.command(`wordleGame.排行榜.${type}.输场 [number:number]`, `查看${type}输场排行榜`)
       .option('hard', '--hard 查看困难模式', {fallback: false})
       .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 0})
       .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
-        const {channelId, username, userId} = session
+        let {channelId, username, userId} = session
         // 更新玩家记录表中的用户名
-        await updateNameInPlayerRecord(userId, username)
+        username = await getSessionUserName(session)
+        await updateNameInPlayerRecord(session, userId, username)
         if (typeof number !== 'number' || isNaN(number) || number < 0) {
           return '请输入大于等于 0 的数字作为排行榜的参数。';
+        }
+        if (type === '词影' && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+          let markdownCommands = `x1 x2 x3 x4 困难 跳过`
+          let numberOfMessageButtonsPerRow = 4
+          await sendMessage(session, `【@${username}】\n特定游戏模式（可多选）：`, markdownCommands, numberOfMessageButtonsPerRow);
+
+          const userInput = await session.prompt();
+
+          if (!userInput) {
+            return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 排行榜`);
+          }
+
+          const modes = {
+            '困难': 'hard',
+          };
+
+          for (const mode of Object.keys(modes)) {
+            if (userInput.includes(mode)) {
+              options[modes[mode]] = true;
+            }
+          }
+
+          const wordlesMap = {
+            'x1': 1,
+            'x2': 2,
+            'x3': 3,
+            'x4': 4
+          };
+
+          for (const wordle of Object.keys(wordlesMap)) {
+            if (userInput.includes(wordle)) {
+              options.wordles = wordlesMap[wordle];
+            }
+          }
+
+          if (userInput.includes(`跳过`)) {
+            noop();
+          }
         }
         if (type === '词影' && options.wordles !== 0 || type === '词影' && options.hard) {
           if (options.wordles === 0) {
             options.wordles = 1
           }
           if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
-            return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
+            return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`, `开始游戏 排行榜`);
           }
           return await getLoseCountLeaderboardForCiying(session, options.wordles, `玩家输场排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
         }
-        return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'lose', '输场'));
+        return await sendMessage(session, await getLeaderboardWinOrLose(type, number, 'lose', '输场'), `开始游戏 排行榜`);
       });
 
     ctx.command(`wordleGame.排行榜.${type}.最快用时 [number:number]`, `查看${type}最快用时排行榜`)
       .option('hard', '--hard 查看困难模式', {fallback: false})
       .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 0})
       .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
-        const {channelId, username, userId} = session
+        let {channelId, username, userId} = session
         // 更新玩家记录表中的用户名
-        await updateNameInPlayerRecord(userId, username)
+        username = await getSessionUserName(session)
+        await updateNameInPlayerRecord(session, userId, username)
         if (typeof number !== 'number' || isNaN(number) || number < 0) {
           return '请输入大于等于 0 的数字作为排行榜的参数。';
+        }
+        if (type === '词影' && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+          let markdownCommands = `x1 x2 x3 x4 困难 跳过`
+          let numberOfMessageButtonsPerRow = 4
+          await sendMessage(session, `【@${username}】\n特定游戏模式（可多选）：`, markdownCommands, numberOfMessageButtonsPerRow);
+
+          const userInput = await session.prompt();
+
+          if (!userInput) {
+            return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 排行榜`);
+          }
+
+          const modes = {
+            '困难': 'hard',
+          };
+
+          for (const mode of Object.keys(modes)) {
+            if (userInput.includes(mode)) {
+              options[modes[mode]] = true;
+            }
+          }
+
+          const wordlesMap = {
+            'x1': 1,
+            'x2': 2,
+            'x3': 3,
+            'x4': 4
+          };
+
+          for (const wordle of Object.keys(wordlesMap)) {
+            if (userInput.includes(wordle)) {
+              options.wordles = wordlesMap[wordle];
+            }
+          }
+
+          if (userInput.includes(`跳过`)) {
+            noop();
+          }
         }
         if (type === '词影' && options.wordles !== 0 || type === '词影' && options.hard) {
           if (options.wordles === 0) {
             options.wordles = 1
           }
           if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
-            return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
+            return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`, `开始游戏 排行榜`);
           }
           return await getFastestGuessTimeLeaderboardForCiying(session, options.wordles, `玩家最快用时排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
         }
 
-        return await sendMessage(session, await getLeaderboardFastestGuessTime(type, number));
+        return await sendMessage(session, await getLeaderboardFastestGuessTime(type, number), `开始游戏 排行榜`);
       });
   });
 
@@ -2284,20 +2536,143 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     .option('hard', '--hard 查看困难模式', {fallback: false})
     .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 1})
     .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
-      const {channelId, username, userId} = session
+      let {channelId, username, userId} = session // db*
       // 更新玩家记录表中的用户名
-      await updateNameInPlayerRecord(userId, username)
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
       if (typeof number !== 'number' || isNaN(number) || number < 0) {
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
+      if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+        let markdownCommands = `x1 x2 x3 x4 困难 跳过`
+        let numberOfMessageButtonsPerRow = 4
+        await sendMessage(session, `【@${username}】\n特定游戏模式（可多选）：`, markdownCommands, numberOfMessageButtonsPerRow);
+
+        const userInput = await session.prompt();
+
+        if (!userInput) {
+          return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 排行榜`);
+        }
+
+        const modes = {
+          '困难': 'hard',
+        };
+
+        for (const mode of Object.keys(modes)) {
+          if (userInput.includes(mode)) {
+            options[modes[mode]] = true;
+          }
+        }
+
+        const wordlesMap = {
+          'x1': 1,
+          'x2': 2,
+          'x3': 3,
+          'x4': 4
+        };
+
+        for (const wordle of Object.keys(wordlesMap)) {
+          if (userInput.includes(wordle)) {
+            options.wordles = wordlesMap[wordle];
+          }
+        }
+
+        if (userInput.includes(`跳过`)) {
+          noop();
+        }
+      }
       if (typeof options.wordles !== 'number' || options.wordles < 1 || options.wordles > 4) {
-        return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`);
+        return await sendMessage(session, `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`, `开始游戏 排行榜`);
       }
       return await getCiyingSuccessCountLeaderboardForCiying(session, options.wordles, 'successCount', `玩家猜出次数排行榜（词影 x${options.wordles}${options.hard && options.wordles === 1 ? '（困难）' : ''}）`, number, options.hard);
     });
 
+  // gm*
+  ctx.command('wordleGame.改名 [newPlayerName:text]', '更改玩家名字')
+    .action(async ({session}, newPlayerName) => {
+      let {channelId, userId, username} = session
+      username = await getSessionUserName(session)
+      await updateNameInPlayerRecord(session, userId, username)
+      // 修剪玩家名字
+      newPlayerName = newPlayerName?.trim();
+      if (!newPlayerName) {
+        return await sendMessage(session, `【@${username}】\n请输入新的玩家名字。`, `改名`)
+      }
+      if (!(config.isEnableQQOfficialRobotMarkdownTemplate && session.platform === 'qq' && config.key !== '' && config.customTemplateId !== '')) {
+        return await sendMessage(session, `【@${username}】\n不是 QQ 官方机器人的话，不用改名哦~`, `改名`)
+      }
+      // 判断新的玩家名字是否过长
+      if (newPlayerName.length > 20) {
+        return await sendMessage(session, `【@${username}】\n新的玩家名字过长，请重新输入。`, `改名`)
+      }
+      const players = await ctx.database.get('wordle_player_records', {});
+      // 判断新的玩家名字是否已经存在
+      for (const player of players) {
+        if (player.username === newPlayerName) {
+          return await sendMessage(session, `【@${username}】\n新的玩家名字已经存在，请重新输入。`, `改名`)
+        }
+      }
+      // 玩家记录表操作
+      const userRecord = await ctx.database.get('wordle_player_records', {userId});
+      if (userRecord.length === 0) {
+        await ctx.database.create('wordle_player_records', {
+          userId,
+          username: newPlayerName,
+        });
+      } else {
+        await ctx.database.set('wordle_player_records', {userId}, {username: newPlayerName});
+      }
+      // 返回
+      return await sendMessage(session, `【@${username}】\n玩家名字已更改为：【${newPlayerName}】`, `查询玩家记录 开始游戏 改名`, 2);
+    });
 
-  // ch*
+  // hs*
+  function replaceSymbols(message: string): string {
+    let firstLessThan = true;
+    let firstGreaterThan = true;
+    let result = '';
+
+    for (let i = 0; i < message.length; i++) {
+      const char = message[i];
+
+      if (char === '<' && firstLessThan) {
+        firstLessThan = false;
+        result += char;
+      } else if (char === '>' && firstGreaterThan) {
+        firstGreaterThan = false;
+        result += char;
+      } else if (char === '<') {
+        result += '[';
+      } else if (char === '>') {
+        result += ']';
+      } else {
+        result += char;
+      }
+    }
+
+    return result;
+  }
+
+  async function getSessionUserName(session: any): Promise<string> {
+    let sessionUserName = session.username;
+
+    if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+      let userRecord = await ctx.database.get('wordle_player_records', {userId: session.userId});
+
+      if (userRecord.length === 0) {
+        await ctx.database.create('wordle_player_records', {
+          userId: session.userId,
+          username: sessionUserName,
+        });
+
+        userRecord = await ctx.database.get('wordle_player_records', {userId: session.userId});
+      }
+      sessionUserName = userRecord[0].username;
+    }
+
+    return sessionUserName;
+  }
+
   async function getWinCountLeaderboardForCiying(session: any, wordlesNum: number, title: string, number: number, isHardMode: boolean) {
     const getPlayers: PlayerRecord[] = await ctx.database.get('wordle_player_records', {});
     let sortedPlayers;
@@ -2317,7 +2692,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       result += `${index + 1}. ${player.username}：${player.extraCiyingRankInfo[winCountField]} 次\n`;
     });
 
-    return await sendMessage(session, result);
+    return await sendMessage(session, result, `开始游戏 排行榜`);
   }
 
   async function getLoseCountLeaderboardForCiying(session: any, wordlesNum: number, title: string, number: number, isHardMode: boolean) {
@@ -2339,7 +2714,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       result += `${index + 1}. ${player.username}：${player.extraCiyingRankInfo[loseCountField]} 次\n`;
     });
 
-    return await sendMessage(session, result);
+    return await sendMessage(session, result, `开始游戏 排行榜`);
   }
 
   async function getFastestGuessTimeLeaderboardForCiying(session: any, wordlesNum: number, title: string, number: number, isHardMode: boolean) {
@@ -2363,7 +2738,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       result += `${index + 1}. ${player.username}：${formatGameDuration2(player.extraCiyingRankInfo[fastestGuessTimeField])}\n`;
     });
 
-    return await sendMessage(session, result);
+    return await sendMessage(session, result, `开始游戏 排行榜`);
   }
 
   async function generateHandlePinyinsImage(pinyinsHtml: string) {
@@ -3060,7 +3435,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
       result += `${index + 1}. ${player.username}：${player.extraCiyingRankInfo[successCountField]} 次\n`;
     });
 
-    return await sendMessage(session, result);
+    return await sendMessage(session, result, `开始游戏 排行榜`);
   }
 
   async function getLeaderboard(session: any, type: string, sortField: string, title: string, number: number) {
@@ -3072,7 +3447,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}
     topPlayers.forEach((player, index) => {
       result += `${index + 1}. ${player.username}：${player[sortField]} ${(type === 'moneyChange') ? '点' : '次'}\n`
     })
-    return await sendMessage(session, result);
+    return await sendMessage(session, result, `开始游戏 排行榜`);
   }
 
   async function updatePlayerRecordsLose(channelId: string, gameInfo: GameRecord) {
@@ -3340,7 +3715,7 @@ ${gridHtml}
     return gameRecord[0];
   }
 
-  async function updateNameInPlayerRecord(userId: string, username: string): Promise<void> {
+  async function updateNameInPlayerRecord(session, userId: string, username: string): Promise<void> {
     const userRecord = await ctx.database.get('wordle_player_records', {userId});
 
     if (userRecord.length === 0) {
@@ -3354,7 +3729,7 @@ ${gridHtml}
     const existingRecord = userRecord[0];
     let isChange = false
 
-    if (username !== existingRecord.username) {
+    if (username !== existingRecord.username && !(isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq')) {
       existingRecord.username = username;
       isChange = true
     }
@@ -3386,37 +3761,139 @@ ${gridHtml}
 
   }
 
-
-// csh*
   let sentMessages = [];
+  const msgSeqMap: { [msgId: string]: number } = {};
 
-  async function sendMessage(session: any, message: any): Promise<void> {
+  async function sendMessage(session: any, message: any, markdownCommands: string, numberOfMessageButtonsPerRow?: number, isButton?: boolean): Promise<void> {
+    numberOfMessageButtonsPerRow = numberOfMessageButtonsPerRow || config.numberOfMessageButtonsPerRow;
     const {bot, channelId} = session;
     let messageId;
-    if (config.isTextToImageConversionEnabled) {
-      const lines = message.split('\n');
-      const isOnlyImgTag = lines.length === 1 && lines[0].trim().startsWith('<img');
-      if (isOnlyImgTag) {
-        await session.send(message);
+    let isPushMessageId = false;
+    if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+      const msgSeq = msgSeqMap[session.messageId] || 10;
+      msgSeqMap[session.messageId] = msgSeq + 100;
+      const buttons = await createButtons(session, markdownCommands);
+
+      const rows = [];
+      let row = {buttons: []};
+      buttons.forEach((button, index) => {
+        row.buttons.push(button);
+        if (row.buttons.length === 5 || index === buttons.length - 1 || row.buttons.length === numberOfMessageButtonsPerRow) {
+          rows.push(row);
+          row = {buttons: []};
+        }
+      });
+
+      if (!isButton && config.isTextToImageConversionEnabled) {
+        const lines = message.toString().split('\n');
+        const isOnlyImgTag = lines.length === 1 && lines[0].trim().startsWith('<img');
+        if (isOnlyImgTag) {
+          [messageId] = await session.send(message);
+        } else {
+          const modifiedMessage = lines
+            .map((line) => {
+              if (line.trim() !== '' && !line.includes('<img')) {
+                return `# ${line}`;
+              } else {
+                return line + '\n';
+              }
+            })
+            .join('\n');
+          const imageBuffer = await ctx.markdownToImage.convertToImage(modifiedMessage);
+          [messageId] = await session.send(h.image(imageBuffer, `image/${config.imageType}`));
+        }
+        if (config.retractDelay !== 0) {
+          isPushMessageId = true;
+          sentMessages.push(messageId);
+        }
+
+        if (config.isTextToImageConversionEnabled && markdownCommands !== '') {
+          await sendMessage(session, '', markdownCommands, numberOfMessageButtonsPerRow, true)
+        }
+      } else if (isButton && config.isTextToImageConversionEnabled) {
+        const result = await session.qq.sendMessage(session.channelId, {
+          msg_type: 2,
+          msg_id: session.messageId,
+          msg_seq: msgSeq,
+          content: '',
+          markdown: {
+            custom_template_id: config.customTemplateId,
+            params: [
+              {
+                key: config.key,
+                values: [`<@${session.userId}>`],
+              },
+            ],
+          },
+          keyboard: {
+            content: {
+              rows: rows.slice(0, 5),
+            },
+          },
+        });
+        messageId = result.id;
       } else {
-        const modifiedMessage = lines
-          .map((line) => {
-            if (line.trim() !== '' && !line.includes('<img')) {
-              return `# ${line}`;
-            } else {
-              return line + '\n';
-            }
-          })
-          .join('\n');
-        const imageBuffer = await ctx.markdownToImage.convertToImage(modifiedMessage);
-        [messageId] = await session.send(h.image(imageBuffer, `image/${config.imageType}`));
+        if (message.attrs?.src || message.includes('<img')) {
+          [messageId] = await session.send(message);
+        } else {
+          // message = message.replace(/\n/g, '\r').replace(/\*/g, "？");
+          // message = replaceSymbols(message);
+          message = replaceSymbols(message.replace(/\n/g, '\r').replace(/\*/g, "？"));
+
+          const result = await session.qq.sendMessage(session.channelId, {
+            msg_type: 2,
+            msg_id: session.messageId,
+            msg_seq: msgSeq,
+            content: '111',
+            markdown: {
+              custom_template_id: config.customTemplateId,
+              params: [
+                {
+                  key: config.key,
+                  values: [`${message}`],
+                },
+              ],
+            },
+            keyboard: {
+              content: {
+                rows: rows.slice(0, 5),
+              },
+            },
+          });
+
+          messageId = result.id;
+        }
       }
+
     } else {
-      [messageId] = await session.send(message);
+      if (config.isTextToImageConversionEnabled) {
+        const lines = message.split('\n');
+        const isOnlyImgTag = lines.length === 1 && lines[0].trim().startsWith('<img');
+        if (isOnlyImgTag) {
+          [messageId] = await session.send(message);
+        } else {
+          const modifiedMessage = lines
+            .map((line) => {
+              if (line.trim() !== '' && !line.includes('<img')) {
+                return `# ${line}`;
+              } else {
+                return line + '\n';
+              }
+            })
+            .join('\n');
+          const imageBuffer = await ctx.markdownToImage.convertToImage(modifiedMessage);
+          [messageId] = await session.send(h.image(imageBuffer, `image/${config.imageType}`));
+        }
+      } else {
+        [messageId] = await session.send(message);
+      }
     }
 
+
     if (config.retractDelay === 0) return;
-    sentMessages.push(messageId);
+    if (!isPushMessageId) {
+      sentMessages.push(messageId);
+    }
 
     if (sentMessages.length > 1) {
       const oldestMessageId = sentMessages.shift();
@@ -3512,7 +3989,97 @@ ${content}
     }
   }
 
-  // hs*
+  interface Button {
+    render_data: {
+      label: string;
+      visited_label: string;
+      style: number;
+    };
+    action: {
+      type: number;
+      permission: { type: number };
+      data: string;
+      enter: boolean;
+    };
+  }
+
+  function parseMarkdownCommands(markdownCommands: string): string[] {
+    return markdownCommands.split(' ').filter(command => command.trim() !== '');
+  }
+
+  async function createButtons(session: any, markdownCommands: string) {
+    const commands = parseMarkdownCommands(markdownCommands);
+
+    const mapCommandToDataValue = (command: string) => {
+      const commandMappings: Record<string, string> = {
+        '加入游戏': 'wordlegame.加入',
+        '开始游戏': 'wordlegame.开始',
+        '改名': 'wordlegame.改名',
+        '查询玩家记录': 'wordlegame.查询玩家记录',
+        '猜测': 'wordlegame.猜',
+        '随机猜测': 'wordlegame.猜 -r',
+        '输入': '',
+        '排行榜': 'wordlegame.排行榜',
+        '玩法介绍': 'wordlegame.玩法介绍',
+        '退出游戏': 'wordlegame.退出',
+        '查单词': 'wordlegame.查单词',
+        '查成语': 'wordlegame.查成语',
+        '单词查找器': 'wordlegame.单词查找器',
+        '查询进度': 'wordlegame.查询进度',
+        '拼音速查表': 'wordlegame.拼音速查表',
+        '结束游戏': 'wordlegame.结束',
+        '再来一把': 'wordlegame.开始',
+        '再来一把经典': 'wordlegame.开始.经典',
+        '再来一把CET4': 'wordlegame.开始.CET4',
+        '再来一把CET6': 'wordlegame.开始.CET6',
+        '再来一把GMAT': 'wordlegame.开始.GMAT',
+        '再来一把GRE': 'wordlegame.开始.GRE',
+        '再来一把IELTS': 'wordlegame.开始.IELTS',
+        '再来一把SAT': 'wordlegame.开始.SAT',
+        '再来一把TOEFL': 'wordlegame.开始.TOEFL',
+        '再来一把考研': 'wordlegame.开始.考研',
+        '再来一把专八': 'wordlegame.开始.专八',
+        '再来一把专四': 'wordlegame.开始.专四',
+        '再来一把ALL': 'wordlegame.开始.ALL',
+        '再来一把Lewdle': 'wordlegame.开始.Lewdle',
+        '再来一把汉兜': 'wordlegame.开始.汉兜',
+        '再来一把Numberle': 'wordlegame.开始.Numberle',
+        '再来一把Math': 'wordlegame.开始.Math',
+        '再来一把词影': 'wordlegame.开始.词影',
+        '数字': 'Numberle',
+        '脏话': 'Lewdle',
+        '方程': 'Math',
+      };
+
+      return commandMappings[command];
+    };
+
+    const createButton = async (command: string) => {
+      let dataValue = mapCommandToDataValue(command);
+      if (dataValue === undefined) {
+        dataValue = command
+      }
+
+      return {
+        render_data: {
+          label: command,
+          visited_label: command,
+          style: 1,
+        },
+        action: {
+          type: 2,
+          permission: {type: 2},
+          data: `${dataValue}`,
+          enter: !['加入游戏', '猜测', '查询玩家记录', '改名', '输入', '困难', '超困难', '变态', '变态挑战', 'x1', 'x2', 'x3', 'x4', '自由', '全成语'].includes(command),
+        },
+      };
+    };
+
+    const buttonPromises = commands.map(createButton);
+    return Promise.all(buttonPromises);
+  }
+
+
   async function replaceAtTags(session, content: string): Promise<string> {
     // 正则表达式用于匹配 at 标签
     const atRegex = /<at id="(\d+)"(?: name="([^"]*)")?\/>/g;
