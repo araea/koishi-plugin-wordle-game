@@ -3765,6 +3765,7 @@ ${gridHtml}
   const msgSeqMap: { [msgId: string]: number } = {};
 
   async function sendMessage(session: any, message: any, markdownCommands: string, numberOfMessageButtonsPerRow?: number, isButton?: boolean): Promise<void> {
+    isButton = isButton || false;
     numberOfMessageButtonsPerRow = numberOfMessageButtonsPerRow || config.numberOfMessageButtonsPerRow;
     const {bot, channelId} = session;
     let messageId;
@@ -3867,7 +3868,7 @@ ${gridHtml}
 
     } else {
       if (config.isTextToImageConversionEnabled) {
-        const lines = message.split('\n');
+        const lines = message.toString().split('\n');
         const isOnlyImgTag = lines.length === 1 && lines[0].trim().startsWith('<img');
         if (isOnlyImgTag) {
           [messageId] = await session.send(message);
