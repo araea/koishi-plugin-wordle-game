@@ -296,22 +296,23 @@ interface WordData {
 }
 
 interface PlayerStats {
-  经典?: WinLoseStats;
-  Lewdle?: WinLoseStats;
-  CET4?: WinLoseStats;
-  CET6?: WinLoseStats;
-  GMAT?: WinLoseStats;
-  GRE?: WinLoseStats;
-  IELTS?: WinLoseStats;
-  SAT?: WinLoseStats;
-  TOEFL?: WinLoseStats;
-  考研?: WinLoseStats;
-  专八?: WinLoseStats;
-  专四?: WinLoseStats;
-  ALL?: WinLoseStats;
-  汉兜?: WinLoseStats;
-  Numberle?: WinLoseStats;
-  Math?: WinLoseStats;
+  '经典'?: WinLoseStats;
+  'Lewdle'?: WinLoseStats;
+  'CET4'?: WinLoseStats;
+  'CET6'?: WinLoseStats;
+  'GMAT'?: WinLoseStats;
+  'GRE'?: WinLoseStats;
+  'IELTS'?: WinLoseStats;
+  'SAT'?: WinLoseStats;
+  'TOEFL'?: WinLoseStats;
+  '考研'?: WinLoseStats;
+  '专八'?: WinLoseStats;
+  '专四'?: WinLoseStats;
+  'ALL'?: WinLoseStats;
+  '汉兜'?: WinLoseStats;
+  'Numberle'?: WinLoseStats;
+  'Math'?: WinLoseStats;
+  '词影'?: WinLoseStats;
 }
 
 interface WinLoseStats {
@@ -369,40 +370,43 @@ const initialExtraCiyingRankInfo: ExtraCiyingRankInfo = {
 }
 
 const initialStats: PlayerStats = {
-  经典: {win: 0, lose: 0},
-  Lewdle: {win: 0, lose: 0},
-  CET4: {win: 0, lose: 0},
-  CET6: {win: 0, lose: 0},
-  GMAT: {win: 0, lose: 0},
-  GRE: {win: 0, lose: 0},
-  IELTS: {win: 0, lose: 0},
-  SAT: {win: 0, lose: 0},
-  TOEFL: {win: 0, lose: 0},
-  考研: {win: 0, lose: 0},
-  专八: {win: 0, lose: 0},
-  专四: {win: 0, lose: 0},
-  ALL: {win: 0, lose: 0},
-  Numberle: {win: 0, lose: 0},
-  Math: {win: 0, lose: 0},
+  '经典': {win: 0, lose: 0},
+  'Lewdle': {win: 0, lose: 0},
+  'CET4': {win: 0, lose: 0},
+  'CET6': {win: 0, lose: 0},
+  'GMAT': {win: 0, lose: 0},
+  'GRE': {win: 0, lose: 0},
+  'IELTS': {win: 0, lose: 0},
+  'SAT': {win: 0, lose: 0},
+  'TOEFL': {win: 0, lose: 0},
+  '考研': {win: 0, lose: 0},
+  '专八': {win: 0, lose: 0},
+  '专四': {win: 0, lose: 0},
+  'ALL': {win: 0, lose: 0},
+  'Numberle': {win: 0, lose: 0},
+  'Math': {win: 0, lose: 0},
+  '汉兜': {win: 0, lose: 0},
+  '词影': {win: 0, lose: 0},
 };
 
 const initialFastestGuessTime: Record<string, number> = {
-  经典: 0,
-  Lewdle: 0,
-  CET4: 0,
-  CET6: 0,
-  GMAT: 0,
-  GRE: 0,
-  IELTS: 0,
-  SAT: 0,
-  TOEFL: 0,
-  考研: 0,
-  专八: 0,
-  专四: 0,
-  ALL: 0,
-  汉兜: 0,
-  Numberle: 0,
-  Math: 0,
+  '经典': 0,
+  'Lewdle': 0,
+  'CET4': 0,
+  'CET6': 0,
+  'GMAT': 0,
+  'GRE': 0,
+  'IELTS': 0,
+  'SAT': 0,
+  'TOEFL': 0,
+  '考研': 0,
+  '专八': 0,
+  '专四': 0,
+  'ALL': 0,
+  '汉兜': 0,
+  'Numberle': 0,
+  'Math': 0,
+  '词影': 0,
 };
 
 interface LetterState {
@@ -793,7 +797,7 @@ export async function apply(ctx: Context, config: Config) {
         return await sendMessage(session, `【@${username}】\n游戏已经开始了哦~`, `猜测`);
       }
       // 提示输入
-      await sendMessage(session, `【@${username}】\n${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? ``: `可选模式如下：\n${exams.map((exam, index) => `${index + 1}. ${exam}`).join('\n')}`}
+      await sendMessage(session, `【@${username}】\n${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` : `可选模式如下：\n${exams.map((exam, index) => `${index + 1}. ${exam}`).join('\n')}`}
 请输入要开始的${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` : `【序号】或`}【模式名】：`, `经典 CET4 CET6 GMAT GRE IELTS SAT TOEFL 考研 专八 专四 ALL 脏话 汉兜 数字 方程 词影`, 4);
       const userInput = await session.prompt();
       if (!userInput) return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 开始游戏`);
@@ -2231,7 +2235,7 @@ ${generateStatsInfo(stats, fastestGuessTime)}
         return '请输入大于等于 0 的数字作为排行榜的参数。';
       }
 
-      await sendMessage(session, `【@${username}】\n${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq'? ``: `当前可查看排行榜如下：
+      await sendMessage(session, `【@${username}】\n${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` : `当前可查看排行榜如下：
 ${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
 请输入要查看的【排行榜名】${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` : `或【序号】`}：`, `总 损益 猜出次数 经典 CET4 CET6 GMAT GRE IELTS SAT TOEFL 考研 专八 专四 ALL 脏话 汉兜 数字 方程 词影`);
 
@@ -2274,9 +2278,9 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
         } else {
           rankType3 = ["胜场", "输场", "最快用时"];
         }
-        await sendMessage(session, `【@${username}】\n${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` :`当前可查看排行榜如下：
+        await sendMessage(session, `【@${username}】\n${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` : `当前可查看排行榜如下：
 ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
-请输入要查看的【类型名】${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` :`或【序号】`}：`, rankType3.join(' '));
+请输入要查看的【类型名】${isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' ? `` : `或【序号】`}：`, rankType3.join(' '));
 
         const userInput = await session.prompt();
         if (!userInput) return sendMessage(session, `输入无效或超时。`, `排行榜`);
@@ -2359,42 +2363,42 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
           return '请输入大于等于 0 的数字作为排行榜的参数。';
         }
         if (type === '词影' && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
-            let markdownCommands = `x1 x2 x3 x4 困难 跳过`
-            let numberOfMessageButtonsPerRow = 4
-            await sendMessage(session, `【@${username}】\n特定游戏模式（可多选）：`, markdownCommands, numberOfMessageButtonsPerRow);
+          let markdownCommands = `x1 x2 x3 x4 困难 跳过`
+          let numberOfMessageButtonsPerRow = 4
+          await sendMessage(session, `【@${username}】\n特定游戏模式（可多选）：`, markdownCommands, numberOfMessageButtonsPerRow);
 
-            const userInput = await session.prompt();
+          const userInput = await session.prompt();
 
-            if (!userInput) {
-              return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 排行榜`);
+          if (!userInput) {
+            return await sendMessage(session, `【@${username}】\n输入无效或超时。`, `改名 排行榜`);
+          }
+
+          const modes = {
+            '困难': 'hard',
+          };
+
+          for (const mode of Object.keys(modes)) {
+            if (userInput.includes(mode)) {
+              options[modes[mode]] = true;
             }
+          }
 
-            const modes = {
-              '困难': 'hard',
-            };
+          const wordlesMap = {
+            'x1': 1,
+            'x2': 2,
+            'x3': 3,
+            'x4': 4
+          };
 
-            for (const mode of Object.keys(modes)) {
-              if (userInput.includes(mode)) {
-                options[modes[mode]] = true;
-              }
+          for (const wordle of Object.keys(wordlesMap)) {
+            if (userInput.includes(wordle)) {
+              options.wordles = wordlesMap[wordle];
             }
+          }
 
-            const wordlesMap = {
-              'x1': 1,
-              'x2': 2,
-              'x3': 3,
-              'x4': 4
-            };
-
-            for (const wordle of Object.keys(wordlesMap)) {
-              if (userInput.includes(wordle)) {
-                options.wordles = wordlesMap[wordle];
-              }
-            }
-
-            if (userInput.includes(`跳过`)) {
-              noop();
-            }
+          if (userInput.includes(`跳过`)) {
+            noop();
+          }
         }
         if (type === '词影' && options.wordles !== 0 || type === '词影' && options.hard) {
           if (options.wordles === 0) {
@@ -2536,7 +2540,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
     .option('hard', '--hard 查看困难模式', {fallback: false})
     .option('wordles', '--wordles <value:number> 查看多猜测模式', {fallback: 1})
     .action(async ({session, options}, number = config.defaultMaxLeaderboardEntries) => {
-      let {channelId, username, userId} = session // db*
+      let {channelId, username, userId} = session
       // 更新玩家记录表中的用户名
       username = await getSessionUserName(session)
       await updateNameInPlayerRecord(session, userId, username)
@@ -3450,14 +3454,25 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
     return await sendMessage(session, result, `开始游戏 排行榜`);
   }
 
-  async function updatePlayerRecordsLose(channelId: string, gameInfo: GameRecord) {
+  async function updatePlayerRecordsLose(channelId: string, gameInfo: GameRecord) { // db*
     const gamingPlayers: GamingPlayer[] = await ctx.database.get('wordle_gaming_player_records', {channelId});
 
     for (const player of gamingPlayers) {
-      const playerInfo: PlayerRecord = (await ctx.database.get('wordle_player_records', {userId: player.userId}))[0];
+      const [playerInfo] = await ctx.database.get('wordle_player_records', {userId: player.userId});
       const updatedLose = playerInfo.lose + 1;
       const gameMode = gameInfo.gameMode as keyof PlayerStats;
-      playerInfo.stats[gameMode].lose += 1;
+      try {
+        playerInfo.stats[gameMode].lose += 1;
+      } catch (error) {
+        if (config.disableLoggerAndUseConsoleLog) {
+          console.error(error);
+        } else {
+          logger.error(error);
+          logger.error('gamingPlayers:', gamingPlayers)
+          logger.error('playerInfo:', playerInfo)
+        }
+      }
+
 
       if (gameInfo.gameMode === '词影') {
         if (gameInfo.wordlesNum === 1) {
@@ -3493,7 +3508,20 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
       const playerInfo: PlayerRecord = (await ctx.database.get('wordle_player_records', {userId: player.userId}))[0];
       const updatedWin = playerInfo.win + 1;
       const gameMode = gameInfo.gameMode as keyof PlayerStats;
-      playerInfo.stats[gameMode].win += 1;
+
+      try {
+        playerInfo.stats[gameMode].win += 1;
+      } catch (error) {
+        if (config.disableLoggerAndUseConsoleLog) {
+          console.error(error);
+          console.error('gamingPlayers:', gamingPlayers)
+          console.error('playerInfo:', playerInfo)
+        } else {
+          logger.error(error);
+          logger.error('gamingPlayers:', gamingPlayers)
+          logger.error('playerInfo:', playerInfo)
+        }
+      }
 
       if (gameInfo.gameMode === '词影') {
         if (gameInfo.wordlesNum === 1) {
