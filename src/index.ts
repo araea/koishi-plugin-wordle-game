@@ -1778,7 +1778,7 @@ ${settlementResult}
       const sessionUserName = username
       await updateNameInPlayerRecord(session, userId, username)
 
-      let targetUserRecord;
+      let targetUserRecord: PlayerRecord[];
       if (!targetUser) {
         targetUserRecord = await ctx.database.get('wordle_player_records', {userId: session.userId})
       } else {
@@ -1794,12 +1794,14 @@ ${settlementResult}
           userId = match?.[1] ?? userId;
           username = match?.[2] ?? username;
           targetUserRecord = await ctx.database.get('wordle_player_records', {userId})
+          if (targetUserRecord.length === 0) {
+            targetUserRecord = await ctx.database.get('wordle_player_records', {userId: targetUser})
+          }
         }
       }
 
       if (targetUserRecord.length === 0) {
-        await ctx.database.create('wordle_player_records', {userId, username});
-        return sendMessage(session, `查询对象：${username} 无任何游戏记录。`, `改名 查询玩家记录 开始游戏`, 2);
+        return sendMessage(session, `被查询对象无任何游戏记录。`, `改名 查询玩家记录 开始游戏`, 2);
       }
 
       const {
