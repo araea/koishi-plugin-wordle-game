@@ -174,6 +174,7 @@ export const Config: Schema<Config> = Schema.intersect([
   ])
 ]) as any;
 
+// smb*
 declare module 'koishi' {
   interface Tables {
     wordle_game_records: GameRecord
@@ -3444,17 +3445,16 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
     return await sendMessage(session, result, `开始游戏 排行榜`);
   }
 
-  async function updatePlayerRecordsLose(channelId: string, gameInfo: GameRecord) { // db*
+  async function updatePlayerRecordsLose(channelId: string, gameInfo: GameRecord) {
     const gamingPlayers: GamingPlayer[] = await ctx.database.get('wordle_gaming_player_records', {channelId});
 
     for (const player of gamingPlayers) {
+      const gameMode = gameInfo.gameMode;
       const [playerInfo] = await ctx.database.get('wordle_player_records', {userId: player.userId});
-      if (!playerInfo) {
+      if (!playerInfo || !playerInfo.stats.hasOwnProperty(gameMode)) {
         continue;
       }
       const updatedLose = playerInfo.lose + 1;
-      const gameMode = gameInfo.gameMode as keyof PlayerStats;
-
       playerInfo.stats[gameMode].lose += 1;
 
       if (gameInfo.gameMode === '词影') {
@@ -3488,12 +3488,12 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
     const gamingPlayers: GamingPlayer[] = await ctx.database.get('wordle_gaming_player_records', {channelId});
 
     for (const player of gamingPlayers) {
+      const gameMode = gameInfo.gameMode;
       const [playerInfo] = await ctx.database.get('wordle_player_records', {userId: player.userId});
-      if (!playerInfo) {
+      if (!playerInfo || !playerInfo.stats.hasOwnProperty(gameMode)) {
         continue;
       }
       const updatedWin = playerInfo.win + 1;
-      const gameMode = gameInfo.gameMode as keyof PlayerStats;
       playerInfo.stats[gameMode].win += 1;
 
       if (gameInfo.gameMode === '词影') {
@@ -3719,6 +3719,8 @@ ${gridHtml}
   async function updateNameInPlayerRecord(session, userId: string, username: string): Promise<void> {
     const userRecord = await ctx.database.get('wordle_player_records', {userId});
 
+    let isChange = false;
+
     if (userRecord.length === 0) {
       await ctx.database.create('wordle_player_records', {
         userId,
@@ -3728,29 +3730,24 @@ ${gridHtml}
     }
 
     const existingRecord = userRecord[0];
-    let isChange = false
 
     if (username !== existingRecord.username && !(isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq')) {
       existingRecord.username = username;
-      isChange = true
+      isChange = true;
     }
 
-    const statsKeys = ['Lewdle', '汉兜', 'Numberle', 'Math', '词影',];
-    const timeKeys = ['Lewdle', '汉兜', 'Numberle', 'Math', '词影',];
+    const keys = ['Lewdle', '汉兜', 'Numberle', 'Math', '词影'];
 
-    for (const key of statsKeys) {
-      if (!existingRecord.stats.hasOwnProperty(key)) {
+    keys.forEach((key) => {
+      if (!existingRecord.stats[key] || !existingRecord.stats.hasOwnProperty(key)) {
         existingRecord.stats[key] = {win: 0, lose: 0};
         isChange = true;
       }
-    }
-
-    for (const key of timeKeys) {
-      if (!existingRecord.fastestGuessTime.hasOwnProperty(key)) {
+      if (!existingRecord.fastestGuessTime[key]) {
         existingRecord.fastestGuessTime[key] = 0;
         isChange = true;
       }
-    }
+    });
 
     if (isChange) {
       await ctx.database.set('wordle_player_records', {userId}, {
@@ -3759,7 +3756,6 @@ ${gridHtml}
         fastestGuessTime: existingRecord.fastestGuessTime
       });
     }
-
   }
 
   let sentMessages = [];
