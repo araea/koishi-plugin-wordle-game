@@ -1773,14 +1773,15 @@ ${settlementResult}
   ctx.command('wordleGame.查询玩家记录 [targetUser:text]', '查询玩家记录')
     .action(async ({session}, targetUser) => {
       let {userId, username} = session;
+      const originalUerId = userId
       // 更新玩家记录表中的用户名
       username = await getSessionUserName(session)
       const sessionUserName = username
       await updateNameInPlayerRecord(session, userId, username)
 
-      let targetUserRecord: PlayerRecord[];
+      let targetUserRecord: PlayerRecord[] = [];
       if (!targetUser) {
-        targetUserRecord = await ctx.database.get('wordle_player_records', {userId: session.userId})
+        targetUserRecord = await ctx.database.get('wordle_player_records', {userId})
       } else {
         targetUser = await replaceAtTags(session, targetUser)
         if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
@@ -1793,9 +1794,10 @@ ${settlementResult}
           const match = targetUser.match(userIdRegex);
           userId = match?.[1] ?? userId;
           username = match?.[2] ?? username;
-          targetUserRecord = await ctx.database.get('wordle_player_records', {userId})
-          if (targetUserRecord.length === 0) {
+          if (originalUerId === userId) {
             targetUserRecord = await ctx.database.get('wordle_player_records', {userId: targetUser})
+          } else {
+            targetUserRecord = await ctx.database.get('wordle_player_records', {userId})
           }
         }
       }
