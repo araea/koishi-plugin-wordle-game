@@ -281,6 +281,14 @@ npm install koishi-plugin-wordle-game
 - [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典
   Wordle 的单词列表
 
+## 🐱 QQ 群
+
+- 956758505
+
 ## ✨ License
 
 MIT License © 2024
+
+希望您喜欢这款插件！ 💫
+
+如有任何问题或建议，欢迎联系我哈~ 🎈

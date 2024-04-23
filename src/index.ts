@@ -89,6 +89,10 @@ export const usage = `## 🎣 使用
 - \`wordleGame.查单词.WordWord [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
 - \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]\` -
   查看不同模式的玩家排行榜，可选参数为排行榜的人数（偷偷插一嘴，词影有细分模式的排行榜哦~ 用 help 自行探索咯！）。
+
+## 🐱 QQ 群
+
+- 956758505
 `
 
 // pz* pzx*
