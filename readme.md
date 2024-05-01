@@ -272,9 +272,10 @@ npm install koishi-plugin-wordle-game
 - [Numberle](https://dduarte.github.io/numberle/) - 数字猜测游戏
 - [词影](https://cy.surprising.studio/) - 词影游戏代码与样式
 - [Numberle](https://numberle.org/) - 数学方程式猜测游戏
+- [Wordle](https://www.nytimes.com/games/wordle/index.html) - 原版 Wordle 游戏网页样式
 - [LewdleGame](https://www.lewdlegame.com/App) - Lewdle 模式单词列表
 - [WordlePlay](https://wordleplay.com/wordle-games) - 拓展玩法/单词列表补充
-- [Wordle](https://www.nytimes.com/games/wordle/index.html) - 原版 Wordle 游戏网页样式
+- 感谢 ly、麦神等朋友的纠错与反馈喵 ~
 - [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT) - 英汉语词典数据库
 - [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle) - Wordle 经典模式词典
 - [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典

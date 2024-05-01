@@ -2615,6 +2615,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
           return await sendMessage(session, `【@${username}】\n新的玩家名字已经存在，请重新输入。`, `改名`)
         }
       }
+      if (newPlayerName.includes("@everyone")) {
+        return await sendMessage(session, `【@${username}】\n新的玩家名字不合法，请重新输入。`, `改名`)
+      }
       // 玩家记录表操作
       const userRecord = await ctx.database.get('wordle_player_records', {userId});
       if (userRecord.length === 0) {
