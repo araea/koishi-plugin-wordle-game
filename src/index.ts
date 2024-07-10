@@ -1,6 +1,6 @@
 // noinspection CssUnresolvedCustomProperty
 
-import {Context, h, noop, Schema} from 'koishi'
+import {Context, h, noop, RuntimeError, Schema} from 'koishi'
 import {} from 'koishi-plugin-puppeteer'
 import {} from 'koishi-plugin-monetary'
 import {} from 'koishi-plugin-markdown-to-image-service'
@@ -124,6 +124,7 @@ export interface Config {
   customTemplateId: string
   key: string
   numberOfMessageButtonsPerRow: number
+  isUsingUnifiedKoishiBuiltInUsername: boolean
 }
 
 export const Config: Schema<Config> = Schema.intersect([
@@ -172,6 +173,7 @@ export const Config: Schema<Config> = Schema.intersect([
         customTemplateId: Schema.string().default('').description(`自定义模板 ID。`),
         key: Schema.string().default('').description(`文本内容中特定插值的 key，用于存放文本。如果你的插值为 {{.info}}，那么请在这里填 info。`),
         numberOfMessageButtonsPerRow: Schema.number().min(4).max(5).default(4).description(`每行消息按钮的数量。`),
+        isUsingUnifiedKoishiBuiltInUsername: Schema.boolean().default(true).description(`是否使用统一的 Koishi 内置用户名。`),
       }),
       Schema.object({}),
     ]),
@@ -2593,46 +2595,74 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
   // gm*
   ctx.command('wordleGame.改名 [newPlayerName:text]', '更改玩家名字')
     .action(async ({session}, newPlayerName) => {
-      let {channelId, userId, username} = session
-      username = await getSessionUserName(session)
-      await updateNameInPlayerRecord(session, userId, username)
-      // 修剪玩家名字
+      const {userId, user} = session;
+      const username = await getSessionUserName(session);
+      await updateNameInPlayerRecord(session, userId, username);
+
       newPlayerName = newPlayerName?.trim();
       if (!newPlayerName) {
-        return await sendMessage(session, `【@${username}】\n请输入新的玩家名字。`, `改名`)
+        return sendMessage(session, `请输入新的玩家名字。`, `改名`);
       }
-      if (!(config.isEnableQQOfficialRobotMarkdownTemplate && session.platform === 'qq' && config.key !== '' && config.customTemplateId !== '')) {
-        return await sendMessage(session, `【@${username}】\n不是 QQ 官方机器人的话，不用改名哦~`, `改名`)
+
+      if (!(config.isEnableQQOfficialRobotMarkdownTemplate && session.platform === 'qq' && config.key && config.customTemplateId)) {
+        return sendMessage(session, `不是 QQ 官方机器人的话，不用改名哦~`, `改名`);
       }
-      // 判断新的玩家名字是否过长
+
       if (newPlayerName.length > 20) {
-        return await sendMessage(session, `【@${username}】\n新的玩家名字过长，请重新输入。`, `改名`)
+        return sendMessage(session, `新的玩家名字过长，请重新输入。`, `改名`);
       }
-      const players = await ctx.database.get('wordle_player_records', {});
-      // 判断新的玩家名字是否已经存在
-      for (const player of players) {
-        if (player.username === newPlayerName) {
-          return await sendMessage(session, `【@${username}】\n新的玩家名字已经存在，请重新输入。`, `改名`)
-        }
-      }
+
       if (newPlayerName.includes("@everyone")) {
-        return await sendMessage(session, `【@${username}】\n新的玩家名字不合法，请重新输入。`, `改名`)
+        return sendMessage(session, `新的玩家名字不合法，请重新输入。`, `改名`);
       }
-      // 玩家记录表操作
-      const userRecord = await ctx.database.get('wordle_player_records', {userId});
-      if (userRecord.length === 0) {
-        await ctx.database.create('wordle_player_records', {
-          userId,
-          username: newPlayerName,
-        });
+
+      if (config.isUsingUnifiedKoishiBuiltInUsername) {
+        return handleUnifiedKoishiUsername(session, user, newPlayerName);
       } else {
-        await ctx.database.set('wordle_player_records', {userId}, {username: newPlayerName});
+        return handleCustomUsername(ctx, session, userId, newPlayerName);
       }
-      // 返回
-      return await sendMessage(session, `【@${username}】\n玩家名字已更改为：【${newPlayerName}】`, `查询玩家记录 开始游戏 改名`, 2);
     });
 
   // hs*
+  async function handleUnifiedKoishiUsername(session, user, newPlayerName) {
+    const name = h.transform(newPlayerName, {text: true, default: false}).trim();
+
+    if (name === user.name) {
+      return sendMessage(session, `新的玩家名字已经存在，请重新输入。`, `改名`);
+    }
+
+    try {
+      user.name = name;
+      await user.$update();
+      return sendMessage(session, `玩家名字已更改为：【${newPlayerName}】`, `查询玩家记录 开始游戏 改名`, 2);
+    } catch (error) {
+      if (RuntimeError.check(error, 'duplicate-entry')) {
+        return sendMessage(session, `新的玩家名字已经存在，请重新输入。`, `改名`);
+      } else {
+        logger.warn(error);
+        return sendMessage(session, `玩家名字更改失败。`, `改名`);
+      }
+    }
+  }
+
+  async function handleCustomUsername(ctx, session, userId, newPlayerName) {
+    const players = await ctx.database.get('wordle_player_records', {});
+    if (players.some(player => player.username === newPlayerName)) {
+      return sendMessage(session, `新的玩家名字已经存在，请重新输入。`, `改名`);
+    }
+
+    const userRecord = await ctx.database.get('wordle_player_records', {userId});
+    if (userRecord.length === 0) {
+      await ctx.database.create('wordle_player_records', {
+        userId,
+        username: newPlayerName,
+      });
+    } else {
+      await ctx.database.set('wordle_player_records', {userId}, {username: newPlayerName});
+    }
+    return await sendMessage(session, `玩家名字已更改为：【${newPlayerName}】`, `查询玩家记录 开始游戏 改名`, 2);
+  }
+
   function replaceSymbols(message: string): string {
     let firstLessThan = true;
     let firstGreaterThan = true;
@@ -2663,17 +2693,22 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
     let sessionUserName = session.username;
 
     if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
-      let userRecord = await ctx.database.get('wordle_player_records', {userId: session.userId});
+      if (config.isUsingUnifiedKoishiBuiltInUsername && session.user.name) {
+        sessionUserName = session.user.name
+      } else {
+        let userRecord = await ctx.database.get('', {userId: session.userId});
 
-      if (userRecord.length === 0) {
-        await ctx.database.create('wordle_player_records', {
-          userId: session.userId,
-          username: sessionUserName,
-        });
+        if (userRecord.length === 0) {
+          await ctx.database.create('wordle_player_records', {
+            userId: session.userId,
+            username: sessionUserName,
+          });
 
-        userRecord = await ctx.database.get('wordle_player_records', {userId: session.userId});
+          userRecord = await ctx.database.get('wordle_player_records', {userId: session.userId});
+        }
+        sessionUserName = userRecord[0].username;
       }
-      sessionUserName = userRecord[0].username;
+
     }
 
     return sessionUserName;
@@ -3808,8 +3843,10 @@ ${gridHtml}
               }
             })
             .join('\n');
-          const imageBuffer = await ctx.markdownToImage.convertToImage(modifiedMessage);
-          [messageId] = await session.send(h.image(imageBuffer, `image/${config.imageType}`));
+          ctx.inject(['markdownToImage'], async (ctx) => {
+            const imageBuffer = await ctx.markdownToImage.convertToImage(modifiedMessage);
+            [messageId] = await session.send(h.image(imageBuffer, `image/${config.imageType}`));
+          })
         }
         if (config.retractDelay !== 0) {
           isPushMessageId = true;
@@ -3890,8 +3927,10 @@ ${gridHtml}
               }
             })
             .join('\n');
-          const imageBuffer = await ctx.markdownToImage.convertToImage(modifiedMessage);
-          [messageId] = await session.send(h.image(imageBuffer, `image/${config.imageType}`));
+          ctx.inject(['markdownToImage'], async (ctx) => {
+            const imageBuffer = await ctx.markdownToImage.convertToImage(modifiedMessage);
+            [messageId] = await session.send(h.image(imageBuffer, `image/${config.imageType}`));
+          })
         }
       } else {
         [messageId] = await session.send(message);
