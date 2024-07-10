@@ -74,7 +74,8 @@ npm install koishi-plugin-wordle-game
 - 建议自行添加指令别名，以方便您和您的用户使用。
 - 享受猜单词|四字词语|成语|数字|...游戏吧！😊
 - 如果使用过程中出现成语的未知错误，可以前往 `data/wordleGame/idioms.json` 文件中搜索该成语，查看是否存在拼音的错误。
-  - 当然你也可以直接删除这个 `idioms.json` 文件，然后重新启动机器人，这样会重新生成一个可能已经修复问题的新的 `idioms.json` 文件。
+  - 当然你也可以直接删除这个 `idioms.json`
+    文件，然后重新启动机器人，这样会重新生成一个可能已经修复问题的新的 `idioms.json` 文件。
   - 这个文件里可以添加自定义的成语 0.0，例如：如果你想加 “原神启动” 也是可以的，注意格式即可（提醒：最后一个元素后面不要加逗号，因为不符合
     JSON 格式）。
 - 遇到解决不了的问题，也可以想办法联系我，我很乐意帮助你！希望你玩的开心~😊
@@ -132,6 +133,8 @@ npm install koishi-plugin-wordle-game
       - 文本内容中特定插值的 key，用于存放文本。如果你的插值为 {{.info}}，那么请在这里填 info。
     - `numberOfMessageButtonsPerRow: number`
       - 每行消息按钮的数量。
+    - `isUsingUnifiedKoishiBuiltInUsername: boolean`
+      - 是否使用统一的 Koishi 内置用户名。
 
 ## 🎳 游戏指令
 
@@ -279,7 +282,8 @@ npm install koishi-plugin-wordle-game
 - [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT) - 英汉语词典数据库
 - [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle) - Wordle 经典模式词典
 - [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典
-- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典 Wordle 的单词列表
+- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典
+  Wordle 的单词列表
 
 ## 🐱 QQ 群
 
