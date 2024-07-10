@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-wordle-game",
   "description": "欢迎来到 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) | [词影](https://cy.surprising.studio/) |... 猜单词|猜成语|猜数字|猜数学方程式|... 的小游戏，支持QQ官方MD模板，且包含多种词库、主题、游戏设置和排行榜系统等。",
-  "version": "2.4.9",
+  "version": "2.5.0",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
