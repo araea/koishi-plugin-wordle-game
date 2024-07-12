@@ -2595,7 +2595,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
   // gm*
   ctx.command('wordleGame.改名 [newPlayerName:text]', '更改玩家名字')
     .action(async ({session}, newPlayerName) => {
-      const {userId, user} = session;
+      const {userId} = session;
       const username = await getSessionUserName(session);
       await updateNameInPlayerRecord(session, userId, username);
 
@@ -2617,23 +2617,24 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
       }
 
       if (config.isUsingUnifiedKoishiBuiltInUsername) {
-        return handleUnifiedKoishiUsername(session, user, newPlayerName);
+        return handleUnifiedKoishiUsername(session, newPlayerName);
       } else {
         return handleCustomUsername(ctx, session, userId, newPlayerName);
       }
     });
 
   // hs*
-  async function handleUnifiedKoishiUsername(session, user, newPlayerName) {
-    const name = h.transform(newPlayerName, {text: true, default: false}).trim();
+  async function handleUnifiedKoishiUsername(session, newPlayerName) {
+    newPlayerName = h.transform(newPlayerName, {text: true, default: false}).trim();
 
-    if (name === user.name) {
+    const users = await ctx.database.get('user', {});
+    if (users.some(user => user.name === newPlayerName)) {
       return sendMessage(session, `新的玩家名字已经存在，请重新输入。`, `改名`);
     }
 
     try {
-      user.name = name;
-      await user.$update();
+      session.user.name = newPlayerName;
+      await session.user.$update();
       return sendMessage(session, `玩家名字已更改为：【${newPlayerName}】`, `查询玩家记录 开始游戏 改名`, 2);
     } catch (error) {
       if (RuntimeError.check(error, 'duplicate-entry')) {
@@ -2691,9 +2692,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
 
   async function getSessionUserName(session: any): Promise<string> {
     let sessionUserName = session.username;
-    const user = session.user
 
     if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+      const [user] = await ctx.database.get('user', {id: session.user.id})
       if (config.isUsingUnifiedKoishiBuiltInUsername && user.name) {
         sessionUserName = user.name
       } else {
