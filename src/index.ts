@@ -2698,7 +2698,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
       if (config.isUsingUnifiedKoishiBuiltInUsername && user.name) {
         sessionUserName = user.name
       } else {
-        let userRecord = await ctx.database.get('', {userId: session.userId});
+        let userRecord = await ctx.database.get('wordle_player_records', {userId: session.userId});
 
         if (userRecord.length === 0) {
           await ctx.database.create('wordle_player_records', {
