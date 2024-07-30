@@ -3779,9 +3779,9 @@ ${gridHtml}
 
     const existingRecord = userRecord[0];
 
-    if (username !== existingRecord.username && !(isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq')) {
-      existingRecord.username = username;
-      isChange = true;
+    if (username !== existingRecord.username && (!(isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') || (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' && config.isUsingUnifiedKoishiBuiltInUsername))) {
+        existingRecord.username = username;
+        isChange = true;
     }
 
     const keys = ['Lewdle', '汉兜', 'Numberle', 'Math', '词影'];
