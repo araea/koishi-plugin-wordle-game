@@ -45,11 +45,11 @@
 
 主要功能：
 
-- **汉兜模式**：汉兜猜成语，投入金币获得奖励。
+- **可自定义游戏设置**：支持自定义猜词长度等设置。
 
-- **可自定义游戏设置**：支持自定义猜词长度等设置，让游戏更有挑战性。
+- **排行榜系统**：支持查询不同模式下的总胜负场次。
 
-- **排行榜系统**：支持查询不同模式下的总胜负场次，为游戏增添竞技氛围。
+- **多种游戏模式**：支持经典、汉兜、词影、方程式等多种游戏模式。
 
 - **经典模式**：随机从经典的 Wordle 英文单词中抽选，投入金币获得奖励。
 
@@ -76,8 +76,7 @@ npm install koishi-plugin-wordle-game
 - 如果使用过程中出现成语的未知错误，可以前往 `data/wordleGame/idioms.json` 文件中搜索该成语，查看是否存在拼音的错误。
   - 当然你也可以直接删除这个 `idioms.json`
     文件，然后重新启动机器人，这样会重新生成一个可能已经修复问题的新的 `idioms.json` 文件。
-  - 这个文件里可以添加自定义的成语 0.0，例如：如果你想加 “原神启动” 也是可以的，注意格式即可（提醒：最后一个元素后面不要加逗号，因为不符合
-    JSON 格式）。
+  - 这个文件里可以添加自定义的成语 0.0，例如：如果你想加 “原神启动” 也是可以的，注意格式即可（提醒：最后一个元素后面不要加逗号，因为不符合 JSON 格式）。
 - 遇到解决不了的问题，也可以想办法联系我，我很乐意帮助你！希望你玩的开心~😊
 
 ## 🎛 配置
@@ -92,13 +91,13 @@ npm install koishi-plugin-wordle-game
 ### 游戏设置
 
 - `defaultMaxLeaderboardEntries: number`
-  - 显示排行榜时默认的最大人数。默认值为 `10`.
+  - 显示排行榜时默认的最大人数。默认值为 `10`。
 - `defaultWordLengthForGuessing: number`
-  - 非经典游戏模式下，默认的猜单词长度。默认值为 `5`.
+  - 非经典游戏模式下，默认的猜单词长度。默认值为 `5`。
 - `maxInvestmentCurrency: number`
-  - 加入游戏时可投入的最大货币数额。默认值为 `50`.
+  - 加入游戏时可投入的最大货币数额。默认值为 `50`。
 - `defaultRewardMultiplier: number`
-  - 猜单词经典模式赢了之后奖励的货币倍率。默认值为 `2`.
+  - 猜单词经典模式赢了之后奖励的货币倍率。默认值为 `2`。
 - `maxSimultaneousGuesses: number`
   - 最多同时猜测单词的数量，默认值为 `4`。
 - `compositeImagePageWidth: number`
@@ -109,22 +108,24 @@ npm install koishi-plugin-wordle-game
 ### 游戏行为设置
 
 - `allowNonPlayersToGuess: boolean`
-  - 是否允许未加入游戏的玩家进行猜单词的操作，开启后可以无需加入直接开始。默认值为 `true`.
+  - 是否允许未加入游戏的玩家进行猜单词的操作，开启后可以无需加入直接开始。默认值为 `true`。
+- `isPreventUserDuplicateGuessInput: boolean`
+  - 是否阻止玩家重复猜测相同的单词。默认值为 `true`。
 - `enableWordGuessMiddleware: boolean`
-  - 是否开启猜单词指令无前缀的中间件。默认值为 `true`.
+  - 是否开启猜单词指令无前缀的中间件。默认值为 `true`。
 - `shouldPromptWordLengthInput: boolean`
-  - 是否在开始游戏引导中提示输入猜单词的长度，不开启则为默认长度。默认值为 `true`.
+  - 是否在开始游戏引导中提示输入猜单词的长度，不开启则为默认长度。默认值为 `true`。
 - `shouldPromptForWordLengthOnNonClassicStart: boolean`
-  - 是否在开始非经典模式时提示输入猜单词的长度，不开启则为默认长度。默认值为 `true`.
+  - 是否在开始非经典模式时提示输入猜单词的长度，不开启则为默认长度。默认值为 `true`。
 - `enableWordGuessTimeLimit: boolean`
-  - 是否开启猜单词游戏作答时间限制功能。默认值为 `false`.
+  - 是否开启猜单词游戏作答时间限制功能。默认值为 `false`。
   - `wordGuessTimeLimitInSeconds: number`
-    - 猜单词游戏作答时间，单位是秒。默认值为 `120`.
+    - 猜单词游戏作答时间，单位是秒。默认值为 `120`。
 - `retractDelay`：自动撤回等待的时间，默认值为 0，单位是秒。值为 0 时不启用自动撤回功能。
 - `imageType: "png" | "jpeg" | "webp"`
-  - 发送的图片类型。默认值为 `"png"`.
+  - 发送的图片类型。默认值为 `"png"`。
 - `isTextToImageConversionEnabled: boolean`
-  - 是否开启将文本转为图片的功能（可选），如需启用，需要启用 `markdownToImage` 服务。默认值为 `false`.
+  - 是否开启将文本转为图片的功能（可选），如需启用，需要启用 `markdownToImage` 服务。默认值为 `false`。
 - `isEnableQQOfficialRobotMarkdownTemplate: boolean`
   - 是否启用 QQ 官方机器人的 Markdown 模板，带消息按钮。
     - `customTemplateId: string`
@@ -194,8 +195,7 @@ npm install koishi-plugin-wordle-game
 - `wordleGame.查询玩家记录 [targetUser:text]` - 查询玩家记录，可选参数为目标玩家的 at 信息。
 - `wordleGame.查成语.百度汉语 [targetWord:text]` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
 - `wordleGame.查单词.WordWord [targetWord:text]` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
-- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]` -
-  查看不同模式的玩家排行榜，可选参数为排行榜的人数（偷偷插一嘴，词影有细分模式的排行榜哦~ 用 help 自行探索咯！）。
+- `wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]` - 查看不同模式的玩家排行榜，可选参数为排行榜的人数（偷偷插一嘴，词影有细分模式的排行榜哦~ 用 help 自行探索咯！）。
 
 ## 🌸测试图
 
@@ -282,8 +282,7 @@ npm install koishi-plugin-wordle-game
 - [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT) - 英汉语词典数据库
 - [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle) - Wordle 经典模式词典
 - [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle) - Nonebot Wordle 的词典
-- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典
-  Wordle 的单词列表
+- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt) - 经典 Wordle 的单词列表
 
 ## 🐱 QQ 群
 

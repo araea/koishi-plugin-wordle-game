@@ -112,6 +112,7 @@ export interface Config {
   allowNonPlayersToGuess: boolean
   enableWordGuessMiddleware: boolean
   shouldPromptWordLengthInput: boolean
+  isPreventUserDuplicateGuessInput: boolean
   shouldPromptForWordLengthOnNonClassicStart: boolean
 
   enableWordGuessTimeLimit: boolean
@@ -135,20 +136,21 @@ export const Config: Schema<Config> = Schema.intersect([
   }).description('主题设置'),
 
   Schema.object({
-    defaultMaxLeaderboardEntries: Schema.number().min(0).default(10).description(`显示排行榜时默认的最大人数。`),
-    defaultWordLengthForGuessing: Schema.number().min(1).default(5).description(`非经典游戏模式下，默认的猜单词长度。`),
-    maxInvestmentCurrency: Schema.number().min(0).default(50).description(`加入游戏时可投入的最大货币数额。`),
-    defaultRewardMultiplier: Schema.number().min(0).default(2).description(`猜单词经典模式赢了之后奖励的货币倍率。`),
-    maxSimultaneousGuesses: Schema.number().min(1).default(4).description(`最多同时猜测单词的数量。`),
     compositeImagePageWidth: Schema.number().min(1).default(800).description(`合成图片页面宽度。`),
     compositeImagePageHeight: Schema.number().min(1).default(100).description(`合成图片页面高度。`),
+    maxSimultaneousGuesses: Schema.number().min(1).default(4).description(`最多同时猜测单词的数量。`),
+    maxInvestmentCurrency: Schema.number().min(0).default(50).description(`加入游戏时可投入的最大货币数额。`),
+    defaultMaxLeaderboardEntries: Schema.number().min(0).default(10).description(`显示排行榜时默认的最大人数。`),
+    defaultRewardMultiplier: Schema.number().min(0).default(2).description(`猜单词经典模式赢了之后奖励的货币倍率。`),
+    defaultWordLengthForGuessing: Schema.number().min(1).default(5).description(`非经典游戏模式下，默认的猜单词长度。`),
   }).description('游戏设置'),
 
   Schema.intersect([
     Schema.object({
-      allowNonPlayersToGuess: Schema.boolean().default(true).description(`是否允许未加入游戏的玩家进行猜单词的操作，开启后可以无需加入直接开始。`),
       enableWordGuessMiddleware: Schema.boolean().default(true).description(`是否开启猜单词指令无前缀的中间件。`),
+      isPreventUserDuplicateGuessInput: Schema.boolean().default(true).description(`是否阻止用户重复输入相同的猜测词。`),
       shouldPromptWordLengthInput: Schema.boolean().default(true).description(`是否在开始游戏引导中提示输入猜单词的长度，不开启则为默认长度。`),
+      allowNonPlayersToGuess: Schema.boolean().default(true).description(`是否允许未加入游戏的玩家进行猜单词的操作，开启后可以无需加入直接开始。`),
       shouldPromptForWordLengthOnNonClassicStart: Schema.boolean().default(true).description(`是否在开始非经典模式时提示输入猜单词的长度，不开启则为默认长度。`),
     }).description('游戏行为设置'),
     Schema.object({
@@ -236,6 +238,7 @@ export interface GameRecord {
   isFreeMode: boolean
   previousGuess: string[]
   previousGuessIdioms: string[]
+  guessHistory: string[]
 }
 
 export interface ExtraGameRecord {
@@ -464,42 +467,43 @@ export async function apply(ctx: Context, config: Config) {
   // tzb*
   ctx.model.extend('wordle_game_records', {
     id: 'unsigned',
-    channelId: 'string',
-    isStarted: 'boolean',
-    remainingGuessesCount: 'integer',
-    strokesHtmlCache: {type: 'json', initial: [[], [], [], []]},
-    wordAnswerChineseDefinition: 'string',
-    wordGuess: 'string',
-    wordGuessHtmlCache: 'text',
-    guessWordLength: 'unsigned',
-    gameMode: 'string',
-    isRunning: 'boolean',
-    timestamp: 'string',
-    correctLetters: 'list',
-    presentLetters: 'string',
-    absentLetters: 'string',
-    isHardMode: 'boolean',
-    remainingWordsList: 'list',
-    isAbsurd: 'boolean',
-    isChallengeMode: 'boolean',
-    targetWord: 'string',
-    wordlesNum: 'unsigned',
-    wordleIndex: 'unsigned',
     isWin: 'boolean',
-    isUltraHardMode: 'boolean',
-    presentLettersWithIndex: 'list',
     pinyin: 'string',
-    presentTonesWithIndex: 'list',
-    absentPinyins: 'list',
+    wordGuess: 'string',
+    channelId: 'string',
+    gameMode: 'string',
+    timestamp: 'string',
     absentTones: 'list',
-    presentPinyinsWithIndex: 'list',
-    correctTonesWithIndex: 'list',
-    correctPinyinsWithIndex: 'list',
-    presentPinyins: 'list',
+    isAbsurd: 'boolean',
+    isStarted: 'boolean',
+    targetWord: 'string',
     presentTones: 'list',
-    isFreeMode: 'boolean',
+    guessHistory: 'list',
+    isRunning: 'boolean',
+    correctLetters: 'list',
+    isHardMode: 'boolean',
     previousGuess: 'list',
+    absentPinyins: 'list',
+    isFreeMode: 'boolean',
+    wordlesNum: 'unsigned',
+    presentPinyins: 'list',
+    absentLetters: 'string',
+    wordleIndex: 'unsigned',
+    presentLetters: 'string',
+    wordGuessHtmlCache: 'text',
+    remainingWordsList: 'list',
+    isChallengeMode: 'boolean',
+    isUltraHardMode: 'boolean',
+    guessWordLength: 'unsigned',
     previousGuessIdioms: 'list',
+    presentTonesWithIndex: 'list',
+    correctTonesWithIndex: 'list',
+    presentPinyinsWithIndex: 'list',
+    presentLettersWithIndex: 'list',
+    correctPinyinsWithIndex: 'list',
+    remainingGuessesCount: 'integer',
+    wordAnswerChineseDefinition: 'string',
+    strokesHtmlCache: {type: 'json', initial: [[], [], [], []]},
   }, {
     primary: 'id',
     autoInc: true,
@@ -768,10 +772,12 @@ export async function apply(ctx: Context, config: Config) {
       await updatePlayerRecordsLose(channelId, gameInfo)
       // 结束
       const processedResult: string = gameInfo.wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
-      await endGame(channelId)
+
       const duration = calculateGameDuration(Number(gameInfo.timestamp), timestamp);
       const message = `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${duration}${gameInfo.isAbsurd ? '' : `\n${generateGameEndMessage(gameInfo)}`}${processedResult}`;
-      return await sendMessage(session, message, `改名 玩法介绍 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+      await sendMessage(session, message, `改名 玩法介绍 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+      await endGame(channelId)
+      return
       // .action
     })
   // wordleGame.开始 s* ks*
@@ -1356,9 +1362,10 @@ export async function apply(ctx: Context, config: Config) {
             // const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
             // 玩家记录输
             await updatePlayerRecordsLose(channelId, gameInfo)
+            await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
             await endGame(channelId)
-            return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
-            // return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
+
+            return // return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
           }
         }
         // 玩家不在游戏中
@@ -1388,6 +1395,10 @@ export async function apply(ctx: Context, config: Config) {
           isFreeMode,
         } = gameInfo;
         // 判断输入
+        if (gameInfo.guessHistory && gameInfo.guessHistory.includes(inputWord.toLowerCase())) {
+          await setGuessRunningStatus(channelId, false)
+          return await sendMessage(session, `【@${username}】\n这个已经猜过了哦！`, `猜测`);
+        }
         if (!/^[a-zA-Z]+$/.test(inputWord) && gameMode !== '汉兜' && gameMode !== '词影' && gameMode !== 'Numberle' && gameMode !== 'Math') {
           await setGuessRunningStatus(channelId, false)
           return await sendMessage(session, `【@${username}】\n输入包含非字母字符，请重新输入！`, `猜测`);
@@ -1472,6 +1483,9 @@ export async function apply(ctx: Context, config: Config) {
 
           }
         }
+        await ctx.database.set('wordle_game_records', {channelId}, {
+          guessHistory: gameInfo.guessHistory ? [...gameInfo.guessHistory, lowercaseInputWord] : [lowercaseInputWord]
+        })
         const foundIdiom = findIdiomByIdiom(inputWord, idiomsList);
         if (!userInputPinyin && foundIdiom) {
           userInputPinyin = foundIdiom.pinyin
@@ -1545,8 +1559,9 @@ export async function apply(ctx: Context, config: Config) {
           }
           if (longestRemainingWordList.length === 0) {
             await updatePlayerRecordsLose(channelId, gameInfo)
+            await sendMessage(session, `【@${username}】\n根据透露出的信息！\n已经无任何可用单词！\n很遗憾，你们输了！`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
             await endGame(channelId)
-            return await sendMessage(session, `【@${username}】\n根据透露出的信息！\n已经无任何可用单词！\n很遗憾，你们输了！`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+            return
           }
           let randomWord = longestRemainingWordList[Math.floor(Math.random() * longestRemainingWordList.length)];
           const foundWord = findWord(randomWord)
@@ -1722,7 +1737,6 @@ export async function apply(ctx: Context, config: Config) {
           await ctx.database.set('wordle_player_records', {userId: userId}, updateData);
 
           const processedResult: string = wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
-          await endGame(channelId)
           const gameDuration = calculateGameDuration(Number(gameInfo.timestamp), timestamp);
           const imageType = config.imageType;
           const settlementResult = finalSettlementString === '' ? '' : `最终结算结果如下：\n${finalSettlementString}`;
@@ -1738,22 +1752,25 @@ ${settlementResult}
 
           if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
             await sendMessage(session, h.image(imageBuffer, `image/${imageType}`), ``)
-            return await sendMessage(session, `
+            await sendMessage(session, `
 【@${username}】
 太棒了，你猜出来了！
 ${gameDuration}
 ${generateGameEndMessage(gameInfo)}${processedResult}
 ${settlementResult}
 `, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+            await endGame(channelId);
+            return;
           }
-          return await sendMessage(session, message, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+          await sendMessage(session, message, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+          await endGame(channelId);
+          return;
         }
         // 处理输
         if (isLose) {
           // 玩家记录输
-          await updatePlayerRecordsLose(channelId, gameInfo)
+          await updatePlayerRecordsLose(channelId, gameInfo);
           const processedResult: string = wordlesNum > 1 ? `\n${await processExtraGameRecords(channelId)}` : '';
-          await endGame(channelId)
           const challengeMessage = isChallengeMode ? `\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！` : '';
           const answerInfo = isChallengeMode ? '' : `\n${generateGameEndMessage(gameInfo)}`;
           const gameDuration = calculateGameDuration(Number(gameInfo.timestamp), timestamp);
@@ -1761,9 +1778,13 @@ ${settlementResult}
 
           if (!config.isTextToImageConversionEnabled && isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
             await sendMessage(session, h.image(imageBuffer, `image/${config.imageType}`), ``)
-            return await sendMessage(session, `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${gameDuration}${answerInfo}${processedResult}`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+            await sendMessage(session, `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${gameDuration}${answerInfo}${processedResult}`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
+            await endGame(channelId);
+            return;
           }
-          return await sendMessage(session, message, `改名 排行榜 查询玩家记录 开始游戏 再来一把`, 2);
+          await sendMessage(session, message, `改名 排行榜 查询玩家记录 开始游戏 再来一把`, 2);
+          await endGame(channelId);
+          return;
         }
         // 继续
         await setGuessRunningStatus(channelId, false)
@@ -3455,7 +3476,6 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
       ctx.database.remove('wordle_gaming_player_records', {channelId}),
       ctx.database.remove('wordle_game_records', {channelId}),
       ctx.database.remove('extra_wordle_game_records', {channelId}),
-      await setGuessRunningStatus(channelId, false),
     ]);
   }
 
@@ -3780,8 +3800,8 @@ ${gridHtml}
     const existingRecord = userRecord[0];
 
     if (username !== existingRecord.username && (!(isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') || (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq' && config.isUsingUnifiedKoishiBuiltInUsername))) {
-        existingRecord.username = username;
-        isChange = true;
+      existingRecord.username = username;
+      isChange = true;
     }
 
     const keys = ['Lewdle', '汉兜', 'Numberle', 'Math', '词影'];
@@ -4134,7 +4154,16 @@ ${content}
 
       // 如果 name 不存在，根据 userId 获取相应的 name
       if (!name) {
-        const guildMember = await session.bot.getGuildMember(session.guildId, userId);
+        let guildMember;
+        try {
+          guildMember = await session.bot.getGuildMember(session.guildId, userId);
+        } catch (error) {
+          guildMember = {
+            user: {
+              name: '未知用户',
+            },
+          };
+        }
 
         // 替换原始的 at 标签
         const newAtTag = `<at id="${userId}" name="${guildMember.user.name}"/>`;
