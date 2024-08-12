@@ -1856,6 +1856,11 @@ ${generateStatsInfo(stats, fastestGuessTime)}
     });
   ctx.command('wordleGame.查单词 [targetWord:text]', '查单词引导')
     .action(async ({session, options}, targetWord) => {
+      if (!targetWord && session.event.message.quote && session.event.message.quote.content) {
+        if (/^[a-zA-Z]+$/.test(session.event.message.quote.content.trim())) {
+          targetWord = session.event.message.quote.content.trim()
+        }
+      }
       let {channelId, userId, username} = session;
       // 更新玩家记录表中的用户名
       username = await getSessionUserName(session)
@@ -1876,9 +1881,14 @@ ${generateStatsInfo(stats, fastestGuessTime)}
       }
       // .action
     });
-// wordleGame.查单词 cxdc*
+// wordleGame.查单词 cxdc* cdc*
   ctx.command('wordleGame.查单词.ALL [targetWord:text]', '在ALL词库中查询单词释义（英译中）')
     .action(async ({session}, targetWord) => {
+      if (!targetWord && session.event.message.quote && session.event.message.quote.content) {
+        if (/^[a-zA-Z]+$/.test(session.event.message.quote.content.trim())) {
+          targetWord = session.event.message.quote.content.trim()
+        }
+      }
       let {userId, username} = session
       // 更新玩家记录表中的用户名
       username = await getSessionUserName(session)
@@ -1907,6 +1917,11 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 // czdc*
   ctx.command('wordleGame.查单词.WordWord [targetWord:text]', '在WordWord中查找单词定义（英译英）')
     .action(async ({session}, targetWord) => {
+      if (!targetWord && session.event.message.quote && session.event.message.quote.content) {
+        if (/^[a-zA-Z]+$/.test(session.event.message.quote.content.trim())) {
+          targetWord = session.event.message.quote.content.trim()
+        }
+      }
       let {userId, username} = session
       // 更新玩家记录表中的用户名
       username = await getSessionUserName(session)
@@ -1939,6 +1954,11 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 // ccy*
   ctx.command('wordleGame.查成语 [targetIdiom:text]', '查成语引导')
     .action(async ({session, options}, targetIdiom) => {
+      if (!targetIdiom && session.event.message.quote && session.event.message.quote.content) {
+        if (isFourCharacterIdiom(session.event.message.quote.content.trim())) {
+          targetIdiom = session.event.message.quote.content.trim()
+        }
+      }
       let {channelId, userId, username} = session;
       // 更新玩家记录表中的用户名
       username = await getSessionUserName(session)
@@ -1961,6 +1981,11 @@ ${generateStatsInfo(stats, fastestGuessTime)}
 // czcy*
   ctx.command('wordleGame.查成语.百度汉语 [targetIdiom:text]', '在百度汉语中查找成语解释')
     .action(async ({session}, targetIdiom) => {
+      if (!targetIdiom && session.event.message.quote && session.event.message.quote.content) {
+        if (isFourCharacterIdiom(session.event.message.quote.content.trim())) {
+          targetIdiom = session.event.message.quote.content.trim()
+        }
+      }
       let {userId, username} = session
       // 更新玩家记录表中的用户名
       username = await getSessionUserName(session)
@@ -1988,6 +2013,11 @@ ${generateStatsInfo(stats, fastestGuessTime)}
     })
   ctx.command('wordleGame.查成语.汉典 [targetIdiom:text]', '在汉典中查找成语解释')
     .action(async ({session}, targetIdiom) => {
+      if (!targetIdiom && session.event.message.quote && session.event.message.quote.content) {
+        if (isFourCharacterIdiom(session.event.message.quote.content.trim())) {
+          targetIdiom = session.event.message.quote.content.trim()
+        }
+      }
       let {userId, username} = session;
       // 更新玩家记录表中的用户名
       username = await getSessionUserName(session)
