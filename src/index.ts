@@ -573,7 +573,10 @@ export async function apply(ctx: Context, config: Config) {
       return await next();
     }
 
-    content = content?.trim()
+    if (content) {
+      content = `${h.select(content, 'text')}`.trim()
+    }
+
     const gameInfo = await getGameInfo(channelId);
     // 未开始
     if (!gameInfo.isStarted) {
