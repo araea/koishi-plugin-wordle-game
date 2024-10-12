@@ -1,14 +1,3 @@
-[
-  {
-    "word": "cholangiocholecystocholedochectomy",
-    "translation": "[医] 肝胆道切除术(肝管胆总管胆囊切除术)"
-  },
-  {
-    "word": "tetraethyldiaminotriphenylcarbinol",
-    "translation": "[化] 二苯甲醇; 二N-二乙氨基苯基苯甲醇"
-  },
-  {
-    "word": "trimethyltriphenylcyclotrisiloxane",
-    "translation": "三甲三苯环三硅氧烷"
-  }
-]
+version https://git-lfs.github.com/spec/v1
+oid sha256:d74df3d137baf37a9ba6346d890ea348b54a8ff75ca8a573fa389c12b547a03b
+size 380

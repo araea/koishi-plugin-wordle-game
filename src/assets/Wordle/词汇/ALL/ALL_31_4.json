@@ -1,18 +1,3 @@
-[
-  {
-    "word": "dichlordioxydiamidoarsenobenzol",
-    "translation": "[医] 二氯二氧二氨联胂苯, 胂凡纳明"
-  },
-  {
-    "word": "dichlorodiphenyltrichloroethane",
-    "translation": "[医] 二氯二苯二氯乙烷, 滴滴滴, 二二二"
-  },
-  {
-    "word": "difluorodiphenyltrichloroethane",
-    "translation": "[医] 二氟二苯三氯乙烷(强烈杀虫剂)"
-  },
-  {
-    "word": "dihydroxyphenylethylmethylamine",
-    "translation": "[医] 二羟基苯乙基甲胺"
-  }
-]
+version https://git-lfs.github.com/spec/v1
+oid sha256:f4520c2ab16f13a2f8e79792b4adc23f798652ca4db5eb1515bcf1e5ebfd1453
+size 490

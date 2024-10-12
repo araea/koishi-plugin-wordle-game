@@ -1,13 +1,3 @@
-{
-  "prestidigitation": {
-    "中释": "变戏法"
-  },
-  "arteriosclerosis": {
-    "中释": "动脉硬化",
-    "英释": "a disease in which your arteries become hard, which makes it difficult for the blood to flow through"
-  },
-  "characterization": {
-    "中释": "描述, 人物之创造",
-    "英释": "the way in which the character of a real person or thing is described"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6a35c640845ed373f4234566f03221e736ffae35174170bb1457951fb65cae21
+size 389

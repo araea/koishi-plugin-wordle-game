@@ -1,22 +1,3 @@
-[
-  {
-    "term": "原神启动",
-    "pinyin": "yuán shén qǐ dòng"
-  },
-  {
-    "term": "崩坏启动",
-    "pinyin": "bēng huài qǐ dòng"
-  },
-  {
-    "term": "傻子启动",
-    "pinyin": "shǎ zi qǐ dòng"
-  },
-  {
-    "term": "飞起来啦",
-    "pinyin": "fēi qǐ lái la"
-  },
-  {
-    "term": "你别过来",
-    "pinyin": "nǐ bié guò lái"
-  }
-]
+version https://git-lfs.github.com/spec/v1
+oid sha256:268ce4453def663b8d7beb9c3ce1df86285c673c5feda5801fc0613937126c0f
+size 366

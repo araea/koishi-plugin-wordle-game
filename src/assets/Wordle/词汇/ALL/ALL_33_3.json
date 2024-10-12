@@ -1,14 +1,3 @@
-[
-  {
-    "word": "cyclotetramethylenetetranitramine",
-    "translation": "[化] 环四亚甲基四硝胺; 奥克托今"
-  },
-  {
-    "word": "dibromopyrogallolsulfonaphthalene",
-    "translation": "(DBPSN)二溴代焦酚磺萘"
-  },
-  {
-    "word": "isopropylphenylbiphenyloxadiazole",
-    "translation": "异丙苯基联苯基恶二唑"
-  }
-]
+version https://git-lfs.github.com/spec/v1
+oid sha256:8768acdaaa292ab6dccdc0e6b00d3e57e31cc9c56f4043bdfe2c283e120ff491
+size 347

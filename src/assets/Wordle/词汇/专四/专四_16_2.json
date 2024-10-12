@@ -1,10 +1,3 @@
-{
-  "extraterrestrial": {
-    "中释": "地球外的，地球大气圈外的;n. 外星人",
-    "英释": "relating to things that exist outside the Earth"
-  },
-  "misunderstanding": {
-    "中释": "误解；误会；不和",
-    "英释": "a problem caused by someone not understanding a question, situation, or instruction correctly"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:848e7b212bb3779f6716f4e051fb986d14a65234ed3750a263bc3870de0c52b3
+size 343

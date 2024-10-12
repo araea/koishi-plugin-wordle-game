@@ -1,36 +1,3 @@
-{
-  "extracurricular": {
-    "中释": "课外的",
-    "英释": "extracurricular activities are not part of the course that a student is doing at a school or college"
-  },
-  "unintentionally": {
-    "中释": "无意地"
-  },
-  "confrontational": {
-    "中释": "对抗的，有敌意的",
-    "英释": "If you describe the way that someone behaves as confrontational, you are showing your disapproval of the fact that they are aggressive and likely to cause an argument or dispute"
-  },
-  "incompatibility": {
-    "中释": "不兼容"
-  },
-  "straightforward": {
-    "中释": "直接的",
-    "英释": "honest about your feelings or opinions and not hiding anything"
-  },
-  "experimentation": {
-    "中释": "实验；试验",
-    "英释": "the process of performing scientific tests to find out if a particular idea is true or to obtain more information"
-  },
-  "notwithstanding": {
-    "中释": "尽管，虽然",
-    "英释": "in spite of something"
-  },
-  "extraordinarily": {
-    "中释": "非常地，特别地",
-    "英释": "extremely"
-  },
-  "dissatisfaction": {
-    "中释": "不满，不平",
-    "英释": "a feeling of not being satisfied"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:ea6d305042c78e86575449f14cce657b825f11ed58c7142532ea0eb682ba6210
+size 1173

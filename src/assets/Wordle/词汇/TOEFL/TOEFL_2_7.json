@@ -1,26 +1,3 @@
-{
-  "go": {
-    "中释": "去,离开,进行",
-    "英释": "to move in a particular way, or to do something as you are moving"
-  },
-  "me": {
-    "中释": "我",
-    "英释": "used by the person speaking or writing to refer to himself or herself"
-  },
-  "dy": {
-    "中释": "[化]镝(=dysprosium)"
-  },
-  "ox": {
-    "中释": "牛, 公牛",
-    "英释": "a bull whose sex organs have been removed, often used for working on farms"
-  },
-  "ID": {
-    "中释": "遗传素质"
-  },
-  "my": {
-    "中释": "我的"
-  },
-  "ax": {
-    "中释": "斧头 vt削减"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d1a4d92156e8d55c801ad268053b1a8f6b644d9f9d25df26704884a913b2e1cc
+size 573

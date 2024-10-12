@@ -1,16 +1,3 @@
-{
-  "instantaneously": {
-    "中释": "即刻；突如其来地"
-  },
-  "straightforward": {
-    "中释": "直截了当地；坦率地"
-  },
-  "extracurricular": {
-    "中释": "课外的；业余的；婚外的",
-    "英释": "extracurricular activities are not part of the course that a student is doing at a school or college"
-  },
-  "dissatisfaction": {
-    "中释": "不满；令人不满的事物",
-    "英释": "a feeling of not being satisfied"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0f551139921cc98213fe44176054972bff639dc0c0add56dc1d8466e879ddcd6
+size 464

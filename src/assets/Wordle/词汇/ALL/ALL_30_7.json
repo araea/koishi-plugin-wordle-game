@@ -1,30 +1,3 @@
-[
-  {
-    "word": "chlorobenzylidenemalononitrile",
-    "translation": "[网络] 氯苄基壬二腈"
-  },
-  {
-    "word": "diisopropylphosphorofluoridate",
-    "translation": "异氟磷"
-  },
-  {
-    "word": "dimethylsulfanilamidoisoxazole",
-    "translation": "[医] 二甲磺胺异┧唑"
-  },
-  {
-    "word": "encephalomyeloradiculoneuritis",
-    "translation": "[医] 脑脊髓脊神经根神经炎"
-  },
-  {
-    "word": "methylcyclopentenophenanthrene",
-    "translation": "[化] 甲基环戊烯并菲"
-  },
-  {
-    "word": "tetraiodophenolsulfonphthalein",
-    "translation": "[化] 四碘苯酚磺酞"
-  },
-  {
-    "word": "tetramethyldiaminobenzophenone",
-    "translation": "四甲二胺二苯甲酮"
-  }
-]
+version https://git-lfs.github.com/spec/v1
+oid sha256:b7ac28686d66968af8705d616393de9d9e06a2da1dcde8aae1e6b037ffd4b338
+size 715
