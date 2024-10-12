@@ -1,5 +1,3 @@
-// noinspection CssUnresolvedCustomProperty
-
 import {Context, h, noop, RuntimeError, Schema} from 'koishi'
 import {} from 'koishi-plugin-puppeteer'
 import {} from 'koishi-plugin-monetary'
@@ -17,80 +15,55 @@ export const inject = {
   optional: ['markdownToImage'],
 }
 export const name = 'wordle-game'
-export const usage = `## 🎣 使用
+export const usage = `## 使用
 
-- 启动必要的服务。您需要启用 \`monetary\`，\`database\` 和 \`puppeteer\` 插件。
-  - 以实现货币系统，数据存储和图片生成的功能。
-- 建议自行添加指令别名，以方便您和您的用户使用。
-- 享受猜单词|四字词语|成语|数字|...游戏吧！😊
-- 如果使用过程中出现成语的未知错误，可以前往 \`data/wordleGame/idioms.json\` 文件中搜索该成语，查看是否存在拼音的错误。
-  - 当然你也可以直接删除这个 \`idioms.json\` 文件，然后重新启动机器人，这样会重新生成一个可能已经修复问题的新的 \`idioms.json\` 文件。
-  - 这个文件里可以添加自定义的成语 0.0，例如：如果你想加 “原神启动” 也是可以的，注意格式即可（提醒：最后一个元素后面不要加逗号，因为不符合
-    JSON 格式）。
-- 遇到解决不了的问题，也可以想办法联系我，我很乐意帮助你！希望你玩的开心~😊
+1. 启用 \`monetary\`，\`database\` 和 \`puppeteer\` 服务。
+2. 设置指令别名。
+3. 输入 \`wordleGame.开始\` 指令引导游戏模式。
+4. 输入猜测词。
 
-## 🎳 游戏指令
+## 注意事项
 
-以下是该插件提供的指令列表:
+- 输入成语出现未知错误时，可前往 \`data/wordleGame/idioms.json\` 文件中搜索该成语，查看是否存在拼音的错误。
 
-### 游戏操作
+## 特性
 
-- \`wordleGame.退出\` - 退出游戏，只能在游戏未开始时使用。
-- \`wordleGame.结束\` - 结束游戏，只能在游戏已开始时使用。
-- \`wordleGame.加入 [money:number]\` - 加入游戏，可选参数为投入的货币数额。
+- 词影有细分模式的排行榜，可自行使用 \`help\` 探索。
+- 可自行在 \`idioms.json\` 中添加成语，例如“原神启动”，注意格式即可（注意：JSON 格式最后一项不需要逗号）。
 
-### 游戏模式
+## 关键指令
 
-- \`wordleGame.开始 [guessWordLength:number]\`
-  - 开始游戏引导，可选参数为待猜测项目的长度。
+- \`wordleGame.开始 [待猜词的长度]\`
+  - 开始游戏引导。
 
-- \`wordleGame.开始.经典/CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/Numberle/Math/汉兜/词影 [guessWordLength:number]\`
-  - 开始猜不同类别的单词|数字|...游戏，可选参数为猜单词的长度。
-  - 对于经典模式和汉兜模式，可投入货币，赢了有奖励。
+- \`wordleGame.开始.经典/CET4/6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/Numberle/Math/汉兜/词影 [待猜词的长度]\`
+  - 经典模式和汉兜模式，输加入指令可投入货币，赢了有奖励。
     - \`--hard\`
       - 困难模式，绿色线索必须保特固定，黄色线索必须重复使用。在词影模式下，将提高匹配难度。
     - \`--uhard\`
       - 超困难模式，在困难模式的基础上，黄色线索必须远离它们被线索的地方，灰色的线索必须被遵守。
     - \`--absurd\`
       - 在这种模式下，你将面对一个极具挑战性的对手。
-      - 荒谬/变态模式，AI将尽量避免给出答案。
+      - 荒谬/变态模式，AI 将尽量避免给出答案。
       - 每次猜测时都会尽可能少地透露信息，甚至可能更换秘密词。
       - [如何玩？](https://qntm.org/absurdle)
     - \`--challenge\`
       - 仅建议高级玩家尝试。
       - 荒谬/变态挑战模式，要求你从一个给定的目标词出发，通过某种方式使其变成秘密词。
       - [如何玩？](https://qntm.org/challenge)
-    - \`--wordles <value:number>\`
-      - 同时猜测多个单词|词语，默认范围为 1 ~ 4，可自定义。
+    - \`--wordles <多开的数量>\`
+      - 同时猜测多个，默认范围为 1 ~ 4。可自行配置。
     - \`--free\`
-      - 汉兜或词影的自由模式，任意四字词语都可作为猜测词。
+      - 汉兜&词影的自由模式，任意四字词语都可作为猜测词。
     - \`--all\`
-      - 汉兜或词影的全成语模式，成语|四字词语的数量会增加到 29766 多个，若不开启，则为常用成语 7208 个。
-
-> Tip：可以同时启用困难模式和变态模式。
-
-### 游戏操作
+      - 汉兜&词影的全成语模式。开启时，词语数量为 29766+ 个（含生僻字，极难）；关闭时，为 7208 个常用成语（义务教育）。
+    - 可同时启用困难模式和变态模式。
 
 - \`wordleGame.猜 [inputWord:text]\` - 猜单词|成语|...，参数为输入的词。
   - \`-r\`
-    - 随机一个单词|成语|数字|方程式。
-- \`wordleGame.查询进度\` - 查询当前游戏进度。
+    - 随机猜测一次。
 
-### 数据查询
-
-- \`wordleGame.玩法介绍\` - 各类类 Wordle 游戏玩法介绍。
-- \`wordleGame.单词查找器\` - 使用 [WordFinder](https://wordword.org/) 查找匹配的单词。
-- \`wordleGame.拼音速查表\` - 查看拼音速查表（会根据汉兜游戏进度自动变化）。
-- \`wordleGame.排行榜 [number:number]\` - 查看排行榜，可选参数为排行榜的人数。
-- \`wordleGame.查单词.ALL [targetWord:text]\` - 在 ALL 词库中查询单词信息（翻译）。
-- \`wordleGame.查成语.汉典 [targetWord:text]\` - 在 [汉典](https://www.zdic.net/) 中查询成语信息（台湾词典）。
-- \`wordleGame.查询玩家记录 [targetUser:text]\` - 查询玩家记录，可选参数为目标玩家的 at 信息。
-- \`wordleGame.查成语.百度汉语 [targetWord:text]\` - 在 [百度汉语](https://hanyu.baidu.com/) 中查询成语信息（内地）。
-- \`wordleGame.查单词.WordWord [targetWord:text]\` - 在 [WordWord](https://wordword.org/) 中查询单词信息（英文定义）。
-- \`wordleGame.排行榜.损益/总.胜场/总.输场/经典/CET4/CET6/GMAT/GRE/IELTS/SAT/TOEFL/考研/专八/专四/ALL/Lewdle/汉兜/Numberle/Math.胜场/输场/最快用时 [number:number]\` -
-  查看不同模式的玩家排行榜，可选参数为排行榜的人数（偷偷插一嘴，词影有细分模式的排行榜哦~ 用 help 自行探索咯！）。
-
-## 🐱 QQ 群
+## QQ 群
 
 - 956758505
 `
@@ -3031,7 +3004,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join('\n')}`}
       .join('\n');
 
     return `${type}模式最快用时排行榜：\n${leaderboard}`;
-  };
+  }
 
   async function generateLetterTilesHtml(wordGuess: string, inputWord: string, channelId: string, wordleIndex: number, gameInfo: GameRecord | ExtraGameRecord): Promise<string> {
     const wordHtml: string[] = new Array(inputWord.length);
