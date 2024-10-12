@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-wordle-game",
-  "description": "Koishi 的 [Wordle](https://www.nytimes.com/games/wordle/index.html) | [汉兜](https://handle.antfu.me/) | [词影](https://cy.surprising.studio/) | [Numberle](https://dduarte.github.io/numberle/) | [Math](https://numberle.org/) | [Lewdle](https://www.lewdlegame.com/App) 游戏插件。",
-  "version": "2.6.0",
+  "description": "Koishi 的 Wordle | 汉兜 | 词影 | Numberle | Math | Lewdle 游戏插件。",
+  "version": "2.6.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
