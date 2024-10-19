@@ -1293,19 +1293,15 @@ export async function apply(ctx: Context, config: Config) {
     .option('random', '-r 随机', {fallback: false})
     .action(async ({session, options}, inputWord) => {
         let {channelId, userId, username, platform, timestamp} = session
-        // 游戏状态
         let gameInfo: any = await getGameInfo(channelId)
         inputWord = inputWord?.trim()
 
-        // 操作太快
         if (gameInfo.isRunning === true) {
           await setGuessRunningStatus(channelId, false)
           return await sendMessage(session, `【@${username}】\n操作太快了哦~\n再试一次吧！`, `猜测`);
         }
 
-        // 运行状态
         await setGuessRunningStatus(channelId, true)
-        // 更新玩家记录表中的用户名
         username = await getSessionUserName(session)
         await updateNameInPlayerRecord(session, userId, username)
 
@@ -1326,24 +1322,19 @@ export async function apply(ctx: Context, config: Config) {
           inputWord = userInput.trim()
         }
 
-
         // 作答时间限制
-        const timeDifferenceInSeconds = (timestamp - Number(gameInfo.timestamp)) / 1000; // 将时间戳转换为秒
+        const timeDifferenceInSeconds = (timestamp - Number(gameInfo.timestamp)) / 1000;
         if (config.enableWordGuessTimeLimit) {
           if (timeDifferenceInSeconds > config.wordGuessTimeLimitInSeconds) {
-            // // 生成 html 字符串
-            // const emptyGridHtml = gameInfo.isAbsurd ? generateEmptyGridHtml(1, gameInfo.guessWordLength) : generateEmptyGridHtml(gameInfo.remainingGuessesCount, gameInfo.guessWordLength);
-            // const styledHtml = generateStyledHtml(gameInfo.guessWordLength + 1);
-            // // 图
-            // const imageBuffer = await generateImage(styledHtml, `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`);
             // 玩家记录输
             await updatePlayerRecordsLose(channelId, gameInfo)
             await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`, `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`, 2);
             await endGame(channelId)
 
-            return // return await sendMessage(session, `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~\n${h.image(imageBuffer, `image/${config.imageType}`)}`)
+            return
           }
         }
+
         // 玩家不在游戏中
         const isInGame = await isPlayerInGame(channelId, userId);
         if (!isInGame) {
@@ -1370,6 +1361,7 @@ export async function apply(ctx: Context, config: Config) {
           presentLettersWithIndex,
           isFreeMode,
         } = gameInfo;
+
         // 判断输入
         if (gameInfo.guessHistory && gameInfo.guessHistory.includes(inputWord.toLowerCase())) {
           await setGuessRunningStatus(channelId, false)
@@ -1383,11 +1375,11 @@ export async function apply(ctx: Context, config: Config) {
           await setGuessRunningStatus(channelId, false)
           return await sendMessage(session, `【@${username}】\n您确定您输入的是四字词语吗？`, `猜测`);
         }
-        if (gameMode === 'Numberle' && !isNumericString(inputWord)) {
+        if (gameMode === 'Numberle' && (!isNumericString(inputWord) || inputWord.length !== guessWordLength)) {
           await setGuessRunningStatus(channelId, false)
           return await sendMessage(session, `【@${username}】\n您确定您输入的是 ${guessWordLength} 长度的数字吗？`, `猜测`);
         }
-        if (gameMode === 'Math' && !isMathEquationValid(inputWord)) {
+        if (gameMode === 'Math' && (!isMathEquationValid(inputWord) || inputWord.length !== guessWordLength)) {
           await setGuessRunningStatus(channelId, false)
           return await sendMessage(session, `【@${username}】\n请使用+-*/=运算符和0-9之间的数字！\n并组成正确的数学方程式！`, `猜测`);
         }
