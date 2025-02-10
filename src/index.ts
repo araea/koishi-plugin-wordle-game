@@ -1426,7 +1426,7 @@ export async function apply(ctx: Context, config: Config) {
               if (foundItem) {
                 userInputPinyin = foundItem.pinyin
               } else {
-                userInputPinyin = await sendPostRequestForGPT1106(inputWord)
+                userInputPinyin = await sendPostRequestForAI(inputWord)
                 if (userInputPinyin !== '') {
                   const newItem: PinyinItem2 = {
                     term: inputWord,
@@ -3995,10 +3995,10 @@ ${gridHtml}
     finish_reason: string;
   }
 
-  async function sendPostRequestForGPT1106(content: string): Promise<string> {
-    const url = 'https://ngedlktfticp.cloud.sealos.io/v1/chat/completions';
+  async function sendPostRequestForAI(content: string): Promise<string> {
+    const url = 'https://happyapi.org/v1/chat/completions';
     const headers = {
-      'Authorization': 'sk-0HXyYeM287tS1qsI8bAb5f0c3dB746E9A3Bf416dBf99228d',
+      'Authorization': 'sk-vO5N4lICC3gEMRURDbjkrE5RwaKPKHXiEhk1VRTpHd2vvQyU',
       'Content-Type': 'application/json'
     };
 
@@ -4023,7 +4023,7 @@ ${content}
         }
       ],
       "stream": false,
-      "model": "gpt-3.5-turbo-0125",
+      "model": "gpt-4o-mini",
       "temperature": 0.5,
       "presence_penalty": 2
     };
