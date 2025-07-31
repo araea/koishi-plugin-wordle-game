@@ -210,7 +210,7 @@ export const Config: Schema<Config> = Schema.intersect([
         .min(0)
         .default(0)
         .description(
-          `自动撤回等待的时间，单位是秒。值为 0 时不启用自动撤回功能。`
+          `撤回上一条消息的等待时间，单位是秒。值为 0 时不启用自动撤回功能。`
         ),
       imageType: Schema.union(["png", "jpeg", "webp"])
         .default("png")
@@ -6188,7 +6188,7 @@ ${gridHtml}
         const timePassed = Date.now() - prevMessage.timestamp;
         const remainingDelay = config.retractDelay * 1000 - timePassed;
 
-        if (remainingDelay > 0 && timePassed < 118000) {
+        if (timePassed < 118000) {
           // 留2秒余量
           setTimeout(async () => {
             try {
