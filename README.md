@@ -1,11 +1,12 @@
-# koishi-plugin-wordle-game
+koishi-plugin-wordle-game
+========================
 
-[![github](https://img.shields.io/badge/github-araea/wordle_game-8da0cb?style=for-the-badge&labelColor=555555&logo=github)](https://github.com/araea/koishi-plugin-wordle-game)
-[![npm](https://img.shields.io/npm/v/koishi-plugin-wordle-game.svg?style=for-the-badge&color=fc8d62&logo=npm)](https://www.npmjs.com/package/koishi-plugin-wordle-game)
+[<img alt="github" src="https://img.shields.io/badge/github-araea/wordle_game-8da0cb?style=for-the-badge&labelColor=555555&logo=github" height="20">](https://github.com/araea/koishi-plugin-wordle-game)
+[<img alt="npm" src="https://img.shields.io/npm/v/koishi-plugin-wordle-game.svg?style=for-the-badge&color=fc8d62&logo=npm" height="20">](https://www.npmjs.com/package/koishi-plugin-wordle-game)
 
----
+Koishi 的 Wordle | 汉兜 | 词影 | Numberle | Math | Lewdle 游戏插件。
 
-Koishi 插件，支持以下游戏：
+支持以下游戏：
 
 - [Wordle](https://www.nytimes.com/games/wordle/index.html)
 - [汉兜](https://handle.antfu.me/)
@@ -149,10 +150,19 @@ Koishi 插件，支持以下游戏：
 
 - `956758505`
 
----
+<br>
 
-### License
+#### License
 
-_Licensed under either of [Apache License, Version 2.0](LICENSE-APACHE) or [MIT license](LICENSE-MIT) at your option._
+<sup>
+Licensed under either of <a href="LICENSE-APACHE">Apache License, Version
+2.0</a> or <a href="LICENSE-MIT">MIT license</a> at your option.
+</sup>
 
-_Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this crate by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions._
+<br>
+
+<sub>
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in this crate by you, as defined in the Apache-2.0 license, shall
+be dual licensed as above, without any additional terms or conditions.
+</sub>
