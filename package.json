@@ -8,6 +8,9 @@
     "lib",
     "dist"
   ],
+  "scripts": {
+    "yakumo:after:esbuild": "node scripts/copy-assets.mjs"
+  },
   "koishi": {
     "service": {
       "required": [
