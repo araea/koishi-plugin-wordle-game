@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-wordle-game",
   "description": "Koishi 的 Wordle | 汉兜 | 词影 | Numberle | Math | Lewdle 游戏插件。",
-  "version": "2.6.6",
+  "version": "2.6.7",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
