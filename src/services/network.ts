@@ -18,22 +18,21 @@ export function writeIdiomsToFile(
   }
 }
 
-// 调用 AI 接口为四字词语生成拼音。
+/**
+ * 调用 OpenAI 兼容接口为生僻四字词生成拼音。
+ * 接口地址、密钥与模型都来自配置——早先版本把一个真实的 API Key 硬编码在这里。
+ */
 export async function sendPostRequestForAI(
   g: GameContext,
   content: string
 ): Promise<string> {
-  const url = "https://happyapi.org/v1/chat/completions";
-  const headers = {
-    Authorization: "sk-vO5N4lICC3gEMRURDbjkrE5RwaKPKHXiEhk1VRTpHd2vvQyU",
-    "Content-Type": "application/json",
-  };
+  const { pinyinApiEndpoint, pinyinApiKey, pinyinApiModel, requestTimeout } = g.config;
+  if (!pinyinApiKey) {
+    g.logger.info("未配置拼音接口的 API Key，跳过 AI 生成拼音。");
+    return "";
+  }
 
-  const requestBody = {
-    messages: [
-      {
-        role: "user",
-        content: `# 汉语拼音生成器
+  const prompt = `# 汉语拼音生成器
 - 提供一个四个汉字的词语，期望输出对应的正确的汉语拼音。
 - 只输出汉语拼音，不包含其他无关内容。
 
@@ -46,32 +45,26 @@ jiè shē nìng jiǎn
 输入：
 ${content}
 
-输出：`,
-      },
-    ],
-    stream: false,
-    model: "gpt-4o-mini",
-    temperature: 0.5,
-    presence_penalty: 2,
-  };
-
-  const requestOptions = {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify(requestBody),
-  };
+输出：`;
 
   try {
-    const response = await fetch(url, requestOptions);
-    if (response.ok) {
-      const data = (await response.json()) as ChatCompletion;
-      return data.choices[0].message.content;
-    } else {
-      g.logger.error("未能提取数据:", response.status);
-      return "";
-    }
+    const data = await g.ctx.http.post<ChatCompletion>(
+      pinyinApiEndpoint,
+      {
+        messages: [{ role: "user", content: prompt }],
+        stream: false,
+        model: pinyinApiModel,
+        temperature: 0.5,
+        presence_penalty: 2,
+      },
+      {
+        headers: { Authorization: `Bearer ${pinyinApiKey}` },
+        timeout: requestTimeout,
+      }
+    );
+    return data?.choices?.[0]?.message?.content ?? "";
   } catch (error) {
-    g.logger.error("读取数据时出错：", error);
+    g.logger.error("调用拼音接口失败：", error);
     return "";
   }
 }
@@ -79,8 +72,10 @@ ${content}
 // 抓取并解析 wordword.org 的单词搜索结果。
 export async function fetchAndParseWords(g: GameContext, url: string) {
   try {
-    const response = await fetch(url);
-    const html = await response.text();
+    const html = await g.ctx.http.get<string>(url, {
+      responseType: "text",
+      timeout: g.config.requestTimeout,
+    });
     const $ = load(html);
 
     const wordGroups = $(".word-group");
@@ -114,24 +109,12 @@ export async function fetchAndParseWords(g: GameContext, url: string) {
 }
 
 // 调用 wordword.org 接口获取单词定义。
-export async function fetchWordDefinitions(word: string) {
-  const url = "https://wordword.org/api/words/get_by_word";
-  const requestBody = {
-    word: word,
-  };
-
-  const response = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify(requestBody),
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-
-  const responseData = await response.json();
-  return responseData;
+export async function fetchWordDefinitions(g: GameContext, word: string) {
+  return g.ctx.http.post<any>(
+    "https://wordword.org/api/words/get_by_word",
+    { word },
+    { timeout: g.config.requestTimeout }
+  );
 }
 
 // 把词性分组的定义序列化为文本。
@@ -154,14 +137,10 @@ export async function getIdiomInfo(
 ): Promise<{ pinyin: string; explanation: string }> {
   const { idiomsList } = g.data;
   try {
-    const response = await fetch(
-      `https://dict.baidu.com/s?wd=${idiom}&device=pc&ptype=zici`
+    const html = await g.ctx.http.get<string>(
+      `https://dict.baidu.com/s?wd=${encodeURIComponent(idiom)}&device=pc&ptype=zici`,
+      { responseType: "text", timeout: g.config.requestTimeout }
     );
-    if (!response.ok) {
-      throw new Error("未能提取数据。");
-    }
-
-    const html = await response.text();
 
     const $ = load(html);
     const basicMeanWrapper = $("#basicmean-wrapper");
@@ -200,12 +179,10 @@ export async function getIdiomInfo2(
 ): Promise<{ pinyin: string; explanation: string }> {
   const { idiomsList } = g.data;
   try {
-    const response = await fetch(`https://www.zdic.net/hans/${idiom}`);
-    if (!response.ok) {
-      throw new Error("未能提取数据。");
-    }
-
-    const html = await response.text();
+    const html = await g.ctx.http.get<string>(
+      `https://www.zdic.net/hans/${encodeURIComponent(idiom)}`,
+      { responseType: "text", timeout: g.config.requestTimeout }
+    );
 
     const $ = load(html);
 

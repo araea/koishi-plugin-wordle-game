@@ -205,7 +205,7 @@ export function register(g: GameContext) {
       }
 
       // 寻找
-      fetchWordDefinitions(targetWord)
+      fetchWordDefinitions(g, targetWord)
         .then((responseData) => {
           const definitions = responseData.word.definitions;
           const serializedDefinitions = serializeDefinitions(definitions);

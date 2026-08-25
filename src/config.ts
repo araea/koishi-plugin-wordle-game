@@ -103,6 +103,11 @@ export interface Config {
   key: string;
   numberOfMessageButtonsPerRow: number;
   isUsingUnifiedKoishiBuiltInUsername: boolean;
+
+  pinyinApiEndpoint: string;
+  pinyinApiKey: string;
+  pinyinApiModel: string;
+  requestTimeout: number;
 }
 
 export const Config: Schema<Config> = Schema.intersect([

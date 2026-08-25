@@ -266,16 +266,14 @@ export async function sendMessage(
       const remainingDelay = config.retractDelay * 1000 - timePassed;
 
       if (timePassed < 118000) {
-        // 留2秒余量
-        setTimeout(async () => {
-          try {
-            await bot.deleteMessage(channelId, prevMessage.id);
-          } catch (error) {
+        // 留 2 秒余量；用 ctx.setTimeout 以便插件停用时一并清理
+        g.ctx.setTimeout(() => {
+          bot.deleteMessage(channelId, prevMessage.id).catch((error) => {
             g.logger.warn(
               `Failed to retract message ${prevMessage.id}: ${error.message}`
             );
-          }
-        }, remainingDelay);
+          });
+        }, Math.max(0, remainingDelay));
       }
     }
 
