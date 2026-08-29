@@ -1,12 +1,10 @@
 koishi-plugin-wordle-game
-========================
+=========================
 
 [<img alt="github" src="https://img.shields.io/badge/github-araea/wordle_game-8da0cb?style=for-the-badge&labelColor=555555&logo=github" height="20">](https://github.com/araea/koishi-plugin-wordle-game)
 [<img alt="npm" src="https://img.shields.io/npm/v/koishi-plugin-wordle-game.svg?style=for-the-badge&color=fc8d62&logo=npm" height="20">](https://www.npmjs.com/package/koishi-plugin-wordle-game)
 
 Koishi 的 Wordle | 汉兜 | 词影 | Numberle | Math | Lewdle 游戏插件。
-
-支持以下游戏：
 
 - [Wordle](https://www.nytimes.com/games/wordle/index.html)
 - [汉兜](https://handle.antfu.me/)
@@ -17,23 +15,18 @@ Koishi 的 Wordle | 汉兜 | 词影 | Numberle | Math | Lewdle 游戏插件。
 
 ## 使用
 
-1. 启用 `monetary`, `database`, `puppeteer` 服务。
+1. 启用 `monetary`、`database`、`puppeteer` 服务。
 2. 设置指令别名。
-3. 输入 `wordleGame.开始` 指令以引导游戏。
-4. 输入猜测词。
+3. `wordleGame.开始` 引导开局，然后直接输入猜测词。
 
 ## 注意事项
 
-- 若输入成语时出现未知错误，可检查 `data/wordleGame/idioms.json` 文件，确认拼音是否正确。
-- 汉兜模式遇到词库里没有的四字词时，会调用配置项「拼音接口设置」里的 OpenAI 兼容接口补全拼音。
-  该项默认留空，留空时不会发起任何请求，只提示手动补全。
+- 成语报未知错误时，检查 `data/wordleGame/idioms.json` 的拼音。
+- 汉兜遇到词库里没有的四字词，会走配置「拼音接口设置」里的 OpenAI 兼容接口；留空则不发请求，只提示手动补全。
+- 词影模式有细分排行榜，`help` 可查。
+- 可在 `idioms.json` 自行加词（如「原神启动」），注意 JSON 末项无逗号。
 
-## 特性
-
-- 词影模式拥有细分排行榜，可通过 `help` 指令探索。
-- 可在 `idioms.json` 中自行添加成语（如“原神启动”），注意 JSON 格式，末项无逗号。
-
-## 关键指令
+## 指令
 
 ### `wordleGame.开始 [待猜词长度]`
 
@@ -41,53 +34,28 @@ Koishi 的 Wordle | 汉兜 | 词影 | Numberle | Math | Lewdle 游戏插件。
 
 #### `wordleGame.开始.<模式> [待猜词长度]`
 
-- **可用模式**:
-  - `经典`, `CET4/6`, `GMAT`, `GRE`, `IELTS`, `SAT`, `TOEFL`, `考研`, `专八/四`
-  - `ALL`, `Lewdle`, `Numberle`, `Math`, `汉兜`, `词影`
+可用模式：`经典`、`CET4/6`、`GMAT`、`GRE`、`IELTS`、`SAT`、`TOEFL`、`考研`、`专八/四`、`ALL`、`Lewdle`、`Numberle`、`Math`、`汉兜`、`词影`。
 
-- **通用选项**:
+通用选项：
 
-  - `--hard` (困难模式)
-    - 绿色线索必须保持固定。
-    - 黄色线索必须重复使用。
-    - 词影模式下，提高匹配难度。
+- `--hard` 困难：绿色线索保持固定，黄色线索必须再用。词影模式下提高匹配难度。
+- `--uhard` 超困难：基于困难。黄色线索必须离位，灰色线索不得再用。
+- `--absurd` 荒谬：尽量少给信息，甚至可能更换秘密词。[玩法参考](https://qntm.org/absurdle)
+- `--challenge` 挑战：从一个给定目标词反向推导秘密词。[玩法参考](https://qntm.org/challenge)
+- `--wordles <数量>` 同时猜多个词，默认 1 ~ 4，可配置。
 
-  - `--uhard` (超困难模式)
-    - 基于困难模式。
-    - 黄色线索必须移离其原位。
-    - 灰色线索不得再次使用。
+汉兜与词影：
 
-  - `--absurd` (荒谬模式)
-    - AI 将尽量避免给出答案，每次猜测仅透露最少信息，甚至可能更换秘密词。
-    - [玩法参考](https://qntm.org/absurdle)
+- `--free` 任意四字词都可作猜测。
+- `--all` 词库扩到 29766+（含生僻字）。关掉时用 7208 个常用成语。
 
-  - `--challenge` (挑战模式)
-    - 高级玩家限定。要求从一个给定的目标词出发，反向推导秘密词。
-    - [玩法参考](https://qntm.org/challenge)
-
-  - `--wordles <数量>`
-    - 同时猜测多个词，默认数量 1 ~ 4，可配置。
-
-- **汉兜 & 词影专属选项**:
-
-  - `--free` (自由模式)
-    - 任意四字词语均可作为猜测词。
-
-  - `--all` (全成语模式)
-    - 开启后，词库扩展至 29766+ (含生僻字，极难)。
-    - 关闭时，使用 7208 个常用成语 (义务教育)。
-
-> 注：经典模式和汉兜模式可投入货币，获胜有奖励。可同时启用多种难度模式。
+经典模式和汉兜模式可投入货币，获胜有奖励。多种难度可同时开。
 
 ### `wordleGame.猜 <猜测内容>`
 
-- 猜单词、成语等。
-- 选项:
-  - `-r`: 随机猜测一次。
+猜单词、成语等。`-r` 随机猜一次。
 
----
-
-## 测试图
+## 示例
 
 <!-- markdownlint-disable MD033 -->
 <details>
@@ -127,30 +95,27 @@ Koishi 的 Wordle | 汉兜 | 词影 | Numberle | Math | Lewdle 游戏插件。
 
 ## 致谢
 
-- **框架**: [Koishi](https://koishi.chat/)
-- **纠错**: ly、麦神等朋友
-- **顾问**: [Akisa](https://forum.koishi.xyz/u/akisa/summary)
-- **数据源**:
-  - [汉典](https://www.zdic.net/)
-  - [百度汉语](https://hanyu.baidu.com/)
-  - [WordFinder](https://wordword.org/)
-  - [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT)
-- **灵感与样式**:
-  - [Wordle](https://www.nytimes.com/games/wordle/index.html)
-  - [汉兜](https://handle.antfu.me/)
-  - [词影](https://cy.surprising.studio/)
-  - [Numberle (dduarte)](https://dduarte.github.io/numberle/)
-  - [Numberle (numberle.org)](https://numberle.org/)
-  - [LewdleGame](https://www.lewdlegame.com/App)
-  - [WordlePlay](https://wordleplay.com/wordle-games)
-- **词典参考**:
-  - [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle)
-  - [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle)
-  - [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt)
+- [Koishi](https://koishi.chat/)
+- ly、麦神等朋友
+- [Akisa](https://forum.koishi.xyz/u/akisa/summary)
+- [汉典](https://www.zdic.net/)
+- [百度汉语](https://hanyu.baidu.com/)
+- [WordFinder](https://wordword.org/)
+- [skywind3000/ECDICT](https://github.com/skywind3000/ECDICT)
+- [Wordle](https://www.nytimes.com/games/wordle/index.html)
+- [汉兜](https://handle.antfu.me/)
+- [词影](https://cy.surprising.studio/)
+- [Numberle (dduarte)](https://dduarte.github.io/numberle/)
+- [Numberle (numberle.org)](https://numberle.org/)
+- [LewdleGame](https://www.lewdlegame.com/App)
+- [WordlePlay](https://wordleplay.com/wordle-games)
+- [koishi-plugin-wordle](https://www.npmjs.com/package/koishi-plugin-wordle)
+- [nonebot-plugin-wordle](https://github.com/noneplugin/nonebot-plugin-wordle)
+- [Wordle 2315 words list](https://gist.github.com/DevilXD/6ad6cc1fe37872d069a795edd51233b2#file-wordle_words-txt)
 
 ## QQ 群
 
-- `956758505`
+- 956758505
 
 <br>
 
