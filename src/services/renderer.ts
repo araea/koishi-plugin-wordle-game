@@ -1,9 +1,33 @@
 import * as path from "path";
+import { pathToFileURL } from "url";
+import {} from "koishi-plugin-puppeteer";
 import type { GameContext } from "../context";
 import { htmlAfterStyle, htmlPrefix, htmlSuffix } from "../html/template";
 
-// 使用 puppeteer 打开页面并截图，返回图片 Buffer。
-// 各类游戏画面共用同一套「打开空页面 -> setContent -> 截图」的流程。
+/** 统一截图：走 Koishi 的 `page()`。词影/汉兜的 CSS 是相对路径，先落到 lib 下的空白页才读得到。 */
+async function capture(
+  g: GameContext,
+  html: string,
+  viewport: { width: number; height: number },
+  fileOrigin = false,
+): Promise<Buffer> {
+  const page = await g.ctx.puppeteer.page();
+  try {
+    await page.setViewport({ ...viewport, deviceScaleFactor: 1 });
+    if (fileOrigin) {
+      await page.goto(
+        pathToFileURL(path.join(__dirname, "emptyHtml.html")).href,
+      );
+    }
+    await page.setContent(html, { waitUntil: "load" });
+    return await page.screenshot({
+      fullPage: true,
+      type: g.config.imageType,
+    });
+  } finally {
+    await page.close();
+  }
+}
 
 // 生成 Wordle 类游戏画面。
 export async function generateImage(
@@ -11,13 +35,6 @@ export async function generateImage(
   styledHtml: string,
   gridHtml: string
 ): Promise<Buffer> {
-  const browser = g.ctx.puppeteer.browser;
-  const context = await browser.createBrowserContext();
-  const page = await context.newPage();
-  await page.setViewport({ width: 611, height: 731, deviceScaleFactor: 1 });
-  const filePath = path.join(__dirname, "emptyHtml.html").replace(/\\/g, "/");
-  await page.goto("file://" + filePath);
-
   const html = `${htmlPrefix}
     ${styledHtml}
     ${htmlAfterStyle(g.config)}
@@ -26,15 +43,7 @@ export async function generateImage(
     </div>
     ${htmlSuffix}`;
 
-  await page.setContent(html, { waitUntil: "load" });
-  const imageBuffer = await page.screenshot({
-    fullPage: true,
-    type: g.config.imageType,
-  });
-  await page.close();
-  await context.close();
-
-  return imageBuffer;
+  return capture(g, html, { width: 611, height: 731 });
 }
 
 // 生成「词影」游戏画面。
@@ -43,17 +52,6 @@ export async function generateImageForCiying(
   gridHtml: string,
   rowNum: number
 ): Promise<Buffer> {
-  const browser = g.ctx.puppeteer.browser;
-  const context = await browser.createBrowserContext();
-  const page = await context.newPage();
-  await page.setViewport({
-    width: 611,
-    height: 140 * rowNum,
-    deviceScaleFactor: 1,
-  });
-  const filePath = path.join(__dirname, "emptyHtml.html").replace(/\\/g, "/");
-  await page.goto("file://" + filePath);
-
   const html = `<html lang="zh" class="h-full ${
     g.config.isDarkThemeEnabled ? "dark" : ""
   }">
@@ -89,15 +87,7 @@ ${gridHtml}
 </body>
 </html>`;
 
-  await page.setContent(html, { waitUntil: "load" });
-  const imageBuffer = await page.screenshot({
-    fullPage: true,
-    type: g.config.imageType,
-  });
-  await page.close();
-  await context.close();
-
-  return imageBuffer;
+  return capture(g, html, { width: 611, height: 140 * rowNum }, true);
 }
 
 // 生成「汉兜」游戏画面。
@@ -105,13 +95,6 @@ export async function generateImageForHandle(
   g: GameContext,
   gridHtml: string
 ): Promise<Buffer> {
-  const browser = g.ctx.puppeteer.browser;
-  const context = await browser.createBrowserContext();
-  const page = await context.newPage();
-  await page.setViewport({ width: 611, height: 731, deviceScaleFactor: 1 });
-  const filePath = path.join(__dirname, "emptyHtml.html").replace(/\\/g, "/");
-  await page.goto("file://" + filePath);
-
   const html = `<html lang="en" class="${
     g.config.isDarkThemeEnabled ? "dark" : ""
   }" style="--vh: 7.55px;">
@@ -139,15 +122,7 @@ export async function generateImageForHandle(
 </body>
 </html>`;
 
-  await page.setContent(html, { waitUntil: "load" });
-  const imageBuffer = await page.screenshot({
-    fullPage: true,
-    type: g.config.imageType,
-  });
-  await page.close();
-  await context.close();
-
-  return imageBuffer;
+  return capture(g, html, { width: 611, height: 731 }, true);
 }
 
 // 生成「汉兜」拼音速查表图片。
@@ -155,13 +130,6 @@ export async function generateHandlePinyinsImage(
   g: GameContext,
   pinyinsHtml: string
 ) {
-  const browser = g.ctx.puppeteer.browser;
-  const context = await browser.createBrowserContext();
-  const page = await context.newPage();
-  await page.setViewport({ width: 420, height: 570, deviceScaleFactor: 1 });
-  const filePath = path.join(__dirname, "emptyHtml.html").replace(/\\/g, "/");
-  await page.goto("file://" + filePath);
-
   const html = `<html lang="en" class="${
     g.config.isDarkThemeEnabled ? "dark" : ""
   }" style="--vh: 6.04px;">
@@ -191,15 +159,7 @@ export async function generateHandlePinyinsImage(
     </body>
 </html>`;
 
-  await page.setContent(html, { waitUntil: "load" });
-  const imageBuffer = await page.screenshot({
-    fullPage: true,
-    type: g.config.imageType,
-  });
-  await page.close();
-  await context.close();
-
-  return imageBuffer;
+  return capture(g, html, { width: 420, height: 570 }, true);
 }
 
 // 生成多词（wordles）模式的合成图。
@@ -207,17 +167,6 @@ export async function generateWordlesImage(
   g: GameContext,
   htmlImgString: string
 ) {
-  const browser = g.ctx.puppeteer.browser;
-  const context = await browser.createBrowserContext();
-  const page = await context.newPage();
-  await page.setViewport({
-    width: g.config.compositeImagePageWidth,
-    height: g.config.compositeImagePageHeight,
-    deviceScaleFactor: 1,
-  });
-  const filePath = path.join(__dirname, "emptyHtml.html").replace(/\\/g, "/");
-  await page.goto("file://" + filePath);
-
   const html = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -257,13 +206,8 @@ export async function generateWordlesImage(
     </body>
     </html>`;
 
-  await page.setContent(html, { waitUntil: "load" });
-  const wordlesImageBuffer = await page.screenshot({
-    fullPage: true,
-    type: g.config.imageType,
+  return capture(g, html, {
+    width: g.config.compositeImagePageWidth,
+    height: g.config.compositeImagePageHeight,
   });
-  await page.close();
-  await context.close();
-
-  return wordlesImageBuffer;
 }
