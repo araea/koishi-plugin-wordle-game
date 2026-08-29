@@ -105,15 +105,7 @@ export async function updateNameInPlayerRecord(
 
   const existingRecord = userRecord[0];
 
-  if (
-    username !== existingRecord.username &&
-    (!(
-      g.isQQOfficialRobotMarkdownTemplateEnabled && session.platform === "qq"
-    ) ||
-      (g.isQQOfficialRobotMarkdownTemplateEnabled &&
-        session.platform === "qq" &&
-        g.config.isUsingUnifiedKoishiBuiltInUsername))
-  ) {
+  if (username !== existingRecord.username) {
     existingRecord.username = username;
     isChange = true;
   }

@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { h, noop } from "koishi";
+import { h } from "koishi";
 import badWordsList from "../assets/Wordle/词汇/badWordsList.json";
 import lowerCaseWordArray from "../assets/Wordle/词汇/lowerCaseWordArray.json";
 import commonIdiomsList from "../assets/commonIdiomsList.json";
@@ -141,8 +141,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 游戏已经开始，无法中途加入。`,
-            `猜测`
+            `⚠️ 游戏已经开始，无法中途加入。`
           );
         } else {
           const wordlesNum = gameInfo.wordlesNum;
@@ -185,34 +184,15 @@ export function register(g: GameContext) {
             const htmlImgString = generateImageTags(imageBuffers);
             imageBuffer = await generateWordlesImage(g, htmlImgString);
           }
-          if (
-            !config.isTextToImageConversionEnabled &&
-            g.isQQOfficialRobotMarkdownTemplateEnabled &&
-            session.platform === "qq"
-          ) {
-            await sendMessage(
-              g,
-              session,
-              h.image(imageBuffer, `image/${config.imageType}`),
-              ``
-            );
-            return await sendMessage(
-              g,
-              session,
-              `⚠️ 你已经在游戏中。`,
-              `猜测`
-            );
-          } else {
-            return await sendMessage(
-              g,
-              session,
-              `⚠️ 你已经在游戏中。\n${h.image(
-                imageBuffer,
-                `image/${config.imageType}`
-              )}`,
-              `猜测`
-            );
-          }
+                    return await sendMessage(
+            g,
+            session,
+            `⚠️ 你已经在游戏中。\n${h.image(
+              imageBuffer,
+              `image/${config.imageType}`
+            )}`
+          );
+
         }
       }
       // 判断输入
@@ -220,8 +200,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请输入不小于 0 的投入金额。`,
-          `改名 加入游戏`
+          `⚠️ 请输入不小于 0 的投入金额。`
         );
       }
       // 不能超过最大投入金额
@@ -229,8 +208,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 投入金额不能超过 ${config.maxInvestmentCurrency}。`,
-          `改名 加入游戏`
+          `⚠️ 投入金额不能超过 ${config.maxInvestmentCurrency}。`
         );
       }
       // @ts-ignore
@@ -258,8 +236,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `✅ 投入已改为 ${money}。当前玩家：${numberOfPlayers} 人。`,
-            `改名 加入游戏 开始游戏`
+            `✅ 投入已改为 ${money}。当前玩家：${numberOfPlayers} 人。`
           );
         } else {
           // 余额不够
@@ -271,8 +248,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 余额不足，投入已修正为 ${userMonetary.value}。当前玩家：${numberOfPlayers} 人。`,
-            `改名 加入游戏 开始游戏`
+            `⚠️ 余额不足，投入已修正为 ${userMonetary.value}。当前玩家：${numberOfPlayers} 人。`
           );
         }
       }
@@ -294,8 +270,7 @@ export function register(g: GameContext) {
               config.maxInvestmentCurrency
             }，倍率：${
               config.defaultRewardMultiplier
-            }。当前玩家：${numberOfPlayers + 1} 人。`,
-            `改名 加入游戏 开始游戏`
+            }。当前玩家：${numberOfPlayers + 1} 人。`
           );
         } else {
           // 没余额
@@ -304,8 +279,7 @@ export function register(g: GameContext) {
             session,
             `✅ 加入成功。当前玩家：${
               numberOfPlayers + 1
-            } 人。`,
-            `改名 加入游戏 开始游戏`
+            } 人。`
           );
         }
       } else {
@@ -323,8 +297,7 @@ export function register(g: GameContext) {
             session,
             `✅ 加入成功，投入 ${money}。倍率：${
               config.defaultRewardMultiplier
-            }。当前玩家：${numberOfPlayers + 1} 人。`,
-            `改名 加入游戏 开始游戏`
+            }。当前玩家：${numberOfPlayers + 1} 人。`
           );
         } else {
           // 余额不够
@@ -339,8 +312,7 @@ export function register(g: GameContext) {
             session,
             `⚠️ 余额不足，投入已修正为 ${
               userMonetary.value
-            }。当前玩家：${numberOfPlayers + 1} 人。`,
-            `改名 加入游戏 开始游戏`
+            }。当前玩家：${numberOfPlayers + 1} 人。`
           );
         }
       }
@@ -357,8 +329,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `⚠️ 游戏已经开始，无法进行此操作。`,
-        `猜测`
+        `⚠️ 游戏已经开始，无法进行此操作。`
       );
     }
     // 玩家
@@ -367,8 +338,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `⚠️ 你还没有加入游戏。`,
-        `改名 加入游戏`
+        `⚠️ 你还没有加入游戏。`
       );
     }
     // 退出
@@ -380,9 +350,7 @@ export function register(g: GameContext) {
     return await sendMessage(
       g,
       session,
-      `✅ 已退出。剩余玩家：${numberOfPlayers} 人。`,
-      `改名 退出游戏 开始游戏 加入游戏`,
-      2
+      `✅ 已退出。剩余玩家：${numberOfPlayers} 人。`
     );
   });
 
@@ -397,8 +365,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `⚠️ 当前没有进行中的对局。`,
-        `改名 开始游戏`
+        `⚠️ 当前没有进行中的对局。`
       );
     }
     // 玩家记录输
@@ -419,9 +386,7 @@ export function register(g: GameContext) {
     await sendMessage(
       g,
       session,
-      message,
-      `改名 玩法介绍 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
-      2
+      message
     );
     await endGame(g, channelId);
     return;
@@ -449,8 +414,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`,
-          `改名 开始游戏`
+          `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`
         );
       }
       // 游戏状态
@@ -459,36 +423,24 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 游戏已经开始了。`,
-          `猜测`
+          `⚠️ 游戏已经开始了。`
         );
       }
       // 提示输入
       await sendMessage(
         g,
         session,
-        `${
-          g.isQQOfficialRobotMarkdownTemplateEnabled && session.platform === "qq"
-            ? ``
-            : `可选模式如下：\n${exams
+        `可选模式如下：\n${exams
                 .map((exam, index) => `${index + 1}. ${exam}`)
-                .join("\n")}`
-        }
-请输入要开始的${
-          g.isQQOfficialRobotMarkdownTemplateEnabled && session.platform === "qq"
-            ? ``
-            : `序号或`
-        }模式名：`,
-        `经典 CET4 CET6 GMAT GRE IELTS SAT TOEFL 考研 专八 专四 ALL 脏话 汉兜 数字 方程 词影`,
-        4
+                .join("\n")}
+请输入要开始的序号或模式名：`
       );
       const userInput = await session.prompt();
       if (!userInput)
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效或超时。`,
-          `改名 开始游戏`
+          `⚠️ 输入无效或超时。`
         );
       // 判断 userInput 是否为有效输入
       const selectedExam = isNaN(parseInt(userInput))
@@ -509,16 +461,14 @@ export function register(g: GameContext) {
               session,
               `长度可选值范围：${getValidGuessWordLengthRange(
                 selectedExam
-              )}\n请输入待猜项目的的长度：`,
-              `输入`
+              )}\n请输入待猜项目的的长度：`
             );
             const userInput = await session.prompt();
             if (!userInput)
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 输入无效或超时。`,
-                `改名 开始游戏`
+                `⚠️ 输入无效或超时。`
               );
             guessWordLength = parseInt(userInput);
           } else {
@@ -537,8 +487,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效，请重新输入。`,
-          `改名 开始游戏`
+          `⚠️ 输入无效，请重新输入。`
         );
       }
     });
@@ -557,58 +506,7 @@ export function register(g: GameContext) {
       let { channelId, userId, username, platform, timestamp } = session;
       username = await getSessionUserName(g, session);
       await updateNameInPlayerRecord(g, session, userId, username);
-      if (
-        g.isQQOfficialRobotMarkdownTemplateEnabled &&
-        session.platform === "qq"
-      ) {
-        await sendMessage(
-          g,
-          session,
-          `附加游戏模式（可多选）：`,
-          `困难 超困难 变态 变态挑战 x1 x2 x3 x4 跳过`,
-          4
-        );
-        const userInput = await session.prompt();
-
-        if (!userInput) {
-          return await sendMessage(
-            g,
-            session,
-            `⚠️ 输入无效或超时。`,
-            `改名 开始游戏`
-          );
-        }
-
-        const modes = {
-          困难: "hard",
-          超困难: "ultraHardMode",
-          变态: "absurd",
-          变态挑战: "challenge",
-        };
-
-        const wordles = {
-          x1: 1,
-          x2: 2,
-          x3: 3,
-          x4: 4,
-        };
-
-        for (const mode in modes) {
-          if (userInput.includes(mode)) {
-            options[modes[mode]] = true;
-          }
-        }
-
-        for (const wordle in wordles) {
-          if (userInput.includes(wordle)) {
-            options.wordles = wordles[wordle];
-          }
-        }
-
-        if (userInput.includes("跳过")) {
-          noop();
-        }
-      }
+      
       if (
         typeof options.wordles !== "number" ||
         options.wordles < 1 ||
@@ -617,8 +515,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`,
-          `改名 开始游戏`
+          `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`
         );
       }
       // 游戏状态
@@ -627,8 +524,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 游戏已经开始了。`,
-          `猜测`
+          `⚠️ 游戏已经开始了。`
         );
       }
       // 人数
@@ -637,8 +533,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜单词】\n请先加入游戏吧~`,
-          `改名 加入游戏`
+          `没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜单词】\n请先加入游戏吧~`
         );
       }
       // 经典扣钱
@@ -762,23 +657,8 @@ export function register(g: GameContext) {
         isChallengeMode ? targetWord : ""
       }\n${wordLength}\n${guessChance}\n${wordCount}${timeLimit}\n${image}`;
 
-      if (
-        !config.isTextToImageConversionEnabled &&
-        g.isQQOfficialRobotMarkdownTemplateEnabled &&
-        session.platform === "qq"
-      ) {
-        await sendMessage(g, session, image, ``);
-        return await sendMessage(
-          g,
-          session,
-          `游戏开始！\n当前游戏模式为：${gameMode}${
-            isChallengeMode ? targetWord : ""
-          }\n${wordLength}\n${guessChance}\n${wordCount}${timeLimit}`,
-          `结束游戏 猜测`,
-          2
-        );
-      }
-      return await sendMessage(g, session, message, `结束游戏 猜测`);
+      
+      return await sendMessage(g, session, message);
     });
 
   // wordleGame.开始.<模式>（经典以外的所有模式）
@@ -808,74 +688,7 @@ export function register(g: GameContext) {
         let { channelId, userId, username, timestamp, platform } = session;
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
-        if (
-          g.isQQOfficialRobotMarkdownTemplateEnabled &&
-          session.platform === "qq"
-        ) {
-          let markdownCommands = "";
-          let numberOfMessageButtonsPerRow = 2;
-          if (exam === "汉兜" || exam === "词影") {
-            markdownCommands = `困难 超困难 x1 x2 x3 x4 自由 全成语 跳过`;
-          } else if (exam === "Numberle" || exam === "Math") {
-            markdownCommands = `困难 超困难 x1 x2 x3 x4 跳过`;
-          } else {
-            markdownCommands = `困难 超困难 变态 变态挑战 x1 x2 x3 x4 跳过`;
-          }
-          await sendMessage(
-            g,
-            session,
-            `附加游戏模式（可多选）：`,
-            markdownCommands,
-            numberOfMessageButtonsPerRow
-          );
-
-          const userInput = await session.prompt();
-
-          if (!userInput) {
-            return await sendMessage(
-              g,
-              session,
-              `⚠️ 输入无效或超时。`,
-              `改名 开始游戏`
-            );
-          }
-
-          if (exam === "汉兜" || exam === "词影") {
-            options.free = userInput.includes(`自由`);
-            options.all = userInput.includes(`全成语`);
-          }
-
-          const modes = {
-            困难: "hard",
-            超困难: "ultraHardMode",
-            变态: "absurd",
-            变态挑战: "challenge",
-          };
-
-          for (const mode of Object.keys(modes)) {
-            if (userInput.includes(mode)) {
-              options[modes[mode]] = true;
-            }
-          }
-
-          const wordlesMap = {
-            x1: 1,
-            x2: 2,
-            x3: 3,
-            x4: 4,
-          };
-
-          for (const wordle of Object.keys(wordlesMap)) {
-            if (userInput.includes(wordle)) {
-              options.wordles = wordlesMap[wordle];
-            }
-          }
-
-          if (userInput.includes(`跳过`)) {
-            noop();
-          }
-        }
-
+        
         if (!guessWordLength) {
           if (
             config.shouldPromptForWordLengthOnNonClassicStart &&
@@ -888,16 +701,14 @@ export function register(g: GameContext) {
               session,
               `长度可选值范围：${getValidGuessWordLengthRange(
                 exam
-              )}\n请输入待猜测项目的长度：`,
-              `输入`
+              )}\n请输入待猜测项目的长度：`
             );
             const userInput = await session.prompt();
             if (!userInput)
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 输入无效或超时。`,
-                `改名 开始游戏`
+                `⚠️ 输入无效或超时。`
               );
             guessWordLength = parseInt(userInput);
           } else {
@@ -912,8 +723,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`,
-            `改名 开始游戏`
+            `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`
           );
         }
 
@@ -930,8 +740,7 @@ export function register(g: GameContext) {
             session,
             `无效的长度参数！\n${exam} 长度可选值范围：${getValidGuessWordLengthRange(
               exam
-            )}`,
-            `改名 开始游戏`
+            )}`
           );
         }
 
@@ -941,8 +750,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 游戏已经开始了。`,
-            `猜测`
+            `⚠️ 游戏已经开始了。`
           );
         }
 
@@ -952,8 +760,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜测】\n先加入游戏吧~`,
-            `改名 加入游戏`
+            `没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜测】\n先加入游戏吧~`
           );
         }
 
@@ -1231,53 +1038,19 @@ export function register(g: GameContext) {
         const image = h.image(imageBuffer, `image/${config.imageType}`);
 
         if (exam === "汉兜" || exam === "词影") {
-          if (
-            !config.isTextToImageConversionEnabled &&
-            g.isQQOfficialRobotMarkdownTemplateEnabled &&
-            session.platform === "qq"
-          ) {
-            await sendMessage(g, session, image, ``);
-            return await sendMessage(
-              g,
-              session,
-              `${gameMode}\n${guessChance}\n${wordCount2}${timeLimit}`,
-              `结束游戏 猜测`,
-              2
-            );
-          } else {
-            return await sendMessage(
-              g,
-              session,
-              `${gameMode}\n${guessChance}\n${wordCount2}${timeLimit}\n${image}`,
-              `结束游戏 猜测`
-            );
-          }
+          return await sendMessage(
+            g,
+            session,
+            `${gameMode}\n${guessChance}\n${wordCount2}${timeLimit}\n${image}`
+          );
         } else {
-          if (
-            !config.isTextToImageConversionEnabled &&
-            g.isQQOfficialRobotMarkdownTemplateEnabled &&
-            session.platform === "qq"
-          ) {
-            await sendMessage(g, session, image, ``);
-            return await sendMessage(
-              g,
-              session,
-              `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${
-                exam === "Numberle" ? "" : wordCount2
-              }${timeLimit}`,
-              `结束游戏 猜测`,
-              2
-            );
-          } else {
-            return await sendMessage(
-              g,
-              session,
-              `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${
-                exam === "Numberle" ? "" : wordCount2
-              }${timeLimit}\n${image}`,
-              `结束游戏 猜测`
-            );
-          }
+          return await sendMessage(
+            g,
+            session,
+            `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${
+              exam === "Numberle" ? "" : wordCount2
+            }${timeLimit}\n${image}`
+          );
         }
       });
   });
@@ -1296,8 +1069,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⏳ 操作过快，请稍后再试。`,
-          `猜测`
+          `⏳ 操作过快，请稍后再试。`
         );
       }
 
@@ -1310,8 +1082,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 游戏还没开始。`,
-          `改名 开始游戏`
+          `⚠️ 游戏还没开始。`
         );
       }
 
@@ -1330,23 +1101,20 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `⚠️ 请输入猜测词，或发送「取消」。`,
-          `取消 输入`
+          `⚠️ 请输入猜测词，或发送「取消」。`
         );
         const userInput = await session.prompt();
         if (!userInput)
           return await sendMessage(
             g,
             session,
-            `⚠️ 输入无效或超时。`,
-            `猜测`
+            `⚠️ 输入无效或超时。`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `✅ 已取消猜测。`,
-            `猜测`
+            `✅ 已取消猜测。`
           );
         inputWord = userInput.trim();
       }
@@ -1361,9 +1129,7 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `⏳ 作答超过 ${config.wordGuessTimeLimitInSeconds} 秒，本局结束。`,
-            `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
-            2
+            `⏳ 作答超过 ${config.wordGuessTimeLimitInSeconds} 秒，本局结束。`
           );
           await endGame(g, channelId);
 
@@ -1379,8 +1145,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 你还没有加入游戏，无法猜测。`,
-            `猜测`
+            `⚠️ 你还没有加入游戏，无法猜测。`
           );
         } else {
           await ctx.database.create("wordle_gaming_player_records", {
@@ -1417,8 +1182,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 这个已经猜过了。`,
-          `猜测`
+          `⚠️ 这个已经猜过了。`
         );
       }
       if (
@@ -1432,8 +1196,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入包含非字母字符，请重新输入。`,
-          `猜测`
+          `⚠️ 输入包含非字母字符，请重新输入。`
         );
       }
       if (
@@ -1444,8 +1207,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请输入四字词语。`,
-          `猜测`
+          `⚠️ 请输入四字词语。`
         );
       }
       if (
@@ -1456,8 +1218,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请输入长度为 ${guessWordLength} 的数字。`,
-          `猜测`
+          `⚠️ 请输入长度为 ${guessWordLength} 的数字。`
         );
       }
       if (
@@ -1469,8 +1230,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请使用 + - * / = 运算符和 0-9 的数字，组成正确的数学方程式。`,
-          `猜测`
+          `⚠️ 请使用 + - * / = 运算符和 0-9 的数字，组成正确的数学方程式。`
         );
       }
       if (
@@ -1502,8 +1262,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`,
-          `猜测`
+          `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`
         );
       }
       // 是否存在该单词
@@ -1524,8 +1283,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 词库中没有这个单词。`,
-            `猜测`
+            `⚠️ 词库中没有这个单词。`
           );
         }
       }
@@ -1536,8 +1294,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `不好意思啊...\n我还没学会这个字（`,
-            `猜测`
+            `不好意思啊...\n我还没学会这个字（`
           );
         }
         if (!isIdiomInList(inputWord, idiomsList) && !isFreeMode) {
@@ -1547,8 +1304,7 @@ export function register(g: GameContext) {
             return await sendMessage(
               g,
               session,
-              `⚠️ 未找到该四字词语。`,
-              `猜测`
+              `⚠️ 未找到该四字词语。`
             );
           } else {
             userInputPinyin = idiomInfo.pinyin;
@@ -1589,8 +1345,7 @@ export function register(g: GameContext) {
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 未找到该四字词语。`,
-                `猜测`
+                `⚠️ 未找到该四字词语。`
               );
             } else {
               userInputPinyin = idiomInfo.pinyin;
@@ -1680,7 +1435,7 @@ export function register(g: GameContext) {
               : `\n远离黄色线索：【${presentLettersWithIndex.join(", ")}】`
           }`;
 
-          return await sendMessage(g, session, message, `猜测`);
+          return await sendMessage(g, session, message);
         }
       }
       // 初始化输
@@ -1747,9 +1502,7 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `⚠️ 根据已有信息，已经没有可用单词。本局结束。`,
-            `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
-            2
+            `⚠️ 根据已有信息，已经没有可用单词。本局结束。`
           );
           await endGame(g, channelId);
           return;
@@ -1790,8 +1543,7 @@ export function register(g: GameContext) {
             `目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(
               imageBuffer,
               `image/${config.imageType}`
-            )}\n你可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`,
-            `撤销 结束`
+            )}\n你可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`
           );
           let userInput = await session.prompt();
           const imageBuffer2 = await generateImage(
@@ -1801,32 +1553,14 @@ export function register(g: GameContext) {
           );
           if (!userInput) {
             await setGuessRunningStatus(g, channelId, false);
-            if (
-              !config.isTextToImageConversionEnabled &&
-              g.isQQOfficialRobotMarkdownTemplateEnabled &&
-              session.platform === "qq"
-            ) {
-              await sendMessage(
-                g,
-                session,
-                h.image(imageBuffer2, `image/${config.imageType}`),
-                ``
-              );
-              return await sendMessage(
-                g,
-                session,
-                `⚠️ 输入无效或超时。\n已自动选择【撤销】操作。`,
-                `猜测`
-              );
-            }
+            
             return await sendMessage(
               g,
               session,
               `⚠️ 输入无效或超时。\n已自动选择【撤销】操作。\n${h.image(
                 imageBuffer2,
                 `image/${config.imageType}`
-              )}`,
-              `猜测`
+              )}`
             );
           }
           if (userInput === "结束") {
@@ -1834,32 +1568,14 @@ export function register(g: GameContext) {
             return;
           } else {
             await setGuessRunningStatus(g, channelId, false);
-            if (
-              !config.isTextToImageConversionEnabled &&
-              g.isQQOfficialRobotMarkdownTemplateEnabled &&
-              session.platform === "qq"
-            ) {
-              await sendMessage(
-                g,
-                session,
-                h.image(imageBuffer2, `image/${config.imageType}`),
-                ``
-              );
-              return await sendMessage(
-                g,
-                session,
-                `✅ 已撤销，挑战继续。`,
-                `猜测`
-              );
-            }
+            
             return await sendMessage(
               g,
               session,
               `✅ 已撤销，挑战继续。\n${h.image(
                 imageBuffer2,
                 `image/${config.imageType}`
-              )}`,
-              `猜测`
+              )}`
             );
           }
         }
@@ -2137,38 +1853,11 @@ ${generateGameEndMessage(gameInfo)}${processedResult}
 ${settlementResult}
 `;
 
-        if (
-          !config.isTextToImageConversionEnabled &&
-          g.isQQOfficialRobotMarkdownTemplateEnabled &&
-          session.platform === "qq"
-        ) {
-          await sendMessage(
-            g,
-            session,
-            h.image(imageBuffer, `image/${imageType}`),
-            ``
-          );
-          await sendMessage(
-            g,
-            session,
-            `
-太棒了，你猜出来了！
-${gameDuration}
-${generateGameEndMessage(gameInfo)}${processedResult}
-${settlementResult}
-`,
-            `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
-            2
-          );
-          await endGame(g, channelId);
-          return;
-        }
+        
         await sendMessage(
           g,
           session,
-          message,
-          `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
-          2
+          message
         );
         await endGame(g, channelId);
         return;
@@ -2196,33 +1885,11 @@ ${settlementResult}
           `image/${config.imageType}`
         )}\n${gameDuration}${answerInfo}${processedResult}`;
 
-        if (
-          !config.isTextToImageConversionEnabled &&
-          g.isQQOfficialRobotMarkdownTemplateEnabled &&
-          session.platform === "qq"
-        ) {
-          await sendMessage(
-            g,
-            session,
-            h.image(imageBuffer, `image/${config.imageType}`),
-            ``
-          );
-          await sendMessage(
-            g,
-            session,
-            `本局未猜出。${challengeMessage}\n${gameDuration}${answerInfo}${processedResult}`,
-            `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
-            2
-          );
-          await endGame(g, channelId);
-          return;
-        }
+        
         await sendMessage(
           g,
           session,
-          message,
-          `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
-          2
+          message
         );
         await endGame(g, channelId);
         return;
@@ -2232,27 +1899,9 @@ ${settlementResult}
       await sendMessage(
         g,
         session,
-        h.image(imageBuffer, `image/${config.imageType}`),
-        `结束游戏 ${
-          gameInfo.gameMode === "汉兜" ? `拼音速查表 ` : ``
-        }查询进度 猜测`,
-        2
+        h.image(imageBuffer, `image/${config.imageType}`)
       );
-      if (
-        !config.isTextToImageConversionEnabled &&
-        g.isQQOfficialRobotMarkdownTemplateEnabled &&
-        session.platform === "qq"
-      ) {
-        return sendMessage(
-          g,
-          session,
-          `<@${userId}>`,
-          `结束游戏 ${
-            gameInfo.gameMode === "汉兜" ? `拼音速查表 ` : ``
-          }查询进度 猜测`,
-          2
-        );
-      }
+      
       return;
     });
 }

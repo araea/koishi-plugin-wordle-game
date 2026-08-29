@@ -25,8 +25,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `⚠️ 游戏还没开始。开始后再来查询进度。`,
-        `改名 开始游戏`
+        `⚠️ 游戏还没开始。开始后再来查询进度。`
       );
     }
     // 返回信息
@@ -131,7 +130,7 @@ export function register(g: GameContext) {
     }
     message += `\n${inputLengthMessage}\n${progressMessage}`;
 
-    return await sendMessage(g, session, message, `猜测`);
+    return await sendMessage(g, session, message);
   });
 
   // wordleGame.拼音速查表
@@ -149,8 +148,7 @@ export function register(g: GameContext) {
       return sendMessage(
         g,
         session,
-        h.image(imageBuffer, `image/${config.imageType}`),
-        ``
+        h.image(imageBuffer, `image/${config.imageType}`)
       );
     }
     const wordlesNum = gameInfo.wordlesNum;
@@ -191,8 +189,7 @@ export function register(g: GameContext) {
     return sendMessage(
       g,
       session,
-      h.image(imageBuffer, `image/${config.imageType}`),
-      ``
+      h.image(imageBuffer, `image/${config.imageType}`)
     );
   });
 }

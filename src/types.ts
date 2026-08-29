@@ -229,21 +229,6 @@ export interface Choice {
   finish_reason: string;
 }
 
-// QQ 官方机器人 Markdown 消息按钮结构
-export interface Button {
-  render_data: {
-    label: string;
-    visited_label: string;
-    style: number;
-  };
-  action: {
-    type: number;
-    permission: { type: number };
-    data: string;
-    enter: boolean;
-  };
-}
-
 declare module "koishi" {
   interface Tables {
     wordle_game_records: GameRecord;

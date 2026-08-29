@@ -98,11 +98,6 @@ export interface Config {
   retractDelay: number;
   imageType: "png" | "jpeg" | "webp";
   isTextToImageConversionEnabled: boolean;
-  isEnableQQOfficialRobotMarkdownTemplate: boolean;
-  customTemplateId: string;
-  key: string;
-  numberOfMessageButtonsPerRow: number;
-  isUsingUnifiedKoishiBuiltInUsername: boolean;
 
   pinyinApiEndpoint: string;
   pinyinApiKey: string;
@@ -205,31 +200,6 @@ export const Config: Schema<Config> = Schema.intersect([
         .description(
           `是否开启将文本转为图片的功能（可选），如需启用，需要启用 \`markdownToImage\` 服务。`
         ),
-      isEnableQQOfficialRobotMarkdownTemplate: Schema.boolean()
-        .default(false)
-        .description(`是否启用 QQ 官方机器人的 Markdown 模板，带消息按钮。`),
     }),
-    Schema.union([
-      Schema.object({
-        isEnableQQOfficialRobotMarkdownTemplate: Schema.const(true).required(),
-        customTemplateId: Schema.string()
-          .default("")
-          .description(`自定义模板 ID。`),
-        key: Schema.string()
-          .default("")
-          .description(
-            `文本内容中特定插值的 key，用于存放文本。如果你的插值为 {{.info}}，那么请在这里填 info。`
-          ),
-        numberOfMessageButtonsPerRow: Schema.number()
-          .min(4)
-          .max(5)
-          .default(4)
-          .description(`每行消息按钮的数量。`),
-        isUsingUnifiedKoishiBuiltInUsername: Schema.boolean()
-          .default(true)
-          .description(`是否使用统一的 Koishi 内置用户名。`),
-      }),
-      Schema.object({}),
-    ]),
   ]),
 ]) as any;

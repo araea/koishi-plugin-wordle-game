@@ -44,16 +44,14 @@ export function register(g: GameContext) {
         session,
         `当前可用词库如下：\n${availableDictionaryArray
           .map((dictionary, index) => `${index + 1}. ${dictionary}`)
-          .join("\n")}\n请输入序号或词库名。`,
-        `ALL WordWord`
+          .join("\n")}\n请输入序号或词库名。`
       );
       const userInput = await session.prompt();
       if (!userInput)
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效或超时。`,
-          `查单词`
+          `⚠️ 输入无效或超时。`
         );
       // 判断 userInput 是否为有效输入
       const selectedDictionary = isNaN(parseInt(userInput))
@@ -68,8 +66,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效，请重新输入。`,
-          `查单词`
+          `⚠️ 输入无效，请重新输入。`
         );
       }
     });
@@ -99,23 +96,20 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `⚠️ 请输入待查询的单词，或发送「取消」。`,
-          `取消 输入`
+          `⚠️ 请输入待查询的单词，或发送「取消」。`
         );
         const userInput = await session.prompt();
         if (!userInput)
           return await sendMessage(
             g,
             session,
-            `⚠️ 输入无效或超时。`,
-            `查单词`
+            `⚠️ 输入无效或超时。`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `✅ 已取消查找单词。`,
-            `查单词`
+            `✅ 已取消查找单词。`
           );
         targetWord = userInput.trim();
       }
@@ -124,8 +118,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入包含非字母字符，请重新输入。`,
-          `查单词`
+          `⚠️ 输入包含非字母字符，请重新输入。`
         );
       }
 
@@ -135,8 +128,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 未在 ALL 词库中找到该单词。`,
-          `查单词`
+          `⚠️ 未在 ALL 词库中找到该单词。`
         );
       }
       return sendMessage(
@@ -144,8 +136,7 @@ export function register(g: GameContext) {
         session,
         `查询对象：【${targetWord}】\n单词释义如下：\n${replaceEscapeCharacters(
           foundWord.translation
-        )}`,
-        `查单词`
+        )}`
       );
     });
 
@@ -174,23 +165,20 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `⚠️ 请输入待查找的单词，或发送「取消」。`,
-          `取消 输入`
+          `⚠️ 请输入待查找的单词，或发送「取消」。`
         );
         const userInput = await session.prompt();
         if (!userInput)
           return await sendMessage(
             g,
             session,
-            `⚠️ 输入无效或超时。`,
-            `查单词`
+            `⚠️ 输入无效或超时。`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `✅ 已取消查找单词。`,
-            `查单词`
+            `✅ 已取消查找单词。`
           );
         targetWord = userInput.trim();
       }
@@ -199,8 +187,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入包含非字母字符，请重新输入。`,
-          `查单词`
+          `⚠️ 输入包含非字母字符，请重新输入。`
         );
       }
 
@@ -216,16 +203,14 @@ export function register(g: GameContext) {
               serializedDefinitions
                 ? serializedDefinitions
                 : `- 该单词定义暂未收录。`
-            }`,
-            `查单词`
+            }`
           );
         })
         .catch((error) => {
           return sendMessage(
             g,
             session,
-            `⚠️ 未在 WordWord 中找到该单词。`,
-            `查单词`
+            `⚠️ 未在 WordWord 中找到该单词。`
           );
         });
     });
@@ -253,16 +238,14 @@ export function register(g: GameContext) {
         session,
         `当前可用词库如下：\n${availableDictionaryArray
           .map((dictionary, index) => `${index + 1}. ${dictionary}`)
-          .join("\n")}\n请输入序号或词库名。`,
-        `百度汉语 汉典`
+          .join("\n")}\n请输入序号或词库名。`
       );
       const userInput = await session.prompt();
       if (!userInput)
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效或超时。`,
-          `查成语`
+          `⚠️ 输入无效或超时。`
         );
       // 判断 userInput 是否为有效输入
       const selectedDictionary = isNaN(parseInt(userInput))
@@ -277,8 +260,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效，请重新输入。`,
-          `查成语`
+          `⚠️ 输入无效，请重新输入。`
         );
       }
     });
@@ -308,23 +290,20 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `⚠️ 请输入待查找的成语，或发送「取消」。`,
-          `取消 输入`
+          `⚠️ 请输入待查找的成语，或发送「取消」。`
         );
         const userInput = await session.prompt();
         if (!userInput)
           return await sendMessage(
             g,
             session,
-            `⚠️ 输入无效或超时。`,
-            `查成语`
+            `⚠️ 输入无效或超时。`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `✅ 已取消查找成语。`,
-            `查成语`
+            `✅ 已取消查找成语。`
           );
         targetIdiom = userInput.trim();
       }
@@ -333,8 +312,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请输入四字词语。`,
-          `查成语`
+          `⚠️ 请输入四字词语。`
         );
       }
 
@@ -344,15 +322,13 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 未在百度汉语中找到该成语。`,
-          `查成语`
+          `⚠️ 未在百度汉语中找到该成语。`
         );
       }
       return await sendMessage(
         g,
         session,
-        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n【解释】${idiomInfo.explanation}`,
-        `查成语`
+        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n【解释】${idiomInfo.explanation}`
       );
     });
 
@@ -381,23 +357,20 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `⚠️ 请输入待查找的成语，或发送「取消」。`,
-          `取消 输入`
+          `⚠️ 请输入待查找的成语，或发送「取消」。`
         );
         const userInput = await session.prompt();
         if (!userInput)
           return await sendMessage(
             g,
             session,
-            `⚠️ 输入无效或超时。`,
-            `查成语`
+            `⚠️ 输入无效或超时。`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `✅ 已取消查找成语。`,
-            `查成语`
+            `✅ 已取消查找成语。`
           );
         targetIdiom = userInput.trim();
       }
@@ -406,8 +379,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请输入四字词语。`,
-          `查成语`
+          `⚠️ 请输入四字词语。`
         );
       }
       // 寻找
@@ -416,15 +388,13 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 未在汉典中找到该成语。`,
-          `查成语`
+          `⚠️ 未在汉典中找到该成语。`
         );
       }
       return await sendMessage(
         g,
         session,
-        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n${idiomInfo.explanation}`,
-        `查成语`
+        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n${idiomInfo.explanation}`
       );
     });
 
@@ -494,16 +464,14 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 未检测到游戏进度，无法使用自动查找。`,
-            `单词查找器`
+            `⚠️ 未检测到游戏进度，无法使用自动查找。`
           );
         }
         if (gameMode === "汉兜") {
           return await sendMessage(
             g,
             session,
-            `⚠️ 单词查找器不能用于四字词语。`,
-            `单词查找器`
+            `⚠️ 单词查找器不能用于四字词语。`
           );
         }
         if (wordlesNum === 1) {
@@ -516,16 +484,14 @@ export function register(g: GameContext) {
             await sendMessage(
               g,
               session,
-              `当前进度数量：${wordlesNum}。请输入待查询序号（从左到右，可用空格隔开，例如：1 2）。`,
-              `单词查找器`
+              `当前进度数量：${wordlesNum}。请输入待查询序号（从左到右，可用空格隔开，例如：1 2）。`
             );
             userInput = await session.prompt();
             if (!userInput)
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 输入无效或超时。`,
-                `单词查找器`
+                `⚠️ 输入无效或超时。`
               );
           } else {
             userInput = wordleIndexs;
@@ -578,7 +544,7 @@ export function register(g: GameContext) {
       if (noOptionsSpecified) {
         const chineseTutorial =
           "欢迎使用单词查找器！\n你可以使用以下选项来搜索匹配的单词：\n- 使用 -a 自动查找（根据游戏进程）\n- 使用 -l <length> 指定要搜索的单词长度\n- 使用 -w <word> 搜索带有最多三个通配符字符的单词\n- 使用 -c <letters> 搜索包含特定字母组合的单词\n- 使用 --ct <letters> 搜索只包含指定字母的单词\n- 使用 --wt <letters> 搜索不包含特定字母的单词\n- 使用 --sw <letters> 搜索以特定字母开头的单词\n- 使用 --ew <letters> 搜索以特定字母结尾的单词";
-        return await sendMessage(g, session, chineseTutorial, `单词查找器`);
+        return await sendMessage(g, session, chineseTutorial);
       }
 
       const params = {
@@ -609,7 +575,7 @@ export function register(g: GameContext) {
 
       const url = `https://wordword.org/search/${queryParams}`;
       const result = await fetchAndParseWords(g, url);
-      return await sendMessage(g, session, `${result}`, `单词查找器`);
+      return await sendMessage(g, session, `${result}`);
     });
 
   // wordleGame.查询玩家记录
@@ -629,42 +595,27 @@ export function register(g: GameContext) {
         });
       } else {
         targetUser = await replaceAtTags(session, targetUser);
-        if (
-          g.isQQOfficialRobotMarkdownTemplateEnabled &&
-          session.platform === "qq"
-        ) {
+        const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
+        const match = targetUser.match(userIdRegex);
+        userId = match?.[1] ?? userId;
+        username = match?.[2] ?? username;
+        if (originalUserId === userId) {
           targetUserRecord = await ctx.database.get("wordle_player_records", {
-            username: targetUser,
+            userId: targetUser,
           });
-          if (targetUserRecord.length === 0) {
-            targetUserRecord = await ctx.database.get("wordle_player_records", {
-              userId: targetUser,
-            });
-          }
         } else {
-          const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
-          const match = targetUser.match(userIdRegex);
-          userId = match?.[1] ?? userId;
-          username = match?.[2] ?? username;
-          if (originalUserId === userId) {
-            targetUserRecord = await ctx.database.get("wordle_player_records", {
-              userId: targetUser,
-            });
-          } else {
-            targetUserRecord = await ctx.database.get("wordle_player_records", {
-              userId,
-            });
-          }
+          targetUserRecord = await ctx.database.get("wordle_player_records", {
+            userId,
+          });
         }
+
       }
 
       if (targetUserRecord.length === 0) {
         return sendMessage(
           g,
           session,
-          `⚠️ 被查询对象没有任何游戏记录。`,
-          `改名 查询玩家记录 开始游戏`,
-          2
+          `⚠️ 被查询对象没有任何游戏记录。`
         );
       }
 
@@ -686,6 +637,6 @@ export function register(g: GameContext) {
 ${generateStatsInfo(stats, fastestGuessTime)}
     `;
 
-      return sendMessage(g, session, queryInfo, `改名 查询玩家记录 开始游戏`, 2);
+      return sendMessage(g, session, queryInfo);
     });
 }

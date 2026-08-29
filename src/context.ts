@@ -9,9 +9,6 @@ export interface GameContext {
   config: Config;
   logger: Logger;
 
-  // 是否已启用 QQ 官方机器人 Markdown 模板（key 与模板 ID 均已配置）。
-  isQQOfficialRobotMarkdownTemplateEnabled: boolean;
-
   // 文件路径
   paths: {
     wordleGameDir: string;
@@ -33,7 +30,6 @@ export interface GameContext {
     introductionImgBuffer: Buffer;
   };
 
-  // 消息状态（用于撤回与 QQ 消息序号）
+  // 消息状态（用于撤回）
   lastMessageInfo: Map<string, { id: string; timestamp: number }>;
-  msgSeqMap: { [msgId: string]: number };
 }

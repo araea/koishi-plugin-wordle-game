@@ -39,7 +39,7 @@ export async function getWinCountLeaderboardForCiying(
     } 次\n`;
   });
 
-  return await sendMessage(g, session, result, `开始游戏 排行榜`);
+  return await sendMessage(g, session, result);
 }
 
 // 词影输场排行榜。
@@ -78,7 +78,7 @@ export async function getLoseCountLeaderboardForCiying(
     } 次\n`;
   });
 
-  return await sendMessage(g, session, result, `开始游戏 排行榜`);
+  return await sendMessage(g, session, result);
 }
 
 // 词影最快用时排行榜。
@@ -121,7 +121,7 @@ export async function getFastestGuessTimeLeaderboardForCiying(
     )}\n`;
   });
 
-  return await sendMessage(g, session, result, `开始游戏 排行榜`);
+  return await sendMessage(g, session, result);
 }
 
 // 词影猜出次数排行榜。
@@ -163,7 +163,7 @@ export async function getCiyingSuccessCountLeaderboardForCiying(
     } 次\n`;
   });
 
-  return await sendMessage(g, session, result, `开始游戏 排行榜`);
+  return await sendMessage(g, session, result);
 }
 
 // 通用排行榜（损益、猜出次数、总胜场/输场）。
@@ -190,7 +190,7 @@ export async function getLeaderboard(
       (player as any)[sortField]
     } ${type === "moneyChange" ? "点" : "次"}\n`;
   });
-  return await sendMessage(g, session, result, `开始游戏 排行榜`);
+  return await sendMessage(g, session, result);
 }
 
 // 某模式的胜场/输场排行榜。

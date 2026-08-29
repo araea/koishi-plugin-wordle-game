@@ -41,11 +41,6 @@ export const name = "wordle-game";
 
 // 插件的入口：加载资源、扩展数据表、构建运行时上下文并注册全部指令。
 export async function apply(ctx: Context, config: Config) {
-  // 是否已启用 QQ 官方机器人 Markdown 模板
-  const isQQOfficialRobotMarkdownTemplateEnabled =
-    config.isEnableQQOfficialRobotMarkdownTemplate &&
-    config.key !== "" &&
-    config.customTemplateId !== "";
   const logger = ctx.logger(`wordleGame`);
 
   // 资源与数据文件路径
@@ -209,7 +204,6 @@ export async function apply(ctx: Context, config: Config) {
     ctx,
     config,
     logger,
-    isQQOfficialRobotMarkdownTemplateEnabled,
     paths: {
       wordleGameDir: wordleGameDirPath,
       idioms: idiomsFilePath,
@@ -228,7 +222,6 @@ export async function apply(ctx: Context, config: Config) {
       introductionImgBuffer,
     },
     lastMessageInfo: new Map<string, { id: string; timestamp: number }>(),
-    msgSeqMap: {},
   };
 
   // 注册指令

@@ -1,32 +1,5 @@
 import type { LetterState } from "../types";
 
-// 把字符串中的 < 与 > 替换为 [ 与 ]（首对保留），用于规避 QQ 模板的标签解析。
-export function replaceSymbols(message: string): string {
-  let firstLessThan = true;
-  let firstGreaterThan = true;
-  let result = "";
-
-  for (let i = 0; i < message.length; i++) {
-    const char = message[i];
-
-    if (char === "<" && firstLessThan) {
-      firstLessThan = false;
-      result += char;
-    } else if (char === ">" && firstGreaterThan) {
-      firstGreaterThan = false;
-      result += char;
-    } else if (char === "<") {
-      result += "[";
-    } else if (char === ">") {
-      result += "]";
-    } else {
-      result += char;
-    }
-  }
-
-  return result;
-}
-
 // 去除字符串中的重复字符，保留首次出现的顺序。
 export function removeDuplicates(inputString: string): string {
   let result = "";
