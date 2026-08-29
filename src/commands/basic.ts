@@ -17,8 +17,8 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `🌸🎐 《WordleGame》 🎐🌸
-😆 欢迎游玩~ 祝您玩得开心！`,
+        `📋 猜单词游戏
+可用：改名 / 玩法介绍 / 排行榜 / 查询玩家记录 / 开始游戏`,
         `改名 玩法介绍 排行榜 查询玩家记录 开始游戏`,
         3
       );
@@ -49,7 +49,7 @@ export function register(g: GameContext) {
 
       newPlayerName = newPlayerName?.trim();
       if (!newPlayerName) {
-        return sendMessage(g, session, `请输入新的玩家名字。`, `改名`);
+        return sendMessage(g, session, `⚠️ 请输入新的玩家名字。`, `改名`);
       }
 
       if (
@@ -63,17 +63,17 @@ export function register(g: GameContext) {
         return sendMessage(
           g,
           session,
-          `不是 QQ 官方机器人的话，不用改名哦~`,
+          `⚠️ 不是 QQ 官方机器人，无需改名。`,
           `改名`
         );
       }
 
       if (newPlayerName.length > 20) {
-        return sendMessage(g, session, `新的玩家名字过长，请重新输入。`, `改名`);
+        return sendMessage(g, session, `⚠️ 新的玩家名字过长，请重新输入。`, `改名`);
       }
 
       if (newPlayerName.includes("@everyone")) {
-        return sendMessage(g, session, `新的玩家名字不合法，请重新输入。`, `改名`);
+        return sendMessage(g, session, `⚠️ 新的玩家名字不合法，请重新输入。`, `改名`);
       }
 
       if (config.isUsingUnifiedKoishiBuiltInUsername) {

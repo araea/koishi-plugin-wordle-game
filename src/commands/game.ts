@@ -141,7 +141,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n不好意思你来晚啦~\n游戏已经开始了呢！`,
+            `⚠️ 游戏已经开始，无法中途加入。`,
             `猜测`
           );
         } else {
@@ -199,14 +199,14 @@ export function register(g: GameContext) {
             return await sendMessage(
               g,
               session,
-              `【@${username}】\n你已经在游戏里了哦~\n且游戏正在进行中，加油！`,
+              `⚠️ 你已经在游戏中。`,
               `猜测`
             );
           } else {
             return await sendMessage(
               g,
               session,
-              `【@${username}】\n你已经在游戏里了哦~\n且游戏正在进行中，加油！\n${h.image(
+              `⚠️ 你已经在游戏中。\n${h.image(
                 imageBuffer,
                 `image/${config.imageType}`
               )}`,
@@ -220,7 +220,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n真是个傻瓜呢~\n投个钱也要别人教你嘛！`,
+          `⚠️ 请输入不小于 0 的投入金额。`,
           `改名 加入游戏`
         );
       }
@@ -229,7 +229,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n咱们这是小游戏呀...\n不许玩这么大！\n当前的最大投入金额为：【${config.maxInvestmentCurrency}】`,
+          `⚠️ 投入金额不能超过 ${config.maxInvestmentCurrency}。`,
           `改名 加入游戏`
         );
       }
@@ -258,7 +258,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n修改投入金额成功！\n当前投入金额为：【${money}】\n当前玩家人数：${numberOfPlayers} 名！`,
+            `✅ 投入已改为 ${money}。当前玩家：${numberOfPlayers} 人。`,
             `改名 加入游戏 开始游戏`
           );
         } else {
@@ -271,7 +271,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n修改投入金额成功！\n不过好像余额不足啦！\n投入金额已修正为：【${userMonetary.value}】\n当前玩家人数：${numberOfPlayers} 名！`,
+            `⚠️ 余额不足，投入已修正为 ${userMonetary.value}。当前玩家：${numberOfPlayers} 人。`,
             `改名 加入游戏 开始游戏`
           );
         }
@@ -290,11 +290,11 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n您成功加入游戏了！\n如果您想玩的模式为：【经典】\n那您可以带上货币数额再加入一次！\n当前的最大投入金额为：【${
+            `✅ 加入成功。经典模式可带上金额再加入一次以投入。\n最大投入：${
               config.maxInvestmentCurrency
-            }】\n当前奖励倍率为：【${
+            }，倍率：${
               config.defaultRewardMultiplier
-            }】\n当前玩家人数：${numberOfPlayers + 1} 名！`,
+            }。当前玩家：${numberOfPlayers + 1} 人。`,
             `改名 加入游戏 开始游戏`
           );
         } else {
@@ -302,9 +302,9 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n您成功加入游戏了！\n加油哇，祝您好运！\n当前玩家人数：${
+            `✅ 加入成功。当前玩家：${
               numberOfPlayers + 1
-            } 名！`,
+            } 人。`,
             `改名 加入游戏 开始游戏`
           );
         }
@@ -321,9 +321,9 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n您成功加入游戏了！您投入的金额为：【${money}】\n当前奖励倍率为：【${
+            `✅ 加入成功，投入 ${money}。倍率：${
               config.defaultRewardMultiplier
-            }】\n当前玩家人数：${numberOfPlayers + 1} 名！`,
+            }。当前玩家：${numberOfPlayers + 1} 人。`,
             `改名 加入游戏 开始游戏`
           );
         } else {
@@ -337,9 +337,9 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n您成功加入游戏了！\n不过好像余额不足啦！\n投入金额已修正为：【${
+            `⚠️ 余额不足，投入已修正为 ${
               userMonetary.value
-            }】\n当前玩家人数：${numberOfPlayers + 1} 名！`,
+            }。当前玩家：${numberOfPlayers + 1} 人。`,
             `改名 加入游戏 开始游戏`
           );
         }
@@ -357,7 +357,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `【@${username}】\n游戏已经开始啦！\n无法进行此操作！`,
+        `⚠️ 游戏已经开始，无法进行此操作。`,
         `猜测`
       );
     }
@@ -367,7 +367,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `【@${username}】\n您还没加入游戏呢！\n怎么退出？`,
+        `⚠️ 你还没有加入游戏。`,
         `改名 加入游戏`
       );
     }
@@ -380,7 +380,7 @@ export function register(g: GameContext) {
     return await sendMessage(
       g,
       session,
-      `【@${username}】\n您成功退出游戏啦！\n那就让我们下次再见吧~\n剩余玩家人数：${numberOfPlayers} 名！`,
+      `✅ 已退出。剩余玩家：${numberOfPlayers} 人。`,
       `改名 退出游戏 开始游戏 加入游戏`,
       2
     );
@@ -397,7 +397,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `【@${username}】\n游戏还没开始哦~怎么结束呐？`,
+        `⚠️ 当前没有进行中的对局。`,
         `改名 开始游戏`
       );
     }
@@ -413,7 +413,7 @@ export function register(g: GameContext) {
       Number(gameInfo.timestamp),
       timestamp
     );
-    const message = `【@${username}】\n由于您执行了操作：【结束】\n游戏已结束！\n${duration}${
+    const message = `由于你执行了操作：【结束】\n游戏已结束！\n${duration}${
       gameInfo.isAbsurd ? "" : `\n${generateGameEndMessage(gameInfo)}`
     }${processedResult}`;
     await sendMessage(
@@ -449,7 +449,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`,
+          `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`,
           `改名 开始游戏`
         );
       }
@@ -459,7 +459,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n游戏已经开始了哦~`,
+          `⚠️ 游戏已经开始了。`,
           `猜测`
         );
       }
@@ -467,7 +467,7 @@ export function register(g: GameContext) {
       await sendMessage(
         g,
         session,
-        `【@${username}】\n${
+        `${
           g.isQQOfficialRobotMarkdownTemplateEnabled && session.platform === "qq"
             ? ``
             : `可选模式如下：\n${exams
@@ -477,8 +477,8 @@ export function register(g: GameContext) {
 请输入要开始的${
           g.isQQOfficialRobotMarkdownTemplateEnabled && session.platform === "qq"
             ? ``
-            : `【序号】或`
-        }【模式名】：`,
+            : `序号或`
+        }模式名：`,
         `经典 CET4 CET6 GMAT GRE IELTS SAT TOEFL 考研 专八 专四 ALL 脏话 汉兜 数字 方程 词影`,
         4
       );
@@ -487,7 +487,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n输入无效或超时。`,
+          `⚠️ 输入无效或超时。`,
           `改名 开始游戏`
         );
       // 判断 userInput 是否为有效输入
@@ -507,7 +507,7 @@ export function register(g: GameContext) {
             await sendMessage(
               g,
               session,
-              `【@${username}】\n长度可选值范围：${getValidGuessWordLengthRange(
+              `长度可选值范围：${getValidGuessWordLengthRange(
                 selectedExam
               )}\n请输入待猜项目的的长度：`,
               `输入`
@@ -517,7 +517,7 @@ export function register(g: GameContext) {
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n输入无效或超时。`,
+                `⚠️ 输入无效或超时。`,
                 `改名 开始游戏`
               );
             guessWordLength = parseInt(userInput);
@@ -537,7 +537,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n您的输入无效，请重新输入。`,
+          `⚠️ 输入无效，请重新输入。`,
           `改名 开始游戏`
         );
       }
@@ -564,7 +564,7 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `【@${username}】\n附加游戏模式（可多选）：`,
+          `附加游戏模式（可多选）：`,
           `困难 超困难 变态 变态挑战 x1 x2 x3 x4 跳过`,
           4
         );
@@ -574,7 +574,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n输入无效或超时。`,
+            `⚠️ 输入无效或超时。`,
             `改名 开始游戏`
           );
         }
@@ -617,7 +617,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个单词~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`,
+          `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`,
           `改名 开始游戏`
         );
       }
@@ -627,7 +627,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n游戏已经开始了哦~`,
+          `⚠️ 游戏已经开始了。`,
           `猜测`
         );
       }
@@ -637,7 +637,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜单词】\n请先加入游戏吧~`,
+          `没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜单词】\n请先加入游戏吧~`,
           `改名 加入游戏`
         );
       }
@@ -824,7 +824,7 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `【@${username}】\n附加游戏模式（可多选）：`,
+            `附加游戏模式（可多选）：`,
             markdownCommands,
             numberOfMessageButtonsPerRow
           );
@@ -835,7 +835,7 @@ export function register(g: GameContext) {
             return await sendMessage(
               g,
               session,
-              `【@${username}】\n输入无效或超时。`,
+              `⚠️ 输入无效或超时。`,
               `改名 开始游戏`
             );
           }
@@ -886,7 +886,7 @@ export function register(g: GameContext) {
             await sendMessage(
               g,
               session,
-              `【@${username}】\n长度可选值范围：${getValidGuessWordLengthRange(
+              `长度可选值范围：${getValidGuessWordLengthRange(
                 exam
               )}\n请输入待猜测项目的长度：`,
               `输入`
@@ -896,7 +896,7 @@ export function register(g: GameContext) {
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n输入无效或超时。`,
+                `⚠️ 输入无效或超时。`,
                 `改名 开始游戏`
               );
             guessWordLength = parseInt(userInput);
@@ -912,7 +912,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n您输入的参数值无效！\n如果您想同时猜测多个的话~\n输入范围应在 1 ~ ${config.maxSimultaneousGuesses} 之间！`,
+            `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`,
             `改名 开始游戏`
           );
         }
@@ -928,7 +928,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n无效的长度参数！\n${exam} 长度可选值范围：${getValidGuessWordLengthRange(
+            `无效的长度参数！\n${exam} 长度可选值范围：${getValidGuessWordLengthRange(
               exam
             )}`,
             `改名 开始游戏`
@@ -941,7 +941,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n游戏已经开始了哦~`,
+            `⚠️ 游戏已经开始了。`,
             `猜测`
           );
         }
@@ -952,7 +952,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜测】\n先加入游戏吧~`,
+            `没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜测】\n先加入游戏吧~`,
             `改名 加入游戏`
           );
         }
@@ -1296,7 +1296,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n操作太快了哦~\n再试一次吧！`,
+          `⏳ 操作过快，请稍后再试。`,
           `猜测`
         );
       }
@@ -1310,7 +1310,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n游戏还没开始呢！`,
+          `⚠️ 游戏还没开始。`,
           `改名 开始游戏`
         );
       }
@@ -1330,7 +1330,7 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `【@${username}】\n请输入【猜测词】或【取消】：`,
+          `⚠️ 请输入猜测词，或发送「取消」。`,
           `取消 输入`
         );
         const userInput = await session.prompt();
@@ -1338,14 +1338,14 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n输入无效或超时。`,
+            `⚠️ 输入无效或超时。`,
             `猜测`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n猜测操作已取消！`,
+            `✅ 已取消猜测。`,
             `猜测`
           );
         inputWord = userInput.trim();
@@ -1361,7 +1361,7 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `【@${username}】\n作答时间超过【${config.wordGuessTimeLimitInSeconds}】秒！\n很遗憾，你们输了!\n下次猜快点吧~`,
+            `⏳ 作答超过 ${config.wordGuessTimeLimitInSeconds} 秒，本局结束。`,
             `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
             2
           );
@@ -1379,7 +1379,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n没加入游戏的话~不能猜哦！`,
+            `⚠️ 你还没有加入游戏，无法猜测。`,
             `猜测`
           );
         } else {
@@ -1417,7 +1417,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n这个已经猜过了哦！`,
+          `⚠️ 这个已经猜过了。`,
           `猜测`
         );
       }
@@ -1432,7 +1432,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n输入包含非字母字符，请重新输入！`,
+          `⚠️ 输入包含非字母字符，请重新输入。`,
           `猜测`
         );
       }
@@ -1444,7 +1444,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n您确定您输入的是四字词语吗？`,
+          `⚠️ 请输入四字词语。`,
           `猜测`
         );
       }
@@ -1456,7 +1456,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n您确定您输入的是 ${guessWordLength} 长度的数字吗？`,
+          `⚠️ 请输入长度为 ${guessWordLength} 的数字。`,
           `猜测`
         );
       }
@@ -1469,7 +1469,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n请使用+-*/=运算符和0-9之间的数字！\n并组成正确的数学方程式！`,
+          `⚠️ 请使用 + - * / = 运算符和 0-9 的数字，组成正确的数学方程式。`,
           `猜测`
         );
       }
@@ -1481,8 +1481,8 @@ export function register(g: GameContext) {
         gameMode !== "Math"
       ) {
         await setGuessRunningStatus(g, channelId, false);
-        const usernameMention = `【@${username}】`;
-        const inputLengthMessage = `输入的单词长度不对哦！\n您的输入为：【${inputWord}】\n它的长度为：【${inputWord.length}】\n待猜单词的长度为：【${gameInfo.guessWordLength}】`;
+        const usernameMention = ``;
+        const inputLengthMessage = `⚠️ 单词长度不对。输入「${inputWord}」长度为 ${inputWord.length}，待猜长度为 ${gameInfo.guessWordLength}。`;
         const presentLettersWithoutAsterisk =
           uniqueSortedLowercaseLetters(presentLetters);
         const processedResult =
@@ -1524,7 +1524,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n你确定存在这样的单词吗？`,
+            `⚠️ 词库中没有这个单词。`,
             `猜测`
           );
         }
@@ -1536,7 +1536,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n不好意思啊...\n我还没学会这个字（`,
+            `不好意思啊...\n我还没学会这个字（`,
             `猜测`
           );
         }
@@ -1547,7 +1547,7 @@ export function register(g: GameContext) {
             return await sendMessage(
               g,
               session,
-              `【@${username}】\n你确定存在这样的四字词语吗？`,
+              `⚠️ 未找到该四字词语。`,
               `猜测`
             );
           } else {
@@ -1589,7 +1589,7 @@ export function register(g: GameContext) {
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n你确定存在这样的四字词语吗？`,
+                `⚠️ 未找到该四字词语。`,
                 `猜测`
               );
             } else {
@@ -1666,7 +1666,7 @@ export function register(g: GameContext) {
               : ""
           }`;
 
-          const message = `【@${username}】\n当前难度为：【${difficulty}】\n【${difficulty}】：${rule}\n您输入的词不符合要求！\n您的输入为：【${inputWord}】\n要求：【${correctLetters.join(
+          const message = `当前难度为：【${difficulty}】\n【${difficulty}】：${rule}\n你输入的词不符合要求！\n你的输入为：【${inputWord}】\n要求：【${correctLetters.join(
             ""
           )}】${
             presentLetters.length === 0 ? `` : `\n包含：【${presentLetters}】`
@@ -1747,7 +1747,7 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `【@${username}】\n根据透露出的信息！\n已经无任何可用单词！\n很遗憾，你们输了！`,
+            `⚠️ 根据已有信息，已经没有可用单词。本局结束。`,
             `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
             2
           );
@@ -1787,10 +1787,10 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `【@${username}】\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(
+            `目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(
               imageBuffer,
               `image/${config.imageType}`
-            )}\n您可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`,
+            )}\n你可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`,
             `撤销 结束`
           );
           let userInput = await session.prompt();
@@ -1815,14 +1815,14 @@ export function register(g: GameContext) {
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n输入无效或超时。\n已自动选择【撤销】操作。`,
+                `⚠️ 输入无效或超时。\n已自动选择【撤销】操作。`,
                 `猜测`
               );
             }
             return await sendMessage(
               g,
               session,
-              `【@${username}】\n输入无效或超时。\n已自动选择【撤销】操作。\n${h.image(
+              `⚠️ 输入无效或超时。\n已自动选择【撤销】操作。\n${h.image(
                 imageBuffer2,
                 `image/${config.imageType}`
               )}`,
@@ -1848,14 +1848,14 @@ export function register(g: GameContext) {
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n您执行了操作：【撤销】\n撤销成功！挑战继续！`,
+                `✅ 已撤销，挑战继续。`,
                 `猜测`
               );
             }
             return await sendMessage(
               g,
               session,
-              `【@${username}】\n您执行了操作：【撤销】\n撤销成功！挑战继续！\n${h.image(
+              `✅ 已撤销，挑战继续。\n${h.image(
                 imageBuffer2,
                 `image/${config.imageType}`
               )}`,
@@ -2130,7 +2130,6 @@ export function register(g: GameContext) {
             : `最终结算结果如下：\n${finalSettlementString}`;
 
         const message = `
-【@${username}】
 太棒了，你猜出来了！
 ${gameDuration}
 ${h.image(imageBuffer, `image/${imageType}`)}
@@ -2153,7 +2152,6 @@ ${settlementResult}
             g,
             session,
             `
-【@${username}】
 太棒了，你猜出来了！
 ${gameDuration}
 ${generateGameEndMessage(gameInfo)}${processedResult}
@@ -2184,7 +2182,7 @@ ${settlementResult}
             ? `\n${await processExtraGameRecords(g, channelId)}`
             : "";
         const challengeMessage = isChallengeMode
-          ? `\n目标单词为：【${targetWord}】\n它不再是可能的秘密单词！`
+          ? `\n目标单词为「${targetWord}」，它不再是可能的秘密单词。`
           : "";
         const answerInfo = isChallengeMode
           ? ""
@@ -2193,7 +2191,7 @@ ${settlementResult}
           Number(gameInfo.timestamp),
           timestamp
         );
-        const message = `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${h.image(
+        const message = `本局未猜出。${challengeMessage}\n${h.image(
           imageBuffer,
           `image/${config.imageType}`
         )}\n${gameDuration}${answerInfo}${processedResult}`;
@@ -2212,7 +2210,7 @@ ${settlementResult}
           await sendMessage(
             g,
             session,
-            `很遗憾，你们没有猜出来！${challengeMessage}\n但没关系~下次加油哇！\n${gameDuration}${answerInfo}${processedResult}`,
+            `本局未猜出。${challengeMessage}\n${gameDuration}${answerInfo}${processedResult}`,
             `改名 排行榜 查询玩家记录 开始游戏 再来一把${gameInfo.gameMode}`,
             2
           );

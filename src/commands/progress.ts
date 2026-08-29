@@ -25,7 +25,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `【@${username}】\n游戏还没开始呢~\n开始后再来查询进度吧！`,
+        `⚠️ 游戏还没开始。开始后再来查询进度。`,
         `改名 开始游戏`
       );
     }
@@ -52,7 +52,7 @@ export function register(g: GameContext) {
       correctTonesWithIndex,
       presentTones,
     } = gameInfo;
-    const usernameMention = `【@${username}】`;
+    const usernameMention = ``;
     const inputLengthMessage = `待猜${
       gameMode === "汉兜" || gameMode === "词影"
         ? "词语"

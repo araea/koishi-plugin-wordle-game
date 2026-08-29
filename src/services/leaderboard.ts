@@ -202,7 +202,7 @@ export async function getLeaderboardWinOrLose(
   label
 ) {
   if (typeof number !== "number" || isNaN(number) || number < 0) {
-    return "请输入大于等于 0 的数字作为排行榜的参数。";
+    return "请输入不小于 0 的数字作为排行榜的参数。";
   }
   const getPlayers: PlayerRecord[] = await g.ctx.database.get(
     "wordle_player_records",

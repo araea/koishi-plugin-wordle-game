@@ -42,9 +42,9 @@ export function register(g: GameContext) {
       await sendMessage(
         g,
         session,
-        `【@${username}】\n当前可用词库如下：\n${availableDictionaryArray
+        `当前可用词库如下：\n${availableDictionaryArray
           .map((dictionary, index) => `${index + 1}. ${dictionary}`)
-          .join("\n")}\n请输入您选择的【序号】或【词库名】：`,
+          .join("\n")}\n请输入序号或词库名。`,
         `ALL WordWord`
       );
       const userInput = await session.prompt();
@@ -52,7 +52,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n输入无效或超时。`,
+          `⚠️ 输入无效或超时。`,
           `查单词`
         );
       // 判断 userInput 是否为有效输入
@@ -68,7 +68,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n您的输入无效，请重新输入。`,
+          `⚠️ 输入无效，请重新输入。`,
           `查单词`
         );
       }
@@ -99,7 +99,7 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `【@${username}】\n请输入【待查询的单词】或【取消】：`,
+          `⚠️ 请输入待查询的单词，或发送「取消」。`,
           `取消 输入`
         );
         const userInput = await session.prompt();
@@ -107,14 +107,14 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n输入无效或超时。`,
+            `⚠️ 输入无效或超时。`,
             `查单词`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n查找单词操作已取消。`,
+            `✅ 已取消查找单词。`,
             `查单词`
           );
         targetWord = userInput.trim();
@@ -124,7 +124,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n输入包含非字母字符，请重新输入！`,
+          `⚠️ 输入包含非字母字符，请重新输入。`,
           `查单词`
         );
       }
@@ -135,7 +135,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n未在ALL词库中找到该单词。`,
+          `⚠️ 未在 ALL 词库中找到该单词。`,
           `查单词`
         );
       }
@@ -174,7 +174,7 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `【@${username}】\n请输入【待查找的单词】或【取消】：`,
+          `⚠️ 请输入待查找的单词，或发送「取消」。`,
           `取消 输入`
         );
         const userInput = await session.prompt();
@@ -182,14 +182,14 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n输入无效或超时。`,
+            `⚠️ 输入无效或超时。`,
             `查单词`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n查找单词操作已取消。`,
+            `✅ 已取消查找单词。`,
             `查单词`
           );
         targetWord = userInput.trim();
@@ -199,7 +199,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n输入包含非字母字符，请重新输入！`,
+          `⚠️ 输入包含非字母字符，请重新输入。`,
           `查单词`
         );
       }
@@ -224,7 +224,7 @@ export function register(g: GameContext) {
           return sendMessage(
             g,
             session,
-            `【@${username}】\n未在WordWord中找到该单词。`,
+            `⚠️ 未在 WordWord 中找到该单词。`,
             `查单词`
           );
         });
@@ -251,9 +251,9 @@ export function register(g: GameContext) {
       await sendMessage(
         g,
         session,
-        `【@${username}】\n当前可用词库如下：\n${availableDictionaryArray
+        `当前可用词库如下：\n${availableDictionaryArray
           .map((dictionary, index) => `${index + 1}. ${dictionary}`)
-          .join("\n")}\n请输入您选择的【序号】或【词库名】：`,
+          .join("\n")}\n请输入序号或词库名。`,
         `百度汉语 汉典`
       );
       const userInput = await session.prompt();
@@ -261,7 +261,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n输入无效或超时。`,
+          `⚠️ 输入无效或超时。`,
           `查成语`
         );
       // 判断 userInput 是否为有效输入
@@ -277,7 +277,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n您的输入无效，请重新输入。`,
+          `⚠️ 输入无效，请重新输入。`,
           `查成语`
         );
       }
@@ -308,7 +308,7 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `【@${username}】\n请输入【待查找的成语】或【取消】：`,
+          `⚠️ 请输入待查找的成语，或发送「取消」。`,
           `取消 输入`
         );
         const userInput = await session.prompt();
@@ -316,14 +316,14 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n输入无效或超时。`,
+            `⚠️ 输入无效或超时。`,
             `查成语`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n查找成语操作已取消。`,
+            `✅ 已取消查找成语。`,
             `查成语`
           );
         targetIdiom = userInput.trim();
@@ -333,7 +333,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n您确定您输入的是四字词语吗？`,
+          `⚠️ 请输入四字词语。`,
           `查成语`
         );
       }
@@ -344,14 +344,14 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n未在百度汉语中找到该成语。`,
+          `⚠️ 未在百度汉语中找到该成语。`,
           `查成语`
         );
       }
       return await sendMessage(
         g,
         session,
-        `【@${username}】\n【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n【解释】${idiomInfo.explanation}`,
+        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n【解释】${idiomInfo.explanation}`,
         `查成语`
       );
     });
@@ -381,7 +381,7 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `【@${username}】\n请输入【待查找的成语】或【取消】：`,
+          `⚠️ 请输入待查找的成语，或发送「取消」。`,
           `取消 输入`
         );
         const userInput = await session.prompt();
@@ -389,14 +389,14 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n输入无效或超时。`,
+            `⚠️ 输入无效或超时。`,
             `查成语`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n查找成语操作已取消。`,
+            `✅ 已取消查找成语。`,
             `查成语`
           );
         targetIdiom = userInput.trim();
@@ -406,7 +406,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n您确定您输入的是四字词语吗？`,
+          `⚠️ 请输入四字词语。`,
           `查成语`
         );
       }
@@ -416,14 +416,14 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `【@${username}】\n未在汉典中找到该成语。`,
+          `⚠️ 未在汉典中找到该成语。`,
           `查成语`
         );
       }
       return await sendMessage(
         g,
         session,
-        `【@${username}】\n【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n${idiomInfo.explanation}`,
+        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n${idiomInfo.explanation}`,
         `查成语`
       );
     });
@@ -494,7 +494,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n未检测到任何游戏进度！\n无法使用自动查找功能！`,
+            `⚠️ 未检测到游戏进度，无法使用自动查找。`,
             `单词查找器`
           );
         }
@@ -502,7 +502,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n你拿单词查找器查四字词语？`,
+            `⚠️ 单词查找器不能用于四字词语。`,
             `单词查找器`
           );
         }
@@ -516,7 +516,7 @@ export function register(g: GameContext) {
             await sendMessage(
               g,
               session,
-              `【@${username}】\n检测到当前进度数量为：【${wordlesNum}】\n请输入【待查询序号（从左到右）】：\n支持输入多个（用空格隔开）\n例如：1 2`,
+              `当前进度数量：${wordlesNum}。请输入待查询序号（从左到右，可用空格隔开，例如：1 2）。`,
               `单词查找器`
             );
             userInput = await session.prompt();
@@ -524,7 +524,7 @@ export function register(g: GameContext) {
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n输入无效或超时。`,
+                `⚠️ 输入无效或超时。`,
                 `单词查找器`
               );
           } else {
@@ -662,7 +662,7 @@ export function register(g: GameContext) {
         return sendMessage(
           g,
           session,
-          `被查询对象无任何游戏记录。`,
+          `⚠️ 被查询对象没有任何游戏记录。`,
           `改名 查询玩家记录 开始游戏`,
           2
         );
@@ -677,8 +677,7 @@ export function register(g: GameContext) {
         fastestGuessTime,
       } = targetUserRecord[0];
 
-      const queryInfo = `【@${sessionUserName}】
-查询对象：${targetUserRecord[0].username}
+      const queryInfo = `📋 查询对象：${targetUserRecord[0].username}
 猜出次数：${wordGuessCount} 次
 总胜场：${win} 次
 总输场：${lose} 次

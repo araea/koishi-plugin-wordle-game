@@ -27,13 +27,13 @@ export function register(g: GameContext) {
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "请输入大于等于 0 的数字作为排行榜的参数。";
+          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
         }
 
         await sendMessage(
           g,
           session,
-          `【@${username}】\n${
+          `${
             g.isQQOfficialRobotMarkdownTemplateEnabled &&
             session.platform === "qq"
               ? ``
@@ -51,7 +51,7 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
 
         const userInput = await session.prompt();
         if (!userInput)
-          return sendMessage(g, session, `输入无效或超时。`, `排行榜`);
+          return sendMessage(g, session, `⚠️ 输入无效或超时。`, `排行榜`);
 
         // 处理用户输入
         const userInputNumber = parseInt(userInput);
@@ -65,7 +65,7 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
         } else if (rankType.includes(userInput)) {
           await session.execute(`wordleGame.排行榜.${userInput} ${number}`);
         } else {
-          return sendMessage(g, session, `您的输入无效，请重新输入。`, `排行榜`);
+          return sendMessage(g, session, `⚠️ 输入无效，请重新输入。`, `排行榜`);
         }
       }
     );
@@ -80,7 +80,7 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
           if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "请输入大于等于 0 的数字作为排行榜的参数。";
+            return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
           }
           let rankType3: string[];
           if (type === "总") {
@@ -93,7 +93,7 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
           await sendMessage(
             g,
             session,
-            `【@${username}】\n${
+            `${
               g.isQQOfficialRobotMarkdownTemplateEnabled &&
               session.platform === "qq"
                 ? ``
@@ -111,7 +111,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
 
           const userInput = await session.prompt();
           if (!userInput)
-            return sendMessage(g, session, `输入无效或超时。`, `排行榜`);
+            return sendMessage(g, session, `⚠️ 输入无效或超时。`, `排行榜`);
 
           // 处理用户输入
           const userInputNumber = parseInt(userInput);
@@ -129,7 +129,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
               `wordleGame.排行榜.${type}.${userInput} ${number}`
             );
           } else {
-            return sendMessage(g, session, `您的输入无效，请重新输入。`, `排行榜`);
+            return sendMessage(g, session, `⚠️ 输入无效，请重新输入。`, `排行榜`);
           }
         }
       );
@@ -144,7 +144,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "请输入大于等于 0 的数字作为排行榜的参数。";
+          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
         }
         return await getLeaderboard(
           g,
@@ -169,7 +169,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "请输入大于等于 0 的数字作为排行榜的参数。";
+          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
         }
         return await getLeaderboard(
           g,
@@ -194,7 +194,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "请输入大于等于 0 的数字作为排行榜的参数。";
+          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
         }
         return await getLeaderboard(
           g,
@@ -219,7 +219,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "请输入大于等于 0 的数字作为排行榜的参数。";
+          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
         }
         return await getLeaderboard(
           g,
@@ -252,7 +252,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
           if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "请输入大于等于 0 的数字作为排行榜的参数。";
+            return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
           }
           if (
             type === "词影" &&
@@ -264,7 +264,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
             await sendMessage(
               g,
               session,
-              `【@${username}】\n特定游戏模式（可多选）：`,
+              `特定游戏模式（可多选）：`,
               markdownCommands,
               numberOfMessageButtonsPerRow
             );
@@ -275,7 +275,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n输入无效或超时。`,
+                `⚠️ 输入无效或超时。`,
                 `改名 排行榜`
               );
             }
@@ -322,7 +322,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`,
+                `⚠️ 词影多猜测排行榜范围应在 1 ~ 4 之间。`,
                 `开始游戏 排行榜`
               );
             }
@@ -364,7 +364,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
           if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "请输入大于等于 0 的数字作为排行榜的参数。";
+            return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
           }
           if (
             type === "词影" &&
@@ -376,7 +376,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
             await sendMessage(
               g,
               session,
-              `【@${username}】\n特定游戏模式（可多选）：`,
+              `特定游戏模式（可多选）：`,
               markdownCommands,
               numberOfMessageButtonsPerRow
             );
@@ -387,7 +387,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n输入无效或超时。`,
+                `⚠️ 输入无效或超时。`,
                 `改名 排行榜`
               );
             }
@@ -434,7 +434,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`,
+                `⚠️ 词影多猜测排行榜范围应在 1 ~ 4 之间。`,
                 `开始游戏 排行榜`
               );
             }
@@ -476,7 +476,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
           if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "请输入大于等于 0 的数字作为排行榜的参数。";
+            return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
           }
           if (
             type === "词影" &&
@@ -488,7 +488,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
             await sendMessage(
               g,
               session,
-              `【@${username}】\n特定游戏模式（可多选）：`,
+              `特定游戏模式（可多选）：`,
               markdownCommands,
               numberOfMessageButtonsPerRow
             );
@@ -499,7 +499,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n输入无效或超时。`,
+                `⚠️ 输入无效或超时。`,
                 `改名 排行榜`
               );
             }
@@ -546,7 +546,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
               return await sendMessage(
                 g,
                 session,
-                `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`,
+                `⚠️ 词影多猜测排行榜范围应在 1 ~ 4 之间。`,
                 `开始游戏 排行榜`
               );
             }
@@ -591,7 +591,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "请输入大于等于 0 的数字作为排行榜的参数。";
+          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
         }
         if (
           g.isQQOfficialRobotMarkdownTemplateEnabled &&
@@ -602,7 +602,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
           await sendMessage(
             g,
             session,
-            `【@${username}】\n特定游戏模式（可多选）：`,
+            `特定游戏模式（可多选）：`,
             markdownCommands,
             numberOfMessageButtonsPerRow
           );
@@ -613,7 +613,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
             return await sendMessage(
               g,
               session,
-              `【@${username}】\n输入无效或超时。`,
+              `⚠️ 输入无效或超时。`,
               `改名 排行榜`
             );
           }
@@ -653,7 +653,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}`
           return await sendMessage(
             g,
             session,
-            `【@${username}】\n词影可查看的多猜测排行榜应在 1 ~ 4 之间！`,
+            `⚠️ 词影多猜测排行榜范围应在 1 ~ 4 之间。`,
             `开始游戏 排行榜`
           );
         }
