@@ -17,9 +17,9 @@ import { getSessionUserName } from "../services/user";
 export function register(g: GameContext) {
   const { ctx, config } = g;
 
-  // wordleGame.排行榜（引导）
+  // wordle.排行榜（引导）
   ctx
-    .command("wordleGame.排行榜 [number:number]", "查看排行榜")
+    .command("wordle.排行榜 [number:number]", "查看排行榜")
     .action(
       async ({ session }, number = config.defaultMaxLeaderboardEntries) => {
         let { username, userId } = session;
@@ -49,19 +49,19 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           userInputNumber <= rankType.length
         ) {
           const rankName = rankType[userInputNumber - 1];
-          await session.execute(`wordleGame.排行榜.${rankName} ${number}`);
+          await session.execute(`wordle.排行榜.${rankName} ${number}`);
         } else if (rankType.includes(userInput)) {
-          await session.execute(`wordleGame.排行榜.${userInput} ${number}`);
+          await session.execute(`wordle.排行榜.${userInput} ${number}`);
         } else {
           return sendMessage(g, session, `⚠️ 输入无效，请重新输入。`);
         }
       }
     );
 
-  // wordleGame.排行榜.<type>（二级引导）
+  // wordle.排行榜.<type>（二级引导）
   rankType2.forEach((type) => {
     ctx
-      .command(`wordleGame.排行榜.${type} [number:number]`, `查看${type}排行榜`)
+      .command(`wordle.排行榜.${type} [number:number]`, `查看${type}排行榜`)
       .action(
         async ({ session }, number = config.defaultMaxLeaderboardEntries) => {
           let { username, userId } = session;
@@ -99,11 +99,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           ) {
             const rankName = rankType3[userInputNumber - 1];
             await session.execute(
-              `wordleGame.排行榜.${type}.${rankName} ${number}`
+              `wordle.排行榜.${type}.${rankName} ${number}`
             );
           } else if (rankType3.includes(userInput)) {
             await session.execute(
-              `wordleGame.排行榜.${type}.${userInput} ${number}`
+              `wordle.排行榜.${type}.${userInput} ${number}`
             );
           } else {
             return sendMessage(g, session, `⚠️ 输入无效，请重新输入。`);
@@ -112,9 +112,9 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
       );
   });
 
-  // wordleGame.排行榜.损益
+  // wordle.排行榜.损益
   ctx
-    .command("wordleGame.排行榜.损益 [number:number]", "查看玩家损益排行榜")
+    .command("wordle.排行榜.损益 [number:number]", "查看玩家损益排行榜")
     .action(
       async ({ session }, number = config.defaultMaxLeaderboardEntries) => {
         let { username, userId } = session;
@@ -134,10 +134,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
       }
     );
 
-  // wordleGame.排行榜.猜出次数
+  // wordle.排行榜.猜出次数
   ctx
     .command(
-      "wordleGame.排行榜.猜出次数 [number:number]",
+      "wordle.排行榜.猜出次数 [number:number]",
       "查看玩家猜出次数排行榜"
     )
     .action(
@@ -159,10 +159,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
       }
     );
 
-  // wordleGame.排行榜.总.胜场
+  // wordle.排行榜.总.胜场
   ctx
     .command(
-      "wordleGame.排行榜.总.胜场 [number:number]",
+      "wordle.排行榜.总.胜场 [number:number]",
       "查看玩家总胜场排行榜"
     )
     .action(
@@ -184,10 +184,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
       }
     );
 
-  // wordleGame.排行榜.总.输场
+  // wordle.排行榜.总.输场
   ctx
     .command(
-      "wordleGame.排行榜.总.输场 [number:number]",
+      "wordle.排行榜.总.输场 [number:number]",
       "查看玩家总输场排行榜"
     )
     .action(
@@ -213,7 +213,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
   rankType4.forEach((type) => {
     ctx
       .command(
-        `wordleGame.排行榜.${type}.胜场 [number:number]`,
+        `wordle.排行榜.${type}.胜场 [number:number]`,
         `查看${type}胜场排行榜`
       )
       .option("hard", "--hard 查看困难模式", { fallback: false })
@@ -271,7 +271,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
 
     ctx
       .command(
-        `wordleGame.排行榜.${type}.输场 [number:number]`,
+        `wordle.排行榜.${type}.输场 [number:number]`,
         `查看${type}输场排行榜`
       )
       .option("hard", "--hard 查看困难模式", { fallback: false })
@@ -329,7 +329,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
 
     ctx
       .command(
-        `wordleGame.排行榜.${type}.最快用时 [number:number]`,
+        `wordle.排行榜.${type}.最快用时 [number:number]`,
         `查看${type}最快用时排行榜`
       )
       .option("hard", "--hard 查看困难模式", { fallback: false })
@@ -387,10 +387,10 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
       );
   });
 
-  // wordleGame.排行榜.词影.猜出次数
+  // wordle.排行榜.词影.猜出次数
   ctx
     .command(
-      "wordleGame.排行榜.词影.猜出次数 [number:number]",
+      "wordle.排行榜.词影.猜出次数 [number:number]",
       "查看玩家猜出次数排行榜（词影）"
     )
     .option("hard", "--hard 查看困难模式", { fallback: false })

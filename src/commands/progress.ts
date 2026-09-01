@@ -14,8 +14,8 @@ import { calculateGameDuration } from "../utils/time";
 export function register(g: GameContext) {
   const { ctx, config } = g;
 
-  // wordleGame.查询进度
-  ctx.command("wordleGame.查询进度", "查询当前游戏进度").action(async ({ session }) => {
+  // wordle.查询进度
+  ctx.command("wordle.查询进度", "查询当前游戏进度").action(async ({ session }) => {
     let { channelId, userId, username, timestamp } = session;
     username = await getSessionUserName(g, session);
     await updateNameInPlayerRecord(g, session, userId, username);
@@ -133,8 +133,8 @@ export function register(g: GameContext) {
     return await sendMessage(g, session, message);
   });
 
-  // wordleGame.拼音速查表
-  ctx.command("wordleGame.拼音速查表", "查看拼音速查表").action(async ({ session }) => {
+  // wordle.拼音速查表
+  ctx.command("wordle.拼音速查表", "查看拼音速查表").action(async ({ session }) => {
     let { channelId, userId, username } = session;
     username = await getSessionUserName(g, session);
     await updateNameInPlayerRecord(g, session, userId, username);

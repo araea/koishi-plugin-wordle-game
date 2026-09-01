@@ -18,9 +18,9 @@ import { findWord, generateStatsInfo } from "../utils/wordle";
 export function register(g: GameContext) {
   const { ctx } = g;
 
-  // wordleGame.查单词（引导）
+  // wordle.查单词（引导）
   ctx
-    .command("wordleGame.查单词 [targetWord:text]", "查单词引导")
+    .command("wordle.查单词 [targetWord:text]", "查单词引导")
     .action(async ({ session, options }, targetWord) => {
       if (
         !targetWord &&
@@ -58,7 +58,7 @@ export function register(g: GameContext) {
         ? userInput.toLowerCase().trim()
         : availableDictionaryArrayToLowerCase[parseInt(userInput) - 1];
       if (availableDictionaryArrayToLowerCase.includes(selectedDictionary)) {
-        const command = `wordleGame.查单词.${selectedDictionary}${
+        const command = `wordle.查单词.${selectedDictionary}${
           targetWord ? ` ${targetWord}` : ""
         }`;
         return await session.execute(command);
@@ -71,10 +71,10 @@ export function register(g: GameContext) {
       }
     });
 
-  // wordleGame.查单词.ALL
+  // wordle.查单词.ALL
   ctx
     .command(
-      "wordleGame.查单词.ALL [targetWord:text]",
+      "wordle.查单词.ALL [targetWord:text]",
       "在ALL词库中查询单词释义（英译中）"
     )
     .action(async ({ session }, targetWord) => {
@@ -140,10 +140,10 @@ export function register(g: GameContext) {
       );
     });
 
-  // wordleGame.查单词.WordWord
+  // wordle.查单词.WordWord
   ctx
     .command(
-      "wordleGame.查单词.WordWord [targetWord:text]",
+      "wordle.查单词.WordWord [targetWord:text]",
       "在WordWord中查找单词定义（英译英）"
     )
     .action(async ({ session }, targetWord) => {
@@ -215,9 +215,9 @@ export function register(g: GameContext) {
         });
     });
 
-  // wordleGame.查成语（引导）
+  // wordle.查成语（引导）
   ctx
-    .command("wordleGame.查成语 [targetIdiom:text]", "查成语引导")
+    .command("wordle.查成语 [targetIdiom:text]", "查成语引导")
     .action(async ({ session, options }, targetIdiom) => {
       if (
         !targetIdiom &&
@@ -252,7 +252,7 @@ export function register(g: GameContext) {
         ? userInput.trim()
         : availableDictionaryArray[parseInt(userInput) - 1];
       if (availableDictionaryArray.includes(selectedDictionary)) {
-        const command = `wordleGame.查成语.${selectedDictionary}${
+        const command = `wordle.查成语.${selectedDictionary}${
           targetIdiom ? ` ${targetIdiom}` : ""
         }`;
         return await session.execute(command);
@@ -265,10 +265,10 @@ export function register(g: GameContext) {
       }
     });
 
-  // wordleGame.查成语.百度汉语
+  // wordle.查成语.百度汉语
   ctx
     .command(
-      "wordleGame.查成语.百度汉语 [targetIdiom:text]",
+      "wordle.查成语.百度汉语 [targetIdiom:text]",
       "在百度汉语中查找成语解释"
     )
     .action(async ({ session }, targetIdiom) => {
@@ -332,10 +332,10 @@ export function register(g: GameContext) {
       );
     });
 
-  // wordleGame.查成语.汉典
+  // wordle.查成语.汉典
   ctx
     .command(
-      "wordleGame.查成语.汉典 [targetIdiom:text]",
+      "wordle.查成语.汉典 [targetIdiom:text]",
       "在汉典中查找成语解释"
     )
     .action(async ({ session }, targetIdiom) => {
@@ -398,10 +398,10 @@ export function register(g: GameContext) {
       );
     });
 
-  // wordleGame.单词查找器
+  // wordle.单词查找器
   ctx
     .command(
-      "wordleGame.单词查找器 [wordleIndexs:text]",
+      "wordle.单词查找器 [wordleIndexs:text]",
       "使用WordFinder查找匹配的单词"
     )
     .option("auto", "-a 自动查找（根据游戏进程）", { fallback: false })
@@ -476,7 +476,7 @@ export function register(g: GameContext) {
         }
         if (wordlesNum === 1) {
           await session.execute(
-            `wordleGame.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`
+            `wordle.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`
           );
         } else {
           let userInput: string = "";
@@ -505,14 +505,14 @@ export function register(g: GameContext) {
               if (index > 0 && index <= wordlesNum) {
                 if (index === 1) {
                   await session.execute(
-                    `wordleGame.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`
+                    `wordle.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`
                   );
                 } else {
                   const gameInfo2 = await getGameInfo2(g, channelId, index);
                   const { guessWordLength, absentLetters, presentLetters } =
                     gameInfo2;
                   await session.execute(
-                    `wordleGame.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`
+                    `wordle.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`
                   );
                 }
               } else {
@@ -578,9 +578,9 @@ export function register(g: GameContext) {
       return await sendMessage(g, session, `${result}`);
     });
 
-  // wordleGame.查询玩家记录
+  // wordle.查询玩家记录
   ctx
-    .command("wordleGame.查询玩家记录 [targetUser:text]", "查询玩家记录")
+    .command("wordle.查询玩家记录 [targetUser:text]", "查询玩家记录")
     .action(async ({ session }, targetUser) => {
       let { userId, username } = session;
       const originalUserId = userId;

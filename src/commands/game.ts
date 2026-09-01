@@ -123,13 +123,13 @@ export function register(g: GameContext) {
       return await next();
     }
 
-    await session.execute(`wordleGame.猜 ${content}`);
+    await session.execute(`wordle.猜 ${content}`);
     return;
   });
 
-  // wordleGame.加入
+  // wordle.加入
   ctx
-    .command("wordleGame.加入 [money:number]", "加入游戏")
+    .command("wordle.加入 [money:number]", "加入游戏")
     .action(async ({ session }, money = 0) => {
       let { channelId, userId, username, user } = session;
       username = await getSessionUserName(g, session);
@@ -318,8 +318,8 @@ export function register(g: GameContext) {
       }
     });
 
-  // wordleGame.退出
-  ctx.command("wordleGame.退出", "退出游戏").action(async ({ session }) => {
+  // wordle.退出
+  ctx.command("wordle.退出", "退出游戏").action(async ({ session }) => {
     let { channelId, userId, username } = session;
     username = await getSessionUserName(g, session);
     await updateNameInPlayerRecord(g, session, userId, username);
@@ -354,8 +354,8 @@ export function register(g: GameContext) {
     );
   });
 
-  // wordleGame.结束
-  ctx.command("wordleGame.结束", "结束游戏").action(async ({ session }) => {
+  // wordle.结束
+  ctx.command("wordle.结束", "结束游戏").action(async ({ session }) => {
     let { channelId, userId, username, timestamp } = session;
     username = await getSessionUserName(g, session);
     await updateNameInPlayerRecord(g, session, userId, username);
@@ -392,9 +392,9 @@ export function register(g: GameContext) {
     return;
   });
 
-  // wordleGame.开始
+  // wordle.开始
   ctx
-    .command("wordleGame.开始 [guessWordLength:number]", "开始游戏引导")
+    .command("wordle.开始 [guessWordLength:number]", "开始游戏引导")
     .option("hard", "--hard 困难模式", { fallback: false })
     .option("ultraHardMode", "--uhard 超困难模式", { fallback: false })
     .option("absurd", "--absurd 变态模式", { fallback: false })
@@ -481,7 +481,7 @@ export function register(g: GameContext) {
         const challengeOption = options.challenge ? ` --challenge` : "";
         const wordlesOption =
           options.wordles > 1 ? `--wordles ${options.wordles}` : "";
-        const command = `wordleGame.开始.${selectedExam}${hardOption}${uhardOption}${absurdOption}${challengeOption}${wordlesOption} ${guessWordLength}`;
+        const command = `wordle.开始.${selectedExam}${hardOption}${uhardOption}${absurdOption}${challengeOption}${wordlesOption} ${guessWordLength}`;
         return await session.execute(command);
       } else {
         return await sendMessage(
@@ -492,9 +492,9 @@ export function register(g: GameContext) {
       }
     });
 
-  // wordleGame.开始.经典
+  // wordle.开始.经典
   ctx
-    .command("wordleGame.开始.经典", "开始经典猜单词游戏")
+    .command("wordle.开始.经典", "开始经典猜单词游戏")
     .option("hard", "--hard 困难模式", { fallback: false })
     .option("ultraHardMode", "--uhard 超困难模式", { fallback: false })
     .option("absurd", "--absurd 变态模式", { fallback: false })
@@ -661,14 +661,14 @@ export function register(g: GameContext) {
       return await sendMessage(g, session, message);
     });
 
-  // wordleGame.开始.<模式>（经典以外的所有模式）
+  // wordle.开始.<模式>（经典以外的所有模式）
   exams.forEach((exam) => {
     if (exam === "经典") {
       return;
     }
     ctx
       .command(
-        `wordleGame.开始.${exam} [guessWordLength:number]`,
+        `wordle.开始.${exam} [guessWordLength:number]`,
         `开始猜${exam}单词游戏`
       )
       .option("free", "--free 自由模式（仅限汉兜与词影）", {
@@ -1055,9 +1055,9 @@ export function register(g: GameContext) {
       });
   });
 
-  // wordleGame.猜
+  // wordle.猜
   ctx
-    .command("wordleGame.猜 [inputWord:text]", "做出一次猜测")
+    .command("wordle.猜 [inputWord:text]", "做出一次猜测")
     .option("random", "-r 随机", { fallback: false })
     .action(async ({ session, options }, inputWord) => {
       let { channelId, userId, username, platform, timestamp } = session;
@@ -1564,7 +1564,7 @@ export function register(g: GameContext) {
             );
           }
           if (userInput === "结束") {
-            await session.execute(`wordleGame.结束`);
+            await session.execute(`wordle.结束`);
             return;
           } else {
             await setGuessRunningStatus(g, channelId, false);

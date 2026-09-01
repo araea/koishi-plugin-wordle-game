@@ -8,16 +8,18 @@ import { getSessionUserName } from "../services/user";
 export function register(g: GameContext) {
   const { ctx, config } = g;
 
-  // wordleGame 帮助
-  ctx.command("wordleGame", "猜单词游戏帮助").action(async ({ session }) => {
-    let { userId, username } = session;
-    username = await getSessionUserName(g, session);
-    await updateNameInPlayerRecord(g, session, userId, username);
-    await session.execute(`wordleGame -h`);
-  });
+  // wordle 帮助；旧主指令继续作为兼容别名。
+  ctx.command("wordle", "猜单词游戏帮助")
+    .alias("wordleGame")
+    .action(async ({ session }) => {
+      let { userId, username } = session;
+      username = await getSessionUserName(g, session);
+      await updateNameInPlayerRecord(g, session, userId, username);
+      await session.execute(`wordle -h`);
+    });
 
-  // wordleGame.玩法介绍
-  ctx.command("wordleGame.玩法介绍", "游戏玩法介绍").action(async ({ session }) => {
+  // wordle.玩法介绍
+  ctx.command("wordle.玩法介绍", "游戏玩法介绍").action(async ({ session }) => {
     let { userId, username } = session;
     username = await getSessionUserName(g, session);
     await updateNameInPlayerRecord(g, session, userId, username);

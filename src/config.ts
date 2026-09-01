@@ -3,15 +3,15 @@ import { Schema } from "koishi";
 // 插件的使用说明，展示在「帮助」中。
 export const usage = `## 使用
 
-\`wordleGame.开始\` 开局，然后直接输入猜测词。
+\`wordle.开始\` 开局，然后直接输入猜测词。
 
 ## 指令
 
 | 指令 | 说明 |
 | --- | --- |
-| \`wordleGame.开始 [长度]\` | 开始引导 |
-| \`wordleGame.开始.<模式> [长度]\` | 指定模式开局 |
-| \`wordleGame.猜 <内容>\` | 提交猜测 |
+| \`wordle.开始 [长度]\` | 开始引导 |
+| \`wordle.开始.<模式> [长度]\` | 指定模式开局 |
+| \`wordle.猜 <内容>\` | 提交猜测 |
 
 模式：\`经典\`、\`汉兜\`、\`词影\`、\`Numberle\`、\`Math\`、\`Lewdle\` 及多种词库。
 
