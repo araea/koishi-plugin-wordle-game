@@ -3,7 +3,6 @@ import * as path from "path";
 import { Context } from "koishi";
 import {} from "koishi-plugin-puppeteer";
 import {} from "koishi-plugin-monetary";
-import {} from "koishi-plugin-markdown-to-image-service";
 import { Config, usage } from "./config";
 import { initialExtraCiyingRankInfo, initialFastestGuessTime, initialStats } from "./constants";
 import type { GameContext } from "./context";
@@ -35,7 +34,6 @@ export type {
 
 export const inject = {
   required: ["monetary", "database", "puppeteer"],
-  optional: ["markdownToImage"],
 };
 export const name = "wordle-game";
 

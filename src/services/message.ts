@@ -1,7 +1,6 @@
-import { h } from "koishi";
 import type { GameContext } from "../context";
 
-// 统一的发送消息入口，支持文本转图片与自动撤回。
+// 统一的发送消息入口，支持自动撤回。
 export async function sendMessage(
   g: GameContext,
   session: any,
@@ -9,35 +8,7 @@ export async function sendMessage(
 ): Promise<void> {
   const config = g.config;
   const { bot, channelId } = session;
-  let messageId;
-  if (config.isTextToImageConversionEnabled) {
-    const lines = message.toString().split("\n");
-    const isOnlyImgTag =
-      lines.length === 1 && lines[0].trim().startsWith("<img");
-    if (isOnlyImgTag) {
-      [messageId] = await session.send(message);
-    } else {
-      const modifiedMessage = lines
-        .map((line) => {
-          if (line.trim() !== "" && !line.includes("<img")) {
-            return `# ${line}`;
-          } else {
-            return line + "\n";
-          }
-        })
-        .join("\n");
-      g.ctx.inject(["markdownToImage"], async (ctx) => {
-        const imageBuffer = await ctx.markdownToImage.convertToImage(
-          modifiedMessage
-        );
-        [messageId] = await session.send(
-          h.image(imageBuffer, `image/${config.imageType}`)
-        );
-      });
-    }
-  } else {
-    [messageId] = await session.send(message);
-  }
+  const [messageId] = await session.send(message);
 
   if (config.retractDelay > 0 && messageId) {
     const prevMessage = g.lastMessageInfo.get(channelId);

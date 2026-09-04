@@ -40,7 +40,6 @@ export interface Config {
 
   retractDelay: number;
   imageType: "png" | "jpeg" | "webp";
-  isTextToImageConversionEnabled: boolean;
 
   pinyinApiEndpoint: string;
   pinyinApiKey: string;
@@ -138,11 +137,6 @@ export const Config: Schema<Config> = Schema.intersect([
       imageType: Schema.union(["png", "jpeg", "webp"])
         .default("png")
         .description(`发送的图片类型。`),
-      isTextToImageConversionEnabled: Schema.boolean()
-        .default(false)
-        .description(
-          `是否开启将文本转为图片的功能（可选），如需启用，需要启用 \`markdownToImage\` 服务。`
-        ),
     }),
   ]),
 ]) as any;
