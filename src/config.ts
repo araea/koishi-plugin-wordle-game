@@ -13,9 +13,9 @@ export const usage = `## 使用
 | \`wordle.开始.<模式> [长度]\` | 指定模式开局 |
 | \`wordle.猜 <内容>\` | 提交猜测 |
 
-模式：\`经典\`、\`汉兜\`、\`词影\`、\`Numberle\`、\`Math\`、\`Lewdle\` 及多种词库。
+模式包括经典、汉兜、词影、Numberle、Math、Lewdle 及其他词库。
 
-选项：\`--hard\`、\`--uhard\`、\`--absurd\`、\`--challenge\`、\`--wordles\`、\`--free\`、\`--all\`。`;
+可用选项：\`--hard\`、\`--uhard\`、\`--absurd\`、\`--challenge\`、\`--wordles\`、\`--free\`、\`--all\`。`;
 
 export interface Config {
   isDarkThemeEnabled: boolean;
