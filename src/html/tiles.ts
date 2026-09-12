@@ -1,4 +1,3 @@
-import { Ot as compareStrokes } from "../assets/词影/main.js";
 import type { GameContext } from "../context";
 import type { ExtraGameRecord, GameRecord } from "../types";
 import { mergeDuplicates, removeDuplicates, removeLetters, uniqueSortedLowercaseLetters } from "../utils/string";
@@ -13,6 +12,11 @@ import {
   separatePinyin,
   transformRecords,
 } from "../utils/pinyin";
+import {
+  compareStrokes,
+  defaultStrokeConfig,
+  hardStrokeConfig,
+} from "../utils/strokes";
 
 // 生成 Wordle 棋盘的行样式（列数为 row - 1）。
 export function generateStyledHtml(row: number): string {
@@ -230,20 +234,7 @@ export async function generateLetterTilesHtmlForCiying(
   const correctLetters: string[] = gameInfo.correctLetters;
   const previousGuess: string[] = gameInfo.previousGuess;
   const previousGuessIdioms: string[] = gameInfo.previousGuessIdioms;
-  const defaultModeSettings = {
-    keepShadow: !0,
-    correctThreshold: 0.5,
-    presentThreshold: 1,
-    shiftFactor: 0.7,
-    idiomLimit: 2e3,
-  };
-  const hardModeSettings = {
-    keepShadow: !1,
-    correctThreshold: 0.3,
-    presentThreshold: 1,
-    shiftFactor: 0.7,
-  };
-  const strokeConfig = isHardMode ? hardModeSettings : defaultModeSettings;
+  const strokeConfig = isHardMode ? hardStrokeConfig : defaultStrokeConfig;
   for (let i = 0; i < answerIdiom.length; i++) {
     const compareResult = compareStrokes(
       strokesData[answerIdiom[i]],
