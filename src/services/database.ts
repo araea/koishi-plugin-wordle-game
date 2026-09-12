@@ -38,19 +38,7 @@ export async function getGameInfo2(
   return gameRecord[0];
 }
 
-// 获取频道内已加入游戏的玩家数量。
-export async function getNumberOfPlayers(
-  g: GameContext,
-  channelId: string
-): Promise<number> {
-  const playerRecords = await g.ctx.database.get(
-    "wordle_gaming_player_records",
-    { channelId }
-  );
-  return playerRecords.length;
-}
-
-// 判断玩家是否已加入游戏。
+// 判断玩家是否已登记为本局参与者。
 export async function isPlayerInGame(
   g: GameContext,
   channelId: string,
@@ -61,25 +49,6 @@ export async function isPlayerInGame(
     userId,
   });
   return getPlayer.length !== 0;
-}
-
-// 根据平台与用户 ID 获取用户记录。
-export async function getUserFromDatabase(
-  g: GameContext,
-  platform: string,
-  userId: string
-) {
-  return await g.ctx.database.getUser(platform, userId);
-}
-
-// 获取用户的数据库主键 uid。
-export async function getPlayerUid(
-  g: GameContext,
-  platform: string,
-  userId: string
-): Promise<number> {
-  const user = await getUserFromDatabase(g, platform, userId);
-  return user.id;
 }
 
 // 更新玩家记录表中的用户名（必要时初始化统计字段）。
@@ -157,97 +126,6 @@ export async function endGame(g: GameContext, channelId: string) {
     g.ctx.database.remove("wordle_game_records", { channelId }),
     g.ctx.database.remove("extra_wordle_game_records", { channelId }),
   ]);
-}
-
-// 经典/汉兜模式开始时扣除投入的货币。
-export async function deductMoney(
-  g: GameContext,
-  channelId: string,
-  platform: string
-) {
-  const getPlayers = await g.ctx.database.get("wordle_gaming_player_records", {
-    channelId,
-  });
-  for (const thisGamingPlayer of getPlayers) {
-    const { userId, money } = thisGamingPlayer;
-    if (money === 0) {
-      continue;
-    }
-    const uid = await getPlayerUid(g, platform, userId);
-    const [userMonetary] = await g.ctx.database.get("monetary", { uid });
-    const value = userMonetary.value - money;
-    await g.ctx.database.set("monetary", { uid }, { value });
-    const [playerInfo] = await g.ctx.database.get("wordle_player_records", {
-      userId,
-    });
-    await g.ctx.database.set(
-      "wordle_player_records",
-      { userId },
-      { moneyChange: playerInfo.moneyChange - money }
-    );
-  }
-}
-
-// 非经典模式开始时，把玩家投入的货币清零（还钱）。
-export async function updateGamingPlayerRecords(
-  g: GameContext,
-  channelId: string
-) {
-  const getPlayers = await g.ctx.database.get("wordle_gaming_player_records", {
-    channelId,
-  });
-  for (const thisGamingPlayer of getPlayers) {
-    const { userId, money } = thisGamingPlayer;
-    if (money === 0) {
-      continue;
-    }
-    await g.ctx.database.set(
-      "wordle_gaming_player_records",
-      { channelId, userId },
-      { money: 0 }
-    );
-  }
-}
-
-// 结算获胜玩家的货币奖励，并返回结算文本。
-export async function processNonZeroMoneyPlayers(
-  g: GameContext,
-  channelId: string,
-  platform: string
-) {
-  const getPlayers = await g.ctx.database.get("wordle_gaming_player_records", {
-    channelId,
-  });
-  const settlementRecords: string[] = [];
-
-  for (const thisGamingPlayer of getPlayers) {
-    const { userId, money, username } = thisGamingPlayer;
-
-    if (money === 0) {
-      continue;
-    }
-
-    const uid = await getPlayerUid(g, platform, userId);
-    const rewardMultiplier = g.config.defaultRewardMultiplier;
-    const gainAmount = money * rewardMultiplier;
-
-    await g.ctx.monetary.gain(uid, gainAmount);
-
-    const [playerInfo] = await g.ctx.database.get("wordle_player_records", {
-      userId,
-    });
-    const updatedMoneyChange = playerInfo.moneyChange + gainAmount;
-    await g.ctx.database.set(
-      "wordle_player_records",
-      { userId },
-      { moneyChange: updatedMoneyChange }
-    );
-
-    const settlementString = `【${username}】：【+${gainAmount}】`;
-    settlementRecords.push(settlementString);
-  }
-
-  return settlementRecords.join("\n");
 }
 
 // 玩家失败时更新其胜负统计。

@@ -8,7 +8,7 @@
 yarn add koishi-plugin-wordle-game
 ```
 
-在 Koishi 配置中启用，并提供 monetary、database 与 puppeteer 服务。
+在 Koishi 配置中启用，并提供 database 与 puppeteer 服务。
 
 ## 指令
 
@@ -16,17 +16,14 @@ yarn add koishi-plugin-wordle-game
 | --- | --- |
 | `wordle.开始 [长度]` | 开始引导 |
 | `wordle.开始.<模式> [长度]` | 指定模式开局 |
-| `wordle.加入 [金币]` | 加入游戏 |
 | `wordle.猜 <内容>` | 提交猜测 |
 | `wordle.查询进度` | 查询当前游戏进度 |
-| `wordle.退出` | 退出游戏 |
 | `wordle.结束` | 结束游戏 |
 | `wordle.排行榜 [人数]` | 查看排行榜 |
 | `wordle.查询玩家记录 [@某人]` | 查询玩家记录 |
 | `wordle.查单词 <词>` | 查单词引导 |
-| `wordle.查成语 <成语>` | 查成语引导 |
+| `wordle.查成语 <成语>` | 查询成语的拼音与解释（汉典） |
 | `wordle.拼音速查表` | 查看拼音速查表 |
-| `wordle.单词查找器 <索引>` | 用 WordFinder 查找匹配的单词 |
 | `wordle.玩法介绍` | 游戏玩法介绍 |
 
 模式包括经典、汉兜、词影、Numberle、Math、Lewdle 及其他词库。

@@ -90,7 +90,6 @@ export const exams = [
 // 排行榜一级分类
 export const rankType = [
   "总",
-  "损益",
   "猜出次数",
   "经典",
   "CET4",

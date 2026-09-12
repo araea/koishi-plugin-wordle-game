@@ -1,12 +1,5 @@
 // 数据库表与业务数据结构定义，同时把插件用到的表注册到 koishi 的 Tables 中。
 
-// 货币表（由 monetary 服务提供）
-interface Monetary {
-  uid: number;
-  currency: string;
-  value: number;
-}
-
 // 单局游戏记录
 export interface GameRecord {
   id: number;
@@ -81,13 +74,12 @@ export interface ExtraGameRecord {
   previousGuessIdioms: string[];
 }
 
-// 已加入游戏的玩家
+// 本局参与者
 export interface GamingPlayer {
   id: number;
   channelId: string;
   userId: string;
   username: string;
-  money: number;
 }
 
 // 玩家长期记录
@@ -97,7 +89,6 @@ export interface PlayerRecord {
   username: string;
   win: number;
   lose: number;
-  moneyChange: number;
   wordGuessCount: number;
   stats: PlayerStats;
   fastestGuessTime: Record<string, number>;
@@ -235,6 +226,5 @@ declare module "koishi" {
     extra_wordle_game_records: ExtraGameRecord;
     wordle_gaming_player_records: GamingPlayer;
     wordle_player_records: PlayerRecord;
-    monetary: Monetary;
   }
 }

@@ -11,17 +11,14 @@ export const usage = `## 使用
 | --- | --- |
 | \`wordle.开始 [长度]\` | 开始引导 |
 | \`wordle.开始.<模式> [长度]\` | 指定模式开局 |
-| \`wordle.加入 [金币]\` | 加入游戏 |
 | \`wordle.猜 <内容>\` | 提交猜测 |
 | \`wordle.查询进度\` | 查询当前游戏进度 |
-| \`wordle.退出\` | 退出游戏 |
 | \`wordle.结束\` | 结束游戏 |
 | \`wordle.排行榜 [人数]\` | 查看排行榜 |
 | \`wordle.查询玩家记录 [@某人]\` | 查询玩家记录 |
 | \`wordle.查单词 <词>\` | 查单词引导 |
-| \`wordle.查成语 <成语>\` | 查成语引导 |
+| \`wordle.查成语 <成语>\` | 查询成语的拼音与解释（汉典） |
 | \`wordle.拼音速查表\` | 查看拼音速查表 |
-| \`wordle.单词查找器 <索引>\` | 用 WordFinder 查找匹配的单词 |
 | \`wordle.玩法介绍\` | 游戏玩法介绍 |
 
 模式包括经典、汉兜、词影、Numberle、Math、Lewdle 及其他词库。
@@ -34,13 +31,10 @@ export interface Config {
 
   defaultMaxLeaderboardEntries: number;
   defaultWordLengthForGuessing: number;
-  maxInvestmentCurrency: number;
-  defaultRewardMultiplier: number;
   maxSimultaneousGuesses: number;
   compositeImagePageWidth: number;
   compositeImagePageHeight: number;
 
-  allowNonPlayersToGuess: boolean;
   enableWordGuessMiddleware: boolean;
   shouldPromptWordLengthInput: boolean;
   isPreventUserDuplicateGuessInput: boolean;
@@ -81,18 +75,10 @@ export const Config: Schema<Config> = Schema.intersect([
       .min(1)
       .default(4)
       .description(`最多同时猜测单词的数量。`),
-    maxInvestmentCurrency: Schema.number()
-      .min(0)
-      .default(50)
-      .description(`加入游戏时可投入的最大货币数额。`),
     defaultMaxLeaderboardEntries: Schema.number()
       .min(0)
       .default(10)
       .description(`显示排行榜时默认的最大人数。`),
-    defaultRewardMultiplier: Schema.number()
-      .min(0)
-      .default(2)
-      .description(`猜单词经典模式赢了之后奖励的货币倍率。`),
     defaultWordLengthForGuessing: Schema.number()
       .min(1)
       .default(5)
@@ -111,11 +97,6 @@ export const Config: Schema<Config> = Schema.intersect([
         .default(true)
         .description(
           `是否在开始游戏引导中提示输入猜单词的长度，不开启则为默认长度。`
-        ),
-      allowNonPlayersToGuess: Schema.boolean()
-        .default(true)
-        .description(
-          `是否允许未加入游戏的玩家进行猜单词的操作，开启后可以无需加入直接开始。`
         ),
       shouldPromptForWordLengthOnNonClassicStart: Schema.boolean()
         .default(true)

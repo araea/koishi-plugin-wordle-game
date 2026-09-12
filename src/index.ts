@@ -2,7 +2,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { Context } from "koishi";
 import {} from "koishi-plugin-puppeteer";
-import {} from "koishi-plugin-monetary";
 import { Config, usage } from "./config";
 import { initialExtraCiyingRankInfo, initialFastestGuessTime, initialStats } from "./constants";
 import type { GameContext } from "./context";
@@ -33,7 +32,7 @@ export type {
 } from "./types";
 
 export const inject = {
-  required: ["monetary", "database", "puppeteer"],
+  required: ["database", "puppeteer"],
 };
 export const name = "wordle-game";
 
@@ -166,7 +165,6 @@ export async function apply(ctx: Context, config: Config) {
       id: "unsigned",
       channelId: "string",
       username: "string",
-      money: "unsigned",
       userId: "string",
     },
     {
@@ -182,7 +180,6 @@ export async function apply(ctx: Context, config: Config) {
       userId: "string",
       lose: "unsigned",
       win: "unsigned",
-      moneyChange: "double",
       wordGuessCount: "unsigned",
       stats: { type: "json", initial: initialStats },
       fastestGuessTime: { type: "json", initial: initialFastestGuessTime },

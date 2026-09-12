@@ -1,11 +1,9 @@
 import type { GameContext } from "../context";
 import type { PlayerRecord } from "../types";
-import { getGameInfo, getGameInfo2, updateNameInPlayerRecord } from "../services/database";
+import { updateNameInPlayerRecord } from "../services/database";
 import {
-  fetchAndParseWords,
   fetchWordDefinitions,
   getIdiomInfo,
-  getIdiomInfo2,
   serializeDefinitions,
 } from "../services/network";
 import { replaceAtTags, sendMessage } from "../services/message";
@@ -14,7 +12,7 @@ import { isFourCharacterIdiom } from "../utils/idiom";
 import { capitalizeFirstLetter, replaceEscapeCharacters } from "../utils/string";
 import { findWord, generateStatsInfo } from "../utils/wordle";
 
-// 注册查询类指令：查单词、查成语、单词查找器。
+// 注册查询类指令：查单词、查成语、查询玩家记录。
 export function register(g: GameContext) {
   const { ctx } = g;
 
@@ -215,62 +213,9 @@ export function register(g: GameContext) {
         });
     });
 
-  // wordle.查成语（引导）
+  // wordle.查成语
   ctx
-    .command("wordle.查成语 [targetIdiom:text]", "查成语引导")
-    .action(async ({ session, options }, targetIdiom) => {
-      if (
-        !targetIdiom &&
-        session.event.message.quote &&
-        session.event.message.quote.content
-      ) {
-        if (isFourCharacterIdiom(session.event.message.quote.content.trim())) {
-          targetIdiom = session.event.message.quote.content.trim();
-        }
-      }
-      let { userId, username } = session;
-      username = await getSessionUserName(g, session);
-      await updateNameInPlayerRecord(g, session, userId, username);
-      // 提示输入
-      const availableDictionaryArray = ["百度汉语", "汉典"];
-      await sendMessage(
-        g,
-        session,
-        `当前可用词库如下：\n${availableDictionaryArray
-          .map((dictionary, index) => `${index + 1}. ${dictionary}`)
-          .join("\n")}\n请输入序号或词库名。`
-      );
-      const userInput = await session.prompt();
-      if (!userInput)
-        return await sendMessage(
-          g,
-          session,
-          `⚠️ 输入无效或超时。`
-        );
-      // 判断 userInput 是否为有效输入
-      const selectedDictionary = isNaN(parseInt(userInput))
-        ? userInput.trim()
-        : availableDictionaryArray[parseInt(userInput) - 1];
-      if (availableDictionaryArray.includes(selectedDictionary)) {
-        const command = `wordle.查成语.${selectedDictionary}${
-          targetIdiom ? ` ${targetIdiom}` : ""
-        }`;
-        return await session.execute(command);
-      } else {
-        return await sendMessage(
-          g,
-          session,
-          `⚠️ 输入无效，请重新输入。`
-        );
-      }
-    });
-
-  // wordle.查成语.百度汉语
-  ctx
-    .command(
-      "wordle.查成语.百度汉语 [targetIdiom:text]",
-      "在百度汉语中查找成语解释"
-    )
+    .command("wordle.查成语 [targetIdiom:text]", "查询成语的拼音与解释（汉典）")
     .action(async ({ session }, targetIdiom) => {
       if (
         !targetIdiom &&
@@ -315,75 +260,8 @@ export function register(g: GameContext) {
           `⚠️ 请输入四字词语。`
         );
       }
-
       // 寻找
       const idiomInfo = await getIdiomInfo(g, targetIdiom);
-      if (idiomInfo.pinyin === "未找到拼音") {
-        return await sendMessage(
-          g,
-          session,
-          `⚠️ 未在百度汉语中找到该成语。`
-        );
-      }
-      return await sendMessage(
-        g,
-        session,
-        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n【解释】${idiomInfo.explanation}`
-      );
-    });
-
-  // wordle.查成语.汉典
-  ctx
-    .command(
-      "wordle.查成语.汉典 [targetIdiom:text]",
-      "在汉典中查找成语解释"
-    )
-    .action(async ({ session }, targetIdiom) => {
-      if (
-        !targetIdiom &&
-        session.event.message.quote &&
-        session.event.message.quote.content
-      ) {
-        if (isFourCharacterIdiom(session.event.message.quote.content.trim())) {
-          targetIdiom = session.event.message.quote.content.trim();
-        }
-      }
-      let { userId, username } = session;
-      username = await getSessionUserName(g, session);
-      await updateNameInPlayerRecord(g, session, userId, username);
-      targetIdiom = targetIdiom?.trim();
-      if (!targetIdiom) {
-        // 提示输入
-        await sendMessage(
-          g,
-          session,
-          `⚠️ 请输入待查找的成语，或发送「取消」。`
-        );
-        const userInput = await session.prompt();
-        if (!userInput)
-          return await sendMessage(
-            g,
-            session,
-            `⚠️ 输入无效或超时。`
-          );
-        if (userInput === "取消")
-          return await sendMessage(
-            g,
-            session,
-            `✅ 已取消查找成语。`
-          );
-        targetIdiom = userInput.trim();
-      }
-      // 判断输入
-      if (!isFourCharacterIdiom(targetIdiom)) {
-        return await sendMessage(
-          g,
-          session,
-          `⚠️ 请输入四字词语。`
-        );
-      }
-      // 寻找
-      const idiomInfo = await getIdiomInfo2(g, targetIdiom);
       if (idiomInfo.pinyin === "未找到拼音") {
         return await sendMessage(
           g,
@@ -394,188 +272,8 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n${idiomInfo.explanation}`
+        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n【解释】${idiomInfo.explanation}`
       );
-    });
-
-  // wordle.单词查找器
-  ctx
-    .command(
-      "wordle.单词查找器 [wordleIndexs:text]",
-      "使用WordFinder查找匹配的单词"
-    )
-    .option("auto", "-a 自动查找（根据游戏进程）", { fallback: false })
-    .option("wordLength", "-l <length> 指定要搜索的单词长度", {
-      fallback: undefined,
-    })
-    .option(
-      "wordWithThreeWildcards",
-      "-w <word> 搜索带有最多三个通配符字符的单词",
-      { fallback: undefined }
-    )
-    .option("containingLetters", "-c <letters> 搜索包含特定字母组合的单词", {
-      fallback: undefined,
-    })
-    .option(
-      "containingTheseLetters",
-      "--ct <letters> 搜索只包含指定字母的单词",
-      { fallback: undefined }
-    )
-    .option("withoutTheseLetters", "--wt <letters> 搜索不包含特定字母的单词", {
-      fallback: undefined,
-    })
-    .option(
-      "startingWithTheseLetters",
-      "--sw <letters> 搜索以特定字母开头的单词",
-      { fallback: undefined }
-    )
-    .option(
-      "endingWithTheseLetters",
-      "--ew <letters> 搜索以特定字母结尾的单词",
-      { fallback: undefined }
-    )
-    .action(async ({ session, options }, wordleIndexs) => {
-      let { channelId, username, userId } = session;
-      username = await getSessionUserName(g, session);
-      await updateNameInPlayerRecord(g, session, userId, username);
-
-      let {
-        auto,
-        wordLength,
-        wordWithThreeWildcards,
-        containingLetters,
-        containingTheseLetters,
-        withoutTheseLetters,
-        startingWithTheseLetters,
-        endingWithTheseLetters,
-      } = options;
-
-      if (auto) {
-        const gameInfo = await getGameInfo(g, channelId);
-        const {
-          isStarted,
-          wordlesNum,
-          guessWordLength,
-          absentLetters,
-          presentLetters,
-          gameMode,
-        } = gameInfo;
-        if (!isStarted) {
-          return await sendMessage(
-            g,
-            session,
-            `⚠️ 未检测到游戏进度，无法使用自动查找。`
-          );
-        }
-        if (gameMode === "汉兜") {
-          return await sendMessage(
-            g,
-            session,
-            `⚠️ 单词查找器不能用于四字词语。`
-          );
-        }
-        if (wordlesNum === 1) {
-          await session.execute(
-            `wordle.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`
-          );
-        } else {
-          let userInput: string = "";
-          if (!wordleIndexs) {
-            await sendMessage(
-              g,
-              session,
-              `当前进度数量：${wordlesNum}。请输入待查询序号（从左到右，可用空格隔开，例如：1 2）。`
-            );
-            userInput = await session.prompt();
-            if (!userInput)
-              return await sendMessage(
-                g,
-                session,
-                `⚠️ 输入无效或超时。`
-              );
-          } else {
-            userInput = wordleIndexs;
-          }
-
-          const stringArray = userInput.split(" ");
-
-          for (const element of stringArray) {
-            if (!isNaN(Number(element))) {
-              const index = parseInt(element);
-              if (index > 0 && index <= wordlesNum) {
-                if (index === 1) {
-                  await session.execute(
-                    `wordle.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`
-                  );
-                } else {
-                  const gameInfo2 = await getGameInfo2(g, channelId, index);
-                  const { guessWordLength, absentLetters, presentLetters } =
-                    gameInfo2;
-                  await session.execute(
-                    `wordle.单词查找器 -l ${guessWordLength} --ct ${presentLetters} --wt ${absentLetters}`
-                  );
-                }
-              } else {
-                await session.send(
-                  `序号 ${index} 超出范围（1~${wordlesNum}）。`
-                );
-                continue;
-              }
-            } else {
-              continue;
-            }
-          }
-        }
-      }
-
-      if (auto) {
-        return;
-      }
-
-      const noOptionsSpecified =
-        !wordLength &&
-        !wordWithThreeWildcards &&
-        !containingLetters &&
-        !containingTheseLetters &&
-        !withoutTheseLetters &&
-        !startingWithTheseLetters &&
-        !endingWithTheseLetters;
-
-      if (noOptionsSpecified) {
-        const chineseTutorial =
-          "欢迎使用单词查找器！\n你可以使用以下选项来搜索匹配的单词：\n- 使用 -a 自动查找（根据游戏进程）\n- 使用 -l <length> 指定要搜索的单词长度\n- 使用 -w <word> 搜索带有最多三个通配符字符的单词\n- 使用 -c <letters> 搜索包含特定字母组合的单词\n- 使用 --ct <letters> 搜索只包含指定字母的单词\n- 使用 --wt <letters> 搜索不包含特定字母的单词\n- 使用 --sw <letters> 搜索以特定字母开头的单词\n- 使用 --ew <letters> 搜索以特定字母结尾的单词";
-        return await sendMessage(g, session, chineseTutorial);
-      }
-
-      const params = {
-        wordLength: wordLength ? `${wordLength}-letter-words` : "",
-        wordWithThreeWildcards: wordWithThreeWildcards
-          ? `out-of-${wordWithThreeWildcards}`
-          : "",
-        containingLetters: containingLetters
-          ? `containing-${containingLetters}`
-          : "",
-        containingTheseLetters: containingTheseLetters
-          ? `with-${containingTheseLetters}`
-          : "",
-        withoutTheseLetters: withoutTheseLetters
-          ? `without-${withoutTheseLetters}`
-          : "",
-        startingWithTheseLetters: startingWithTheseLetters
-          ? `starting-with-${startingWithTheseLetters}`
-          : "",
-        endingWithTheseLetters: endingWithTheseLetters
-          ? `ending-with-${endingWithTheseLetters}`
-          : "",
-      };
-
-      const queryParams = Object.values(params)
-        .filter((param) => param)
-        .join("-");
-
-      const url = `https://wordword.org/search/${queryParams}`;
-      const result = await fetchAndParseWords(g, url);
-      return await sendMessage(g, session, `${result}`);
     });
 
   // wordle.查询玩家记录
@@ -619,20 +317,13 @@ export function register(g: GameContext) {
         );
       }
 
-      const {
-        win,
-        lose,
-        moneyChange,
-        wordGuessCount,
-        stats,
-        fastestGuessTime,
-      } = targetUserRecord[0];
+      const { win, lose, wordGuessCount, stats, fastestGuessTime } =
+        targetUserRecord[0];
 
       const queryInfo = `📋 查询对象：${targetUserRecord[0].username}
 猜出次数：${wordGuessCount} 次
 总胜场：${win} 次
 总输场：${lose} 次
-损益为：${moneyChange} 点
 详细统计信息如下：
 ${generateStatsInfo(stats, fastestGuessTime)}
     `;

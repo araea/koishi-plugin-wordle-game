@@ -17,17 +17,13 @@ import {
   generateStyledHtml,
 } from "../html/tiles";
 import {
-  deductMoney,
   endGame,
   getGameInfo,
   getGameInfo2,
-  getNumberOfPlayers,
   isPlayerInGame,
   processExtraGameInfos,
   processExtraGameRecords,
-  processNonZeroMoneyPlayers,
   setGuessRunningStatus,
-  updateGamingPlayerRecords,
   updateNameInPlayerRecord,
   updatePlayerRecordsLose,
   updatePlayerRecordsWin,
@@ -77,7 +73,7 @@ import {
   isValidGuessWordLength,
 } from "../utils/wordle";
 
-// 注册游戏核心指令：加入、退出、结束、开始（含各模式）、猜，以及无前缀猜测中间件。
+// 注册游戏核心指令：结束、开始（含各模式）、猜，以及无前缀猜测中间件。
 export function register(g: GameContext) {
   const { ctx, config } = g;
   const idiomsList = g.data.idiomsList;
@@ -125,233 +121,6 @@ export function register(g: GameContext) {
 
     await session.execute(`wordle.猜 ${content}`);
     return;
-  });
-
-  // wordle.加入
-  ctx
-    .command("wordle.加入 [money:number]", "加入游戏")
-    .action(async ({ session }, money = 0) => {
-      let { channelId, userId, username, user } = session;
-      username = await getSessionUserName(g, session);
-      await updateNameInPlayerRecord(g, session, userId, username);
-      let gameInfo: any = await getGameInfo(g, channelId);
-      const isInGame = await isPlayerInGame(g, channelId, userId);
-      if (gameInfo.isStarted) {
-        if (!isInGame) {
-          return await sendMessage(
-            g,
-            session,
-            `⚠️ 游戏已经开始，无法中途加入。`
-          );
-        } else {
-          const wordlesNum = gameInfo.wordlesNum;
-          const isAbsurd = gameInfo.isAbsurd;
-          let imageBuffers: Buffer[] = [];
-          let imageBuffer: Buffer = Buffer.from("initial value", "utf-8");
-          for (
-            let wordleIndex = 1;
-            wordleIndex < wordlesNum + 1;
-            wordleIndex++
-          ) {
-            if (wordleIndex > 1) {
-              gameInfo = await getGameInfo2(g, channelId, wordleIndex);
-            }
-            if (gameInfo.gameMode === "汉兜") {
-              const emptyGridHtml = generateEmptyGridHtmlForHandle(1, 4);
-              imageBuffer = await generateImageForHandle(
-                g,
-                `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`
-              );
-            } else {
-              const emptyGridHtml = isAbsurd
-                ? generateEmptyGridHtml(1, gameInfo.guessWordLength)
-                : generateEmptyGridHtml(
-                    gameInfo.remainingGuessesCount,
-                    gameInfo.guessWordLength
-                  );
-              const styledHtml = generateStyledHtml(
-                gameInfo.guessWordLength + 1
-              );
-              imageBuffer = await generateImage(
-                g,
-                styledHtml,
-                `${gameInfo.wordGuessHtmlCache}\n${emptyGridHtml}`
-              );
-            }
-            imageBuffers.push(imageBuffer);
-          }
-          if (wordlesNum > 1) {
-            const htmlImgString = generateImageTags(imageBuffers);
-            imageBuffer = await generateWordlesImage(g, htmlImgString);
-          }
-                    return await sendMessage(
-            g,
-            session,
-            `⚠️ 你已经在游戏中。\n${h.image(
-              imageBuffer,
-              `image/${config.imageType}`
-            )}`
-          );
-
-        }
-      }
-      // 判断输入
-      if (typeof money !== "number" || money < 0) {
-        return await sendMessage(
-          g,
-          session,
-          `⚠️ 请输入不小于 0 的投入金额。`
-        );
-      }
-      // 不能超过最大投入金额
-      if (money > config.maxInvestmentCurrency) {
-        return await sendMessage(
-          g,
-          session,
-          `⚠️ 投入金额不能超过 ${config.maxInvestmentCurrency}。`
-        );
-      }
-      // @ts-ignore
-      const uid = user.id;
-      let getUserMonetary = await ctx.database.get("monetary", { uid });
-      if (getUserMonetary.length === 0) {
-        await ctx.database.create("monetary", {
-          uid,
-          value: 0,
-          currency: "default",
-        });
-        getUserMonetary = await ctx.database.get("monetary", { uid });
-      }
-      const userMonetary = getUserMonetary[0];
-      const numberOfPlayers = await getNumberOfPlayers(g, channelId);
-      // 修改金额
-      if (isInGame) {
-        // 余额够
-        if (userMonetary.value >= money) {
-          await ctx.database.set(
-            "wordle_gaming_player_records",
-            { channelId, userId },
-            { money }
-          );
-          return await sendMessage(
-            g,
-            session,
-            `✅ 投入已改为 ${money}。当前玩家：${numberOfPlayers} 人。`
-          );
-        } else {
-          // 余额不够
-          await ctx.database.set(
-            "wordle_gaming_player_records",
-            { channelId, userId },
-            { money: userMonetary.value }
-          );
-          return await sendMessage(
-            g,
-            session,
-            `⚠️ 余额不足，投入已修正为 ${userMonetary.value}。当前玩家：${numberOfPlayers} 人。`
-          );
-        }
-      }
-      // 加入游戏
-      // money 为 0
-      if (money === 0) {
-        await ctx.database.create("wordle_gaming_player_records", {
-          channelId,
-          userId,
-          username,
-          money,
-        });
-        // 有余额
-        if (userMonetary.value > 0) {
-          return await sendMessage(
-            g,
-            session,
-            `✅ 加入成功。经典模式可带上金额再加入一次以投入。\n最大投入：${
-              config.maxInvestmentCurrency
-            }，倍率：${
-              config.defaultRewardMultiplier
-            }。当前玩家：${numberOfPlayers + 1} 人。`
-          );
-        } else {
-          // 没余额
-          return await sendMessage(
-            g,
-            session,
-            `✅ 加入成功。当前玩家：${
-              numberOfPlayers + 1
-            } 人。`
-          );
-        }
-      } else {
-        // money !== 0
-        // 余额足够
-        if (userMonetary.value >= money) {
-          await ctx.database.create("wordle_gaming_player_records", {
-            channelId,
-            userId,
-            username,
-            money,
-          });
-          return await sendMessage(
-            g,
-            session,
-            `✅ 加入成功，投入 ${money}。倍率：${
-              config.defaultRewardMultiplier
-            }。当前玩家：${numberOfPlayers + 1} 人。`
-          );
-        } else {
-          // 余额不够
-          await ctx.database.create("wordle_gaming_player_records", {
-            channelId,
-            userId,
-            username,
-            money: userMonetary.value,
-          });
-          return await sendMessage(
-            g,
-            session,
-            `⚠️ 余额不足，投入已修正为 ${
-              userMonetary.value
-            }。当前玩家：${numberOfPlayers + 1} 人。`
-          );
-        }
-      }
-    });
-
-  // wordle.退出
-  ctx.command("wordle.退出", "退出游戏").action(async ({ session }) => {
-    let { channelId, userId, username } = session;
-    username = await getSessionUserName(g, session);
-    await updateNameInPlayerRecord(g, session, userId, username);
-    // 游戏状态
-    const gameInfo = await getGameInfo(g, channelId);
-    if (gameInfo.isStarted) {
-      return await sendMessage(
-        g,
-        session,
-        `⚠️ 游戏已经开始，无法进行此操作。`
-      );
-    }
-    // 玩家
-    const isInGame = await isPlayerInGame(g, channelId, userId);
-    if (!isInGame) {
-      return await sendMessage(
-        g,
-        session,
-        `⚠️ 你还没有加入游戏。`
-      );
-    }
-    // 退出
-    await ctx.database.remove("wordle_gaming_player_records", {
-      channelId,
-      userId,
-    });
-    const numberOfPlayers = await getNumberOfPlayers(g, channelId);
-    return await sendMessage(
-      g,
-      session,
-      `✅ 已退出。剩余玩家：${numberOfPlayers} 人。`
-    );
   });
 
   // wordle.结束
@@ -503,7 +272,7 @@ export function register(g: GameContext) {
       fallback: 1,
     })
     .action(async ({ session, options }) => {
-      let { channelId, userId, username, platform, timestamp } = session;
+      let { channelId, userId, username, timestamp } = session;
       username = await getSessionUserName(g, session);
       await updateNameInPlayerRecord(g, session, userId, username);
       
@@ -527,17 +296,6 @@ export function register(g: GameContext) {
           `⚠️ 游戏已经开始了。`
         );
       }
-      // 人数
-      const numberOfPlayers = await getNumberOfPlayers(g, channelId);
-      if (numberOfPlayers < 1 && !config.allowNonPlayersToGuess) {
-        return await sendMessage(
-          g,
-          session,
-          `没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜单词】\n请先加入游戏吧~`
-        );
-      }
-      // 经典扣钱
-      await deductMoney(g, channelId, platform);
       // 选待猜单词（随机选择一个单词并小写化）
       const selectedWords: string[] = [];
       const randomWord: string =
@@ -685,7 +443,7 @@ export function register(g: GameContext) {
         fallback: 1,
       })
       .action(async ({ session, options }, guessWordLength) => {
-        let { channelId, userId, username, timestamp, platform } = session;
+        let { channelId, userId, username, timestamp } = session;
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         
@@ -752,24 +510,6 @@ export function register(g: GameContext) {
             session,
             `⚠️ 游戏已经开始了。`
           );
-        }
-
-        // 人数
-        const numberOfPlayers = await getNumberOfPlayers(g, channelId);
-        if (numberOfPlayers < 1 && !config.allowNonPlayersToGuess) {
-          return await sendMessage(
-            g,
-            session,
-            `没人玩的说...\n且当前配置为：\n【不允许没有加入的玩家猜测】\n先加入游戏吧~`
-          );
-        }
-
-        // 非经典还钱
-        if (exam !== "汉兜") {
-          await updateGamingPlayerRecords(g, channelId);
-        } else {
-          // 汉兜 扣钱
-          await deductMoney(g, channelId, platform);
         }
 
         const selectedWords: string[] = [];
@@ -1060,7 +800,7 @@ export function register(g: GameContext) {
     .command("wordle.猜 [inputWord:text]", "做出一次猜测")
     .option("random", "-r 随机", { fallback: false })
     .action(async ({ session, options }, inputWord) => {
-      let { channelId, userId, username, platform, timestamp } = session;
+      let { channelId, userId, username, timestamp } = session;
       let gameInfo: any = await getGameInfo(g, channelId);
       inputWord = inputWord?.trim();
 
@@ -1137,24 +877,14 @@ export function register(g: GameContext) {
         }
       }
 
-      // 玩家不在游戏中
+      // 玩家不在本局记录中，自动登记为参与者
       const isInGame = await isPlayerInGame(g, channelId, userId);
       if (!isInGame) {
-        if (!config.allowNonPlayersToGuess) {
-          await setGuessRunningStatus(g, channelId, false);
-          return await sendMessage(
-            g,
-            session,
-            `⚠️ 你还没有加入游戏，无法猜测。`
-          );
-        } else {
-          await ctx.database.create("wordle_gaming_player_records", {
-            channelId,
-            userId,
-            username,
-            money: 0,
-          });
-        }
+        await ctx.database.create("wordle_gaming_player_records", {
+          channelId,
+          userId,
+          username,
+        });
       }
       let {
         correctLetters,
@@ -1745,15 +1475,6 @@ export function register(g: GameContext) {
 
       // 处理赢
       if (isWin) {
-        let finalSettlementString: string = "";
-        // 经典有收入
-        if (gameInfo.gameMode === "经典" || gameInfo.gameMode === "汉兜") {
-          finalSettlementString = await processNonZeroMoneyPlayers(
-            g,
-            channelId,
-            platform
-          );
-        }
         // 玩家记录赢
         await updatePlayerRecordsWin(g, channelId, gameInfo);
         // 增加该玩家猜出单词的次数
@@ -1840,17 +1561,12 @@ export function register(g: GameContext) {
           timestamp
         );
         const imageType = config.imageType;
-        const settlementResult =
-          finalSettlementString === ""
-            ? ""
-            : `最终结算结果如下：\n${finalSettlementString}`;
 
         const message = `
 太棒了，你猜出来了！
 ${gameDuration}
 ${h.image(imageBuffer, `image/${imageType}`)}
 ${generateGameEndMessage(gameInfo)}${processedResult}
-${settlementResult}
 `;
 
         

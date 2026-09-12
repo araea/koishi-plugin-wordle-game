@@ -166,11 +166,10 @@ export async function getCiyingSuccessCountLeaderboardForCiying(
   return await sendMessage(g, session, result);
 }
 
-// 通用排行榜（损益、猜出次数、总胜场/输场）。
+// 通用排行榜（猜出次数、总胜场/输场）。
 export async function getLeaderboard(
   g: GameContext,
   session: any,
-  type: string,
   sortField: string,
   title: string,
   number: number
@@ -188,7 +187,7 @@ export async function getLeaderboard(
   topPlayers.forEach((player, index) => {
     result += `${index + 1}. ${player.username}：${
       (player as any)[sortField]
-    } ${type === "moneyChange" ? "点" : "次"}\n`;
+    } 次\n`;
   });
   return await sendMessage(g, session, result);
 }

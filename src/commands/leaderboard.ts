@@ -112,28 +112,6 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
       );
   });
 
-  // wordle.排行榜.损益
-  ctx
-    .command("wordle.排行榜.损益 [number:number]", "查看玩家损益排行榜")
-    .action(
-      async ({ session }, number = config.defaultMaxLeaderboardEntries) => {
-        let { username, userId } = session;
-        username = await getSessionUserName(g, session);
-        await updateNameInPlayerRecord(g, session, userId, username);
-        if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
-        }
-        return await getLeaderboard(
-          g,
-          session,
-          "moneyChange",
-          "moneyChange",
-          "玩家损益排行榜",
-          number
-        );
-      }
-    );
-
   // wordle.排行榜.猜出次数
   ctx
     .command(
@@ -151,7 +129,6 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
         return await getLeaderboard(
           g,
           session,
-          "wordGuessCount",
           "wordGuessCount",
           "玩家猜出次数排行榜",
           number
@@ -177,7 +154,6 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           g,
           session,
           "win",
-          "win",
           "玩家总胜场排行榜",
           number
         );
@@ -201,7 +177,6 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
         return await getLeaderboard(
           g,
           session,
-          "lose",
           "lose",
           "查看玩家总输场排行榜",
           number

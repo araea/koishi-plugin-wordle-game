@@ -69,45 +69,6 @@ ${content}
   }
 }
 
-// 抓取并解析 wordword.org 的单词搜索结果。
-export async function fetchAndParseWords(g: GameContext, url: string) {
-  try {
-    const html = await g.ctx.http.get<string>(url, {
-      responseType: "text",
-      timeout: g.config.requestTimeout,
-    });
-    const $ = load(html);
-
-    const wordGroups = $(".word-group");
-    let finalResult = "";
-
-    if (wordGroups.length === 0) {
-      finalResult = "未找到。";
-    } else {
-      wordGroups.each((_, element) => {
-        const title = $(element).find(".word-group__title").text();
-        const words = $(element)
-          .find(".word-group__inner .word")
-          .map((_, el) =>
-            $(el)
-              .contents()
-              .filter(function () {
-                return this.nodeType === 3;
-              })
-              .text()
-              .trim()
-          )
-          .get();
-        finalResult += `${title}:\n${words.join(", ")}\n\n`;
-      });
-    }
-
-    return finalResult;
-  } catch (error) {
-    g.logger.error("发生错误：", error);
-  }
-}
-
 // 调用 wordword.org 接口获取单词定义。
 export async function fetchWordDefinitions(g: GameContext, word: string) {
   return g.ctx.http.post<any>(
@@ -130,7 +91,8 @@ export function serializeDefinitions(definitions: { [part: string]: any }) {
   return resultString;
 }
 
-// 从百度汉语获取成语拼音与解释。
+// 从汉典获取成语拼音与解释。
+// 汉典改版后词语、成语、国语辞典各用一套结构，按优先级依次尝试。
 export async function getIdiomInfo(
   g: GameContext,
   idiom: string
@@ -138,66 +100,41 @@ export async function getIdiomInfo(
   const { idiomsList } = g.data;
   try {
     const html = await g.ctx.http.get<string>(
-      `https://dict.baidu.com/s?wd=${encodeURIComponent(idiom)}&device=pc&ptype=zici`,
-      { responseType: "text", timeout: g.config.requestTimeout }
-    );
-
-    const $ = load(html);
-    const basicMeanWrapper = $("#basicmean-wrapper");
-
-    const pinyin = basicMeanWrapper
-      .find(".tab-content .pinyin-font")
-      .text()
-      .trim();
-    const explanation = basicMeanWrapper
-      .find(".tab-content dd p")
-      .text()
-      .trim();
-
-    if (!pinyin || !explanation) {
-      throw new Error("找不到拼音或解释。");
-    }
-    if (!isIdiomInList(idiom, idiomsList)) {
-      const newIdiom: Idiom = {
-        idiom,
-        pinyin,
-        explanation: "【解释】" + explanation,
-      };
-      idiomsList.push(newIdiom);
-      writeIdiomsToFile(g, g.paths.idiomsKoishi, idiomsList);
-    }
-    return { pinyin, explanation };
-  } catch (error) {
-    return { pinyin: "未找到拼音", explanation: "未找到解释" };
-  }
-}
-
-// 从汉典获取成语拼音与解释。
-export async function getIdiomInfo2(
-  g: GameContext,
-  idiom: string
-): Promise<{ pinyin: string; explanation: string }> {
-  const { idiomsList } = g.data;
-  try {
-    const html = await g.ctx.http.get<string>(
-      `https://www.zdic.net/hans/${encodeURIComponent(idiom)}`,
+      `https://zdic.net/hans/${encodeURIComponent(idiom)}`,
       { responseType: "text", timeout: g.config.requestTimeout }
     );
 
     const $ = load(html);
 
-    const pinyin = $(".ciif.noi.zisong .dicpy")
+    const pinyin = $(".word-pronun-text")
       .first()
       .text()
       .replace(/\s+/g, " ")
       .trim();
-    const cyjsDiv = $("#cyjs");
-    cyjsDiv.find("h3").remove();
-    const explanation = cyjsDiv
-      .find("p")
-      .map((_, p) => $(p).text())
-      .get()
-      .join("\n");
+
+    const pickTexts = (selector: string) =>
+      $(selector)
+        .map((_, el) => $(el).text().trim())
+        .get()
+        .filter((text) => text.length > 0);
+
+    let explanationParts = pickTexts("#xxjs .xxjs-item__def");
+    if (explanationParts.length === 0) {
+      const idiomDefinition = $("#cy .idiom-entry__line")
+        .filter(
+          (_, el) => $(el).find(".idiom-entry__label").text().trim() === "解释"
+        )
+        .find(".idiom-entry__text")
+        .text()
+        .trim();
+      if (idiomDefinition) {
+        explanationParts = [idiomDefinition];
+      }
+    }
+    if (explanationParts.length === 0) {
+      explanationParts = pickTexts("#gyjs .gy-sense__def");
+    }
+    const explanation = explanationParts.join("\n");
 
     if (!pinyin || !explanation) {
       throw new Error("找不到拼音或解释。");
@@ -209,7 +146,7 @@ export async function getIdiomInfo2(
         explanation,
       };
       idiomsList.push(newIdiom);
-      writeIdiomsToFile(g, g.paths.idioms, idiomsList);
+      writeIdiomsToFile(g, g.paths.idiomsKoishi, idiomsList);
     }
     return { pinyin, explanation };
   } catch (error) {
