@@ -2,7 +2,11 @@ import * as path from "path";
 import { pathToFileURL } from "url";
 import {} from "koishi-plugin-puppeteer";
 import type { GameContext } from "../context";
+import { baseline, scheme, SHAPE } from "../m3";
 import { htmlAfterStyle, htmlPrefix, htmlSuffix } from "../html/template";
+
+/** 合成图外壳的主色。盘面本身不受影响，这只管它们之间的那层底。 */
+const HUE = 142;
 
 /** 统一截图：走 Koishi 的 `page()`。词影/汉兜的 CSS 是相对路径，先落到 lib 下的空白页才读得到。 */
 async function capture(
@@ -162,45 +166,47 @@ export async function generateHandlePinyinsImage(
   return capture(g, html, { width: 420, height: 570 }, true);
 }
 
-// 生成多词（wordles）模式的合成图。
+/**
+ * 生成多词（wordles）模式的合成图。
+ *
+ * 这张页面是本插件自己的容器——里面那几张盘面分别复刻 Wordle / 汉兜 / 词影，
+ * 那是玩家要的样子，一个像素都不该改；但把它们摆在一起的这层外壳归我们，
+ * 所以走设计系统：表面色打底、盘面各自嵌进圆角容器、间距落在 4dp 栅格上。
+ */
 export async function generateWordlesImage(
   g: GameContext,
   htmlImgString: string
 ) {
+  const s = scheme(HUE, g.config.isDarkThemeEnabled);
   const html = `<!DOCTYPE html>
-    <html lang="en">
+    <html lang="zh">
     <head>
+        <meta charset="UTF-8">
         <style>
-            .image-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 20px;
-                justify-content: space-between;
-                align-items: center;
+            ${baseline(s)}
+            body {
+                padding: 24px;
+                background: ${s.surface};
             }
+            .image-container {
+                display: grid;
+                gap: 16px;
+                align-items: start;
+            }
+            /* 四张以内两列，再多就四列——和原先按张数换宽度是同一个规则，
+               只是交给 grid 去算，不必等 onload 再逐张改样式 */
+            .image-container[data-dense="false"] { grid-template-columns: repeat(2, 1fr); }
+            .image-container[data-dense="true"] { grid-template-columns: repeat(4, 1fr); }
             .image-container img {
-                max-width: 100%;
+                display: block;
+                width: 100%;
+                border-radius: ${SHAPE.large}px;
+                background: ${s.surfaceContainerLow};
             }
         </style>
-        <script>
-            window.onload = function() {
-                var imageContainer = document.querySelector('.image-container');
-                var images = imageContainer.getElementsByTagName('img');
-
-                if (images.length > 4) {
-                    for (var i = 0; i < images.length; i++) {
-                        images[i].style.width = "calc(25% - 15px)";
-                    }
-                } else {
-                    for (var i = 0; i < images.length; i++) {
-                        images[i].style.width = "calc(50% - 10px)";
-                    }
-                }
-            };
-        </script>
     </head>
     <body>
-    <div class="image-container">
+    <div class="image-container" data-dense="${(htmlImgString.match(/<img/g) ?? []).length > 4}">
     ${htmlImgString}
     </div>
     </body>
