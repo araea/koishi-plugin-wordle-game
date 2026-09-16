@@ -24,7 +24,7 @@ export function formatGameDuration2(elapsedSeconds: number): string {
   }
 }
 
-// 计算从开始到当前的时间差，格式化为「用时：【x 分 x 秒】」。
+// 计算从开始到当前的时间差，格式化为「用时 x 分 x 秒」。
 export function calculateGameDuration(
   startTime: number,
   currentTime: number
@@ -35,8 +35,8 @@ export function calculateGameDuration(
   const seconds = elapsedSeconds % 60;
 
   if (minutes > 0) {
-    return `用时：【${minutes} 分 ${seconds} 秒】`;
+    return `用时 ${minutes} 分 ${seconds} 秒`;
   } else {
-    return `用时：【${seconds} 秒】`;
+    return `用时 ${seconds} 秒`;
   }
 }

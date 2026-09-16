@@ -124,7 +124,7 @@ export function register(g: GameContext) {
   });
 
   // wordle.结束
-  ctx.command("wordle.结束", "结束游戏").action(async ({ session }) => {
+  ctx.command("wordle.结束", "结束当前对局").action(async ({ session }) => {
     let { channelId, userId, username, timestamp } = session;
     username = await getSessionUserName(g, session);
     await updateNameInPlayerRecord(g, session, userId, username);
@@ -134,7 +134,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `⚠️ 当前没有进行中的对局。`
+        `💡 本频道没有进行中的对局。\n发送「wordle.开始」开一局。`
       );
     }
     // 玩家记录输
@@ -149,9 +149,9 @@ export function register(g: GameContext) {
       Number(gameInfo.timestamp),
       timestamp
     );
-    const message = `由于你执行了操作：【结束】\n游戏已结束！\n${duration}${
+    const message = `✅ 本局已结束\n${duration}${
       gameInfo.isAbsurd ? "" : `\n${generateGameEndMessage(gameInfo)}`
-    }${processedResult}`;
+    }${processedResult}\n发送「wordle.开始」再来一局。`;
     await sendMessage(
       g,
       session,
@@ -163,7 +163,7 @@ export function register(g: GameContext) {
 
   // wordle.开始
   ctx
-    .command("wordle.开始 [guessWordLength:number]", "开始游戏引导")
+    .command("wordle.开始 [guessWordLength:number]", "引导式开局")
     .option("hard", "--hard 困难模式", { fallback: false })
     .option("ultraHardMode", "--uhard 超困难模式", { fallback: false })
     .option("absurd", "--absurd 变态模式", { fallback: false })
@@ -183,7 +183,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`
+          `⚠️ 同时猜测的数量须在 1 到 ${config.maxSimultaneousGuesses} 之间。`
         );
       }
       // 游戏状态
@@ -192,24 +192,24 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 游戏已经开始了。`
+          `⚠️ 本频道已有对局正在进行\n发送「wordle.结束」收掉这一局，再开新的。`
         );
       }
       // 提示输入
       await sendMessage(
         g,
         session,
-        `可选模式如下：\n${exams
+        `💡 可选模式\n${exams
                 .map((exam, index) => `${index + 1}. ${exam}`)
                 .join("\n")}
-请输入要开始的序号或模式名：`
+发送序号或模式名即可开局。`
       );
       const userInput = await session.prompt();
       if (!userInput)
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效或超时。`
+          `⏳ 没有等到有效输入，这次先作罢。`
         );
       // 判断 userInput 是否为有效输入
       const selectedExam = isNaN(parseInt(userInput))
@@ -228,16 +228,16 @@ export function register(g: GameContext) {
             await sendMessage(
               g,
               session,
-              `长度可选值范围：${getValidGuessWordLengthRange(
+              `💡 可选长度 ${getValidGuessWordLengthRange(
                 selectedExam
-              )}\n请输入待猜项目的的长度：`
+              )}\n发送一个长度即可开局。`
             );
             const userInput = await session.prompt();
             if (!userInput)
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 输入无效或超时。`
+                `⏳ 没有等到有效输入，这次先作罢。`
               );
             guessWordLength = parseInt(userInput);
           } else {
@@ -256,7 +256,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效，请重新输入。`
+          `⚠️ 认不出这个模式\n发送上面列出的序号或模式名。`
         );
       }
     });
@@ -284,7 +284,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`
+          `⚠️ 同时猜测的数量须在 1 到 ${config.maxSimultaneousGuesses} 之间。`
         );
       }
       // 游戏状态
@@ -293,7 +293,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 游戏已经开始了。`
+          `⚠️ 本频道已有对局正在进行\n发送「wordle.结束」收掉这一局，再开新的。`
         );
       }
       // 选待猜单词（随机选择一个单词并小写化）
@@ -395,25 +395,25 @@ export function register(g: GameContext) {
         imageBuffer = await generateWordlesImage(g, htmlImgString);
       }
 
-      const gameMode = `【经典${wordlesNum > 1 ? `（x${wordlesNum}）` : ""}${
+      const gameMode = `经典${wordlesNum > 1 ? `（x${wordlesNum}）` : ""}${
         isHardMode ? `（${isUltraHardMode ? "超" : ""}困难）` : ""
-      }${isAbsurdMode ? `（变态${isChallengeMode ? "挑战" : ""}）` : ""}】`;
+      }${isAbsurdMode ? `（变态${isChallengeMode ? "挑战" : ""}）` : ""}`;
       const targetWord = isChallengeMode
-        ? `\n目标单词为：【${randomWord}】`
+        ? `\n目标单词 ${randomWord}`
         : "";
-      const wordLength = "单词长度为：【5】";
-      const guessChance = `猜单词机会为：【${
-        isAbsurdMode ? "♾️" : `${6 + wordlesNum - 1}`
-      }】`;
-      const wordCount = "待猜单词数量为：【2315】";
+      const facts = [
+        "单词长度 5",
+        `机会 ${isAbsurdMode ? "无限" : `${6 + wordlesNum - 1}`} 次`,
+        "候选 2315 个",
+      ].join(" · ");
       const timeLimit = config.enableWordGuessTimeLimit
-        ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒`
+        ? `\n作答时间 ${config.wordGuessTimeLimitInSeconds} 秒`
         : "";
       const image = h.image(imageBuffer, `image/${config.imageType}`);
 
-      const message = `游戏开始！\n当前游戏模式为：${gameMode}${
+      const message = `✅ 对局开始 · ${gameMode}${
         isChallengeMode ? targetWord : ""
-      }\n${wordLength}\n${guessChance}\n${wordCount}${timeLimit}\n${image}`;
+      }\n${facts}${timeLimit}\n${image}\n直接发送单词即可猜测。`;
 
       
       return await sendMessage(g, session, message);
@@ -427,7 +427,7 @@ export function register(g: GameContext) {
     ctx
       .command(
         `wordle.开始.${exam} [guessWordLength:number]`,
-        `开始猜${exam}单词游戏`
+        `以${exam}模式开局`
       )
       .option("free", "--free 自由模式（仅限汉兜与词影）", {
         fallback: false,
@@ -439,7 +439,7 @@ export function register(g: GameContext) {
       .option("ultraHardMode", "--uhard 超困难模式", { fallback: false })
       .option("absurd", "--absurd 变态模式", { fallback: false })
       .option("challenge", "--challenge 变态挑战模式", { fallback: false })
-      .option("wordles", "--wordles <value:number> 同时猜测多个", {
+      .option("wordles", "--wordles <value:number> 同时猜测多个词", {
         fallback: 1,
       })
       .action(async ({ session, options }, guessWordLength) => {
@@ -457,16 +457,16 @@ export function register(g: GameContext) {
             await sendMessage(
               g,
               session,
-              `长度可选值范围：${getValidGuessWordLengthRange(
+              `💡 可选长度 ${getValidGuessWordLengthRange(
                 exam
-              )}\n请输入待猜测项目的长度：`
+              )}\n发送一个长度即可开局。`
             );
             const userInput = await session.prompt();
             if (!userInput)
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 输入无效或超时。`
+                `⏳ 没有等到有效输入，这次先作罢。`
               );
             guessWordLength = parseInt(userInput);
           } else {
@@ -481,7 +481,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 同时猜测的数量须在 1 ~ ${config.maxSimultaneousGuesses} 之间。`
+            `⚠️ 同时猜测的数量须在 1 到 ${config.maxSimultaneousGuesses} 之间。`
           );
         }
 
@@ -496,9 +496,9 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `无效的长度参数！\n${exam} 长度可选值范围：${getValidGuessWordLengthRange(
+            `⚠️ 长度不在可选范围内\n${exam} 的可选长度是 ${getValidGuessWordLengthRange(
               exam
-            )}`
+            )}。`
           );
         }
 
@@ -508,7 +508,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 游戏已经开始了。`
+            `⚠️ 本频道已有对局正在进行\n发送「wordle.结束」收掉这一局，再开新的。`
           );
         }
 
@@ -726,7 +726,7 @@ export function register(g: GameContext) {
           imageBuffer = await generateWordlesImage(g, htmlImgString);
         }
 
-        const gameMode = `游戏开始！\n当前游戏模式为：【${exam}${
+        const gameMode = `✅ 对局开始 · ${exam}${
           wordlesNum > 1 ? `（x${wordlesNum}）` : ""
         }${
           (isFreeMode && exam === "汉兜") || (isFreeMode && exam === "词影")
@@ -734,28 +734,21 @@ export function register(g: GameContext) {
             : ""
         }${isHardMode ? `（${isUltraHardMode ? "超" : ""}困难）` : ""}${
           isAbsurdMode ? `（变态${isChallengeMode ? "挑战" : ""}）` : ""
-        }】`;
-        const challengeInfo = isChallengeMode
-          ? `\n目标单词为：【${randomWord}】`
-          : "";
-        const wordLength = `${
-          exam === "Numberle"
-            ? "数字"
-            : exam === "Math"
-            ? "数学方程式"
-            : "单词"
-        }长度为：【${guessWordLength}】`;
-        const guessChance = `猜${
+        }`;
+        const challengeInfo = isChallengeMode ? `\n目标单词 ${randomWord}` : "";
+        // 各模式的猜测对象名称，用于拼出「长度 / 机会 / 候选」三项事实
+        const subject =
           exam === "汉兜" || exam === "词影"
-            ? "词语|成语"
+            ? "词语"
             : exam === "Numberle"
             ? "数字"
             : exam === "Math"
-            ? "数学方程式"
-            : "单词"
-        }机会为：【${
+            ? "方程式"
+            : "单词";
+        const wordLength = `${subject}长度 ${guessWordLength}`;
+        const guessChance = `机会 ${
           isAbsurdMode
-            ? "♾️"
+            ? "无限"
             : exam === "汉兜"
             ? `${10 + wordlesNum - 1}`
             : exam === "Math"
@@ -763,33 +756,36 @@ export function register(g: GameContext) {
             : exam === "词影"
             ? `${6 + wordlesNum - 1}`
             : guessWordLength + 1 + wordlesNum - 1
-        }】`;
+        } 次`;
         const wordCount2 =
           exam === "汉兜" || exam === "词影"
-            ? `待猜词语|成语数量为：【${
+            ? `候选 ${
                 options.all ? idiomsList.length : commonIdiomsList.length
-              }】`
+              } 条`
             : exam === "Math"
-            ? `待猜方程式数量为：【${equations[guessWordLength].length}】`
-            : `待猜单词数量为：【${exam === "Lewdle" ? "1000" : wordCount}】`;
+            ? `候选 ${equations[guessWordLength].length} 个`
+            : `候选 ${exam === "Lewdle" ? "1000" : wordCount} 个`;
         const timeLimit = config.enableWordGuessTimeLimit
-          ? `\n作答时间为：【${config.wordGuessTimeLimitInSeconds}】秒`
+          ? `\n作答时间 ${config.wordGuessTimeLimitInSeconds} 秒`
           : "";
         const image = h.image(imageBuffer, `image/${config.imageType}`);
+        const tail = `\n直接发送${subject}即可猜测。`;
 
         if (exam === "汉兜" || exam === "词影") {
           return await sendMessage(
             g,
             session,
-            `${gameMode}\n${guessChance}\n${wordCount2}${timeLimit}\n${image}`
+            `${gameMode}\n${[guessChance, wordCount2].join(" · ")}${timeLimit}\n${image}${tail}`
           );
         } else {
           return await sendMessage(
             g,
             session,
-            `${gameMode}${challengeInfo}\n${wordLength}\n${guessChance}\n${
-              exam === "Numberle" ? "" : wordCount2
-            }${timeLimit}\n${image}`
+            `${gameMode}${challengeInfo}\n${[
+              wordLength,
+              guessChance,
+              ...(exam === "Numberle" ? [] : [wordCount2]),
+            ].join(" · ")}${timeLimit}\n${image}${tail}`
           );
         }
       });
@@ -809,7 +805,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⏳ 操作过快，请稍后再试。`
+          `⏳ 上一次猜测还在处理，稍等一下。`
         );
       }
 
@@ -822,7 +818,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 游戏还没开始。`
+          `💡 本频道没有进行中的对局。\n发送「wordle.开始」开一局。`
         );
       }
 
@@ -841,20 +837,20 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `⚠️ 请输入猜测词，或发送「取消」。`
+          `💡 发送一个猜测词，或发送「取消」。`
         );
         const userInput = await session.prompt();
         if (!userInput)
           return await sendMessage(
             g,
             session,
-            `⚠️ 输入无效或超时。`
+            `⏳ 没有等到有效输入，这次先作罢。`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `✅ 已取消猜测。`
+            `✅ 已取消这次猜测。`
           );
         inputWord = userInput.trim();
       }
@@ -869,7 +865,7 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `⏳ 作答超过 ${config.wordGuessTimeLimitInSeconds} 秒，本局结束。`
+            `⏳ 作答超过 ${config.wordGuessTimeLimitInSeconds} 秒，本局结束。\n发送「wordle.开始」再来一局。`
           );
           await endGame(g, channelId);
 
@@ -912,7 +908,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 这个已经猜过了。`
+          `💡 这个已经猜过了，换一个试试。`
         );
       }
       if (
@@ -926,7 +922,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入包含非字母字符，请重新输入。`
+          `⚠️ 猜测里有非字母字符\n只用 A-Z 组词再试一次。`
         );
       }
       if (
@@ -937,7 +933,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请输入四字词语。`
+          `⚠️ 这里只收四字词语。`
         );
       }
       if (
@@ -948,7 +944,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请输入长度为 ${guessWordLength} 的数字。`
+          `⚠️ 数字长度不对，这一局要 ${guessWordLength} 位。`
         );
       }
       if (
@@ -960,7 +956,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请使用 + - * / = 运算符和 0-9 的数字，组成正确的数学方程式。`
+          `⚠️ 这不是一个成立的方程式\n只用 0-9 与 + - * / =，且等式两边要相等。`
         );
       }
       if (
@@ -972,7 +968,7 @@ export function register(g: GameContext) {
       ) {
         await setGuessRunningStatus(g, channelId, false);
         const usernameMention = ``;
-        const inputLengthMessage = `⚠️ 单词长度不对。输入「${inputWord}」长度为 ${inputWord.length}，待猜长度为 ${gameInfo.guessWordLength}。`;
+        const inputLengthMessage = `⚠️ 单词长度不对\n「${inputWord}」有 ${inputWord.length} 个字母，这一局要 ${gameInfo.guessWordLength} 个。`;
         const presentLettersWithoutAsterisk =
           uniqueSortedLowercaseLetters(presentLetters);
         const processedResult =
@@ -982,12 +978,12 @@ export function register(g: GameContext) {
         const progressMessage = `当前${calculateGameDuration(
           Number(gameInfo.timestamp),
           timestamp
-        )}\n当前进度：【${correctLetters.join("")}】${
+        )}\n当前进度 ${correctLetters.join("")}${
           presentLettersWithoutAsterisk.length === 0
             ? ``
-            : `\n包含字母：【${presentLettersWithoutAsterisk}】`
+            : `\n包含字母 ${presentLettersWithoutAsterisk}`
         }${
-          absentLetters.length === 0 ? "" : `\n不包含字母：【${absentLetters}】`
+          absentLetters.length === 0 ? "" : `\n不包含字母 ${absentLetters}`
         }${processedResult}`;
         return await sendMessage(
           g,
@@ -1013,7 +1009,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `⚠️ 词库中没有这个单词。`
+            `⚠️ 词库里没有这个单词，换一个试试。`
           );
         }
       }
@@ -1024,7 +1020,7 @@ export function register(g: GameContext) {
           return await sendMessage(
             g,
             session,
-            `不好意思啊...\n我还没学会这个字（`
+            `⚠️ 词影的笔画库里还没有这个字\n换一个常见些的字试试。`
           );
         }
         if (!isIdiomInList(inputWord, idiomsList) && !isFreeMode) {
@@ -1034,7 +1030,7 @@ export function register(g: GameContext) {
             return await sendMessage(
               g,
               session,
-              `⚠️ 未找到该四字词语。`
+              `⚠️ 汉典里查不到这个四字词语，换一个试试。`
             );
           } else {
             userInputPinyin = idiomInfo.pinyin;
@@ -1075,7 +1071,7 @@ export function register(g: GameContext) {
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 未找到该四字词语。`
+                `⚠️ 汉典里查不到这个四字词语，换一个试试。`
               );
             } else {
               userInputPinyin = idiomInfo.pinyin;
@@ -1145,24 +1141,24 @@ export function register(g: GameContext) {
         if (isInputWordWrong) {
           await setGuessRunningStatus(g, channelId, false);
           const difficulty = isUltraHardMode ? "超困难" : "困难";
-          const rule = `绿色线索必须保特固定，黄色线索必须重复使用。${
+          const rule = `绿色线索必须保持在原位，黄色线索必须继续使用。${
             isUltraHardMode
-              ? `\n黄色线索必须远离它们被线索的地方，灰色的线索必须被遵守。`
+              ? `\n黄色线索要避开已经排除的位置，灰色线索不得再用。`
               : ""
           }`;
 
-          const message = `当前难度为：【${difficulty}】\n【${difficulty}】：${rule}\n你输入的词不符合要求！\n你的输入为：【${inputWord}】\n要求：【${correctLetters.join(
+          const message = `⚠️ 这个词不符合${difficulty}模式的要求\n${rule}\n你的输入 ${inputWord}\n要求 ${correctLetters.join(
             ""
-          )}】${
-            presentLetters.length === 0 ? `` : `\n包含：【${presentLetters}】`
+          )}${
+            presentLetters.length === 0 ? `` : `\n包含 ${presentLetters}`
           }${
             absentLetters.length === 0 || !isUltraHardMode
               ? ``
-              : `\n不包含：【${absentLetters}】`
+              : `\n不包含 ${absentLetters}`
           }${
             presentLettersWithIndex.length === 0 || !isUltraHardMode
               ? ``
-              : `\n远离黄色线索：【${presentLettersWithIndex.join(", ")}】`
+              : `\n避开黄色线索 ${presentLettersWithIndex.join("、")}`
           }`;
 
           return await sendMessage(g, session, message);
@@ -1232,7 +1228,7 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `⚠️ 根据已有信息，已经没有可用单词。本局结束。`
+            `💡 按现有线索，已经没有可用的单词了，本局到此为止。\n发送「wordle.开始」再来一局。`
           );
           await endGame(g, channelId);
           return;
@@ -1270,10 +1266,10 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `目标单词为：【${targetWord}】\n它不再是可能的秘密单词！\n${h.image(
+            `⚠️ 目标单词 ${targetWord} 已经不可能是答案了\n${h.image(
               imageBuffer,
               `image/${config.imageType}`
-            )}\n你可选择的操作有：【撤销】和【结束】\n\n【撤销】：回到上一步。\n\n注意：无效输入将自动选择【撤销】操作。`
+            )}\n发送「撤销」回到上一步，或发送「结束」收掉这一局。\n没有等到有效输入时，按「撤销」处理。`
           );
           let userInput = await session.prompt();
           const imageBuffer2 = await generateImage(
@@ -1287,7 +1283,7 @@ export function register(g: GameContext) {
             return await sendMessage(
               g,
               session,
-              `⚠️ 输入无效或超时。\n已自动选择【撤销】操作。\n${h.image(
+              `⏳ 没有等到有效输入，已按「撤销」处理。\n${h.image(
                 imageBuffer2,
                 `image/${config.imageType}`
               )}`
@@ -1562,12 +1558,11 @@ export function register(g: GameContext) {
         );
         const imageType = config.imageType;
 
-        const message = `
-太棒了，你猜出来了！
+        const message = `🏆 猜出来了！
 ${gameDuration}
 ${h.image(imageBuffer, `image/${imageType}`)}
 ${generateGameEndMessage(gameInfo)}${processedResult}
-`;
+发送「wordle.开始」再来一局。`;
 
         
         await sendMessage(
@@ -1587,7 +1582,7 @@ ${generateGameEndMessage(gameInfo)}${processedResult}
             ? `\n${await processExtraGameRecords(g, channelId)}`
             : "";
         const challengeMessage = isChallengeMode
-          ? `\n目标单词为「${targetWord}」，它不再是可能的秘密单词。`
+          ? `\n目标单词 ${targetWord} 已经不可能是答案了。`
           : "";
         const answerInfo = isChallengeMode
           ? ""
@@ -1596,10 +1591,10 @@ ${generateGameEndMessage(gameInfo)}${processedResult}
           Number(gameInfo.timestamp),
           timestamp
         );
-        const message = `本局未猜出。${challengeMessage}\n${h.image(
+        const message = `✅ 本局结束，这次没有猜出来。${challengeMessage}\n${h.image(
           imageBuffer,
           `image/${config.imageType}`
-        )}\n${gameDuration}${answerInfo}${processedResult}`;
+        )}\n${gameDuration}${answerInfo}${processedResult}\n发送「wordle.开始」再来一局。`;
 
         
         await sendMessage(

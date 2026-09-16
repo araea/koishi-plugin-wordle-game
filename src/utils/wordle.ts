@@ -264,31 +264,31 @@ export function getValidGuessWordLengthRange(command: string): string {
   }
   switch (command) {
     case "CET4":
-      return "【1 ~ 15】";
+      return "1～15";
     case "CET6":
-      return "【3 ~ 16, 18】";
+      return "3～16、18";
     case "GMAT":
-      return "【3 ~ 18】";
+      return "3～18";
     case "GRE":
-      return "【1, 3 ~ 16】";
+      return "1、3～16";
     case "IELTS":
-      return "【2 ~ 15, 17】";
+      return "2～15、17";
     case "SAT":
-      return "【3 ~ 16】";
+      return "3～16";
     case "TOEFL":
-      return "【2 ~ 17, 20】";
+      return "2～17、20";
     case "考研":
-      return "【2 ~ 15】";
+      return "2～15";
     case "专八":
-      return "【1 ~ 18】";
+      return "1～18";
     case "专四":
-      return "【2 ~ 16, 18】";
+      return "2～16、18";
     case "ALL":
-      return "【1 ~ 35, 45, 52】";
+      return "1～35、45、52";
     case "Numberle":
-      return "【1 ~ 35】";
+      return "1～35";
     case "Math":
-      return "【5 ~ 12】";
+      return "5～12";
     default:
       return "";
   }
@@ -314,11 +314,11 @@ export function generateStatsInfo(stats, fastestGuessTime) {
 
 // 生成游戏结束时的答案提示信息。
 export function generateGameEndMessage(gameInfo: GameRecord): string {
-  return `答案是：【${gameInfo.wordGuess}】${
+  return `答案 ${gameInfo.wordGuess}${
     gameInfo.wordAnswerChineseDefinition !== ""
       ? `${
-          gameInfo.pinyin === "" ? "" : `\n拼音为：【${gameInfo.pinyin}】`
-        }\n释义如下：\n${replaceEscapeCharacters(
+          gameInfo.pinyin === "" ? "" : `\n拼音 ${gameInfo.pinyin}`
+        }\n释义\n${replaceEscapeCharacters(
           gameInfo.wordAnswerChineseDefinition
         )}`
       : ""

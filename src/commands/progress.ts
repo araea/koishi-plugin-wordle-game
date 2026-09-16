@@ -15,7 +15,7 @@ export function register(g: GameContext) {
   const { ctx, config } = g;
 
   // wordle.查询进度
-  ctx.command("wordle.查询进度", "查询当前游戏进度").action(async ({ session }) => {
+  ctx.command("wordle.查询进度", "查看当前对局进度").action(async ({ session }) => {
     let { channelId, userId, username, timestamp } = session;
     username = await getSessionUserName(g, session);
     await updateNameInPlayerRecord(g, session, userId, username);
@@ -25,7 +25,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `⚠️ 游戏还没开始。开始后再来查询进度。`
+        `💡 本频道没有进行中的对局。\n发送「wordle.开始」开一局。`
       );
     }
     // 返回信息
@@ -60,7 +60,7 @@ export function register(g: GameContext) {
         : gameMode === "Math"
         ? "数学方程式"
         : "单词"
-    }的长度为：【${guessWordLength}】`;
+    }长度 ${guessWordLength}`;
     const extraGameInfo =
       wordlesNum > 1
         ? `\n${await processExtraGameInfos(g, channelId)}`
@@ -69,64 +69,64 @@ export function register(g: GameContext) {
       Number(gameInfo.timestamp),
       timestamp
     );
-    const progressInfo = `当前${gameDuration}\n当前进度：【${correctLetters.join(
+    const progressInfo = `当前${gameDuration}\n当前进度 ${correctLetters.join(
       ""
-    )}】`;
+    )}`;
 
     const presentInfo =
-      presentLetters.length !== 0 ? `\n包含：【${presentLetters}】` : "";
+      presentLetters.length !== 0 ? `\n包含 ${presentLetters}` : "";
     const absentInfo =
-      absentLetters.length !== 0 ? `\n不包含：【${absentLetters}】` : "";
+      absentLetters.length !== 0 ? `\n不包含 ${absentLetters}` : "";
     const presentWithIndexInfo =
       presentLettersWithIndex.length !== 0
-        ? `\n位置排除：【${presentLettersWithIndex.join(", ")}】`
+        ? `\n位置排除 ${presentLettersWithIndex.join("、")}`
         : "";
 
     const pinyinsCorrectInfo =
       correctPinyinsWithIndex.length !== 0
-        ? `\n正确拼音：【${correctPinyinsWithIndex.join(", ")}】`
+        ? `\n正确拼音 ${correctPinyinsWithIndex.join("、")}`
         : "";
     const pinyinsPresentInfo =
       presentPinyins.length !== 0
-        ? `\n包含拼音：【${presentPinyins.join(", ")}】`
+        ? `\n包含拼音 ${presentPinyins.join("、")}`
         : "";
     const pinyinsAbsentInfo =
       absentPinyins.length !== 0
-        ? `\n不包含拼音：【${absentPinyins.join(", ")}】`
+        ? `\n不包含拼音 ${absentPinyins.join("、")}`
         : "";
     const pinyinsPresentWithIndexInfo =
       presentPinyinsWithIndex.length !== 0
-        ? `\n拼音位置排除：【${presentPinyinsWithIndex.join(", ")}】`
+        ? `\n拼音位置排除 ${presentPinyinsWithIndex.join("、")}`
         : "";
 
     const tonesCorrectInfo =
       correctTonesWithIndex.length !== 0
-        ? `\n正确声调：【${correctTonesWithIndex.join(", ")}】`
+        ? `\n正确声调 ${correctTonesWithIndex.join("、")}`
         : "";
     const tonesPresentInfo =
       presentTones.length !== 0
-        ? `\n包含声调：【${presentTones.join(", ")}】`
+        ? `\n包含声调 ${presentTones.join("、")}`
         : "";
     const tonesAbsentInfo =
       absentTones.length !== 0
-        ? `\n不包含声调：【${absentTones.join(", ")}】`
+        ? `\n不包含声调 ${absentTones.join("、")}`
         : "";
     const tonesPresentWithIndexInfo =
       presentTonesWithIndex.length !== 0
-        ? `\n声调位置排除：【${presentTonesWithIndex.join(", ")}】`
+        ? `\n声调位置排除 ${presentTonesWithIndex.join("、")}`
         : "";
 
     const progressMessage = `${progressInfo}${presentInfo}${absentInfo}${presentWithIndexInfo}${pinyinsCorrectInfo}${pinyinsPresentInfo}${pinyinsAbsentInfo}${pinyinsPresentWithIndexInfo}${tonesCorrectInfo}${tonesPresentInfo}${tonesAbsentInfo}${tonesPresentWithIndexInfo}${extraGameInfo}`;
 
     const timeDifferenceInSeconds =
       (timestamp - Number(gameInfo.timestamp)) / 1000;
-    let message = `${usernameMention}\n当前游戏模式为：【${gameMode}${
+    let message = `${usernameMention}\n当前模式 ${gameMode}${
       wordlesNum > 1 ? `（x${wordlesNum}）` : ""
     }${isHardMode ? `（${isUltraHardMode ? "超" : ""}困难）` : ""}${
       isAbsurd ? `（变态${isChallengeMode ? "挑战" : ""}）` : ""
-    }】${isChallengeMode ? `\n目标单词为：【${targetWord}】` : ""}`;
+    }${isChallengeMode ? `\n目标单词 ${targetWord}` : ""}`;
     if (config.enableWordGuessTimeLimit) {
-      message += `\n剩余作答时间：【${timeDifferenceInSeconds}】秒`;
+      message += `\n剩余作答时间 ${timeDifferenceInSeconds} 秒`;
     }
     message += `\n${inputLengthMessage}\n${progressMessage}`;
 

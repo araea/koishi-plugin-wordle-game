@@ -9,7 +9,7 @@ export function register(g: GameContext) {
   const { ctx, config } = g;
 
   // wordle 帮助；旧主指令继续作为兼容别名。
-  ctx.command("wordle", "猜单词游戏帮助")
+  ctx.command("wordle", "猜单词 · 多词库多模式")
     .alias("wordleGame")
     .action(async ({ session }) => {
       let { userId, username } = session;
@@ -19,7 +19,7 @@ export function register(g: GameContext) {
     });
 
   // wordle.玩法介绍
-  ctx.command("wordle.玩法介绍", "游戏玩法介绍").action(async ({ session }) => {
+  ctx.command("wordle.玩法介绍", "查看玩法介绍").action(async ({ session }) => {
     let { userId, username } = session;
     username = await getSessionUserName(g, session);
     await updateNameInPlayerRecord(g, session, userId, username);

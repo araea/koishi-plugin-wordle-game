@@ -18,7 +18,7 @@ export function register(g: GameContext) {
 
   // wordle.查单词（引导）
   ctx
-    .command("wordle.查单词 [targetWord:text]", "查单词引导")
+    .command("wordle.查单词 [targetWord:text]", "引导式查单词")
     .action(async ({ session, options }, targetWord) => {
       if (
         !targetWord &&
@@ -40,16 +40,16 @@ export function register(g: GameContext) {
       await sendMessage(
         g,
         session,
-        `当前可用词库如下：\n${availableDictionaryArray
+        `💡 可用词库\n${availableDictionaryArray
           .map((dictionary, index) => `${index + 1}. ${dictionary}`)
-          .join("\n")}\n请输入序号或词库名。`
+          .join("\n")}\n发送序号或词库名即可查询。`
       );
       const userInput = await session.prompt();
       if (!userInput)
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效或超时。`
+          `⏳ 没有等到有效输入，这次先作罢。`
         );
       // 判断 userInput 是否为有效输入
       const selectedDictionary = isNaN(parseInt(userInput))
@@ -64,7 +64,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入无效，请重新输入。`
+          `⚠️ 认不出这一项\n发送上面列出的序号或名称。`
         );
       }
     });
@@ -73,7 +73,7 @@ export function register(g: GameContext) {
   ctx
     .command(
       "wordle.查单词.ALL [targetWord:text]",
-      "在ALL词库中查询单词释义（英译中）"
+      "在 ALL 词库查释义（英译中）"
     )
     .action(async ({ session }, targetWord) => {
       if (
@@ -94,20 +94,20 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `⚠️ 请输入待查询的单词，或发送「取消」。`
+          `💡 发送要查询的单词，或发送「取消」。`
         );
         const userInput = await session.prompt();
         if (!userInput)
           return await sendMessage(
             g,
             session,
-            `⚠️ 输入无效或超时。`
+            `⏳ 没有等到有效输入，这次先作罢。`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `✅ 已取消查找单词。`
+            `✅ 已取消这次查询。`
           );
         targetWord = userInput.trim();
       }
@@ -116,7 +116,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入包含非字母字符，请重新输入。`
+          `⚠️ 查询词里有非字母字符\n只用 A-Z 再试一次。`
         );
       }
 
@@ -126,13 +126,13 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 未在 ALL 词库中找到该单词。`
+          `⚠️ ALL 词库里没有这个单词\n换一个拼写试试，或发送「wordle.查单词」换个词库。`
         );
       }
       return sendMessage(
         g,
         session,
-        `查询对象：【${targetWord}】\n单词释义如下：\n${replaceEscapeCharacters(
+        `📋 ${targetWord}\n${replaceEscapeCharacters(
           foundWord.translation
         )}`
       );
@@ -142,7 +142,7 @@ export function register(g: GameContext) {
   ctx
     .command(
       "wordle.查单词.WordWord [targetWord:text]",
-      "在WordWord中查找单词定义（英译英）"
+      "在 WordWord 查定义（英译英）"
     )
     .action(async ({ session }, targetWord) => {
       if (
@@ -163,20 +163,20 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `⚠️ 请输入待查找的单词，或发送「取消」。`
+          `💡 发送要查询的单词，或发送「取消」。`
         );
         const userInput = await session.prompt();
         if (!userInput)
           return await sendMessage(
             g,
             session,
-            `⚠️ 输入无效或超时。`
+            `⏳ 没有等到有效输入，这次先作罢。`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `✅ 已取消查找单词。`
+            `✅ 已取消这次查询。`
           );
         targetWord = userInput.trim();
       }
@@ -185,7 +185,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 输入包含非字母字符，请重新输入。`
+          `⚠️ 查询词里有非字母字符\n只用 A-Z 再试一次。`
         );
       }
 
@@ -200,7 +200,7 @@ export function register(g: GameContext) {
             `${capitalizeFirstLetter(targetWord)} Definitions: \n${
               serializedDefinitions
                 ? serializedDefinitions
-                : `- 该单词定义暂未收录。`
+                : `• 这个单词的定义暂未收录。`
             }`
           );
         })
@@ -208,7 +208,7 @@ export function register(g: GameContext) {
           return sendMessage(
             g,
             session,
-            `⚠️ 未在 WordWord 中找到该单词。`
+            `⚠️ WordWord 里没有这个单词\n换一个拼写试试，或发送「wordle.查单词」换个词库。`
           );
         });
     });
@@ -235,20 +235,20 @@ export function register(g: GameContext) {
         await sendMessage(
           g,
           session,
-          `⚠️ 请输入待查找的成语，或发送「取消」。`
+          `💡 发送要查询的成语，或发送「取消」。`
         );
         const userInput = await session.prompt();
         if (!userInput)
           return await sendMessage(
             g,
             session,
-            `⚠️ 输入无效或超时。`
+            `⏳ 没有等到有效输入，这次先作罢。`
           );
         if (userInput === "取消")
           return await sendMessage(
             g,
             session,
-            `✅ 已取消查找成语。`
+            `✅ 已取消这次查询。`
           );
         targetIdiom = userInput.trim();
       }
@@ -257,7 +257,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 请输入四字词语。`
+          `⚠️ 这里只收四字词语。`
         );
       }
       // 寻找
@@ -266,19 +266,19 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `⚠️ 未在汉典中找到该成语。`
+          `⚠️ 汉典里查不到这个成语，换一个试试。`
         );
       }
       return await sendMessage(
         g,
         session,
-        `【成语】${targetIdiom}\n【拼音】${idiomInfo.pinyin}\n【解释】${idiomInfo.explanation}`
+        `📋 ${targetIdiom}\n拼音 ${idiomInfo.pinyin}\n解释 ${idiomInfo.explanation}`
       );
     });
 
   // wordle.查询玩家记录
   ctx
-    .command("wordle.查询玩家记录 [targetUser:text]", "查询玩家记录")
+    .command("wordle.查询玩家记录 [targetUser:text]", "查询玩家战绩")
     .action(async ({ session }, targetUser) => {
       let { userId, username } = session;
       const originalUserId = userId;
@@ -313,20 +313,17 @@ export function register(g: GameContext) {
         return sendMessage(
           g,
           session,
-          `⚠️ 被查询对象没有任何游戏记录。`
+          `📋 这个用户还没有游戏记录。\n发送「wordle.开始」开一局，记录就有了。`
         );
       }
 
       const { win, lose, wordGuessCount, stats, fastestGuessTime } =
         targetUserRecord[0];
 
-      const queryInfo = `📋 查询对象：${targetUserRecord[0].username}
-猜出次数：${wordGuessCount} 次
-总胜场：${win} 次
-总输场：${lose} 次
-详细统计信息如下：
-${generateStatsInfo(stats, fastestGuessTime)}
-    `;
+      const queryInfo = `📋 ${targetUserRecord[0].username} 的战绩
+猜出 ${wordGuessCount} 次 · 胜 ${win} 场 · 负 ${lose} 场
+
+${generateStatsInfo(stats, fastestGuessTime)}`;
 
       return sendMessage(g, session, queryInfo);
     });

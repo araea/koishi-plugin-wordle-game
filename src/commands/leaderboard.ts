@@ -26,20 +26,20 @@ export function register(g: GameContext) {
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
+          return "⚠️ 排行榜人数须是不小于 0 的整数。";
         }
 
         await sendMessage(
           g,
           session,
-          `当前可查看排行榜如下：
+          `💡 可查看的排行榜
 ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}
-请输入要查看的【排行榜名】或【序号】：`
+发送序号或排行榜名即可查看。`
         );
 
         const userInput = await session.prompt();
         if (!userInput)
-          return sendMessage(g, session, `⚠️ 输入无效或超时。`);
+          return sendMessage(g, session, `⏳ 没有等到有效输入，这次先作罢。`);
 
         // 处理用户输入
         const userInputNumber = parseInt(userInput);
@@ -53,7 +53,7 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}
         } else if (rankType.includes(userInput)) {
           await session.execute(`wordle.排行榜.${userInput} ${number}`);
         } else {
-          return sendMessage(g, session, `⚠️ 输入无效，请重新输入。`);
+          return sendMessage(g, session, `⚠️ 认不出这一项\n发送上面列出的序号或名称。`);
         }
       }
     );
@@ -68,7 +68,7 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
           if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
+            return "⚠️ 排行榜人数须是不小于 0 的整数。";
           }
           let rankType3: string[];
           if (type === "总") {
@@ -81,14 +81,14 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           await sendMessage(
             g,
             session,
-            `当前可查看排行榜如下：
+            `💡 可查看的类型
 ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
-请输入要查看的【类型名】或【序号】：`
+发送序号或类型名即可查看。`
           );
 
           const userInput = await session.prompt();
           if (!userInput)
-            return sendMessage(g, session, `⚠️ 输入无效或超时。`);
+            return sendMessage(g, session, `⏳ 没有等到有效输入，这次先作罢。`);
 
           // 处理用户输入
           const userInputNumber = parseInt(userInput);
@@ -106,7 +106,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
               `wordle.排行榜.${type}.${userInput} ${number}`
             );
           } else {
-            return sendMessage(g, session, `⚠️ 输入无效，请重新输入。`);
+            return sendMessage(g, session, `⚠️ 认不出这一项\n发送上面列出的序号或名称。`);
           }
         }
       );
@@ -124,7 +124,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
+          return "⚠️ 排行榜人数须是不小于 0 的整数。";
         }
         return await getLeaderboard(
           g,
@@ -148,7 +148,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
+          return "⚠️ 排行榜人数须是不小于 0 的整数。";
         }
         return await getLeaderboard(
           g,
@@ -172,13 +172,13 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
+          return "⚠️ 排行榜人数须是不小于 0 的整数。";
         }
         return await getLeaderboard(
           g,
           session,
           "lose",
-          "查看玩家总输场排行榜",
+          "玩家总输场排行榜",
           number
         );
       }
@@ -204,7 +204,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
           if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
+            return "⚠️ 排行榜人数须是不小于 0 的整数。";
           }
           
           if (
@@ -222,7 +222,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 词影多猜测排行榜范围应在 1 ~ 4 之间。`
+                `⚠️ 词影多猜测排行榜的范围是 1 到 4。`
               );
             }
             return await getWinCountLeaderboardForCiying(
@@ -262,7 +262,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
           if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
+            return "⚠️ 排行榜人数须是不小于 0 的整数。";
           }
           
           if (
@@ -280,7 +280,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 词影多猜测排行榜范围应在 1 ~ 4 之间。`
+                `⚠️ 词影多猜测排行榜的范围是 1 到 4。`
               );
             }
             return await getLoseCountLeaderboardForCiying(
@@ -320,7 +320,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
           if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
+            return "⚠️ 排行榜人数须是不小于 0 的整数。";
           }
           
           if (
@@ -338,7 +338,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
               return await sendMessage(
                 g,
                 session,
-                `⚠️ 词影多猜测排行榜范围应在 1 ~ 4 之间。`
+                `⚠️ 词影多猜测排行榜的范围是 1 到 4。`
               );
             }
             return await getFastestGuessTimeLeaderboardForCiying(
@@ -381,7 +381,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
         if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 请输入不小于 0 的数字作为排行榜人数。";
+          return "⚠️ 排行榜人数须是不小于 0 的整数。";
         }
         
         if (
@@ -392,7 +392,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           return await sendMessage(
             g,
             session,
-            `⚠️ 词影多猜测排行榜范围应在 1 ~ 4 之间。`
+            `⚠️ 词影多猜测排行榜的范围是 1 到 4。`
           );
         }
         return await getCiyingSuccessCountLeaderboardForCiying(

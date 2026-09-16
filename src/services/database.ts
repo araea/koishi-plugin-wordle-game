@@ -259,50 +259,50 @@ export async function processExtraGameInfos(
         presentPinyins,
       }) => {
         const present =
-          presentLetters.length === 0 ? "" : `\n包含：【${presentLetters}】`;
+          presentLetters.length === 0 ? "" : `\n包含 ${presentLetters}`;
         const absent =
-          absentLetters.length === 0 ? "" : `\n不包含：【${absentLetters}】`;
+          absentLetters.length === 0 ? "" : `\n不包含 ${absentLetters}`;
         const presentWithoutIndex =
           presentLettersWithIndex.length === 0
             ? ""
-            : `\n位置排除：【${presentLettersWithIndex.join(", ")}】`;
+            : `\n位置排除 ${presentLettersWithIndex.join("、")}`;
 
         const pinyinsCorrectInfo =
           correctPinyinsWithIndex.length !== 0
-            ? `\n正确拼音：【${correctPinyinsWithIndex.join(", ")}】`
+            ? `\n正确拼音 ${correctPinyinsWithIndex.join("、")}`
             : "";
         const pinyinsPresentInfo =
           presentPinyins.length !== 0
-            ? `\n包含拼音：【${presentPinyins.join(", ")}】`
+            ? `\n包含拼音 ${presentPinyins.join("、")}`
             : "";
         const pinyinsAbsentInfo =
           absentPinyins.length !== 0
-            ? `\n不包含拼音：【${absentPinyins.join(", ")}】`
+            ? `\n不包含拼音 ${absentPinyins.join("、")}`
             : "";
         const pinyinsPresentWithIndexInfo =
           presentPinyinsWithIndex.length !== 0
-            ? `\n拼音位置排除：【${presentPinyinsWithIndex.join(", ")}】`
+            ? `\n拼音位置排除 ${presentPinyinsWithIndex.join("、")}`
             : "";
 
         const tonesCorrectInfo =
           correctTonesWithIndex.length !== 0
-            ? `\n正确声调：【${correctTonesWithIndex.join(", ")}】`
+            ? `\n正确声调 ${correctTonesWithIndex.join("、")}`
             : "";
         const tonesPresentInfo =
           presentTones.length !== 0
-            ? `\n包含声调：【${presentTones.join(", ")}】`
+            ? `\n包含声调 ${presentTones.join("、")}`
             : "";
         const tonesAbsentInfo =
           absentTones.length !== 0
-            ? `\n不包含声调：【${absentTones.join(", ")}】`
+            ? `\n不包含声调 ${absentTones.join("、")}`
             : "";
         const tonesPresentWithIndexInfo =
           presentTonesWithIndex.length !== 0
-            ? `\n声调位置排除：【${presentTonesWithIndex.join(", ")}】`
+            ? `\n声调位置排除 ${presentTonesWithIndex.join("、")}`
             : "";
-        return `\n当前进度：【${correctLetters.join(
+        return `\n当前进度 ${correctLetters.join(
           ""
-        )}】${present}${absent}${presentWithoutIndex}${pinyinsCorrectInfo}${pinyinsPresentInfo}${pinyinsAbsentInfo}${pinyinsPresentWithIndexInfo}${tonesCorrectInfo}${tonesPresentInfo}${tonesAbsentInfo}${tonesPresentWithIndexInfo}`;
+        )}${present}${absent}${presentWithoutIndex}${pinyinsCorrectInfo}${pinyinsPresentInfo}${pinyinsAbsentInfo}${pinyinsPresentWithIndexInfo}${tonesCorrectInfo}${tonesPresentInfo}${tonesAbsentInfo}${tonesPresentWithIndexInfo}`;
       }
     )
     .join("\n");
@@ -319,11 +319,11 @@ export async function processExtraGameRecords(
   );
 
   const resultStrings: string[] = extraGameInfos.map((info) => {
-    return `\n答案是：【${info.wordGuess}】${
+    return `\n答案 ${info.wordGuess}${
       info.wordAnswerChineseDefinition !== ""
         ? `${
-            info.pinyin === "" ? "" : `\n拼音为：【${info.pinyin}】`
-          }\n释义如下：\n${replaceEscapeCharacters(
+            info.pinyin === "" ? "" : `\n拼音 ${info.pinyin}`
+          }\n释义\n${replaceEscapeCharacters(
             info.wordAnswerChineseDefinition
           )}`
         : ""
