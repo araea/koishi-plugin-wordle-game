@@ -267,7 +267,7 @@ export function register(g: GameContext) {
 
   // wordle.开始.经典
   ctx
-    .command("wordle.开始.经典", "开始经典猜单词游戏")
+    .command("wordle.开始.经典", "以经典模式开局")
     .option("hard", "--hard 困难模式", { fallback: false })
     .option("ultraHardMode", "--uhard 超困难模式", { fallback: false })
     .option("absurd", "--absurd 变态模式", { fallback: false })
