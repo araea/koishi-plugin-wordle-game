@@ -20,7 +20,7 @@ yarn add koishi-plugin-wordle-game
 | `wordle.查询进度` | 查询当前游戏进度 |
 | `wordle.结束` | 结束游戏 |
 | `wordle.排行榜 [人数]` | 查看排行榜 |
-| `wordle.查询玩家记录 [@某人]` | 查询玩家记录 |
+| `wordle.战绩 [@某人]` | 查询玩家记录 |
 | `wordle.查单词 <词>` | 查单词引导 |
 | `wordle.查成语 <成语>` | 查询成语的拼音与解释（汉典） |
 | `wordle.拼音速查表` | 查看拼音速查表 |
