@@ -1,10 +1,10 @@
-import * as path from "path";
 import { pathToFileURL } from "url";
 import { h } from "koishi";
 import {} from "koishi-plugin-puppeteer";
 import type { GameContext } from "../context";
 import { baseline, components, MONO_STACK, scheme, TYPE } from "../m3";
 import { htmlAfterStyle, htmlPrefix, htmlSuffix } from "../html/template";
+import { resource } from "../utils/resource";
 
 /** 合成图外壳的主色。盘面本身不受影响，这只管它们之间的那层底。 */
 const HUE = 142;
@@ -12,7 +12,7 @@ const HUE = 142;
 /** 信息面板的宽度，与盘面图一致；高度随内容长。 */
 const PANEL_WIDTH = 611;
 
-/** 统一截图：走 Koishi 的 `page()`。词影/汉兜的 CSS 是相对路径，先落到 lib 下的空白页才读得到。 */
+/** 统一截图：走 Koishi 的 `page()`。词影/汉兜的 CSS 是相对路径，先落到资源根下的空白页才读得到。 */
 async function capture(
   g: GameContext,
   html: string,
@@ -23,9 +23,7 @@ async function capture(
   try {
     await page.setViewport({ ...viewport, deviceScaleFactor: 1 });
     if (fileOrigin) {
-      await page.goto(
-        pathToFileURL(path.join(__dirname, "emptyHtml.html")).href,
-      );
+      await page.goto(pathToFileURL(resource("emptyHtml.html")).href);
     }
     await page.setContent(html, { waitUntil: "load" });
     return await page.screenshot({

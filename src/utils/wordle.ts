@@ -4,6 +4,7 @@ import { gameTypes } from "../constants";
 import type { GameRecord, LetterState, WordData, WordEntry } from "../types";
 import { replaceEscapeCharacters } from "./string";
 import { formatGameDuration2 } from "./time";
+import { resource } from "./resource";
 
 // 提取单词数组中的小写单词。
 export function extractLowerCaseWords(
@@ -178,13 +179,7 @@ export function getJsonFilePathAndWordCountByLength(
   filePath: string;
   wordCount: number;
 } | null {
-  const folderPath = path.join(
-    __dirname,
-    "assets",
-    "Wordle",
-    "词汇",
-    command
-  );
+  const folderPath = resource("assets", "Wordle", "词汇", command);
   const files = fs.readdirSync(folderPath);
   for (const file of files) {
     const match = file.match(new RegExp(`${command}_(\\d+)_(\\d+)\\.json`));
