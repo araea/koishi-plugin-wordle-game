@@ -1,6 +1,6 @@
 # koishi-plugin-wordle-game
 
-多模式猜词游戏
+猜单词 · 多词库多模式
 
 ## 安装
 
