@@ -7,10 +7,11 @@ import {
   serializeDefinitions,
 } from "../services/network";
 import { replaceAtTags, sendMessage } from "../services/message";
+import { renderPanel } from "../services/renderer";
 import { getSessionUserName } from "../services/user";
 import { isFourCharacterIdiom } from "../utils/idiom";
 import { capitalizeFirstLetter, replaceEscapeCharacters } from "../utils/string";
-import { findWord, generateStatsInfo } from "../utils/wordle";
+import { findWord, generateStatsInfo, statsRows } from "../utils/wordle";
 
 // 注册查询类指令：查单词、查成语、查战绩。
 export function register(g: GameContext) {
@@ -199,10 +200,10 @@ export function register(g: GameContext) {
           return sendMessage(
             g,
             session,
-            `${capitalizeFirstLetter(targetWord)} Definitions: \n${
+            `📋 ${capitalizeFirstLetter(targetWord)}\n${
               serializedDefinitions
                 ? serializedDefinitions
-                : `• 这个单词的定义暂未收录。`
+                : `• 这个单词的定义暂未收录。\n换一个单词，或发送「wordle.查单词」换个词库。`
             }`
           );
         })
@@ -315,7 +316,7 @@ export function register(g: GameContext) {
         return sendMessage(
           g,
           session,
-          `📋 这个用户还没有战绩\n发送「wordle.开始」开一局，记录就有了。`
+          `📋 还没有战绩\n猜出与胜负会记在这里。\n发送「wordle.开始」开一局。`
         );
       }
 
@@ -323,10 +324,16 @@ export function register(g: GameContext) {
         targetUserRecord[0];
 
       const queryInfo = `📋 ${targetUserRecord[0].username} 的战绩
-猜出 ${wordGuessCount} 次 · 胜 ${win} 场 · 负 ${lose} 场
+猜出 ${wordGuessCount} 次 · 胜 ${win} 局 · 负 ${lose} 局`;
 
-${generateStatsInfo(stats, fastestGuessTime)}`;
-
-      return sendMessage(g, session, queryInfo);
+      // 逐模式一行的表格长过五行，出图；渲染不可用时回退成同一份数据的文本
+      const statsPanel = await renderPanel(g, statsRows(stats, fastestGuessTime));
+      return sendMessage(
+        g,
+        session,
+        statsPanel
+          ? `${queryInfo}\n${statsPanel}`
+          : `${queryInfo}\n${generateStatsInfo(stats, fastestGuessTime)}`
+      );
     });
 }

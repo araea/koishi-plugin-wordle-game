@@ -6,6 +6,7 @@ export interface GameRecord {
   channelId: string;
   isStarted: boolean;
   gameMode: string;
+  startUserId: string;
   wordGuessHtmlCache: string;
   strokesHtmlCache: string[][];
   remainingGuessesCount: number;

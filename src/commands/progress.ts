@@ -51,7 +51,6 @@ export function register(g: GameContext) {
       correctTonesWithIndex,
       presentTones,
     } = gameInfo;
-    const usernameMention = ``;
     const inputLengthMessage = `待猜${
       gameMode === "汉兜" || gameMode === "词影"
         ? "词语"
@@ -120,13 +119,17 @@ export function register(g: GameContext) {
 
     const timeDifferenceInSeconds =
       (timestamp - Number(gameInfo.timestamp)) / 1000;
-    let message = `${usernameMention}\n当前模式 ${gameMode}${
+    let message = `📋 本局进度\n当前模式 ${gameMode}${
       wordlesNum > 1 ? `（x${wordlesNum}）` : ""
     }${isHardMode ? `（${isUltraHardMode ? "超" : ""}困难）` : ""}${
       isAbsurd ? `（变态${isChallengeMode ? "挑战" : ""}）` : ""
     }${isChallengeMode ? `\n目标单词 ${targetWord}` : ""}`;
     if (config.enableWordGuessTimeLimit) {
-      message += `\n剩余作答时间 ${timeDifferenceInSeconds} 秒`;
+      // 限时模式下这条是倒计时，不是已用时长
+      message += `\n剩余作答时间 ${Math.max(
+        0,
+        config.wordGuessTimeLimitInSeconds - timeDifferenceInSeconds
+      )} 秒`;
     }
     message += `\n${inputLengthMessage}\n${progressMessage}`;
 

@@ -2,6 +2,45 @@ import type { GameContext } from "../context";
 import type { PlayerRecord } from "../types";
 import { formatGameDuration2 } from "../utils/time";
 import { sendMessage } from "./message";
+import { renderPanel } from "./renderer";
+
+/**
+ * 排行榜的统一出口：标题一行，名次多到超过五行就出图，
+ * 图渲染不可用时回退成同一份数据的文本。空榜走空状态的三段。
+ */
+async function sendLeaderboard(
+  g: GameContext,
+  session: any,
+  title: string,
+  rows: { name: string; value: string }[]
+) {
+  if (rows.length === 0) {
+    return await sendMessage(
+      g,
+      session,
+      `📋 排行榜还空着\n第一个上榜的人，名字会写在这里。\n发送「wordle.开始」开一局。`
+    );
+  }
+
+  const lines = rows.map(
+    (row, index) => `${index + 1}. ${row.name}：${row.value}`
+  );
+  const panel = await renderPanel(
+    g,
+    rows.map((row, index) => ({
+      lead: String(index + 1),
+      name: row.name,
+      value: row.value,
+    })),
+    true
+  );
+
+  return await sendMessage(
+    g,
+    session,
+    panel ? `📋 ${title}\n${panel}` : `📋 ${title}\n${lines.join("\n")}`
+  );
+}
 
 // 词影胜场排行榜。
 export async function getWinCountLeaderboardForCiying(
@@ -16,8 +55,6 @@ export async function getWinCountLeaderboardForCiying(
     "wordle_player_records",
     {}
   );
-  let sortedPlayers;
-  let result = "";
 
   let winCountField = isHardMode ? "winIn1HardMode" : "winIn1Mode";
 
@@ -25,21 +62,17 @@ export async function getWinCountLeaderboardForCiying(
     winCountField = `winIn${wordlesNum}Mode`;
   }
 
-  sortedPlayers = getPlayers.sort(
+  const sortedPlayers = getPlayers.sort(
     (a, b) =>
       b.extraCiyingRankInfo[winCountField] -
       a.extraCiyingRankInfo[winCountField]
   );
-  const topPlayers = sortedPlayers.slice(0, number);
+  const rows = sortedPlayers.slice(0, number).map((player) => ({
+    name: player.username,
+    value: `${player.extraCiyingRankInfo[winCountField]} 次`,
+  }));
 
-  result = `${title}：\n`;
-  topPlayers.forEach((player, index) => {
-    result += `${index + 1}. ${player.username}：${
-      player.extraCiyingRankInfo[winCountField]
-    } 次\n`;
-  });
-
-  return await sendMessage(g, session, result);
+  return await sendLeaderboard(g, session, title, rows);
 }
 
 // 词影输场排行榜。
@@ -55,8 +88,6 @@ export async function getLoseCountLeaderboardForCiying(
     "wordle_player_records",
     {}
   );
-  let sortedPlayers;
-  let result = "";
 
   let loseCountField = isHardMode ? "loseIn1HardMode" : "loseIn1Mode";
 
@@ -64,21 +95,17 @@ export async function getLoseCountLeaderboardForCiying(
     loseCountField = `loseIn${wordlesNum}Mode`;
   }
 
-  sortedPlayers = getPlayers.sort(
+  const sortedPlayers = getPlayers.sort(
     (a, b) =>
       b.extraCiyingRankInfo[loseCountField] -
       a.extraCiyingRankInfo[loseCountField]
   );
-  const topPlayers = sortedPlayers.slice(0, number);
+  const rows = sortedPlayers.slice(0, number).map((player) => ({
+    name: player.username,
+    value: `${player.extraCiyingRankInfo[loseCountField]} 次`,
+  }));
 
-  result = `${title}：\n`;
-  topPlayers.forEach((player, index) => {
-    result += `${index + 1}. ${player.username}：${
-      player.extraCiyingRankInfo[loseCountField]
-    } 次\n`;
-  });
-
-  return await sendMessage(g, session, result);
+  return await sendLeaderboard(g, session, title, rows);
 }
 
 // 词影最快用时排行榜。
@@ -94,8 +121,6 @@ export async function getFastestGuessTimeLeaderboardForCiying(
     "wordle_player_records",
     {}
   );
-  let sortedPlayers;
-  let result = "";
 
   let fastestGuessTimeField = isHardMode
     ? "fastestGuessTimeIn1HardMode"
@@ -105,23 +130,21 @@ export async function getFastestGuessTimeLeaderboardForCiying(
     fastestGuessTimeField = `fastestGuessTimeIn${wordlesNum}Mode`;
   }
 
-  sortedPlayers = getPlayers
+  const sortedPlayers = getPlayers
     .filter((player) => player.extraCiyingRankInfo[fastestGuessTimeField] > 0)
     .sort(
       (a, b) =>
         a.extraCiyingRankInfo[fastestGuessTimeField] -
         b.extraCiyingRankInfo[fastestGuessTimeField]
     );
-  const topPlayers = sortedPlayers.slice(0, number);
-
-  result = `${title}：\n`;
-  topPlayers.forEach((player, index) => {
-    result += `${index + 1}. ${player.username}：${formatGameDuration2(
+  const rows = sortedPlayers.slice(0, number).map((player) => ({
+    name: player.username,
+    value: formatGameDuration2(
       player.extraCiyingRankInfo[fastestGuessTimeField]
-    )}\n`;
-  });
+    ),
+  }));
 
-  return await sendMessage(g, session, result);
+  return await sendLeaderboard(g, session, title, rows);
 }
 
 // 词影猜出次数排行榜。
@@ -138,8 +161,6 @@ export async function getCiyingSuccessCountLeaderboardForCiying(
     "wordle_player_records",
     {}
   );
-  let sortedPlayers;
-  let result = "";
 
   let successCountField = isHardMode
     ? "successCountIn1HardMode"
@@ -149,21 +170,17 @@ export async function getCiyingSuccessCountLeaderboardForCiying(
     successCountField = `successCountIn${wordlesNum}Mode`;
   }
 
-  sortedPlayers = getPlayers.sort(
+  const sortedPlayers = getPlayers.sort(
     (a, b) =>
       b.extraCiyingRankInfo[successCountField] -
       a.extraCiyingRankInfo[successCountField]
   );
-  const topPlayers = sortedPlayers.slice(0, number);
+  const rows = sortedPlayers.slice(0, number).map((player) => ({
+    name: player.username,
+    value: `${player.extraCiyingRankInfo[successCountField]} 次`,
+  }));
 
-  result = `${title}：\n`;
-  topPlayers.forEach((player, index) => {
-    result += `${index + 1}. ${player.username}：${
-      player.extraCiyingRankInfo[successCountField]
-    } 次\n`;
-  });
-
-  return await sendMessage(g, session, result);
+  return await sendLeaderboard(g, session, title, rows);
 }
 
 // 通用排行榜（猜出次数、总胜场/输场）。
@@ -181,28 +198,23 @@ export async function getLeaderboard(
   const sortedPlayers = getPlayers.sort(
     (a, b) => (b as any)[sortField] - (a as any)[sortField]
   );
-  const topPlayers = sortedPlayers.slice(0, number);
+  const rows = sortedPlayers.slice(0, number).map((player) => ({
+    name: player.username,
+    value: `${(player as any)[sortField]} 次`,
+  }));
 
-  let result = `${title}：\n`;
-  topPlayers.forEach((player, index) => {
-    result += `${index + 1}. ${player.username}：${
-      (player as any)[sortField]
-    } 次\n`;
-  });
-  return await sendMessage(g, session, result);
+  return await sendLeaderboard(g, session, title, rows);
 }
 
 // 某模式的胜场/输场排行榜。
 export async function getLeaderboardWinOrLose(
   g: GameContext,
+  session: any,
   type,
   number,
   statKey,
   label
 ) {
-  if (typeof number !== "number" || isNaN(number) || number < 0) {
-    return "请输入不小于 0 的数字作为排行榜的参数。";
-  }
   const getPlayers: PlayerRecord[] = await g.ctx.database.get(
     "wordle_player_records",
     {}
@@ -213,21 +225,20 @@ export async function getLeaderboardWinOrLose(
       (b.stats[type]?.[statKey] || 0) - (a.stats[type]?.[statKey] || 0)
   );
 
-  const leaderboard: string[] = getPlayers
+  const rows = getPlayers
     .slice(0, number)
-    .map(
-      (player, index) =>
-        `${index + 1}. ${player.username}：${
-          player.stats[type]?.[statKey]
-        } 次`
-    );
+    .map((player) => ({
+      name: player.username,
+      value: `${player.stats[type]?.[statKey] ?? 0} 次`,
+    }));
 
-  return `${type}模式${label}排行榜：\n${leaderboard.join("\n")}`;
+  return await sendLeaderboard(g, session, `${type}模式${label}排行榜`, rows);
 }
 
 // 某模式的最快用时排行榜。
 export async function getLeaderboardFastestGuessTime(
   g: GameContext,
+  session: any,
   type: string,
   number: number
 ) {
@@ -235,17 +246,14 @@ export async function getLeaderboardFastestGuessTime(
     "wordle_player_records",
     {}
   );
-  const leaderboard = getPlayers
+  const rows = getPlayers
     .filter((player) => player.fastestGuessTime[type] > 0)
     .sort((a, b) => a.fastestGuessTime[type] - b.fastestGuessTime[type])
     .slice(0, number)
-    .map(
-      (player, index) =>
-        `${index + 1}. ${player.username}：${formatGameDuration2(
-          player.fastestGuessTime[type]
-        )}`
-    )
-    .join("\n");
+    .map((player) => ({
+      name: player.username,
+      value: formatGameDuration2(player.fastestGuessTime[type]),
+    }));
 
-  return `${type}模式最快用时排行榜：\n${leaderboard}`;
+  return await sendLeaderboard(g, session, `${type}模式最快用时排行榜`, rows);
 }

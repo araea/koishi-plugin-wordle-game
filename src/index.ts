@@ -83,6 +83,7 @@ export async function apply(ctx: Context, config: Config) {
       pinyin: "string",
       wordGuess: "string",
       channelId: "string",
+      startUserId: "string",
       gameMode: "string",
       timestamp: "string",
       absentTones: "list",

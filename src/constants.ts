@@ -132,27 +132,6 @@ export const rankType2 = [
   "词影",
 ];
 
-// 排行榜二级分类（按模式，用于胜场/输场/用时）
-export const rankType4 = [
-  "经典",
-  "CET4",
-  "CET6",
-  "GMAT",
-  "GRE",
-  "IELTS",
-  "SAT",
-  "TOEFL",
-  "考研",
-  "专八",
-  "专四",
-  "ALL",
-  "Lewdle",
-  "汉兜",
-  "Numberle",
-  "Math",
-  "词影",
-];
-
 // 生成玩家统计信息时遍历的所有模式
 export const gameTypes = [
   "经典",

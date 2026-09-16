@@ -39,6 +39,7 @@ import {
   generateImageForCiying,
   generateImageForHandle,
   generateWordlesImage,
+  renderPanel,
 } from "../services/renderer";
 import { getSessionUserName } from "../services/user";
 import {
@@ -124,42 +125,57 @@ export function register(g: GameContext) {
   });
 
   // wordle.结束
-  ctx.command("wordle.结束", "结束当前对局").action(async ({ session }) => {
-    let { channelId, userId, username, timestamp } = session;
-    username = await getSessionUserName(g, session);
-    await updateNameInPlayerRecord(g, session, userId, username);
-    // 游戏状态
-    const gameInfo = await getGameInfo(g, channelId);
-    if (!gameInfo.isStarted) {
-      return await sendMessage(
+  ctx
+    .command("wordle.结束", "结束当前对局")
+    .userFields(["id", "name", "authority"])
+    .action(async ({ session }) => {
+      let { channelId, userId, username, timestamp } = session;
+      username = await getSessionUserName(g, session);
+      await updateNameInPlayerRecord(g, session, userId, username);
+      // 游戏状态
+      const gameInfo = await getGameInfo(g, channelId);
+      if (!gameInfo.isStarted) {
+        return await sendMessage(
+          g,
+          session,
+          `💡 本频道没有进行中的对局\n发送「wordle.开始」开一局。`
+        );
+      }
+      // 破坏性操作：结束他人的对局会替全频道收摊，并改掉参与者的战绩
+      if (
+        gameInfo.startUserId &&
+        gameInfo.startUserId !== userId &&
+        (session.user?.authority ?? 0) < 2
+      ) {
+        return await sendMessage(
+          g,
+          session,
+          `⚠️ 权限不够\n只有发起者或权限 2 以上的人能结束这一局。`
+        );
+      }
+      // 玩家记录输
+      await updatePlayerRecordsLose(g, channelId, gameInfo);
+      // 结束
+      const processedResult: string =
+        gameInfo.wordlesNum > 1
+          ? `\n${await processExtraGameRecords(g, channelId)}`
+          : "";
+
+      const duration = calculateGameDuration(
+        Number(gameInfo.timestamp),
+        timestamp
+      );
+      const message = `✅ 本局已结束\n${duration}${
+        gameInfo.isAbsurd ? "" : `\n${generateGameEndMessage(gameInfo)}`
+      }${processedResult}\n发送「wordle.开始」再来一局。`;
+      await sendMessage(
         g,
         session,
-        `💡 本频道没有进行中的对局\n发送「wordle.开始」开一局。`
+        message
       );
-    }
-    // 玩家记录输
-    await updatePlayerRecordsLose(g, channelId, gameInfo);
-    // 结束
-    const processedResult: string =
-      gameInfo.wordlesNum > 1
-        ? `\n${await processExtraGameRecords(g, channelId)}`
-        : "";
-
-    const duration = calculateGameDuration(
-      Number(gameInfo.timestamp),
-      timestamp
-    );
-    const message = `✅ 本局已结束\n${duration}${
-      gameInfo.isAbsurd ? "" : `\n${generateGameEndMessage(gameInfo)}`
-    }${processedResult}\n发送「wordle.开始」再来一局。`;
-    await sendMessage(
-      g,
-      session,
-      message
-    );
-    await endGame(g, channelId);
-    return;
-  });
+      await endGame(g, channelId);
+      return;
+    });
 
   // wordle.开始
   ctx
@@ -195,14 +211,20 @@ export function register(g: GameContext) {
           `⚠️ 本频道已有对局正在进行\n发送「wordle.结束」收掉这一局，再开新的。`
         );
       }
-      // 提示输入
+      // 提示输入：十七个模式列出来长过五行，出图；渲染不可用时回退成同一份清单
+      const examPanel = await renderPanel(
+        g,
+        exams.map((exam, index) => ({ lead: String(index + 1), name: exam }))
+      );
+      const examList = exams
+        .map((exam, index) => `${index + 1}. ${exam}`)
+        .join("\n");
       await sendMessage(
         g,
         session,
-        `💡 可选模式\n${exams
-                .map((exam, index) => `${index + 1}. ${exam}`)
-                .join("\n")}
-发送序号或模式名即可开局，或发送「取消」。`
+        `💡 可选模式\n${
+          examPanel ?? examList
+        }\n发送序号或模式名即可开局，或发送「取消」。`
       );
       const userInput = await session.prompt();
       if (!userInput)
@@ -339,6 +361,7 @@ export function register(g: GameContext) {
           remainingGuessesCount: 6 + wordlesNum - 1,
           guessWordLength: 5,
           gameMode: "经典",
+          startUserId: userId,
           timestamp: String(timestamp),
           isHardMode: isHardMode,
           isUltraHardMode,
@@ -594,6 +617,7 @@ export function register(g: GameContext) {
                 : guessWordLength + 1 + wordlesNum - 1,
             guessWordLength,
             gameMode: exam,
+            startUserId: userId,
             timestamp: String(timestamp),
             isHardMode: isHardMode,
             isUltraHardMode,
@@ -846,18 +870,22 @@ export function register(g: GameContext) {
           `💡 发送一个猜测词，或发送「取消」。`
         );
         const userInput = await session.prompt();
-        if (!userInput)
+        if (!userInput) {
+          await setGuessRunningStatus(g, channelId, false);
           return await sendMessage(
             g,
             session,
             `⏳ 没有等到有效输入，这次先作罢。`
           );
-        if (userInput === "取消")
+        }
+        if (userInput === "取消") {
+          await setGuessRunningStatus(g, channelId, false);
           return await sendMessage(
             g,
             session,
             `✅ 已取消这次猜测。`
           );
+        }
         inputWord = userInput.trim();
       }
 
@@ -973,7 +1001,6 @@ export function register(g: GameContext) {
         gameMode !== "Math"
       ) {
         await setGuessRunningStatus(g, channelId, false);
-        const usernameMention = ``;
         const inputLengthMessage = `⚠️ 单词长度不对\n「${inputWord}」有 ${inputWord.length} 个字母，这一局要 ${gameInfo.guessWordLength} 个。`;
         const presentLettersWithoutAsterisk =
           uniqueSortedLowercaseLetters(presentLetters);
@@ -981,20 +1008,24 @@ export function register(g: GameContext) {
           wordlesNum > 1
             ? "\n" + (await processExtraGameInfos(g, channelId))
             : "";
-        const progressMessage = `当前${calculateGameDuration(
-          Number(gameInfo.timestamp),
-          timestamp
-        )}\n当前进度 ${correctLetters.join("")}${
+        // 并列成一行，条数压回五行内
+        const progressMessage = [
+          `当前${calculateGameDuration(
+            Number(gameInfo.timestamp),
+            timestamp
+          )}`,
+          `当前进度 ${correctLetters.join("")}`,
           presentLettersWithoutAsterisk.length === 0
-            ? ``
-            : `\n包含字母 ${presentLettersWithoutAsterisk}`
-        }${
-          absentLetters.length === 0 ? "" : `\n不包含字母 ${absentLetters}`
-        }${processedResult}`;
+            ? ""
+            : `包含字母 ${presentLettersWithoutAsterisk}`,
+          absentLetters.length === 0 ? "" : `不包含字母 ${absentLetters}`,
+        ]
+          .filter(Boolean)
+          .join(" · ");
         return await sendMessage(
           g,
           session,
-          `${usernameMention}\n${inputLengthMessage}\n${progressMessage}`
+          `${inputLengthMessage}\n${progressMessage}${processedResult}`
         );
       }
       // 是否存在该单词
@@ -1597,7 +1628,7 @@ ${generateGameEndMessage(gameInfo)}${processedResult}
           Number(gameInfo.timestamp),
           timestamp
         );
-        const message = `✅ 本局结束，这次没有猜出来。${challengeMessage}\n${h.image(
+        const message = `✅ 本局结束，这次没有猜出来${challengeMessage}\n${h.image(
           imageBuffer,
           `image/${config.imageType}`
         )}\n${gameDuration}${answerInfo}${processedResult}\n发送「wordle.开始」再来一局。`;

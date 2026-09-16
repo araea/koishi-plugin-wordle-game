@@ -3,7 +3,7 @@ import * as path from "path";
 import { gameTypes } from "../constants";
 import type { GameRecord, LetterState, WordData, WordEntry } from "../types";
 import { replaceEscapeCharacters } from "./string";
-import { formatGameDuration } from "./time";
+import { formatGameDuration2 } from "./time";
 
 // 提取单词数组中的小写单词。
 export function extractLowerCaseWords(
@@ -294,22 +294,34 @@ export function getValidGuessWordLengthRange(command: string): string {
   }
 }
 
-// 生成玩家统计信息的文本。
-export function generateStatsInfo(stats, fastestGuessTime) {
-  let statsInfo = "";
-
-  gameTypes.forEach((type) => {
+// 玩家统计信息按模式拆成行：图与文本回退共用这一份数据。
+export function statsRows(
+  stats,
+  fastestGuessTime
+): { name: string; value: string }[] {
+  return gameTypes.map((type) => {
     const winCount = stats[type]?.win || 0;
     const loseCount = stats[type]?.lose || 0;
     const fastestTime = fastestGuessTime[type] || 0;
 
-    statsInfo += `${type} - 胜：${winCount} 次，负：${loseCount} 次`;
-    statsInfo +=
-      fastestTime === 0 ? "" : `，最快${formatGameDuration(fastestTime)}`;
-    statsInfo += "\n";
+    return {
+      name: type,
+      value: [
+        `胜 ${winCount} 局`,
+        `负 ${loseCount} 局`,
+        fastestTime === 0 ? "" : `最快 ${formatGameDuration2(fastestTime)}`,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    };
   });
+}
 
-  return statsInfo;
+// 生成玩家统计信息的文本（图片渲染不可用时用的等价文本）。
+export function generateStatsInfo(stats, fastestGuessTime) {
+  return `${statsRows(stats, fastestGuessTime)
+    .map((row) => `${row.name} - ${row.value}`)
+    .join("\n")}\n`;
 }
 
 // 生成游戏结束时的答案提示信息。

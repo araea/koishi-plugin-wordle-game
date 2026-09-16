@@ -1,12 +1,16 @@
 import * as path from "path";
 import { pathToFileURL } from "url";
+import { h } from "koishi";
 import {} from "koishi-plugin-puppeteer";
 import type { GameContext } from "../context";
-import { baseline, scheme, SHAPE } from "../m3";
+import { baseline, components, MONO_STACK, scheme, TYPE } from "../m3";
 import { htmlAfterStyle, htmlPrefix, htmlSuffix } from "../html/template";
 
 /** 合成图外壳的主色。盘面本身不受影响，这只管它们之间的那层底。 */
 const HUE = 142;
+
+/** 信息面板的宽度，与盘面图一致；高度随内容长。 */
+const PANEL_WIDTH = 611;
 
 /** 统一截图：走 Koishi 的 `page()`。词影/汉兜的 CSS 是相对路径，先落到 lib 下的空白页才读得到。 */
 async function capture(
@@ -186,7 +190,7 @@ export async function generateWordlesImage(
             ${baseline(s)}
             body {
                 padding: 24px;
-                background: ${s.surface};
+                background: var(--md-sys-color-surface);
             }
             .image-container {
                 display: grid;
@@ -200,8 +204,8 @@ export async function generateWordlesImage(
             .image-container img {
                 display: block;
                 width: 100%;
-                border-radius: ${SHAPE.large}px;
-                background: ${s.surfaceContainerLow};
+                border-radius: var(--md-sys-shape-corner-large);
+                background: var(--md-sys-color-surface-container-low);
             }
         </style>
     </head>
@@ -216,4 +220,105 @@ export async function generateWordlesImage(
     width: g.config.compositeImagePageWidth,
     height: g.config.compositeImagePageHeight,
   });
+}
+
+/** 信息面板的一行：短标记进徽章，名字占主位，值靠右对齐。 */
+export interface PanelRow {
+  /** 行首的短标记，排行榜与清单是序号。 */
+  lead?: string;
+  name: string;
+  value?: string;
+}
+
+/**
+ * 生成信息面板图：模式清单、战绩、排行榜共用同一张。
+ *
+ * 这三处的内容天然长过五行，出图是规范给的办法。面板本身是本插件自己的
+ * 外壳，走设计系统；里面的盘面才是不该改的复刻品。前三名用金银铜。
+ */
+export async function generatePanelImage(
+  g: GameContext,
+  rows: PanelRow[],
+  isRanked = false
+): Promise<Buffer> {
+  const s = scheme(HUE, g.config.isDarkThemeEnabled);
+  const items = rows
+    .map((row, index) => {
+      const medal = isRanked
+        ? ["--gold", "--silver", "--bronze"][index] ?? ""
+        : "";
+      const badge = row.lead
+        ? `<span class="m3-badge${medal ? ` m3-badge${medal}` : ""}">${
+            row.lead
+          }</span>`
+        : "";
+      const value = row.value
+        ? `<span class="panel-row__value">${row.value}</span>`
+        : "";
+      return `<li class="m3-list-item">${badge}<span class="panel-row__name">${row.name}</span>${value}</li>`;
+    })
+    .join("");
+
+  const html = `<!DOCTYPE html>
+    <html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            ${baseline(s)}
+            ${components()}
+            body {
+                width: ${PANEL_WIDTH}px;
+                padding: 24px;
+                background: var(--md-sys-color-surface);
+            }
+            /* 一屏里要放下十几行，行高比默认的列表项紧一档 */
+            .m3-list-item {
+                min-height: 48px;
+                padding: 6px 16px;
+            }
+            .panel-row__name {
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                font-size: ${TYPE.bodyLarge.size}px;
+                line-height: ${TYPE.bodyLarge.line}px;
+            }
+            .panel-row__value {
+                flex: none;
+                color: var(--md-sys-color-on-surface-variant);
+                font-family: ${MONO_STACK};
+                font-size: ${TYPE.bodyMedium.size}px;
+                line-height: ${TYPE.bodyMedium.line}px;
+                font-variant-numeric: tabular-nums;
+            }
+        </style>
+    </head>
+    <body>
+    <ul class="m3-list">
+    ${items}
+    </ul>
+    </body>
+    </html>`;
+
+  return capture(g, html, { width: PANEL_WIDTH, height: 128 });
+}
+
+/**
+ * 面板图的可选包装：出图只是增强，浏览器起不来或渲染超时就安静回退，
+ * 由调用方接上等价的文本。
+ */
+export async function renderPanel(
+  g: GameContext,
+  rows: PanelRow[],
+  isRanked = false
+): Promise<h | null> {
+  try {
+    const imageBuffer = await generatePanelImage(g, rows, isRanked);
+    return h.image(imageBuffer, `image/${g.config.imageType}`);
+  } catch (error: any) {
+    g.logger.warn(`图片渲染失败，这次回退为文本：${error?.message ?? error}`);
+    return null;
+  }
 }
