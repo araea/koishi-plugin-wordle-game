@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-wordle-game",
   "description": "Koishi 的多模式猜词游戏插件。",
-  "version": "2.11.0",
+  "version": "3.0.0",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [

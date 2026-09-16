@@ -202,7 +202,7 @@ export function register(g: GameContext) {
         `💡 可选模式\n${exams
                 .map((exam, index) => `${index + 1}. ${exam}`)
                 .join("\n")}
-发送序号或模式名即可开局。`
+发送序号或模式名即可开局，或发送「取消」。`
       );
       const userInput = await session.prompt();
       if (!userInput)
@@ -211,6 +211,8 @@ export function register(g: GameContext) {
           session,
           `⏳ 没有等到有效输入，这次先作罢。`
         );
+      if (userInput.trim() === "取消")
+        return await sendMessage(g, session, `✅ 已取消开局。`);
       // 判断 userInput 是否为有效输入
       const selectedExam = isNaN(parseInt(userInput))
         ? userInput.toUpperCase().trim()
@@ -230,7 +232,7 @@ export function register(g: GameContext) {
               session,
               `💡 可选长度 ${getValidGuessWordLengthRange(
                 selectedExam
-              )}\n发送一个长度即可开局。`
+              )}\n发送一个长度即可开局，或发送「取消」。`
             );
             const userInput = await session.prompt();
             if (!userInput)
@@ -239,6 +241,8 @@ export function register(g: GameContext) {
                 session,
                 `⏳ 没有等到有效输入，这次先作罢。`
               );
+            if (userInput.trim() === "取消")
+              return await sendMessage(g, session, `✅ 已取消开局。`);
             guessWordLength = parseInt(userInput);
           } else {
             guessWordLength = config.defaultWordLengthForGuessing;
@@ -459,7 +463,7 @@ export function register(g: GameContext) {
               session,
               `💡 可选长度 ${getValidGuessWordLengthRange(
                 exam
-              )}\n发送一个长度即可开局。`
+              )}\n发送一个长度即可开局，或发送「取消」。`
             );
             const userInput = await session.prompt();
             if (!userInput)
@@ -468,6 +472,8 @@ export function register(g: GameContext) {
                 session,
                 `⏳ 没有等到有效输入，这次先作罢。`
               );
+            if (userInput.trim() === "取消")
+              return await sendMessage(g, session, `✅ 已取消开局。`);
             guessWordLength = parseInt(userInput);
           } else {
             guessWordLength = config.defaultWordLengthForGuessing;

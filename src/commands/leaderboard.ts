@@ -34,12 +34,14 @@ export function register(g: GameContext) {
           session,
           `💡 可查看的排行榜
 ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}
-发送序号或排行榜名即可查看。`
+发送序号或排行榜名即可查看，或发送「取消」。`
         );
 
         const userInput = await session.prompt();
         if (!userInput)
           return sendMessage(g, session, `⏳ 没有等到有效输入，这次先作罢。`);
+        if (userInput.trim() === "取消")
+          return sendMessage(g, session, `✅ 已取消。`);
 
         // 处理用户输入
         const userInputNumber = parseInt(userInput);
@@ -83,12 +85,14 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}
             session,
             `💡 可查看的类型
 ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
-发送序号或类型名即可查看。`
+发送序号或类型名即可查看，或发送「取消」。`
           );
 
           const userInput = await session.prompt();
           if (!userInput)
             return sendMessage(g, session, `⏳ 没有等到有效输入，这次先作罢。`);
+          if (userInput.trim() === "取消")
+            return sendMessage(g, session, `✅ 已取消。`);
 
           // 处理用户输入
           const userInputNumber = parseInt(userInput);

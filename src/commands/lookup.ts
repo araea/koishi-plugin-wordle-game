@@ -12,7 +12,7 @@ import { isFourCharacterIdiom } from "../utils/idiom";
 import { capitalizeFirstLetter, replaceEscapeCharacters } from "../utils/string";
 import { findWord, generateStatsInfo } from "../utils/wordle";
 
-// 注册查询类指令：查单词、查成语、查询玩家记录。
+// 注册查询类指令：查单词、查成语、查战绩。
 export function register(g: GameContext) {
   const { ctx } = g;
 
@@ -42,7 +42,7 @@ export function register(g: GameContext) {
         session,
         `💡 可用词库\n${availableDictionaryArray
           .map((dictionary, index) => `${index + 1}. ${dictionary}`)
-          .join("\n")}\n发送序号或词库名即可查询。`
+          .join("\n")}\n发送序号或词库名即可查询，或发送「取消」。`
       );
       const userInput = await session.prompt();
       if (!userInput)
@@ -51,6 +51,8 @@ export function register(g: GameContext) {
           session,
           `⏳ 没有等到有效输入，这次先作罢。`
         );
+      if (userInput.trim() === "取消")
+        return await sendMessage(g, session, `✅ 已取消。`);
       // 判断 userInput 是否为有效输入
       const selectedDictionary = isNaN(parseInt(userInput))
         ? userInput.toLowerCase().trim()
@@ -276,9 +278,9 @@ export function register(g: GameContext) {
       );
     });
 
-  // wordle.查询玩家记录
+  // wordle.战绩
   ctx
-    .command("wordle.查询玩家记录 [targetUser:text]", "查询玩家战绩")
+    .command("wordle.战绩 [targetUser:text]", "查询玩家战绩")
     .action(async ({ session }, targetUser) => {
       let { userId, username } = session;
       const originalUserId = userId;
