@@ -25,7 +25,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `💡 本频道没有进行中的对局。\n发送「wordle.开始」开一局。`
+        `💡 本频道没有进行中的对局\n发送「wordle.开始」开一局。`
       );
     }
     // 返回信息

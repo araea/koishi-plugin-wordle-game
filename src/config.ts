@@ -35,7 +35,7 @@ export interface Config {
   compositeImagePageWidth: number;
   compositeImagePageHeight: number;
 
-  enableWordGuessMiddleware: boolean;
+  enableDirectInput: boolean;
   shouldPromptWordLengthInput: boolean;
   isPreventUserDuplicateGuessInput: boolean;
   shouldPromptForWordLengthOnNonClassicStart: boolean;
@@ -87,9 +87,9 @@ export const Config: Schema<Config> = Schema.intersect([
 
   Schema.intersect([
     Schema.object({
-      enableWordGuessMiddleware: Schema.boolean()
+      enableDirectInput: Schema.boolean()
         .default(true)
-        .description(`对局进行中时，直接发送猜测词即可，无需指令前缀。`),
+        .description(`对局中直接发送猜测词即可续猜，无需指令前缀。`),
       isPreventUserDuplicateGuessInput: Schema.boolean()
         .default(true)
         .description(`拦截重复提交的猜测词。`),

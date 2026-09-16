@@ -19,15 +19,12 @@ export function register(g: GameContext) {
 
   // wordle.排行榜（引导）
   ctx
-    .command("wordle.排行榜 [number:number]", "查看排行榜")
+    .command("wordle.排行榜 [count:posint]", "查看排行榜")
     .action(
-      async ({ session }, number = config.defaultMaxLeaderboardEntries) => {
+      async ({ session }, count = config.defaultMaxLeaderboardEntries) => {
         let { username, userId } = session;
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
-        if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 排行榜人数须是不小于 0 的整数。";
-        }
 
         await sendMessage(
           g,
@@ -51,9 +48,9 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           userInputNumber <= rankType.length
         ) {
           const rankName = rankType[userInputNumber - 1];
-          await session.execute(`wordle.排行榜.${rankName} ${number}`);
+          await session.execute(`wordle.排行榜.${rankName} ${count}`);
         } else if (rankType.includes(userInput)) {
-          await session.execute(`wordle.排行榜.${userInput} ${number}`);
+          await session.execute(`wordle.排行榜.${userInput} ${count}`);
         } else {
           return sendMessage(g, session, `⚠️ 认不出这一项\n发送上面列出的序号或名称。`);
         }
@@ -63,15 +60,12 @@ ${rankType.map((type, index) => `${index + 1}. ${type}`).join("\n")}
   // wordle.排行榜.<type>（二级引导）
   rankType2.forEach((type) => {
     ctx
-      .command(`wordle.排行榜.${type} [number:number]`, `查看${type}排行榜`)
+      .command(`wordle.排行榜.${type} [count:posint]`, `查看${type}排行榜`)
       .action(
-        async ({ session }, number = config.defaultMaxLeaderboardEntries) => {
+        async ({ session }, count = config.defaultMaxLeaderboardEntries) => {
           let { username, userId } = session;
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
-          if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "⚠️ 排行榜人数须是不小于 0 的整数。";
-          }
           let rankType3: string[];
           if (type === "总") {
             rankType3 = ["胜场", "输场"];
@@ -103,11 +97,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           ) {
             const rankName = rankType3[userInputNumber - 1];
             await session.execute(
-              `wordle.排行榜.${type}.${rankName} ${number}`
+              `wordle.排行榜.${type}.${rankName} ${count}`
             );
           } else if (rankType3.includes(userInput)) {
             await session.execute(
-              `wordle.排行榜.${type}.${userInput} ${number}`
+              `wordle.排行榜.${type}.${userInput} ${count}`
             );
           } else {
             return sendMessage(g, session, `⚠️ 认不出这一项\n发送上面列出的序号或名称。`);
@@ -119,23 +113,20 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
   // wordle.排行榜.猜出次数
   ctx
     .command(
-      "wordle.排行榜.猜出次数 [number:number]",
+      "wordle.排行榜.猜出次数 [count:posint]",
       "查看玩家猜出次数排行榜"
     )
     .action(
-      async ({ session }, number = config.defaultMaxLeaderboardEntries) => {
+      async ({ session }, count = config.defaultMaxLeaderboardEntries) => {
         let { username, userId } = session;
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
-        if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 排行榜人数须是不小于 0 的整数。";
-        }
         return await getLeaderboard(
           g,
           session,
           "wordGuessCount",
           "玩家猜出次数排行榜",
-          number
+          count
         );
       }
     );
@@ -143,23 +134,20 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
   // wordle.排行榜.总.胜场
   ctx
     .command(
-      "wordle.排行榜.总.胜场 [number:number]",
+      "wordle.排行榜.总.胜场 [count:posint]",
       "查看玩家总胜场排行榜"
     )
     .action(
-      async ({ session }, number = config.defaultMaxLeaderboardEntries) => {
+      async ({ session }, count = config.defaultMaxLeaderboardEntries) => {
         let { username, userId } = session;
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
-        if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 排行榜人数须是不小于 0 的整数。";
-        }
         return await getLeaderboard(
           g,
           session,
           "win",
           "玩家总胜场排行榜",
-          number
+          count
         );
       }
     );
@@ -167,23 +155,20 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
   // wordle.排行榜.总.输场
   ctx
     .command(
-      "wordle.排行榜.总.输场 [number:number]",
+      "wordle.排行榜.总.输场 [count:posint]",
       "查看玩家总输场排行榜"
     )
     .action(
-      async ({ session }, number = config.defaultMaxLeaderboardEntries) => {
+      async ({ session }, count = config.defaultMaxLeaderboardEntries) => {
         let { username, userId } = session;
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
-        if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 排行榜人数须是不小于 0 的整数。";
-        }
         return await getLeaderboard(
           g,
           session,
           "lose",
           "玩家总输场排行榜",
-          number
+          count
         );
       }
     );
@@ -192,7 +177,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
   rankType4.forEach((type) => {
     ctx
       .command(
-        `wordle.排行榜.${type}.胜场 [number:number]`,
+        `wordle.排行榜.${type}.胜场 [count:posint]`,
         `查看${type}胜场排行榜`
       )
       .option("hard", "--hard 查看困难模式", { fallback: false })
@@ -202,14 +187,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
       .action(
         async (
           { session, options },
-          number = config.defaultMaxLeaderboardEntries
+          count = config.defaultMaxLeaderboardEntries
         ) => {
           let { username, userId } = session;
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
-          if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "⚠️ 排行榜人数须是不小于 0 的整数。";
-          }
           
           if (
             (type === "词影" && options.wordles !== 0) ||
@@ -236,21 +218,21 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
               `玩家胜场排行榜（词影 x${options.wordles}${
                 options.hard && options.wordles === 1 ? "（困难）" : ""
               }）`,
-              number,
+              count,
               options.hard
             );
           }
           return await sendMessage(
             g,
             session,
-            await getLeaderboardWinOrLose(g, type, number, "win", "胜场")
+            await getLeaderboardWinOrLose(g, type, count, "win", "胜场")
           );
         }
       );
 
     ctx
       .command(
-        `wordle.排行榜.${type}.输场 [number:number]`,
+        `wordle.排行榜.${type}.输场 [count:posint]`,
         `查看${type}输场排行榜`
       )
       .option("hard", "--hard 查看困难模式", { fallback: false })
@@ -260,14 +242,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
       .action(
         async (
           { session, options },
-          number = config.defaultMaxLeaderboardEntries
+          count = config.defaultMaxLeaderboardEntries
         ) => {
           let { username, userId } = session;
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
-          if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "⚠️ 排行榜人数须是不小于 0 的整数。";
-          }
           
           if (
             (type === "词影" && options.wordles !== 0) ||
@@ -294,21 +273,21 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
               `玩家输场排行榜（词影 x${options.wordles}${
                 options.hard && options.wordles === 1 ? "（困难）" : ""
               }）`,
-              number,
+              count,
               options.hard
             );
           }
           return await sendMessage(
             g,
             session,
-            await getLeaderboardWinOrLose(g, type, number, "lose", "输场")
+            await getLeaderboardWinOrLose(g, type, count, "lose", "输场")
           );
         }
       );
 
     ctx
       .command(
-        `wordle.排行榜.${type}.最快用时 [number:number]`,
+        `wordle.排行榜.${type}.最快用时 [count:posint]`,
         `查看${type}最快用时排行榜`
       )
       .option("hard", "--hard 查看困难模式", { fallback: false })
@@ -318,14 +297,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
       .action(
         async (
           { session, options },
-          number = config.defaultMaxLeaderboardEntries
+          count = config.defaultMaxLeaderboardEntries
         ) => {
           let { username, userId } = session;
           username = await getSessionUserName(g, session);
           await updateNameInPlayerRecord(g, session, userId, username);
-          if (typeof number !== "number" || isNaN(number) || number < 0) {
-            return "⚠️ 排行榜人数须是不小于 0 的整数。";
-          }
           
           if (
             (type === "词影" && options.wordles !== 0) ||
@@ -352,7 +328,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
               `玩家最快用时排行榜（词影 x${options.wordles}${
                 options.hard && options.wordles === 1 ? "（困难）" : ""
               }）`,
-              number,
+              count,
               options.hard
             );
           }
@@ -360,7 +336,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           return await sendMessage(
             g,
             session,
-            await getLeaderboardFastestGuessTime(g, type, number)
+            await getLeaderboardFastestGuessTime(g, type, count)
           );
         }
       );
@@ -369,7 +345,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
   // wordle.排行榜.词影.猜出次数
   ctx
     .command(
-      "wordle.排行榜.词影.猜出次数 [number:number]",
+      "wordle.排行榜.词影.猜出次数 [count:posint]",
       "查看玩家猜出次数排行榜（词影）"
     )
     .option("hard", "--hard 查看困难模式", { fallback: false })
@@ -379,14 +355,11 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
     .action(
       async (
         { session, options },
-        number = config.defaultMaxLeaderboardEntries
+        count = config.defaultMaxLeaderboardEntries
       ) => {
         let { username, userId } = session;
         username = await getSessionUserName(g, session);
         await updateNameInPlayerRecord(g, session, userId, username);
-        if (typeof number !== "number" || isNaN(number) || number < 0) {
-          return "⚠️ 排行榜人数须是不小于 0 的整数。";
-        }
         
         if (
           typeof options.wordles !== "number" ||
@@ -407,7 +380,7 @@ ${rankType3.map((type, index) => `${index + 1}. ${type}`).join("\n")}
           `玩家猜出次数排行榜（词影 x${options.wordles}${
             options.hard && options.wordles === 1 ? "（困难）" : ""
           }）`,
-          number,
+          count,
           options.hard
         );
       }

@@ -315,7 +315,7 @@ export function register(g: GameContext) {
         return sendMessage(
           g,
           session,
-          `📋 这个用户还没有游戏记录。\n发送「wordle.开始」开一局，记录就有了。`
+          `📋 这个用户还没有战绩\n发送「wordle.开始」开一局，记录就有了。`
         );
       }
 

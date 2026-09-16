@@ -83,7 +83,7 @@ export function register(g: GameContext) {
   // 无前缀猜测中间件：在游戏进行中，符合当前模式特征的输入自动作为猜测。
   ctx.middleware(async (session, next) => {
     let { channelId, content } = session;
-    if (!config.enableWordGuessMiddleware) {
+    if (!config.enableDirectInput) {
       return await next();
     }
 
@@ -134,7 +134,7 @@ export function register(g: GameContext) {
       return await sendMessage(
         g,
         session,
-        `💡 本频道没有进行中的对局。\n发送「wordle.开始」开一局。`
+        `💡 本频道没有进行中的对局\n发送「wordle.开始」开一局。`
       );
     }
     // 玩家记录输
@@ -824,7 +824,7 @@ export function register(g: GameContext) {
         return await sendMessage(
           g,
           session,
-          `💡 本频道没有进行中的对局。\n发送「wordle.开始」开一局。`
+          `💡 本频道没有进行中的对局\n发送「wordle.开始」开一局。`
         );
       }
 
@@ -871,7 +871,7 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `⏳ 作答超过 ${config.wordGuessTimeLimitInSeconds} 秒，本局结束。\n发送「wordle.开始」再来一局。`
+            `⏳ 作答超过 ${config.wordGuessTimeLimitInSeconds} 秒，本局结束\n发送「wordle.开始」再来一局。`
           );
           await endGame(g, channelId);
 
@@ -1234,7 +1234,7 @@ export function register(g: GameContext) {
           await sendMessage(
             g,
             session,
-            `💡 按现有线索，已经没有可用的单词了，本局到此为止。\n发送「wordle.开始」再来一局。`
+            `💡 按现有线索，已经没有可用的单词了，本局到此为止\n发送「wordle.开始」再来一局。`
           );
           await endGame(g, channelId);
           return;
@@ -1289,7 +1289,7 @@ export function register(g: GameContext) {
             return await sendMessage(
               g,
               session,
-              `⏳ 没有等到有效输入，已按「撤销」处理。\n${h.image(
+              `⏳ 没有等到有效输入，已按「撤销」处理\n${h.image(
                 imageBuffer2,
                 `image/${config.imageType}`
               )}`
@@ -1304,7 +1304,7 @@ export function register(g: GameContext) {
             return await sendMessage(
               g,
               session,
-              `✅ 已撤销，挑战继续。\n${h.image(
+              `✅ 已撤销，挑战继续\n${h.image(
                 imageBuffer2,
                 `image/${config.imageType}`
               )}`
