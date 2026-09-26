@@ -3,7 +3,7 @@ import { pathToFileURL } from "url";
 import { h } from "koishi";
 import {} from "koishi-plugin-puppeteer";
 import type { GameContext } from "../context";
-import { baseline, components, MONO_STACK, scheme, TYPE } from "../m3";
+import { baseline, components, lch, MONO_STACK, scheme, TYPE } from "../m3";
 import { htmlAfterStyle, htmlPrefix, htmlSuffix } from "../html/template";
 import { resource } from "../utils/resource";
 
@@ -16,6 +16,17 @@ export function imageMessage(buffer: Buffer, type: string): h {
   if (!buffer.length) return h('p', {}, h.text(text));
   return h.image(buffer, type);
 }
+
+/**
+ * 汉兜 / 词影文字提示的两种状态色。不用 primary / tertiary：Tonal Spot 的 tertiary 在明色下是橄榄褐、
+ * 暗色下是近白的淡黄（#fffcca），和正文几乎分不开；暗色的 primary 也是发灰的浅绿。
+ * 这里单独取一绿一琥珀，明色两者对 surface 都过 4.5:1，暗色都在 10:1 以上；
+ * 高对比（色盲）主题换成橙 / 蓝。颜色之外，正确是双下划线、错位是虚下划线。
+ */
+const HINT = {
+  light: { ok: lch(40, 48, 142), mis: lch(46, 60, 62), okAlt: lch(46, 70, 50), misAlt: lch(42, 52, 260) },
+  dark: { ok: lch(80, 56, 142), mis: lch(82, 60, 85), okAlt: lch(74, 62, 55), misAlt: lch(76, 40, 255) },
+};
 
 /** 信息面板的宽度，与盘面图一致；高度随内容长。 */
 const PANEL_WIDTH = 611;
@@ -44,9 +55,14 @@ async function capture(
     await page.setViewport({ ...viewport, deviceScaleFactor: 1 });
     if (fileOrigin) await page.goto(pathToFileURL(resource('emptyHtml.html')).href);
     await page.setContent(html, { waitUntil: 'load' });
-    const c = scheme(HUE, g.config.isDarkThemeEnabled);
+    const dark = g.config.isDarkThemeEnabled;
+    const c = scheme(HUE, dark);
+    const hint = HINT[dark ? 'dark' : 'light'];
     await page.addStyleTag({content: `${baseline(c)} body{background:${c.surface}!important;color:${c.onSurface}!important} input{color:${c.onSurface};border-radius:12px}
-.text-ok{color:${c.primary}!important;text-decoration:underline;text-decoration-style:double}.text-mis{color:${c.tertiary}!important;text-decoration:underline;text-decoration-style:dashed}.op35,.op80{opacity:1!important;color:${c.onSurfaceVariant}!important}
+.text-ok,.text-mis{text-decoration-line:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;text-decoration-skip-ink:none}
+.text-ok{color:${hint.ok}!important;text-decoration-style:double}.text-mis{color:${hint.mis}!important;text-decoration-style:dashed}
+.colorblind .text-ok{color:${hint.okAlt}!important}.colorblind .text-mis{color:${hint.misAlt}!important}
+.op35,.op80{opacity:1!important;color:${c.onSurfaceVariant}!important}
 .bg-correct{background:${c.primary}!important;border-radius:12px}.fill-correct{fill:${c.primary}!important}.fill-white{fill:${c.onPrimary}!important}
  .bg-base{background:${c.surface}!important} *{animation:none!important;transition:none!important}`});
     buffer = await page.screenshot({ fullPage: true, type: g.config.imageType });
@@ -288,11 +304,12 @@ export async function generatePanelImage(
         <style>
             ${baseline(s)}
             ${components()}
-            body {
-                width: ${PANEL_WIDTH}px;
-                padding: 24px;
-                background: var(--md-sys-color-surface);
-            }
+            /* 留白放在外层容器上：截图时注入的基线样式会把 body 的内边距清零，上下就不对称了 */
+            body { width: ${PANEL_WIDTH}px; background: var(--md-sys-color-surface); }
+            .panel { padding: 24px; }
+            /* 序号一位数、两位数时徽标同宽，名字才对得齐 */
+            .m3-list-item .m3-badge { width: 36px; padding: 0; }
+            .m3-list { margin: 0; }
             /* 一屏里要放下十几行，行高比默认的列表项紧一档 */
             .m3-list-item {
                 min-height: 48px;
@@ -318,13 +335,14 @@ export async function generatePanelImage(
         </style>
     </head>
     <body>
-    <ul class="m3-list">
+    <main class="panel"><ul class="m3-list">
     ${items}
-    </ul>
+    </ul></main>
     </body>
     </html>`;
 
-  return capture(g, html, { width: PANEL_WIDTH, height: 128 });
+  // 视口高度只取 1：整页截图取「视口与内容」的较大者，视口一高，行少时底部就会多出空白
+  return capture(g, html, { width: PANEL_WIDTH, height: 1 });
 }
 
 /**
