@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-wordle-game",
   "description": "Koishi 多词库猜词游戏，包含经典、汉兜、Numberle 等模式。",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [

@@ -4,6 +4,7 @@ import { h } from "koishi";
 import {} from "koishi-plugin-puppeteer";
 import type { GameContext } from "../context";
 import { baseline, components, MONO_STACK, scheme, TYPE } from "../m3";
+import { imageText as imageTextFragment } from "../ux";
 import { htmlAfterStyle, htmlPrefix, htmlSuffix } from "../html/template";
 import { resource } from "../utils/resource";
 
@@ -13,7 +14,9 @@ const imageDescriptions = new WeakMap<Buffer, string>();
 export function imageText(buffer: Buffer): string { return imageDescriptions.get(buffer) ?? '棋盘说明暂不可用，可发送「wordle.查询进度」。' }
 export function imageMessage(buffer: Buffer, type: string): h {
   const text = imageText(buffer) ?? '图片内容请使用「wordle.查询进度」查询。';
-  return h('p', {}, [ ...(buffer.length ? [h.image(buffer, type)] : []), h('p', {}, h.text(text)) ]);
+  if (!buffer.length) return h('p', {}, h.text(text));
+  // 说明文字标记成图片等价物：图文模式随图片去掉，文字模式展开
+  return h('p', {}, [h.image(buffer, type), imageTextFragment(h.text(text))]);
 }
 
 /** 信息面板的宽度，与盘面图一致；高度随内容长。 */
