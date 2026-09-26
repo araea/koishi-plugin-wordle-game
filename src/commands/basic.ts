@@ -27,7 +27,7 @@ export function register(g: GameContext) {
     return sendMessage(
       g,
       session,
-      '玩法：发送「wordle.开始」选择词库，再发送「wordle.猜 单词」。\n每次猜测会标记：✓ 字符与位置均正确；↔ 答案含该字符但位置不符；× 不包含（重复字符按数量判断）。\n「wordle.查询进度」查看已知线索；「wordle.拼音速查表」查看汉兜拼音；「wordle.结束」结束本局。\n可发送「wordle.显示 文字」切换文字输出。'
+      '玩法：发送「wordle.开始」选择词库，再发送「wordle.猜 单词」。\n每次猜测会标记：✓ 字符与位置均正确；↔ 答案含该字符但位置不符；× 不包含（重复字符按数量判断）。\n「wordle.查询进度」查看已知线索；「wordle.拼音速查表」查看汉兜拼音；「wordle.结束」结束本局。'
     );
   });
 }

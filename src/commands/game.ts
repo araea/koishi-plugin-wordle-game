@@ -2,7 +2,7 @@ import { registerDirectInput, directInputConflict } from '../ux'
 import { imageMessage } from '../services/renderer'
 import { promptInput } from '../ux'
 import * as fs from "fs";
-import { h } from "koishi";
+import { h, Session } from "koishi";
 import badWordsList from "../assets/Wordle/词汇/badWordsList.json";
 import lowerCaseWordArray from "../assets/Wordle/词汇/lowerCaseWordArray.json";
 import commonIdiomsList from "../assets/commonIdiomsList.json";
@@ -85,89 +85,43 @@ export function register(g: GameContext) {
   const pinyinData = g.data.pinyinData;
   const equations = g.data.equations;
 
-  // 无前缀猜测中间件：在游戏进行中，符合当前模式特征的输入自动作为猜测。
+  /**
+   * 无前缀猜测只接手「确定是一次有效猜测」的消息：形状、长度对得上，且在本地词库里、这一局还没猜过。
+   * 其余一律静默交给下一个中间件——群里随口一句四字词、一个英文单词，都不该换来一条报错。
+   * 需要逐条提示的场景请用显式的「wordle.猜」。
+   */
+  async function directGuess(session: Session): Promise<string | undefined> {
+    if (!config.enableDirectInput || !session.channelId) return;
+    const content = `${h.select(session.content ?? "", "text")}`.trim();
+    if (!content || !/^[\p{L}\d+*/=().-]+$/u.test(content)) return;
+    const [gameInfo] = await ctx.database.get('wordle_game_records', { channelId: session.channelId });
+    if (!gameInfo?.isStarted) return;
+    const { gameMode } = gameInfo;
+    const word = gameMode === "汉兜" || gameMode === "词影" ? content : content.toLowerCase();
+    if (gameInfo.guessHistory?.includes(word)) return;
+    if (gameMode === "汉兜" || gameMode === "词影") {
+      if (!isFourCharacterIdiom(content)) return;
+      const known = isIdiomInList(content, idiomsList)
+        || (gameMode === "汉兜" && pinyinData.some((item) => item.term === content));
+      if (!known) return;
+      if (gameMode === "词影" && !checkStrokesData(content, g.data.strokesData)) return;
+      return content;
+    }
+    if (content.length !== gameInfo.guessWordLength) return;
+    if (gameMode === "Numberle") return isNumericString(content) ? content : undefined;
+    if (gameMode === "Math") return isMathEquationValid(content) ? content : undefined;
+    if (!/^[a-zA-Z]+$/.test(content) || !findWord(word)) return;
+    return content;
+  }
+
   registerDirectInput(ctx, 'wordle-game', async (session) => {
     if (!ctx.filter(session)) return false;
-    let { channelId, content } = session;
-    if (!config.enableDirectInput) {
-      return false;
-    }
-
-    if (content) {
-      content = `${h.select(content, "text")}`.trim();
-    }
-
-    if (!channelId || !content || !/^[\p{L}\d+*/=().-]+$/u.test(content)) return false;
-    const [gameInfo] = await ctx.database.get('wordle_game_records', { channelId });
-    // 未开始
-    if (!gameInfo?.isStarted) {
-      return false;
-    }
-    // 判断输入
-    if (gameInfo.gameMode === "汉兜" || gameInfo.gameMode === "词影") {
-      if (!isFourCharacterIdiom(content)) {
-        return false;
-      }
-    } else if (gameInfo.gameMode === "Numberle") {
-      if (!isNumericString(content)) {
-        return false;
-      }
-    } else if (gameInfo.gameMode === "Math") {
-      if (!isMathEquationValid(content)) {
-        return false;
-      }
-    } else {
-      if (!/^[a-zA-Z]+$/.test(content)) {
-        return false;
-      }
-    }
-
-    if (content.length !== gameInfo.guessWordLength) {
-      return false;
-    }
-
-    return true
+    return Boolean(await directGuess(session));
   });
 
   ctx.middleware(async (session, next) => {
-    let { channelId, content } = session;
-    if (!config.enableDirectInput) {
-      return await next();
-    }
-
-    if (content) {
-      content = `${h.select(content, "text")}`.trim();
-    }
-
-    if (!channelId || !content || !/^[\p{L}\d+*/=().-]+$/u.test(content)) return next();
-    const [gameInfo] = await ctx.database.get('wordle_game_records', { channelId });
-    // 未开始
-    if (!gameInfo?.isStarted) {
-      return await next();
-    }
-    // 判断输入
-    if (gameInfo.gameMode === "汉兜" || gameInfo.gameMode === "词影") {
-      if (!isFourCharacterIdiom(content)) {
-        return await next();
-      }
-    } else if (gameInfo.gameMode === "Numberle") {
-      if (!isNumericString(content)) {
-        return await next();
-      }
-    } else if (gameInfo.gameMode === "Math") {
-      if (!isMathEquationValid(content)) {
-        return await next();
-      }
-    } else {
-      if (!/^[a-zA-Z]+$/.test(content)) {
-        return await next();
-      }
-    }
-
-    if (content.length !== gameInfo.guessWordLength) {
-      return await next();
-    }
-
+    const content = await directGuess(session);
+    if (!content) return next();
     if (await directInputConflict(ctx, session)) return;
     await session.execute(`wordle.猜 ${content}`);
     return;
@@ -275,7 +229,7 @@ export function register(g: GameContext) {
           examPanel ?? examList
         }\n发送序号或模式名即可开局，或发送「取消」。`
       );
-      const userInput = await promptInput(session, '继续当前对局。');
+      const userInput = await promptInput(session);
       if (!userInput)
         return await sendMessage(
           g,
@@ -307,7 +261,7 @@ export function register(g: GameContext) {
                 selectedExam
               )}\n发送一个长度即可开局，或发送「取消」。`
             );
-            const userInput = await promptInput(session, '继续当前对局。');
+            const userInput = await promptInput(session);
             if (!userInput)
               return await sendMessage(
                 g,
@@ -539,7 +493,7 @@ export function register(g: GameContext) {
                 exam
               )}\n发送一个长度即可开局，或发送「取消」。`
             );
-            const userInput = await promptInput(session, '继续当前对局。');
+            const userInput = await promptInput(session);
             if (!userInput)
               return await sendMessage(
                 g,
@@ -915,7 +869,7 @@ export function register(g: GameContext) {
           session,
           `💡 发送一个猜测词，或发送「取消」。`
         );
-        const userInput = await promptInput(session, '继续当前对局。');
+        const userInput = await promptInput(session);
         if (!userInput) {
           await setGuessRunningStatus(g, channelId, false);
           return await sendMessage(
@@ -1354,7 +1308,7 @@ export function register(g: GameContext) {
               `image/${config.imageType}`
             )}\n发送「撤销」回到上一步，或发送「结束」收掉这一局。\n没有等到有效输入时，按「撤销」处理。`
           );
-          let userInput = await promptInput(session, '继续当前对局。');
+          let userInput = await promptInput(session);
           const imageBuffer2 = await generateImage(
             g,
             styledHtml,
