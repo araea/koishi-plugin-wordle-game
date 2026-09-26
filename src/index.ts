@@ -1,3 +1,4 @@
+import { usePresentation } from './ux'
 import * as fs from "fs";
 import * as path from "path";
 import { Context } from "koishi";
@@ -38,6 +39,7 @@ export const name = "wordle-game";
 
 // 插件的入口：加载资源、扩展数据表、构建运行时上下文并注册全部指令。
 export async function apply(ctx: Context, config: Config) {
+  const presentation = usePresentation(ctx, 'wordle')
   const logger = ctx.logger(`wordleGame`);
 
   // 资源与数据文件路径

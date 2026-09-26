@@ -1,3 +1,4 @@
+import { imageMessage } from '../services/renderer'
 import { load } from "cheerio";
 import { h } from "koishi";
 import type { GameContext } from "../context";
@@ -151,7 +152,7 @@ export function register(g: GameContext) {
       return sendMessage(
         g,
         session,
-        h.image(imageBuffer, `image/${config.imageType}`)
+        imageMessage(imageBuffer, `image/${config.imageType}`)
       );
     }
     const wordlesNum = gameInfo.wordlesNum;
@@ -192,7 +193,7 @@ export function register(g: GameContext) {
     return sendMessage(
       g,
       session,
-      h.image(imageBuffer, `image/${config.imageType}`)
+      imageMessage(imageBuffer, `image/${config.imageType}`)
     );
   });
 }

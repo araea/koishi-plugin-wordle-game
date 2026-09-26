@@ -1,3 +1,4 @@
+import { load } from 'cheerio';
 import { pathToFileURL } from "url";
 import { h } from "koishi";
 import {} from "koishi-plugin-puppeteer";
@@ -8,6 +9,12 @@ import { resource } from "../utils/resource";
 
 /** 合成图外壳的主色。盘面本身不受影响，这只管它们之间的那层底。 */
 const HUE = 142;
+const imageDescriptions = new WeakMap<Buffer, string>();
+export function imageText(buffer: Buffer): string { return imageDescriptions.get(buffer) ?? '棋盘说明暂不可用，可发送「wordle.查询进度」。' }
+export function imageMessage(buffer: Buffer, type: string): h {
+  const text = imageText(buffer) ?? '图片内容请使用「wordle.查询进度」查询。';
+  return h('p', {}, [ ...(buffer.length ? [h.image(buffer, type)] : []), h('p', {}, h.text(text)) ]);
+}
 
 /** 信息面板的宽度，与盘面图一致；高度随内容长。 */
 const PANEL_WIDTH = 611;
@@ -19,20 +26,36 @@ async function capture(
   viewport: { width: number; height: number },
   fileOrigin = false,
 ): Promise<Buffer> {
-  const page = await g.ctx.puppeteer.page();
+  const $ = load(html);
+  $('script,style,link').remove();
+  $('img').each((_, element) => { const item = $(element); item.replaceWith($('<p>').text(item.attr('alt') ?? '')); });
+  $('[data-state]').each((_, element) => {
+    const item = $(element), label = ({ correct: '位置正确', present: '位置不符', absent: '不包含', empty: '空' } as Record<string,string>)[item.attr('data-state') ?? ''];
+    if (label) item.append(`（${label}） `);
+  });
+  $('[data-description]').each((_, element) => { const item = $(element); item.text(item.attr('data-description') ?? ''); });
+  $('div,p,li,tr').append('\n');
+  const description = $('body').text().replace(/[ \t]+/g, ' ').replace(/\n\s*\n/g, '\n').trim() || '空棋盘。发送「wordle.查询进度」查看当前对局。';
+  let page: Awaited<ReturnType<typeof g.ctx.puppeteer.page>> | undefined;
+  let buffer: Buffer = Buffer.alloc(0);
   try {
+    page = await g.ctx.puppeteer.page();
     await page.setViewport({ ...viewport, deviceScaleFactor: 1 });
-    if (fileOrigin) {
-      await page.goto(pathToFileURL(resource("emptyHtml.html")).href);
-    }
-    await page.setContent(html, { waitUntil: "load" });
-    return await page.screenshot({
-      fullPage: true,
-      type: g.config.imageType,
-    });
+    if (fileOrigin) await page.goto(pathToFileURL(resource('emptyHtml.html')).href);
+    await page.setContent(html, { waitUntil: 'load' });
+    const c = scheme(HUE, g.config.isDarkThemeEnabled);
+    await page.addStyleTag({content: `${baseline(c)} body{background:${c.surface}!important;color:${c.onSurface}!important} input{color:${c.onSurface};border-radius:12px}
+.text-ok{color:${c.primary}!important;text-decoration:underline;text-decoration-style:double}.text-mis{color:${c.tertiary}!important;text-decoration:underline;text-decoration-style:dashed}.op35,.op80{opacity:1!important;color:${c.onSurfaceVariant}!important}
+.bg-correct{background:${c.primary}!important;border-radius:12px}.fill-correct{fill:${c.primary}!important}.fill-white{fill:${c.onPrimary}!important}
+ .bg-base{background:${c.surface}!important} *{animation:none!important;transition:none!important}`});
+    buffer = await page.screenshot({ fullPage: true, type: g.config.imageType });
+  } catch (error) {
+    g.logger.warn('棋盘图片生成失败，保留文字：%s', error);
   } finally {
-    await page.close();
+    await page?.close().catch(() => {});
   }
+  imageDescriptions.set(buffer, description);
+  return buffer;
 }
 
 // 生成 Wordle 类游戏画面。
@@ -49,7 +72,7 @@ export async function generateImage(
     </div>
     ${htmlSuffix}`;
 
-  return capture(g, html, { width: 611, height: 731 });
+  return capture(g, html, { width: 611, height: 128 });
 }
 
 // 生成「词影」游戏画面。
@@ -247,13 +270,13 @@ export async function generatePanelImage(
         : "";
       const badge = row.lead
         ? `<span class="m3-badge${medal ? ` m3-badge${medal}` : ""}">${
-            row.lead
+            h.escape(row.lead)
           }</span>`
         : "";
       const value = row.value
-        ? `<span class="panel-row__value">${row.value}</span>`
+        ? `<span class="panel-row__value">${h.escape(row.value)}</span>`
         : "";
-      return `<li class="m3-list-item">${badge}<span class="panel-row__name">${row.name}</span>${value}</li>`;
+      return `<li class="m3-list-item">${badge}<span class="panel-row__name">${h.escape(row.name)}</span>${value}</li>`;
     })
     .join("");
 
@@ -314,7 +337,7 @@ export async function renderPanel(
 ): Promise<h | null> {
   try {
     const imageBuffer = await generatePanelImage(g, rows, isRanked);
-    return h.image(imageBuffer, `image/${g.config.imageType}`);
+    return imageMessage(imageBuffer, `image/${g.config.imageType}`);
   } catch (error: any) {
     g.logger.warn(`图片渲染失败，这次回退为文本：${error?.message ?? error}`);
     return null;

@@ -1,3 +1,5 @@
+import { imageText } from '../services/renderer';
+import { h } from 'koishi';
 import type { GameContext } from "../context";
 import type { ExtraGameRecord, GameRecord } from "../types";
 import { mergeDuplicates, removeDuplicates, removeLetters, uniqueSortedLowercaseLetters } from "../utils/string";
@@ -107,10 +109,9 @@ export function generateEmptyGridHtmlForHandle(
 export function generateImageTags(buffers: Buffer[]): string {
   return buffers
     .map((buffer, index) => {
-      const base64Image = buffer.toString("base64");
-      return `    <img src="data:image/png;base64,${base64Image}" alt="图片${
-        index + 1
-      }">`;
+      const description = `棋盘 ${index + 1}：${imageText(buffer)}`;
+      if (!buffer.length) return `<p>${h.escape(description)}</p>`;
+      return `<img src="data:image/png;base64,${buffer.toString('base64')}" alt="${h.escape(description)}">`;
     })
     .join("\n");
 }
@@ -256,7 +257,7 @@ export async function generateLetterTilesHtmlForCiying(
       }
       compareResult.match = true;
     }
-    htmlResult.push(` <button class="transition-transform betterhover:hover:scale-y-90">
+    htmlResult.push(` <button data-description="${h.escape(compareResult.match ? answerIdiom[i] : userInputIdiom[i])}：${compareResult.match ? '字形正确' : `字形不符，显示 ${compareResult.shadows.length} 个相似笔画线索`}。" class="transition-transform betterhover:hover:scale-y-90">
                                 <div class="flex h-32 w-32 items-center justify-center border-neutral-400 dark:border-neutral-600 ${
                                   compareResult.match
                                     ? "bg-correct"
@@ -640,7 +641,7 @@ export async function generateLetterTilesHtmlForHandle(
       '<path d="M4.12282 3.71105C4.45857 3.27254 5.08623 3.18923 5.52474 3.52498L17.4346 12.6439C17.8731 12.9796 17.9564 13.6073 17.6207 14.0458L16.4048 15.6338C16.0691 16.0723 15.4414 16.1556 15.0029 15.8199L3.09303 6.70095C2.65452 6.3652 2.57122 5.73754 2.90697 5.29903L4.12282 3.71105Z" fill="currentColor"></path>',
     ];
     const html: string[] = [
-      `<div w-30="" h-30="" m2="">
+      `<div data-description="${h.escape(`${wordValue}（${({correct:'正确',present:'位置不符',absent:'不包含'})[record.word.status]}）；拼音 ${[...separatedPinyin.initials, ...separatedPinyin.finals].map(part => `${part.value}（${({correct:'正确',present:'位置不符',absent:'不包含'})[part.status]}）`).join('、')}；声调 ${toneValue}（${({correct:'正确',present:'位置不符',absent:'不包含'})[toneStatus]}）`)}" w-30="" h-30="" m2="">
                     <div h-30="" w-30="" border-2="" flex="~ center" relative="" leading-1em="" em="" font-serif=""
                          class="bg-gray-400/8 border-transparent">
                         <div absolute="" text-5xl="" leading-1em="" class="${wordStatus} top-12">${wordValue}</div>

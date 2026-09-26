@@ -1,3 +1,4 @@
+import { isTextOnly, withoutImages } from '../ux';
 import type { GameContext } from "../context";
 
 // 统一的发送消息入口，支持自动撤回。
@@ -8,9 +9,9 @@ export async function sendMessage(
 ): Promise<void> {
   const config = g.config;
   const { bot, channelId } = session;
-  const [messageId] = await session.send(message);
+  const [messageId] = await session.send(isTextOnly(g.ctx, session) ? withoutImages(message) : message);
 
-  if (config.retractDelay > 0 && messageId) {
+  if (!isTextOnly(g.ctx, session) && config.retractDelay > 0 && messageId) {
     const prevMessage = g.lastMessageInfo.get(channelId);
 
     if (prevMessage) {
