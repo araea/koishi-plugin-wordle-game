@@ -9,21 +9,19 @@ export const usage = `## 使用
 
 | 指令 | 说明 |
 | --- | --- |
-| \`wordle.开始 [长度]\` | 引导式开局 |
+| \`wordle.开始 [长度]\` | 开始模式选择 |
 | \`wordle.开始.<模式> [长度]\` | 指定模式开局 |
 | \`wordle.猜 <内容>\` | 提交猜测 |
-| \`wordle.查询进度\` | 查看当前对局进度 |
-| \`wordle.结束\` | 结束当前对局 |
+| \`wordle.查询进度\` | 查看当前进度 |
+| \`wordle.结束\` | 结束游戏 |
 | \`wordle.排行榜 [人数]\` | 查看排行榜 |
-| \`wordle.战绩 [@某人]\` | 查询玩家战绩 |
-| \`wordle.查单词 <词>\` | 引导式查单词 |
-| \`wordle.查成语 <成语>\` | 查询成语的拼音与解释（汉典） |
+| \`wordle.战绩 [@某人]\` | 查询玩家记录 |
+| \`wordle.查单词 <词>\` | 查询单词并开始引导 |
+| \`wordle.查成语 <成语>\` | 查询拼音和释义（汉典） |
 | \`wordle.拼音速查表\` | 查看拼音速查表 |
-| \`wordle.玩法介绍\` | 查看玩法介绍 |
+| \`wordle.玩法介绍\` | 查看玩法 |
 
-模式包括经典、汉兜、词影、Numberle、Math、Lewdle 及其他词库。
-
-可用选项：\`--hard\`、\`--uhard\`、\`--absurd\`、\`--challenge\`、\`--wordles\`、\`--free\`、\`--all\`。`;
+模式包括经典、汉兜、词影、Numberle、Math 和 Lewdle 等。部分模式支持 \`--hard\`、\`--uhard\`、\`--absurd\`、\`--challenge\`、\`--wordles\`、\`--free\` 和 \`--all\` 选项。`;
 
 export interface Config {
   isDarkThemeEnabled: boolean;
