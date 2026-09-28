@@ -1,6 +1,6 @@
 # 猜单词
 
-在 Koishi 群里和朋友玩猜词游戏，支持单词、成语、数字与方程式等多种模式
+Koishi 插件：猜词游戏，支持单词、成语、数字与方程式等多种模式
 
 [![GitHub](https://img.shields.io/badge/GitHub-仓库-181717?logo=github)](https://github.com/araea/koishi-plugin-wordle-game)
 [![npm](https://img.shields.io/badge/npm-包-CC3534?logo=npm)](https://www.npmjs.com/package/koishi-plugin-wordle-game)
