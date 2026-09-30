@@ -59,8 +59,7 @@ npm i koishi-plugin-wordle-game
 
 `wordle.查成语` 依赖外部汉典数据，拼音查询依赖配置的拼音 API。
 
-## 链接
+## 必要链接
 
 - [设计系统](DESIGN_SYSTEM.md)
-- [更新日志](CHANGELOG.md)
 - [MIT](LICENSE-MIT) / [Apache-2.0](LICENSE-APACHE)
