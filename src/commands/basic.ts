@@ -1,5 +1,6 @@
 import { imageMessage } from '../services/renderer'
 import { h } from "koishi";
+import { helpOf } from "../help";
 import type { GameContext } from "../context";
 import { updateNameInPlayerRecord } from "../services/database";
 import { sendMessage } from "../services/message";
@@ -13,10 +14,22 @@ export function register(g: GameContext) {
   ctx.command("wordle", "猜单词 · 多词库多模式")
     .alias("wordleGame")
     .action(async ({ session }) => {
-      let { userId, username } = session;
-      username = await getSessionUserName(g, session);
-      await updateNameInPlayerRecord(g, session, userId, username);
-      await session.execute(`wordle -h`);
+      const { title, entries } = helpOf(
+        session,
+        "wordle",
+        ["开始", "猜", "查询进度", "结束", "排行榜", "战绩", "查单词", "查成语", "拼音速查表", "玩法介绍"].map(
+          (name) => `wordle.${name}`,
+        ),
+      );
+      return await sendMessage(
+        g,
+        session,
+        [
+          title,
+          ...entries.map(({ name, description }) => `　${name}　${description}`),
+          "发送「wordle.开始」开局，之后直接发送猜测词即可。",
+        ].join("\n"),
+      );
     });
 
   // wordle.玩法介绍

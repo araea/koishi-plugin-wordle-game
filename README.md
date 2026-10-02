@@ -19,6 +19,7 @@ npm i koishi-plugin-wordle-game
 
 | 指令 | 说明 |
 | --- | --- |
+| `wordle` | 查看指令列表 |
 | `wordle.开始 [长度]` | 开始模式选择 |
 | `wordle.开始.<模式> [长度]` | 指定模式开局 |
 | `wordle.猜 <内容>` | 提交猜测 |
