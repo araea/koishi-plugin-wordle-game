@@ -13,8 +13,9 @@ export function register(g: GameContext) {
   // wordle 帮助；旧主指令继续作为兼容别名。
   ctx.command("wordle", "猜单词 · 多词库多模式")
     .alias("wordleGame")
+    .userFields(["authority"])
     .action(async ({ session }) => {
-      const { title, entries } = helpOf(
+      const { title, entries } = await helpOf(
         session,
         "wordle",
         ["开始", "猜", "查询进度", "结束", "排行榜", "战绩", "查单词", "查成语", "拼音速查表", "玩法介绍"].map(
