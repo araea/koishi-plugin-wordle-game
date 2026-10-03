@@ -3,7 +3,7 @@ import { Schema } from "koishi";
 // 插件的使用说明，展示在「帮助」中。
 export const usage = `## 使用
 
-发送 \`wordle.开始\` 开局，之后直接发送猜测词即可。
+发送 \`wordle.开始\` 开局，之后直接发送猜测词续猜。
 
 ## 指令
 
@@ -22,7 +22,7 @@ export const usage = `## 使用
 | \`wordle.拼音速查表\` | 查看拼音速查表 |
 | \`wordle.玩法介绍\` | 查看玩法 |
 
-模式包括经典、汉兜、词影、Numberle、Math 和 Lewdle 等。部分模式支持 \`--hard\`、\`--uhard\`、\`--absurd\`、\`--challenge\`、\`--wordles\`、\`--free\` 和 \`--all\` 选项。`;
+模式包括经典、CET4、CET6、GMAT、GRE、IELTS、SAT、TOEFL、考研、专八、专四、ALL、Lewdle、汉兜、Numberle、Math 与词影。部分模式支持 \`--hard\`、\`--uhard\`、\`--absurd\`、\`--challenge\`、\`--wordles\`、\`--free\` 和 \`--all\` 选项。`;
 
 export interface Config {
   isDarkThemeEnabled: boolean;

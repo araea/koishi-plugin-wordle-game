@@ -32,7 +32,7 @@ npm i koishi-plugin-wordle-game
 | `wordle.拼音速查表` | 查看拼音速查表 |
 | `wordle.玩法介绍` | 查看玩法 |
 
-模式包括经典、汉兜、词影、Numberle、Math 与 Lewdle 等。部分模式支持 `--hard`、`--uhard`、`--absurd`、`--challenge`、`--wordles`、`--free` 和 `--all` 选项。
+模式包括经典、CET4、CET6、GMAT、GRE、IELTS、SAT、TOEFL、考研、专八、专四、ALL、Lewdle、汉兜、Numberle、Math 与词影。部分模式支持 `--hard`、`--uhard`、`--absurd`、`--challenge`、`--wordles`、`--free` 和 `--all` 选项。
 
 ## 配置
 
@@ -60,7 +60,7 @@ npm i koishi-plugin-wordle-game
 
 `wordle.查成语` 依赖外部汉典数据，拼音查询依赖配置的拼音 API。
 
-## 必要链接
+## 链接
 
 - [设计系统](DESIGN_SYSTEM.md)
 - [MIT](LICENSE-MIT) / [Apache-2.0](LICENSE-APACHE)
